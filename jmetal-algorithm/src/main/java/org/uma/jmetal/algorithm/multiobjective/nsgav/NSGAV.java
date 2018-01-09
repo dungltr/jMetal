@@ -132,15 +132,22 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
         /*------------------------------------------------------------------------------------------*/
         List<S> currentFront = new ArrayList<>();
         List<S> previousFront = new ArrayList<>();
-        currentFront = ranking.getSubfront(rankingIndex);
-        previousFront = ranking.getSubfront(rankingIndex-1);
+        currentFront = ranking.getSubfront(rankingIndex-1);
+        previousFront = ranking.getSubfront(rankingIndex-2);
         System.out.println("The size of population before removing currentFront is:="+pop.size());
-        pop.removeAll(currentFront);
+		System.out.println("The size of currentFront is:="+currentFront.size());
+		pop.clear();
+		for(int i=0; i<rankingIndex-1;i++) {
+			pop.addAll(ranking.getSubfront(i));
+		}
+        //pop.removeAll(currentFront);
         System.out.println("The size of population before filting is:="+pop.size());
         int addMore = getMaxPopulationSize() - candidateSolutions + ranking.getSubfront(rankingIndex).size();
         List<S> resultFilter = filter(previousFront, currentFront, addMore);
         System.out.println("The size of resultFilter is:="+resultFilter.size());
-        pop.addAll(resultFilter);
+        for (int i=0;i<resultFilter.size();i++) {
+			pop.add(resultFilter.get(i));
+		}
         System.out.println("The size of population after filting is:="+pop.size());
         return pop;
     }
@@ -197,7 +204,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		List<double []> Deltas = updateDeltas (temp, epsilon);
 		
 		while (size!=newSize) {
-			//System.out.println("The newSize is"+newSize);
+			System.out.println("The newSize is"+newSize);
 			resultFilter.clear();
 			k++;
 			int[][] dominanceChecks = new int[currentFront.size()][previousFront.size()];
