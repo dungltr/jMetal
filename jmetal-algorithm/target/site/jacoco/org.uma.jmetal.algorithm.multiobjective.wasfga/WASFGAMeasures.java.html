@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WASFGAMeasures.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.wasfga</a> &gt; <span class="el_source">WASFGAMeasures.java</span></div><h1>WASFGAMeasures.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.wasfga;
+
+import java.util.List;
+
+import org.uma.jmetal.measure.Measurable;
+import org.uma.jmetal.measure.MeasureManager;
+import org.uma.jmetal.measure.impl.BasicMeasure;
+import org.uma.jmetal.measure.impl.CountingMeasure;
+import org.uma.jmetal.measure.impl.DurationMeasure;
+import org.uma.jmetal.measure.impl.SimpleMeasureManager;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+
+/**
+ * Implementation of the preference based algorithm named WASF-GA on jMetal5.0
+ *
+ * @author Jorge Rodriguez
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class WASFGAMeasures&lt;S extends Solution&lt;?&gt;&gt; extends WASFGA&lt;S&gt; implements Measurable {
+	
+	protected CountingMeasure iterations;
+	protected DurationMeasure durationMeasure;
+	protected SimpleMeasureManager measureManager;
+	protected BasicMeasure&lt;List&lt;S&gt;&gt; solutionListMeasure;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to solve
+	 */
+	public WASFGAMeasures(Problem&lt;S&gt; problem,
+												int populationSize,
+												int maxIterations,
+												CrossoverOperator&lt;S&gt; crossoverOperator,
+												MutationOperator&lt;S&gt; mutationOperator,
+												SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+												SolutionListEvaluator&lt;S&gt; evaluator,
+												List&lt;Double&gt; referencePoint,
+												String weightVectorsFileName) {
+		
+<span class="nc" id="L46">		super(problem,</span>
+						populationSize,
+						maxIterations,
+						crossoverOperator,
+						mutationOperator,
+						selectionOperator,
+						evaluator,
+						referencePoint,
+						weightVectorsFileName);
+<span class="nc" id="L55">		this.initMeasures();</span>
+<span class="nc" id="L56">	}</span>
+	
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to solve
+	 */
+	public WASFGAMeasures(Problem&lt;S&gt; problem,
+												int populationSize,
+												int maxIterations,
+												CrossoverOperator&lt;S&gt; crossoverOperator,
+												MutationOperator&lt;S&gt; mutationOperator,
+												SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+												SolutionListEvaluator&lt;S&gt; evaluator,
+												List&lt;Double&gt; referencePoint) {
+<span class="nc" id="L71">		this(problem,</span>
+						populationSize,
+						maxIterations,
+						crossoverOperator,
+						mutationOperator,
+						selectionOperator,
+						evaluator,
+						referencePoint,
+						&quot;&quot;);
+<span class="nc" id="L80">	}</span>
+	
+	@Override
+	protected void initProgress() {
+<span class="nc" id="L84">		this.iterations.reset();</span>
+<span class="nc" id="L85">	}</span>
+	
+	@Override
+	protected void updateProgress() {
+<span class="nc" id="L89">		this.iterations.increment();</span>
+<span class="nc" id="L90">		solutionListMeasure.push(getResult());</span>
+<span class="nc" id="L91">	}</span>
+	
+	@Override
+	protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		return this.iterations.get() &gt;= maxIterations;</span>
+	}
+	
+	@Override
+	public void run() {
+<span class="nc" id="L100">		durationMeasure.reset();</span>
+<span class="nc" id="L101">		durationMeasure.start();</span>
+<span class="nc" id="L102">		super.run();</span>
+<span class="nc" id="L103">		durationMeasure.stop();</span>
+<span class="nc" id="L104">	}</span>
+	
+	/* Measures code */
+	private void initMeasures() {
+<span class="nc" id="L108">		durationMeasure = new DurationMeasure();</span>
+<span class="nc" id="L109">		iterations = new CountingMeasure(0);</span>
+<span class="nc" id="L110">		solutionListMeasure = new BasicMeasure&lt;&gt;();</span>
+		
+<span class="nc" id="L112">		measureManager = new SimpleMeasureManager();</span>
+<span class="nc" id="L113">		measureManager.setPullMeasure(&quot;currentExecutionTime&quot;, durationMeasure);</span>
+<span class="nc" id="L114">		measureManager.setPullMeasure(&quot;currentEvaluation&quot;, iterations);</span>
+		
+<span class="nc" id="L116">		measureManager.setPushMeasure(&quot;currentPopulation&quot;, solutionListMeasure);</span>
+<span class="nc" id="L117">		measureManager.setPushMeasure(&quot;currentEvaluation&quot;, iterations);</span>
+<span class="nc" id="L118">	}</span>
+	
+	@Override
+	public String getName() {
+<span class="nc" id="L122">		return &quot;WASFGA&quot;;</span>
+	}
+	
+	@Override
+	public String getDescription() {
+<span class="nc" id="L127">		return &quot;Weighting Achievement Scalarizing Function Genetic Algorithm. Version using Measures&quot;;</span>
+	}
+	
+	@Override
+	public MeasureManager getMeasureManager() {
+<span class="nc" id="L132">		return this.measureManager;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

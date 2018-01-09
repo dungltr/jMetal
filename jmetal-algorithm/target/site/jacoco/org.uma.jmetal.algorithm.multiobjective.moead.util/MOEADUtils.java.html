@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOEADUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.moead.util</a> &gt; <span class="el_source">MOEADUtils.java</span></div><h1>MOEADUtils.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.moead.util;
+
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+/**
+ * Utilities methods to used by MOEA/D
+ */
+<span class="nc" id="L8">public class MOEADUtils {</span>
+	
+	/**
+	 * Quick sort procedure (ascending order)
+	 * 
+	 * @param array
+	 * @param idx
+	 * @param from
+	 * @param to
+	 */
+	public static void quickSort(double[] array, int[] idx, int from, int to) {
+<span class="nc bnc" id="L19" title="All 2 branches missed.">		if (from &lt; to) {</span>
+<span class="nc" id="L20">			double temp = array[to];</span>
+<span class="nc" id="L21">			int tempIdx = idx[to];</span>
+<span class="nc" id="L22">			int i = from - 1;</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">			for (int j = from; j &lt; to; j++) {</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">				if (array[j] &lt;= temp) {</span>
+<span class="nc" id="L25">					i++;</span>
+<span class="nc" id="L26">					double tempValue = array[j];</span>
+<span class="nc" id="L27">					array[j] = array[i];</span>
+<span class="nc" id="L28">					array[i] = tempValue;</span>
+<span class="nc" id="L29">					int tempIndex = idx[j];</span>
+<span class="nc" id="L30">					idx[j] = idx[i];</span>
+<span class="nc" id="L31">					idx[i] = tempIndex;</span>
+				}
+			}
+<span class="nc" id="L34">			array[to] = array[i + 1];</span>
+<span class="nc" id="L35">			array[i + 1] = temp;</span>
+<span class="nc" id="L36">			idx[to] = idx[i + 1];</span>
+<span class="nc" id="L37">			idx[i + 1] = tempIdx;</span>
+<span class="nc" id="L38">			quickSort(array, idx, from, i);</span>
+<span class="nc" id="L39">			quickSort(array, idx, i + 1, to);</span>
+		}
+<span class="nc" id="L41">	}</span>
+
+  public static double distVector(double[] vector1, double[] vector2) {
+<span class="nc" id="L44">    int dim = vector1.length;</span>
+<span class="nc" id="L45">    double sum = 0;</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">    for (int n = 0; n &lt; dim; n++) {</span>
+<span class="nc" id="L47">      sum += (vector1[n] - vector2[n]) * (vector1[n] - vector2[n]);</span>
+    }
+<span class="nc" id="L49">    return Math.sqrt(sum);</span>
+  }
+
+  public static void minFastSort(double x[], int idx[], int n, int m) {
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    for (int i = 0; i &lt; m; i++) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">      for (int j = i + 1; j &lt; n; j++) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (x[i] &gt; x[j]) {</span>
+<span class="nc" id="L56">          double temp = x[i];</span>
+<span class="nc" id="L57">          x[i] = x[j];</span>
+<span class="nc" id="L58">          x[j] = temp;</span>
+<span class="nc" id="L59">          int id = idx[i];</span>
+<span class="nc" id="L60">          idx[i] = idx[j];</span>
+<span class="nc" id="L61">          idx[j] = id;</span>
+        }
+      }
+    }
+<span class="nc" id="L65">  }</span>
+
+  public static void randomPermutation(int[] perm, int size) {
+<span class="nc" id="L68">    JMetalRandom randomGenerator = JMetalRandom.getInstance() ;</span>
+<span class="nc" id="L69">    int[] index = new int[size];</span>
+<span class="nc" id="L70">    boolean[] flag = new boolean[size];</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    for (int n = 0; n &lt; size; n++) {</span>
+<span class="nc" id="L73">      index[n] = n;</span>
+<span class="nc" id="L74">      flag[n] = true;</span>
+    }
+
+<span class="nc" id="L77">    int num = 0;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    while (num &lt; size) {</span>
+<span class="nc" id="L79">      int start = randomGenerator.nextInt(0, size - 1);</span>
+      while (true) {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (flag[start]) {</span>
+<span class="nc" id="L82">          perm[num] = index[start];</span>
+<span class="nc" id="L83">          flag[start] = false;</span>
+<span class="nc" id="L84">          num++;</span>
+<span class="nc" id="L85">          break;</span>
+        }
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if (start == (size - 1)) {</span>
+<span class="nc" id="L88">          start = 0;</span>
+        } else {
+<span class="nc" id="L90">          start++;</span>
+        }
+      }
+<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultIntegerPermutationSolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">DefaultIntegerPermutationSolution.java</span></div><h1>DefaultIntegerPermutationSolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.problem.PermutationProblem;
+import org.uma.jmetal.solution.PermutationSolution;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * Defines an implementation of solution composed of a permuation of integers
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DefaultIntegerPermutationSolution
+    extends AbstractGenericSolution&lt;Integer, PermutationProblem&lt;?&gt;&gt;
+    implements PermutationSolution&lt;Integer&gt; {
+
+  /** Constructor */
+  public DefaultIntegerPermutationSolution(PermutationProblem&lt;?&gt; problem) {
+<span class="fc" id="L22">    super(problem) ;</span>
+
+<span class="fc" id="L24">    List&lt;Integer&gt; randomSequence = new ArrayList&lt;&gt;(problem.getPermutationLength());</span>
+
+<span class="fc bfc" id="L26" title="All 2 branches covered.">    for (int j = 0; j &lt; problem.getPermutationLength(); j++) {</span>
+<span class="fc" id="L27">      randomSequence.add(j);</span>
+    }
+
+<span class="fc" id="L30">    java.util.Collections.shuffle(randomSequence);</span>
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L33">      setVariableValue(i, randomSequence.get(i)) ;</span>
+    }
+<span class="fc" id="L35">  }</span>
+
+  /** Copy Constructor */
+  public DefaultIntegerPermutationSolution(DefaultIntegerPermutationSolution solution) {
+<span class="fc" id="L39">    super(solution.problem) ;</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L41">      setObjective(i, solution.getObjective(i)) ;</span>
+    }
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L45">      setVariableValue(i, solution.getVariableValue(i));</span>
+    }
+    
+<span class="fc" id="L48">    attributes = new HashMap&lt;Object, Object&gt;(solution.attributes) ;</span>
+<span class="fc" id="L49">  }</span>
+
+  @Override public String getVariableValueString(int index) {
+<span class="nc" id="L52">    return getVariableValue(index).toString();</span>
+  }
+
+  @Override
+  public DefaultIntegerPermutationSolution copy() {
+<span class="fc" id="L57">    return new DefaultIntegerPermutationSolution(this);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

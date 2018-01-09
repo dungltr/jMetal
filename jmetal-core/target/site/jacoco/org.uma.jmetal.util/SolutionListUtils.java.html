@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SolutionListUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util</a> &gt; <span class="el_source">SolutionListUtils.java</span></div><h1>SolutionListUtils.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util;
+
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+
+import java.util.*;
+
+/**
+ * Created by Antonio J. Nebro on 04/10/14.
+ * Modified by Juanjo 13/03/15
+ */
+<span class="nc" id="L17">public class SolutionListUtils {</span>
+
+  public static &lt;S extends Solution&lt;?&gt;&gt; List&lt;S&gt; getNondominatedSolutions(List&lt;S&gt; solutionList) {
+<span class="nc" id="L20">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;S&gt;() ;</span>
+<span class="nc" id="L21">    return ranking.computeRanking(solutionList).getSubfront(0);</span>
+  }
+
+  public &lt;S&gt; S findWorstSolution(Collection&lt;S&gt; solutionList, Comparator&lt;S&gt; comparator) {
+<span class="nc bnc" id="L25" title="All 4 branches missed.">    if ((solutionList == null) || (solutionList.isEmpty())) {</span>
+<span class="nc" id="L26">      throw new IllegalArgumentException(&quot;No solution provided: &quot;+solutionList);</span>
+    }
+
+<span class="nc" id="L29">    S worstKnown = solutionList.iterator().next();</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">    for (S candidateSolution : solutionList) {</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">      if (comparator.compare(worstKnown, candidateSolution) &lt; 0) {</span>
+<span class="nc" id="L32">        worstKnown = candidateSolution;</span>
+      }
+<span class="nc" id="L34">    }</span>
+
+<span class="nc" id="L36">    return worstKnown;</span>
+  }
+  
+  /**
+   * Finds the index of the best solution in the list according to a comparator
+   * @param solutionList
+   * @param comparator
+   * @return The index of the best solution
+   */
+  public static &lt;S&gt; int findIndexOfBestSolution(List&lt;S&gt; solutionList, Comparator&lt;S&gt; comparator) {
+<span class="fc bfc" id="L46" title="All 2 branches covered.">    if (solutionList == null) {</span>
+<span class="fc" id="L47">      throw new JMetalException(&quot;The solution list is null&quot;) ;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">    } else if (solutionList.isEmpty()) {</span>
+<span class="fc" id="L49">      throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">    } else if (comparator == null) {</span>
+<span class="fc" id="L51">      throw new JMetalException(&quot;The comparator is null&quot;) ;</span>
+    }
+
+<span class="fc" id="L54">    int index = 0;</span>
+<span class="fc" id="L55">    S bestKnown = solutionList.get(0) ;</span>
+    S candidateSolution ;
+
+    int flag;
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    for (int i = 1; i &lt; solutionList.size(); i++) {</span>
+<span class="fc" id="L60">      candidateSolution = solutionList.get(i);</span>
+<span class="fc" id="L61">      flag = comparator.compare(bestKnown, candidateSolution);</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">      if (flag == 1) {</span>
+<span class="fc" id="L63">        index = i;</span>
+<span class="fc" id="L64">        bestKnown = candidateSolution;</span>
+      }
+    }
+
+<span class="fc" id="L68">    return index;</span>
+  }
+
+  /**
+   * Finds the index of the worst solution in the list according to a comparator
+   * @param solutionList
+   * @param comparator
+   * @return The index of the best solution
+   */
+  public static &lt;S&gt; int findIndexOfWorstSolution(List&lt;? extends S&gt; solutionList, Comparator&lt;S&gt; comparator) {
+<span class="nc bnc" id="L78" title="All 2 branches missed.">    if (solutionList == null) {</span>
+<span class="nc" id="L79">      throw new JMetalException(&quot;The solution list is null&quot;) ;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">    } else if (solutionList.isEmpty()) {</span>
+<span class="nc" id="L81">      throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    } else if (comparator == null) {</span>
+<span class="nc" id="L83">      throw new JMetalException(&quot;The comparator is null&quot;) ;</span>
+    }
+
+<span class="nc" id="L86">    int index = 0;</span>
+<span class="nc" id="L87">    S worstKnown = solutionList.get(0) ;</span>
+    S candidateSolution ;
+
+    int flag;
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    for (int i = 1; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L92">      candidateSolution = solutionList.get(i);</span>
+<span class="nc" id="L93">      flag = comparator.compare(worstKnown, candidateSolution);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">      if (flag == -1) {</span>
+<span class="nc" id="L95">        index = i;</span>
+<span class="nc" id="L96">        worstKnown = candidateSolution;</span>
+      }
+    }
+
+<span class="nc" id="L100">    return index;</span>
+  }
+
+  public static &lt;S&gt; S findBestSolution(List&lt;S&gt; solutionList, Comparator&lt;S&gt; comparator) {
+<span class="fc" id="L104">    return solutionList.get(findIndexOfBestSolution(solutionList, comparator)) ;</span>
+  }
+
+  public static &lt;S extends Solution&lt;?&gt;&gt; double[][] writeObjectivesToMatrix(List&lt;S&gt; solutionList) {
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    if (solutionList.size() == 0) {</span>
+<span class="nc" id="L109">      return new double[0][0];</span>
+    }
+
+<span class="nc" id="L112">    int numberOfObjectives = solutionList.get(0).getNumberOfObjectives();</span>
+<span class="nc" id="L113">    int solutionListSize = solutionList.size();</span>
+
+    double[][] objectives;
+<span class="nc" id="L116">    objectives = new double[solutionListSize][numberOfObjectives];</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionListSize; i++) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc" id="L119">        objectives[i][j] = solutionList.get(i).getObjective(j);</span>
+      }
+    }
+<span class="nc" id="L122">    return objectives;</span>
+  }
+
+  /**
+   * This method receives a list of non-dominated solutions and maximum and minimum values of the
+   * objectives, and returns a the normalized set of solutions.
+   *
+   * @param solutionList A list of non-dominated solutions
+   * @param maximumValue The maximum values of the objectives
+   * @param minimumValue The minimum values of the objectives
+   * @return the normalized list of non-dominated solutions
+   */
+  public static List&lt;Solution&lt;?&gt;&gt; getNormalizedFront(List&lt;Solution&lt;?&gt;&gt; solutionList,
+    List&lt;Double&gt; maximumValue,
+    List&lt;Double&gt; minimumValue) {
+
+<span class="nc" id="L138">    List&lt;Solution&lt;?&gt;&gt; normalizedSolutionSet = new ArrayList&lt;&gt;(solutionList.size()) ;</span>
+
+<span class="nc" id="L140">    int numberOfObjectives = solutionList.get(0).getNumberOfObjectives() ;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L142">      Solution&lt;?&gt; solution = solutionList.get(i).copy() ;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc" id="L144">        double normalizedValue = (solutionList.get(i).getObjective(j) - minimumValue.get(j)) /</span>
+<span class="nc" id="L145">          (maximumValue.get(j) - minimumValue.get(j));</span>
+<span class="nc" id="L146">        solution.setObjective(j, normalizedValue);</span>
+      }
+    }
+<span class="nc" id="L149">    return normalizedSolutionSet;</span>
+  }
+
+  /**
+   * This method receives a normalized list of non-dominated solutions and return the inverted one.
+   * This operation is needed for minimization problem
+   *
+   * @param solutionSet The front to invert
+   * @return The inverted front
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  public static &lt;S extends Solution&lt;?&gt;&gt; List&lt;S&gt; getInvertedFront(List&lt;S&gt; solutionSet) {
+<span class="nc" id="L161">    List&lt;S&gt; invertedFront = new ArrayList&lt;&gt;(solutionSet.size()) ;</span>
+<span class="nc" id="L162">    int numberOfObjectives = solutionSet.get(0).getNumberOfObjectives() ;</span>
+
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc" id="L165">      invertedFront.add(i, (S) solutionSet.get(i).copy()) ;</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (solutionSet.get(i).getObjective(j) &lt;= 1.0 &amp;&amp;</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">          solutionSet.get(i).getObjective(j) &gt;= 0.0) {</span>
+<span class="nc" id="L169">          invertedFront.get(i).setObjective(j, 1.0 - solutionSet.get(i).getObjective(j));</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        } else if (solutionSet.get(i).getObjective(j) &gt; 1.0) {</span>
+<span class="nc" id="L171">          invertedFront.get(i).setObjective(j, 0.0);</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        } else if (solutionSet.get(i).getObjective(j) &lt; 0.0) {</span>
+<span class="nc" id="L173">          invertedFront.get(i).setObjective(j, 1.0);</span>
+        }
+      }
+    }
+<span class="nc" id="L177">    return invertedFront;</span>
+  }
+
+  public static &lt;S extends Solution&lt;?&gt;&gt; boolean isSolutionDominatedBySolutionList(S solution, List&lt;? extends S&gt; solutionSet) {
+<span class="fc" id="L181">    boolean result = false ;</span>
+<span class="fc" id="L182">    Comparator&lt;S&gt; dominance = new DominanceComparator&lt;S&gt;() ;</span>
+
+<span class="fc" id="L184">    int i = 0 ;</span>
+
+<span class="fc bfc" id="L186" title="All 4 branches covered.">    while (!result &amp;&amp; (i &lt; solutionSet.size())) {</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">      if (dominance.compare(solution, solutionSet.get(i)) == 1) {</span>
+<span class="fc" id="L188">        result = true ;</span>
+      }
+<span class="fc" id="L190">      i++ ;</span>
+    }
+
+<span class="fc" id="L193">    return result ;</span>
+  }
+
+  /**
+   * This method receives a normalized list of non-dominated solutions and return the inverted one.
+   * This operation is needed for minimization problem
+   *
+   * @param solutionList The front to invert
+   * @return The inverted front
+   */
+  public static &lt;S&gt; List&lt;S&gt; selectNRandomDifferentSolutions(
+      int numberOfSolutionsToBeReturned, List&lt;S&gt; solutionList) {
+<span class="fc" id="L205">	  JMetalRandom random = JMetalRandom.getInstance();</span>
+<span class="fc" id="L206">	  return selectNRandomDifferentSolutions(numberOfSolutionsToBeReturned, solutionList, (low, up) -&gt; random.nextInt(low, up));</span>
+  }
+  
+  /**
+   * This method receives a normalized list of non-dominated solutions and return the inverted one.
+   * This operation is needed for minimization problem
+   *
+   * @param solutionList The front to invert
+   * @param randomGenerator The random generator to use
+   * @return The inverted front
+   */
+  public static &lt;S&gt; List&lt;S&gt; selectNRandomDifferentSolutions(
+      int numberOfSolutionsToBeReturned, List&lt;S&gt; solutionList, BoundedRandomGenerator&lt;Integer&gt; randomGenerator) {
+<span class="fc bfc" id="L219" title="All 2 branches covered.">    if (null == solutionList) {</span>
+<span class="fc" id="L220">      throw new JMetalException(&quot;The solution list is null&quot;) ;</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">    } else if (solutionList.size() == 0) {</span>
+<span class="fc" id="L222">      throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">    } else if (solutionList.size() &lt; numberOfSolutionsToBeReturned) {</span>
+<span class="fc" id="L224">      throw new JMetalException(&quot;The solution list size (&quot; + solutionList.size() +&quot;) is less than &quot;</span>
+          + &quot;the number of requested solutions (&quot;+numberOfSolutionsToBeReturned+&quot;)&quot;) ;
+    }
+
+<span class="fc" id="L228">    List&lt;S&gt; resultList = new ArrayList&lt;&gt;(numberOfSolutionsToBeReturned);</span>
+
+<span class="fc bfc" id="L230" title="All 2 branches covered.">    if (solutionList.size() == 1) {</span>
+<span class="fc" id="L231">      resultList.add(solutionList.get(0));</span>
+    } else {
+<span class="fc" id="L233">      Collection&lt;Integer&gt; positions = new HashSet&lt;&gt;(numberOfSolutionsToBeReturned);</span>
+<span class="fc bfc" id="L234" title="All 2 branches covered.">      while (positions.size() &lt; numberOfSolutionsToBeReturned) {</span>
+<span class="fc" id="L235">        int nextPosition = randomGenerator.getRandomValue(0, solutionList.size() - 1);</span>
+<span class="fc bfc" id="L236" title="All 2 branches covered.">        if (!positions.contains(nextPosition)) {</span>
+<span class="fc" id="L237">          positions.add(nextPosition);</span>
+<span class="fc" id="L238">          resultList.add(solutionList.get(nextPosition));</span>
+        }
+<span class="fc" id="L240">      }</span>
+    }
+
+<span class="fc" id="L243">    return resultList ;</span>
+  }
+
+  /**
+   * Returns a matrix with the euclidean distance between each pair of solutions in the population.
+   * Distances are measured in the objective space
+   * @param solutionSet
+   * @return
+   */
+  public static  &lt;S extends Solution&lt;?&gt;&gt; double [][] distanceMatrix(List&lt;S&gt; solutionSet) {
+<span class="nc" id="L253">     double [][] distance = new double [solutionSet.size()][solutionSet.size()];</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">     for (int i = 0; i &lt; solutionSet.size(); i++){</span>
+<span class="nc" id="L255">       distance[i][i] = 0.0;</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">       for (int j = i + 1; j &lt; solutionSet.size(); j++){</span>
+<span class="nc" id="L257">         distance[i][j] = SolutionUtils.distanceBetweenObjectives(solutionSet.get(i),solutionSet.get(j));                </span>
+<span class="nc" id="L258">         distance[j][i] = distance[i][j];            </span>
+       }
+     }
+<span class="nc" id="L261">     return distance;</span>
+  }
+
+  /**
+   * Compares two solution lists to determine if both are equals
+   *
+   * @param solutionList    A &lt;code&gt;Solution list&lt;/code&gt;
+   * @param newSolutionList A &lt;code&gt;Solution list&lt;/code&gt;
+   * @return true if both are contains the same solutions, false in other case
+   */
+  public static &lt;S&gt; boolean solutionListsAreEquals(List&lt;S&gt; solutionList,
+                                       List&lt;S&gt; newSolutionList) {
+    boolean found;
+<span class="fc bfc" id="L274" title="All 2 branches covered.">    for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+
+<span class="fc" id="L276">      int j = 0;</span>
+<span class="fc" id="L277">      found = false;</span>
+<span class="fc bfc" id="L278" title="All 2 branches covered.">      while (j &lt; newSolutionList.size()) {</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">        if (solutionList.get(i).equals(newSolutionList.get(j))) {</span>
+<span class="fc" id="L280">          found = true;</span>
+        }
+<span class="fc" id="L282">        j++;</span>
+      }
+<span class="pc bpc" id="L284" title="1 of 2 branches missed.">      if (!found) {</span>
+<span class="nc" id="L285">        return false;</span>
+      }
+    }
+<span class="fc" id="L288">    return true;</span>
+  }
+
+  /**
+   * This methods takes a list of solutions, removes a percentage of its solutions, and it is filled
+   * with new random generated solutions
+   * @param solutionList
+   * @param problem
+   * @param percentageOfSolutionsToRemove
+   */
+  public static &lt;S&gt; void restart(List&lt;S&gt; solutionList, Problem&lt;S&gt; problem,
+                                                     int percentageOfSolutionsToRemove) {
+<span class="nc bnc" id="L300" title="All 2 branches missed.">    if (solutionList == null) {</span>
+<span class="nc" id="L301">      throw new JMetalException(&quot;The solution list is null&quot;) ;</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">    } else if (problem == null) {</span>
+<span class="nc" id="L303">      throw new JMetalException(&quot;The problem is null&quot;) ;</span>
+<span class="nc bnc" id="L304" title="All 4 branches missed.">    } else if ((percentageOfSolutionsToRemove &lt; 0) || (percentageOfSolutionsToRemove &gt; 100)) {</span>
+<span class="nc" id="L305">      throw new JMetalException(&quot;The percentage of solutions to remove is invalid: &quot; + percentageOfSolutionsToRemove) ;</span>
+    }
+
+<span class="nc" id="L308">    int solutionListOriginalSize = solutionList.size() ;</span>
+<span class="nc" id="L309">    int numberOfSolutionsToRemove = (int)(solutionListOriginalSize * percentageOfSolutionsToRemove / 100.0) ;</span>
+
+<span class="nc" id="L311">    removeSolutionsFromList(solutionList, numberOfSolutionsToRemove);</span>
+<span class="nc" id="L312">    fillPopulationWithNewSolutions(solutionList, problem, solutionListOriginalSize);</span>
+<span class="nc" id="L313">  }</span>
+
+  /**
+   * Removes a number of solutions from a list
+   * @param solutionList The list of solutions
+   * @param numberOfSolutionsToRemove
+   */
+  public static &lt;S&gt; void removeSolutionsFromList(List&lt;S&gt; solutionList, int numberOfSolutionsToRemove) {
+<span class="nc bnc" id="L321" title="All 2 branches missed.">    if (solutionList.size() &lt; numberOfSolutionsToRemove) {</span>
+<span class="nc" id="L322">      throw new JMetalException(&quot;The list size (&quot; + solutionList.size()+&quot;) is lower than &quot; +</span>
+          &quot;the number of solutions to remove (&quot;+numberOfSolutionsToRemove+&quot;)&quot;) ;
+    }
+
+<span class="nc bnc" id="L326" title="All 2 branches missed.">    for (int i = 0 ; i &lt; numberOfSolutionsToRemove; i++) {</span>
+<span class="nc" id="L327">      solutionList.remove(0) ;</span>
+    }
+<span class="nc" id="L329">  }</span>
+
+  /**
+   * Fills a population with new solutions until its size is maxListSize
+   * @param solutionList The list of solutions
+   * @param problem The problem being solved
+   * @param maxListSize The target size of the list
+   * @param &lt;S&gt; The type of the solutions to be created
+   */
+  public static &lt;S&gt; void fillPopulationWithNewSolutions(
+      List&lt;S&gt; solutionList,
+      Problem&lt;S&gt; problem,
+      int maxListSize) {
+<span class="fc bfc" id="L342" title="All 2 branches covered.">    while (solutionList.size() &lt; maxListSize) {</span>
+<span class="fc" id="L343">      solutionList.add(problem.createSolution());</span>
+    }
+<span class="fc" id="L345">  }</span>
+
+  /**
+   * Given a solution list and the identifier of an objective (0, 1, etc), returns an array with
+   * the values of that objective in all the solutions of the list
+   *
+   * @param solutionList
+   * @param objective
+   * @param &lt;S&gt;
+   * @return
+   */
+  public static &lt;S extends Solution&lt;?&gt;&gt; double[] getObjectiveArrayFromSolutionList(List&lt;S&gt; solutionList, int objective) {
+<span class="nc" id="L357">    double[] result = new double[solutionList.size()] ;</span>
+
+<span class="nc bnc" id="L359" title="All 2 branches missed.">    for(int i=0; i&lt;solutionList.size();i++){</span>
+<span class="nc" id="L360">      result[i] = solutionList.get(i).getObjective(objective);</span>
+    }
+<span class="nc" id="L362">    return result;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

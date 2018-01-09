@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BLXAlphaCrossover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.crossover</a> &gt; <span class="el_source">BLXAlphaCrossover.java</span></div><h1>BLXAlphaCrossover.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.crossover;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.util.RepairDoubleSolution;
+import org.uma.jmetal.solution.util.RepairDoubleSolutionAtBounds;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class allows to apply a BLX-alpha crossover operator to two parent solutions.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class BLXAlphaCrossover implements CrossoverOperator&lt;DoubleSolution&gt; {
+  private static final double DEFAULT_ALPHA = 0.5;
+
+  private double crossoverProbability;
+  private double alpha ;
+
+  private RepairDoubleSolution solutionRepair ;
+
+  private RandomGenerator&lt;Double&gt; randomGenerator ;
+
+  /** Constructor */
+  public BLXAlphaCrossover(double crossoverProbability) {
+<span class="nc" id="L32">    this (crossoverProbability, DEFAULT_ALPHA, new RepairDoubleSolutionAtBounds()) ;</span>
+<span class="nc" id="L33">  }</span>
+
+  /** Constructor */
+  public BLXAlphaCrossover(double crossoverProbability, double alpha) {
+<span class="fc" id="L37">    this (crossoverProbability, alpha, new RepairDoubleSolutionAtBounds()) ;</span>
+<span class="fc" id="L38">  }</span>
+
+  /** Constructor */
+  public BLXAlphaCrossover(double crossoverProbability, double alpha, RepairDoubleSolution solutionRepair) {
+<span class="fc" id="L42">	  this(crossoverProbability, alpha, solutionRepair, () -&gt; JMetalRandom.getInstance().nextDouble());</span>
+<span class="fc" id="L43">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L46">  public BLXAlphaCrossover(double crossoverProbability, double alpha, RepairDoubleSolution solutionRepair, RandomGenerator&lt;Double&gt; randomGenerator) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    if (crossoverProbability &lt; 0) {</span>
+<span class="fc" id="L48">      throw new JMetalException(&quot;Crossover probability is negative: &quot; + crossoverProbability) ;</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    } else if (alpha &lt; 0) {</span>
+<span class="fc" id="L50">      throw new JMetalException(&quot;Alpha is negative: &quot; + alpha);</span>
+    }
+
+<span class="fc" id="L53">    this.crossoverProbability = crossoverProbability ;</span>
+<span class="fc" id="L54">    this.alpha = alpha ;</span>
+<span class="fc" id="L55">    this.randomGenerator = randomGenerator ;</span>
+<span class="fc" id="L56">    this.solutionRepair = solutionRepair ;</span>
+<span class="fc" id="L57">  }</span>
+
+  /* Getters */
+  public double getCrossoverProbability() {
+<span class="fc" id="L61">    return crossoverProbability;</span>
+  }
+
+  public double getAlpha() {
+<span class="fc" id="L65">    return alpha;</span>
+  }
+
+  /* Setters */
+  public void setCrossoverProbability(double crossoverProbability) {
+<span class="nc" id="L70">    this.crossoverProbability = crossoverProbability;</span>
+<span class="nc" id="L71">  }</span>
+
+  public void setAlpha(double alpha) {
+<span class="nc" id="L74">    this.alpha = alpha;</span>
+<span class="nc" id="L75">  }</span>
+
+  /** Execute() method */
+  @Override
+  public List&lt;DoubleSolution&gt; execute(List&lt;DoubleSolution&gt; solutions) {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">    if (null == solutions) {</span>
+<span class="fc" id="L81">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">    } else if (solutions.size() != 2) {</span>
+<span class="fc" id="L83">      throw new JMetalException(&quot;There must be two parents instead of &quot; + solutions.size()) ;</span>
+    }
+
+<span class="fc" id="L86">    return doCrossover(crossoverProbability, solutions.get(0), solutions.get(1)) ;</span>
+  }
+
+  /** doCrossover method */
+  public List&lt;DoubleSolution&gt; doCrossover(
+      double probability, DoubleSolution parent1, DoubleSolution parent2) {
+<span class="fc" id="L92">    List&lt;DoubleSolution&gt; offspring = new ArrayList&lt;DoubleSolution&gt;(2);</span>
+
+<span class="fc" id="L94">    offspring.add((DoubleSolution) parent1.copy()) ;</span>
+<span class="fc" id="L95">    offspring.add((DoubleSolution) parent2.copy()) ;</span>
+
+    int i;
+    double random;
+    double valueY1;
+    double valueY2;
+    double valueX1;
+    double valueX2;
+    double upperBound;
+    double lowerBound;
+
+<span class="fc bfc" id="L106" title="All 2 branches covered.">    if (randomGenerator.getRandomValue() &lt;= probability) {</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">      for (i = 0; i &lt; parent1.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L108">        upperBound = parent1.getUpperBound(i);</span>
+<span class="fc" id="L109">        lowerBound = parent1.getLowerBound(i);</span>
+<span class="fc" id="L110">        valueX1 = parent1.getVariableValue(i);</span>
+<span class="fc" id="L111">        valueX2 = parent2.getVariableValue(i);</span>
+
+        double max;
+        double min;
+        double range;
+
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        if (valueX2 &gt; valueX1) {</span>
+<span class="fc" id="L118">          max = valueX2;</span>
+<span class="fc" id="L119">          min = valueX1;</span>
+        } else {
+<span class="fc" id="L121">          max = valueX1;</span>
+<span class="fc" id="L122">          min = valueX2;</span>
+        }
+
+<span class="fc" id="L125">        range = max - min;</span>
+
+        double minRange;
+        double maxRange;
+
+<span class="fc" id="L130">        minRange = min - range * alpha;</span>
+<span class="fc" id="L131">        maxRange = max + range * alpha;</span>
+
+<span class="fc" id="L133">        random = randomGenerator.getRandomValue();</span>
+<span class="fc" id="L134">        valueY1 = minRange + random * (maxRange - minRange);</span>
+
+<span class="fc" id="L136">        random = randomGenerator.getRandomValue();</span>
+<span class="fc" id="L137">        valueY2 = minRange + random * (maxRange - minRange);</span>
+
+<span class="fc" id="L139">        valueY1 = solutionRepair.repairSolutionVariableValue(valueY1, lowerBound, upperBound) ;</span>
+<span class="fc" id="L140">        valueY2 = solutionRepair.repairSolutionVariableValue(valueY2, lowerBound, upperBound) ;</span>
+
+<span class="fc" id="L142">        offspring.get(0).setVariableValue(i, valueY1);</span>
+<span class="fc" id="L143">        offspring.get(1).setVariableValue(i, valueY2);</span>
+      }
+    }
+
+<span class="fc" id="L147">    return offspring;</span>
+  }
+
+  public int getNumberOfRequiredParents() {
+<span class="nc" id="L151">    return 2 ;</span>
+  }
+
+  public int getNumberOfGeneratedChildren() {
+<span class="nc" id="L155">    return 2 ;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

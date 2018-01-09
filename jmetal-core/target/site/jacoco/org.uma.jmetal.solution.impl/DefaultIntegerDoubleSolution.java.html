@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultIntegerDoubleSolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">DefaultIntegerDoubleSolution.java</span></div><h1>DefaultIntegerDoubleSolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.problem.IntegerDoubleProblem;
+import org.uma.jmetal.solution.IntegerDoubleSolution;
+
+import java.util.HashMap;
+
+/**
+ * Defines an implementation of a class for solutions having integers and doubles
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DefaultIntegerDoubleSolution
+    extends AbstractGenericSolution&lt;Number, IntegerDoubleProblem&lt;?&gt;&gt;
+    implements IntegerDoubleSolution {
+
+  private int numberOfIntegerVariables ;
+  private int numberOfDoubleVariables ;
+
+  /** Constructor */
+  public DefaultIntegerDoubleSolution(IntegerDoubleProblem&lt;?&gt; problem) {
+<span class="nc" id="L23">    super(problem) ;</span>
+
+<span class="nc" id="L25">    numberOfIntegerVariables = problem.getNumberOfIntegerVariables() ;</span>
+<span class="nc" id="L26">    numberOfDoubleVariables = problem.getNumberOfDoubleVariables() ;</span>
+
+<span class="nc" id="L28">    initializeIntegerDoubleVariables() ;</span>
+<span class="nc" id="L29">    initializeObjectiveValues() ;</span>
+<span class="nc" id="L30">  }</span>
+
+  /** Copy constructor */
+  public DefaultIntegerDoubleSolution(DefaultIntegerDoubleSolution solution) {
+<span class="nc" id="L34">    super(solution.problem) ;</span>
+
+<span class="nc bnc" id="L36" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L37">      setObjective(i, solution.getObjective(i)) ;</span>
+    }
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">    for (int i = 0 ; i &lt; numberOfIntegerVariables; i++) {</span>
+<span class="nc" id="L41">      setVariableValue(i, solution.getVariableValue(i)) ;</span>
+    }
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    for (int i = numberOfIntegerVariables ; i &lt; (numberOfIntegerVariables+numberOfDoubleVariables); i++) {</span>
+<span class="nc" id="L45">      setVariableValue(i, solution.getVariableValue(i)) ;</span>
+    }
+
+<span class="nc" id="L48">    attributes = new HashMap&lt;Object, Object&gt;(solution.attributes) ;</span>
+<span class="nc" id="L49">  }</span>
+
+  @Override
+  public Number getUpperBound(int index) {
+<span class="nc" id="L53">    return problem.getUpperBound(index);</span>
+  }
+
+  @Override
+  public int getNumberOfIntegerVariables() {
+<span class="nc" id="L58">    return numberOfIntegerVariables;</span>
+  }
+
+  @Override
+  public int getNumberOfDoubleVariables() {
+<span class="nc" id="L63">    return numberOfDoubleVariables;</span>
+  }
+
+  @Override
+  public Number getLowerBound(int index) {
+<span class="nc" id="L68">    return problem.getLowerBound(index) ;</span>
+  }
+
+  @Override
+  public DefaultIntegerDoubleSolution copy() {
+<span class="nc" id="L73">    return new DefaultIntegerDoubleSolution(this);</span>
+  }
+
+  @Override
+  public String getVariableValueString(int index) {
+<span class="nc" id="L78">    return getVariableValue(index).toString() ;</span>
+  }
+  
+  private void initializeIntegerDoubleVariables() {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    for (int i = 0 ; i &lt; numberOfIntegerVariables; i++) {</span>
+<span class="nc" id="L83">      Integer value = randomGenerator.nextInt((Integer)getLowerBound(i), (Integer)getUpperBound(i)) ;</span>
+<span class="nc" id="L84">      setVariableValue(i, value) ;</span>
+    }
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    for (int i = numberOfIntegerVariables ; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L88">      Double value = randomGenerator.nextDouble((Double)getLowerBound(i), (Double)getUpperBound(i)) ;</span>
+<span class="nc" id="L89">      setVariableValue(i, value) ;</span>
+    }
+<span class="nc" id="L91">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

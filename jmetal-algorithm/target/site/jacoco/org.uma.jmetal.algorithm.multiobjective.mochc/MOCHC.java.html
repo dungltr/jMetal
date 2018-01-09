@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOCHC.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mochc</a> &gt; <span class="el_source">MOCHC.java</span></div><h1>MOCHC.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mochc;
+
+import org.uma.jmetal.algorithm.impl.AbstractEvolutionaryAlgorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.BinaryProblem;
+import org.uma.jmetal.solution.BinarySolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.archive.impl.NonDominatedSolutionListArchive;
+import org.uma.jmetal.util.binarySet.BinarySet;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * This class executes the MOCHC algorithm described in:
+ * A.J. Nebro, E. Alba, G. Molina, F. Chicano, F. Luna, J.J. Durillo
+ * &quot;Optimal antenna placement using a new multi-objective chc algorithm&quot;.
+ * GECCO '07: Proceedings of the 9th annual conference on Genetic and
+ * evolutionary computation. London, England. July 2007.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MOCHC extends AbstractEvolutionaryAlgorithm&lt;BinarySolution, List&lt;BinarySolution&gt;&gt; {
+  private BinaryProblem problem;
+
+  private int maxEvaluations;
+  private int maxPopulationSize ;
+  private int convergenceValue;
+  private double preservedPopulation;
+  private double initialConvergenceCount;
+  private CrossoverOperator&lt;BinarySolution&gt; crossover;
+  private MutationOperator&lt;BinarySolution&gt; cataclysmicMutation;
+  private SelectionOperator&lt;List&lt;BinarySolution&gt;, List&lt;BinarySolution&gt;&gt; newGenerationSelection;
+  private SelectionOperator&lt;List&lt;BinarySolution&gt;, BinarySolution&gt; parentSelection;
+  private int evaluations;
+  private int minimumDistance;
+  private int size;
+  private Comparator&lt;BinarySolution&gt; comparator;
+
+  private SolutionListEvaluator&lt;BinarySolution&gt; evaluator;
+  private int lastOffspringPopulationSize ;
+
+  /**
+   * Constructor
+   */
+  public MOCHC(BinaryProblem problem, int populationSize, int maxEvaluations, int convergenceValue,
+      double preservedPopulation, double initialConvergenceCount,
+      CrossoverOperator&lt;BinarySolution&gt; crossoverOperator,
+      MutationOperator&lt;BinarySolution&gt; cataclysmicMutation,
+      SelectionOperator&lt;List&lt;BinarySolution&gt;, List&lt;BinarySolution&gt;&gt; newGenerationSelection, SelectionOperator&lt;List&lt;BinarySolution&gt;, BinarySolution&gt; parentSelection,
+      SolutionListEvaluator&lt;BinarySolution&gt; evaluator) {
+<span class="nc" id="L58">    super();</span>
+<span class="nc" id="L59">    this.problem = problem;</span>
+<span class="nc" id="L60">    setMaxPopulationSize(populationSize);</span>
+<span class="nc" id="L61">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L62">    this.convergenceValue = convergenceValue;</span>
+<span class="nc" id="L63">    this.preservedPopulation = preservedPopulation;</span>
+<span class="nc" id="L64">    this.initialConvergenceCount = initialConvergenceCount;</span>
+<span class="nc" id="L65">    this.crossover = crossoverOperator;</span>
+<span class="nc" id="L66">    this.cataclysmicMutation = cataclysmicMutation;</span>
+<span class="nc" id="L67">    this.newGenerationSelection = newGenerationSelection;</span>
+<span class="nc" id="L68">    this.parentSelection = parentSelection;</span>
+<span class="nc" id="L69">    this.evaluator = evaluator;</span>
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L72">      size += problem.getNumberOfBits(i);</span>
+    }
+<span class="nc" id="L74">    minimumDistance = (int) Math.floor(this.initialConvergenceCount * size);</span>
+
+<span class="nc" id="L76">    comparator = new CrowdingDistanceComparator&lt;BinarySolution&gt;();</span>
+<span class="nc" id="L77">  }</span>
+  
+  public void setMaxPopulationSize(int maxPopulationSize) {
+<span class="nc" id="L80">    this.maxPopulationSize = maxPopulationSize ;</span>
+<span class="nc" id="L81">  }</span>
+  public int getMaxPopulationSize() {
+<span class="nc" id="L83">    return maxPopulationSize ;</span>
+  }
+
+  @Override protected void initProgress() {
+<span class="nc" id="L87">    evaluations = getMaxPopulationSize() ;</span>
+<span class="nc" id="L88">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L91">    evaluations += lastOffspringPopulationSize ;</span>
+<span class="nc" id="L92">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    return evaluations &gt;= maxEvaluations;</span>
+  }
+
+  @Override protected List&lt;BinarySolution&gt; createInitialPopulation() {
+<span class="nc" id="L99">    List&lt;BinarySolution&gt; population = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L101">      BinarySolution newIndividual = problem.createSolution();</span>
+<span class="nc" id="L102">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L104">    return population;</span>
+  }
+
+  @Override protected List&lt;BinarySolution&gt; evaluatePopulation(List&lt;BinarySolution&gt; population) {
+<span class="nc" id="L108">    population = evaluator.evaluate(population, problem);</span>
+
+<span class="nc" id="L110">    return population;</span>
+  }
+
+  @Override protected List&lt;BinarySolution&gt; selection(List&lt;BinarySolution&gt; population) {
+<span class="nc" id="L114">    List&lt;BinarySolution&gt; matingPopulation = new ArrayList&lt;&gt;(population.size());</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">    for (int i = 0; i &lt; population.size(); i ++) {</span>
+<span class="nc" id="L116">      BinarySolution solution = parentSelection.execute(population);</span>
+<span class="nc" id="L117">      matingPopulation.add(solution);</span>
+    }
+
+<span class="nc" id="L120">    return matingPopulation;</span>
+  }
+
+  @Override protected List&lt;BinarySolution&gt; reproduction(List&lt;BinarySolution&gt; matingPopulation) {
+<span class="nc" id="L124">    List&lt;BinarySolution&gt; offspringPopulation = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L126" title="All 2 branches missed.">    for (int i = 0; i &lt; matingPopulation.size(); i += 2) {</span>
+<span class="nc" id="L127">      List&lt;BinarySolution&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L128">      parents.add(matingPopulation.get(i));</span>
+<span class="nc" id="L129">      parents.add(matingPopulation.get(i + 1));</span>
+
+<span class="nc bnc" id="L131" title="All 2 branches missed.">      if (hammingDistance(parents.get(0), parents.get(1)) &gt;= minimumDistance) {</span>
+<span class="nc" id="L132">        List&lt;BinarySolution&gt; offspring = crossover.execute(parents);</span>
+<span class="nc" id="L133">        offspringPopulation.add(offspring.get(0));</span>
+<span class="nc" id="L134">        offspringPopulation.add(offspring.get(1));</span>
+      }
+    }
+
+<span class="nc" id="L138">    lastOffspringPopulationSize = offspringPopulation.size() ;</span>
+<span class="nc" id="L139">    return offspringPopulation;</span>
+  }
+
+  @Override protected List&lt;BinarySolution&gt; replacement(List&lt;BinarySolution&gt; population,
+      List&lt;BinarySolution&gt; offspringPopulation) {
+<span class="nc" id="L144">    List&lt;BinarySolution&gt; union = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L145">    union.addAll(population);</span>
+<span class="nc" id="L146">    union.addAll(offspringPopulation);</span>
+
+<span class="nc" id="L148">    List&lt;BinarySolution&gt; newPopulation = newGenerationSelection.execute(union);</span>
+
+<span class="nc bnc" id="L150" title="All 2 branches missed.">    if (SolutionListUtils.solutionListsAreEquals(population, newPopulation)) {</span>
+<span class="nc" id="L151">      minimumDistance--;</span>
+    }
+
+<span class="nc bnc" id="L154" title="All 2 branches missed.">    if (minimumDistance &lt;= -convergenceValue) {</span>
+     // minimumDistance = (int) (1.0 / size * (1 - 1.0 / size) * size);
+<span class="nc" id="L156">      minimumDistance = (int) (0.35 * (1 - 0.35) * size);</span>
+
+<span class="nc" id="L158">      int preserve = (int) Math.floor(preservedPopulation * population.size());</span>
+<span class="nc" id="L159">      newPopulation = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc" id="L160">      Collections.sort(population, comparator);</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">      for (int i = 0; i &lt; preserve; i++) {</span>
+<span class="nc" id="L162">        newPopulation.add((BinarySolution) population.get(i).copy());</span>
+      }
+<span class="nc bnc" id="L164" title="All 2 branches missed.">      for (int i = preserve; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L165">        BinarySolution solution = (BinarySolution) population.get(i).copy();</span>
+<span class="nc" id="L166">        cataclysmicMutation.execute(solution);</span>
+
+<span class="nc" id="L168">        newPopulation.add(solution);</span>
+      }
+    }
+
+<span class="nc" id="L172">    return newPopulation;</span>
+  }
+
+  @Override public List&lt;BinarySolution&gt; getResult() {
+<span class="nc" id="L176">    NonDominatedSolutionListArchive&lt;BinarySolution&gt; archive = new NonDominatedSolutionListArchive&lt;&gt;() ;</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">    for (BinarySolution solution : getPopulation()) {</span>
+<span class="nc" id="L178">      archive.add(solution) ;</span>
+<span class="nc" id="L179">    }</span>
+
+<span class="nc" id="L181">    return archive.getSolutionList();</span>
+  }
+
+  /**
+   * Calculate the hamming distance between two solutions
+   *
+   * @param solutionOne A &lt;code&gt;Solution&lt;/code&gt;
+   * @param solutionTwo A &lt;code&gt;Solution&lt;/code&gt;
+   * @return the hamming distance between solutions
+   */
+
+  private int hammingDistance(BinarySolution solutionOne, BinarySolution solutionTwo) {
+<span class="nc" id="L193">    int distance = 0;</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L195">      distance += hammingDistance(solutionOne.getVariableValue(i), solutionTwo.getVariableValue(i));</span>
+    }
+
+<span class="nc" id="L198">    return distance;</span>
+  }
+
+  private int hammingDistance(BinarySet bitSet1, BinarySet bitSet2) {
+<span class="nc bnc" id="L202" title="All 2 branches missed.">    if (bitSet1.getBinarySetLength() != bitSet2.getBinarySetLength()) {</span>
+<span class="nc" id="L203">      throw new JMetalException(&quot;The bitsets have different length: &quot;</span>
+<span class="nc" id="L204">          + bitSet1.getBinarySetLength() +&quot;, &quot; + bitSet2.getBinarySetLength()) ;</span>
+    }
+<span class="nc" id="L206">    int distance = 0;</span>
+<span class="nc" id="L207">    int i = 0;</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">    while (i &lt; bitSet1.getBinarySetLength()) {</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">      if (bitSet1.get(i) != bitSet2.get(i)) {</span>
+<span class="nc" id="L210">        distance++;</span>
+      }
+<span class="nc" id="L212">      i++;</span>
+    }
+
+<span class="nc" id="L215">    return distance;</span>
+  }
+
+  @Override
+  public String getName() {
+<span class="nc" id="L220">    return &quot;MOCHC&quot;;</span>
+  }
+
+  @Override
+  public String getDescription() {
+<span class="nc" id="L225">    return &quot;Multiobjective CHC algorithm&quot;;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

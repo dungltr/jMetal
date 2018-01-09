@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>C1_DTLZ3.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.cdtlz</a> &gt; <span class="el_source">C1_DTLZ3.java</span></div><h1>C1_DTLZ3.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.cdtlz;
+
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ3;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Problem C1-DTLZ3, defined in:
+ * Jain, H. and K. Deb.  &quot;An Evolutionary Many-Objective Optimization Algorithm Using Reference-Point-Based
+ * Nondominated Sorting Approach, Part II: Handling Constraints and Extending to an Adaptive Approach.&quot;
+ * EEE Transactions on Evolutionary Computation, 18(4):602-622, 2014.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class C1_DTLZ3 extends DTLZ3 implements ConstrainedProblem&lt;DoubleSolution&gt; {
+  public OverallConstraintViolation&lt;DoubleSolution&gt; overallConstraintViolationDegree ;
+  public NumberOfViolatedConstraints&lt;DoubleSolution&gt; numberOfViolatedConstraints ;
+
+  private static Map&lt;Integer, Double&gt; rValue;
+
+  static {
+<span class="nc" id="L28">    rValue = new HashMap&lt;Integer, Double&gt;() ;</span>
+<span class="nc" id="L29">    rValue.put(3, 9.0) ;</span>
+<span class="nc" id="L30">    rValue.put(5, 12.5) ;</span>
+<span class="nc" id="L31">    rValue.put(8, 12.5) ;</span>
+<span class="nc" id="L32">    rValue.put(10, 15.0) ;</span>
+<span class="nc" id="L33">    rValue.put(15, 15.0) ;</span>
+<span class="nc" id="L34">  }</span>
+
+  /**
+   * Constructor
+   * @param numberOfVariables
+   * @param numberOfObjectives
+   */
+  public C1_DTLZ3(int numberOfVariables, int numberOfObjectives) {
+<span class="nc" id="L42">    super(numberOfVariables, numberOfObjectives) ;</span>
+
+<span class="nc" id="L44">    setNumberOfConstraints(1);</span>
+
+<span class="nc" id="L46">    overallConstraintViolationDegree = new OverallConstraintViolation&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L47">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L48">  }</span>
+
+  @Override
+  public void evaluateConstraints(DoubleSolution solution) {
+<span class="nc" id="L52">    double[] constraint = new double[this.getNumberOfConstraints()];</span>
+
+<span class="nc" id="L54">    double sum1 = 0 ;</span>
+<span class="nc" id="L55">    double sum2 = 0 ;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L57">      double v = Math.pow(solution.getObjective(i), 2) ;</span>
+<span class="nc" id="L58">      sum1 += v - 16.0 ;</span>
+<span class="nc" id="L59">      sum2 += v - Math.pow(rValue.get(getNumberOfObjectives()), 2.0) ;</span>
+    }
+
+<span class="nc" id="L62">    constraint[0] = sum1 * sum2;</span>
+
+<span class="nc" id="L64">    double overallConstraintViolation = 0.0;</span>
+<span class="nc" id="L65">    int violatedConstraints = 0;</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfConstraints(); i++) {</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">      if (constraint[i]&lt;0.0){</span>
+<span class="nc" id="L68">        overallConstraintViolation+=constraint[i];</span>
+<span class="nc" id="L69">        violatedConstraints++;</span>
+      }
+    }
+
+<span class="nc" id="L73">    overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);</span>
+<span class="nc" id="L74">    numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);</span>
+<span class="nc" id="L75">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

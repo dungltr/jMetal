@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FrontUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.front.util</a> &gt; <span class="el_source">FrontUtils.java</span></div><h1>FrontUtils.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.front.util;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.point.Point;
+import org.uma.jmetal.util.point.util.PointSolution;
+import org.uma.jmetal.util.point.util.distance.EuclideanDistance;
+import org.uma.jmetal.util.point.util.distance.PointDistance;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A Front is a  list of points. This class includes utilities to work with {@link Front} objects.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+<span class="nc" id="L19">public class FrontUtils {</span>
+
+  /**
+   * Gets the maximum values for each objectives in a front
+   *
+   * @param front A front of objective values
+   * @return double [] An array with the maximum values for each objective
+   */
+  public static double[] getMaximumValues(Front front) {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L29">      throw new JMetalException(&quot;The front is null&quot;) ;</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L31">      throw new JMetalException(&quot;The front is empty&quot;) ;</span>
+    }
+
+<span class="fc" id="L34">    int numberOfObjectives = front.getPoint(0).getNumberOfDimensions() ;</span>
+
+<span class="fc" id="L36">    double[] maximumValue = new double[numberOfObjectives];</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="fc" id="L38">      maximumValue[i] = Double.NEGATIVE_INFINITY;</span>
+    }
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    for (int i = 0 ; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (front.getPoint(i).getDimensionValue(j) &gt; maximumValue[j]) {</span>
+<span class="fc" id="L44">          maximumValue[j] = front.getPoint(i).getDimensionValue(j);</span>
+        }
+      }
+    }
+
+<span class="fc" id="L49">    return maximumValue;</span>
+  }
+
+  /**
+   * Gets the minimum values for each objectives in a given front
+   *
+   * @param front The front
+   * @return double [] An array with the minimum value for each objective
+   */
+  public static double[] getMinimumValues(Front front) {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L60">      throw new JMetalException(&quot;The front is null&quot;) ;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L62">      throw new JMetalException(&quot;The front is empty&quot;) ;</span>
+    }
+
+<span class="fc" id="L65">    int numberOfObjectives = front.getPoint(0).getNumberOfDimensions() ;</span>
+
+<span class="fc" id="L67">    double[] minimumValue = new double[numberOfObjectives];</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="fc" id="L69">      minimumValue[i] = Double.MAX_VALUE;</span>
+    }
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    for (int i = 0 ; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if (front.getPoint(i).getDimensionValue(j) &lt; minimumValue[j]) {</span>
+<span class="fc" id="L75">          minimumValue[j] = front.getPoint(i).getDimensionValue(j);</span>
+        }
+      }
+    }
+
+<span class="fc" id="L80">    return minimumValue;</span>
+  }
+
+  /**
+   * Gets the distance between a point and the nearest one in a front. If a distance equals to 0
+   * is found, that means that the point is in the front, so it is excluded
+   *
+   * @param point The point
+   * @param front The front that contains the other points to calculate the distances
+   * @return The minimum distance between the point and the front
+   */
+  public static double distanceToNearestPoint(Point point, Front front) {
+<span class="fc" id="L92">    return distanceToNearestPoint(point, front, new EuclideanDistance()) ;</span>
+  }
+
+  /**
+   * Gets the distance between a point and the nearest one in a front. If a distance equals to 0
+   * is found, that means that the point is in the front, so it is excluded
+   *
+   * @param point The point
+   * @param front The front that contains the other points to calculate the distances
+   * @return The minimum distance between the point and the front
+   */
+  public static double distanceToNearestPoint(Point point, Front front, PointDistance distance) {
+<span class="fc bfc" id="L104" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L105">      throw new JMetalException(&quot;The front is null&quot;);</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L107">      throw new JMetalException(&quot;The front is empty&quot;);</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">    } else if (point == null) {</span>
+<span class="fc" id="L109">      throw new JMetalException(&quot;The point is null&quot;);</span>
+    }
+
+<span class="fc" id="L112">    double minDistance = Double.MAX_VALUE;</span>
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc" id="L115">      double aux = distance.compute(point, front.getPoint(i));</span>
+<span class="pc bpc" id="L116" title="1 of 4 branches missed.">      if ((aux &lt; minDistance) &amp;&amp; (aux &gt; 0.0)) {</span>
+<span class="fc" id="L117">        minDistance = aux;</span>
+      }
+    }
+
+<span class="fc" id="L121">    return minDistance;</span>
+  }
+
+  /**
+   * Gets the distance between a point and the nearest one in a given front. The Euclidean distance
+   * is assumed
+   *
+   * @param point The point
+   * @param front The front that contains the other points to calculate the
+   *              distances
+   * @return The minimum distance between the point and the front
+   */
+  public static double distanceToClosestPoint(Point point, Front front) {
+<span class="fc" id="L134">    return distanceToClosestPoint(point, front, new EuclideanDistance()) ;</span>
+  }
+
+  /**
+   * Gets the distance between a point and the nearest one in a given front
+   *
+   * @param point The point
+   * @param front The front that contains the other points to calculate the
+   *              distances
+   * @return The minimum distance between the point and the front
+   */
+  public static double distanceToClosestPoint(Point point, Front front, PointDistance distance) {
+<span class="fc bfc" id="L146" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L147">      throw new JMetalException(&quot;The front is null&quot;);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L149">      throw new JMetalException(&quot;The front is empty&quot;);</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">    } else if (point == null) {</span>
+<span class="fc" id="L151">      throw new JMetalException(&quot;The point is null&quot;);</span>
+    }
+
+<span class="fc" id="L154">    double minDistance = distance.compute(point, front.getPoint(0));</span>
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">    for (int i = 1; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc" id="L157">      double aux = distance.compute(point, front.getPoint(i));</span>
+<span class="fc bfc" id="L158" title="All 2 branches covered.">      if (aux &lt; minDistance) {</span>
+<span class="fc" id="L159">        minDistance = aux;</span>
+      }
+    }
+
+<span class="fc" id="L163">    return minDistance;</span>
+  }
+
+  /**
+   * This method receives a normalized pareto front and return the inverted one.
+   * This method is for minimization problems
+   *
+   * @param front The pareto front to inverse
+   * @return The inverted pareto front
+   */
+  public static Front getInvertedFront(Front front) {
+<span class="fc bfc" id="L174" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L175">      throw new JMetalException(&quot;The front is null&quot;);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L177">      throw new JMetalException(&quot;The front is empty&quot;);</span>
+    }
+
+<span class="fc" id="L180">    int numberOfDimensions = front.getPoint(0).getNumberOfDimensions() ;</span>
+<span class="fc" id="L181">    Front invertedFront = new ArrayFront(front.getNumberOfPoints(), numberOfDimensions);</span>
+
+<span class="fc bfc" id="L183" title="All 2 branches covered.">    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">      for (int j = 0; j &lt; numberOfDimensions; j++) {</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        if (front.getPoint(i).getDimensionValue(j)  &lt;= 1.0</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">            &amp;&amp; front.getPoint(i).getDimensionValue(j) &gt;= 0.0) {</span>
+<span class="fc" id="L187">          invertedFront.getPoint(i).setDimensionValue(j, 1.0 - front.getPoint(i).getDimensionValue(j));</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">        } else if (front.getPoint(i).getDimensionValue(j) &gt; 1.0) {</span>
+<span class="fc" id="L189">          invertedFront.getPoint(i).setDimensionValue(j, 0.0) ;</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">        } else if (front.getPoint(i).getDimensionValue(j) &lt; 0.0) {</span>
+<span class="fc" id="L191">          invertedFront.getPoint(i).setDimensionValue(j, 1.0) ;</span>
+        }
+      }
+    }
+<span class="fc" id="L195">    return invertedFront;</span>
+  }
+
+  /**
+   * Given a front, converts it to an array of double values
+   *
+   * @param front
+   * @return A front as double[][] array
+   */
+  public static double[][] convertFrontToArray(Front front) {
+<span class="fc bfc" id="L205" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L206">      throw new JMetalException(&quot;The front is null&quot;);</span>
+    }
+
+<span class="fc" id="L209">    double[][] arrayFront = new double[front.getNumberOfPoints()][] ;</span>
+
+<span class="fc bfc" id="L211" title="All 2 branches covered.">    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc" id="L212">      arrayFront[i] = new double[front.getPoint(i).getNumberOfDimensions()] ;</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">      for (int j = 0 ; j &lt; front.getPoint(i).getNumberOfDimensions(); j++) {</span>
+<span class="fc" id="L214">        arrayFront[i][j] = front.getPoint(i).getDimensionValue(j) ;</span>
+      }
+    }
+
+<span class="fc" id="L218">    return arrayFront ;</span>
+  }
+
+  /**
+   * Given a front, converts it to a Solution set of PointSolutions
+   *
+   * @param front
+   * @return A front as a List&lt;FrontSolution&gt;
+   */
+  /*
+  public static List&lt;PointSolution&gt; convertFrontToSolutionList(Front front) {
+    if (front == null) {
+      throw new JMetalException(&quot;The front is null&quot;);
+    }
+
+    int numberOfObjectives ;
+    int solutionSetSize = front.getNumberOfPoints() ;
+    if (front.getNumberOfPoints() == 0) {
+      numberOfObjectives = 0 ;
+    } else {
+      numberOfObjectives = front.getPoint(0).getNumberOfDimensions();
+    }
+    List&lt;PointSolution&gt; solutionSet = new ArrayList&lt;&gt;(solutionSetSize) ;
+
+    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {
+      PointSolution solution = new PointSolution(numberOfObjectives);
+      for (int j = 0 ; j &lt; numberOfObjectives; j++) {
+        solution.setObjective(j, front.getPoint(i).getDimensionValue(j));
+      }
+
+      solutionSet.add(solution) ;
+    }
+
+    return solutionSet ;
+  }
+*/
+  /**
+   * Given a front, converts it to a Solution set of PointSolutions
+   *
+   * @param front
+   * @return A front as a List&lt;FrontSolution&gt;
+   */
+
+  public static List&lt;PointSolution&gt; convertFrontToSolutionList(Front front) {
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">    if (front == null) {</span>
+<span class="nc" id="L263">      throw new JMetalException(&quot;The front is null&quot;);</span>
+    }
+
+    int numberOfObjectives ;
+<span class="fc" id="L267">    int solutionSetSize = front.getNumberOfPoints() ;</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">    if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L269">      numberOfObjectives = 0 ;</span>
+    } else {
+<span class="fc" id="L271">      numberOfObjectives = front.getPoint(0).getNumberOfDimensions();</span>
+    }
+<span class="fc" id="L273">    List&lt;PointSolution&gt; solutionSet = new ArrayList&lt;&gt;(solutionSetSize) ;</span>
+
+<span class="fc bfc" id="L275" title="All 2 branches covered.">    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="fc" id="L276">      PointSolution solution = new PointSolution(numberOfObjectives);</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">      for (int j = 0 ; j &lt; numberOfObjectives; j++) {</span>
+<span class="fc" id="L278">        solution.setObjective(j, front.getPoint(i).getDimensionValue(j));</span>
+      }
+
+<span class="fc" id="L281">      solutionSet.add(solution) ;</span>
+    }
+
+<span class="fc" id="L284">    return solutionSet ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

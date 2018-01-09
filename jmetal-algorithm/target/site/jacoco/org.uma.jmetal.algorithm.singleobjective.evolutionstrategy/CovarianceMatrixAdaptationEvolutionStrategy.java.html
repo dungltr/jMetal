@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CovarianceMatrixAdaptationEvolutionStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.evolutionstrategy</a> &gt; <span class="el_source">CovarianceMatrixAdaptationEvolutionStrategy.java</span></div><h1>CovarianceMatrixAdaptationEvolutionStrategy.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.evolutionstrategy;
+
+import org.uma.jmetal.algorithm.impl.AbstractEvolutionStrategy;
+import org.uma.jmetal.algorithm.singleobjective.evolutionstrategy.util.CMAESUtils;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.comparator.ObjectiveComparator;
+
+import java.util.*;
+
+/**
+ * Class implementing the CMA-ES algorithm
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class CovarianceMatrixAdaptationEvolutionStrategy
+    extends AbstractEvolutionStrategy&lt;DoubleSolution, DoubleSolution&gt; {
+  private Comparator&lt;DoubleSolution&gt; comparator ;
+  private int lambda ;
+  private int evaluations ;
+  private int maxEvaluations ;
+  private double[] typicalX;
+
+  /**
+   * CMA-ES state variables
+   */
+
+  // Distribution mean and current favorite solution to the optimization problem
+  private double[] distributionMean;
+
+  // coordinate wise standard deviation (step size)
+  private double sigma;
+
+  // Symmetric and positive definitive covariance matrix
+  private double[][] c;
+
+  // Evolution paths for c and sigma
+  private double[] pathsC;
+  private double[] pathsSigma;
+
+  /*
+   * Strategy parameter setting: Selection
+   */
+
+  // number of parents/points for recombination
+  private int mu;
+
+
+  private double[] weights;
+  private double muEff;
+
+  /*
+   * Strategy parameter setting: Adaptation
+   */
+
+  // time constant for cumulation for c
+  private double cumulationC;
+
+  // t-const for cumulation for sigma control
+  private double cumulationSigma;
+
+  // learning rate for rank-one update of c
+  private double c1;
+
+  // learning rate for rank-mu update
+  private double cmu;
+
+  // damping for sigma
+  private double dampingSigma;
+
+  /*
+   * Dynamic (internal) strategy parameters and constants
+   */
+
+  // coordinate system
+  private double[][] b;
+
+  // diagonal D defines the scaling
+  private double[] diagD;
+
+  // c^1/2
+  private double[][] invSqrtC;
+
+  // track update of b and c
+  private int eigenEval;
+
+  private double chiN;
+
+<span class="nc" id="L89">  private DoubleSolution bestSolutionEver = null;</span>
+
+  private Random rand;
+
+  /** Constructor */
+  private CovarianceMatrixAdaptationEvolutionStrategy (Builder builder) {
+<span class="nc" id="L95">    super(builder.problem) ;</span>
+<span class="nc" id="L96">    this.lambda = builder.lambda ;</span>
+<span class="nc" id="L97">    this.maxEvaluations = builder.maxEvaluations ;</span>
+<span class="nc" id="L98">    this.typicalX = builder.typicalX;</span>
+<span class="nc" id="L99">    this.sigma = builder.sigma;</span>
+
+<span class="nc" id="L101">    long seed = System.currentTimeMillis();</span>
+<span class="nc" id="L102">    rand = new Random(seed);</span>
+<span class="nc" id="L103">    comparator = new ObjectiveComparator&lt;DoubleSolution&gt;(0);</span>
+
+<span class="nc" id="L105">    initializeInternalParameters();</span>
+
+<span class="nc" id="L107">  }</span>
+
+  /* Getters */
+  public int getLambda() {
+<span class="nc" id="L111">    return lambda;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L115">    return maxEvaluations;</span>
+  }
+
+  /**
+   * Buider class
+   */
+  public static class Builder {
+    private static final int DEFAULT_LAMBDA = 10 ;
+    private static final int DEFAULT_MAX_EVALUATIONS = 1000000 ;
+    private static final double DEFAULT_SIGMA = 0.3;
+
+    private DoubleProblem problem ;
+    private int lambda ;
+    private int maxEvaluations ;
+    private double [] typicalX;
+    private double sigma;
+
+<span class="nc" id="L132">    public Builder(DoubleProblem problem) {</span>
+<span class="nc" id="L133">      this.problem = problem;</span>
+<span class="nc" id="L134">      lambda = DEFAULT_LAMBDA;</span>
+<span class="nc" id="L135">      maxEvaluations = DEFAULT_MAX_EVALUATIONS;</span>
+<span class="nc" id="L136">      sigma = DEFAULT_SIGMA;</span>
+<span class="nc" id="L137">    }</span>
+
+    public Builder setLambda(int lambda) {
+<span class="nc" id="L140">      this.lambda = lambda;</span>
+<span class="nc" id="L141">      return this;</span>
+    }
+
+    public Builder setMaxEvaluations(int maxEvaluations) {
+<span class="nc" id="L145">      this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L146">      return this;</span>
+    }
+
+    public Builder setTypicalX (double [] typicalX) {
+<span class="nc" id="L150">      this.typicalX = typicalX;</span>
+<span class="nc" id="L151">      return this;</span>
+    }
+
+    public Builder setSigma (double sigma) {
+<span class="nc" id="L155">      this.sigma = sigma;</span>
+<span class="nc" id="L156">      return this;</span>
+    }
+
+    public CovarianceMatrixAdaptationEvolutionStrategy build() {
+<span class="nc" id="L160">      return new CovarianceMatrixAdaptationEvolutionStrategy(this);</span>
+    }
+  }
+
+  @Override protected void initProgress() {
+<span class="nc" id="L165">    evaluations = 0;</span>
+<span class="nc" id="L166">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L169">    evaluations += lambda;</span>
+<span class="nc" id="L170">    updateInternalParameters();</span>
+<span class="nc" id="L171">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L174" title="All 2 branches missed.">    return evaluations &gt;= maxEvaluations;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; createInitialPopulation() {
+<span class="nc" id="L178">    List&lt;DoubleSolution&gt; population = new ArrayList&lt;&gt;(lambda);</span>
+<span class="nc bnc" id="L179" title="All 2 branches missed.">    for (int i = 0; i &lt; lambda; i++) {</span>
+<span class="nc" id="L180">      DoubleSolution newIndividual = getProblem().createSolution();</span>
+<span class="nc" id="L181">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L183">    return population;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; evaluatePopulation(List&lt;DoubleSolution&gt; population) {
+<span class="nc bnc" id="L187" title="All 2 branches missed.">    for (DoubleSolution solution : population) {</span>
+<span class="nc" id="L188">      getProblem().evaluate(solution);</span>
+<span class="nc" id="L189">    }</span>
+<span class="nc" id="L190">    return population;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; selection(List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L194">    return population;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; reproduction(List&lt;DoubleSolution&gt; population) {
+
+<span class="nc" id="L199">    List&lt;DoubleSolution&gt; offspringPopulation = new ArrayList&lt;&gt;(lambda);</span>
+
+<span class="nc bnc" id="L201" title="All 2 branches missed.">    for (int iNk = 0; iNk &lt; lambda; iNk++) {</span>
+<span class="nc" id="L202">      offspringPopulation.add(sampleSolution());</span>
+    }
+
+<span class="nc" id="L205">    return offspringPopulation;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; replacement(List&lt;DoubleSolution&gt; population,
+      List&lt;DoubleSolution&gt; offspringPopulation) {
+<span class="nc" id="L210">    return offspringPopulation;</span>
+  }
+
+  @Override public DoubleSolution getResult() {
+<span class="nc" id="L214">    return bestSolutionEver;</span>
+  }
+
+  private void initializeInternalParameters() {
+
+    // number of objective variables/problem dimension
+<span class="nc" id="L220">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+    // objective variables initial point
+    // TODO: Initialize the mean in a better way
+
+<span class="nc bnc" id="L225" title="All 2 branches missed.">    if (typicalX != null) {</span>
+<span class="nc" id="L226">      distributionMean = typicalX;</span>
+    } else {
+<span class="nc" id="L228">      distributionMean = new double[numberOfVariables];</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L230">        distributionMean[i] = rand.nextDouble();</span>
+      }
+    }
+
+    /* Strategy parameter setting: Selection */
+
+    // number of parents/points for recombination
+<span class="nc" id="L237">    mu = (int) Math.floor(lambda / 2);</span>
+
+    // muXone array for weighted recombination
+<span class="nc" id="L240">    weights = new double[mu];</span>
+<span class="nc" id="L241">    double sum = 0;</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">    for (int i = 0; i &lt; mu; i++) {</span>
+<span class="nc" id="L243">      weights[i] = (Math.log(mu + 1 / 2) - Math.log(i + 1));</span>
+<span class="nc" id="L244">      sum += weights[i];</span>
+    }
+    // normalize recombination weights array
+<span class="nc bnc" id="L247" title="All 2 branches missed.">    for (int i = 0; i &lt; mu; i++) {</span>
+<span class="nc" id="L248">      weights[i] = weights[i] / sum;</span>
+    }
+
+    // variance-effectiveness of sum w_i x_i
+<span class="nc" id="L252">    double sum1 = 0;</span>
+<span class="nc" id="L253">    double sum2 = 0;</span>
+<span class="nc bnc" id="L254" title="All 2 branches missed.">    for (int i = 0; i &lt; mu; i++) {</span>
+<span class="nc" id="L255">      sum1 += weights[i];</span>
+<span class="nc" id="L256">      sum2 += weights[i] * weights[i];</span>
+    }
+<span class="nc" id="L258">    muEff = sum1 * sum1 / sum2;</span>
+
+    /* Strategy parameter setting: Adaptation */
+
+    // time constant for cumulation for C
+<span class="nc" id="L263">    cumulationC =</span>
+        (4 + muEff / numberOfVariables) / (numberOfVariables + 4 + 2 * muEff / numberOfVariables);
+
+    // t-const for cumulation for sigma control
+<span class="nc" id="L267">    cumulationSigma = (muEff + 2) / (numberOfVariables + muEff + 5);</span>
+
+    // learning rate for rank-one update of C
+<span class="nc" id="L270">    c1 = 2 / ((numberOfVariables + 1.3) * (numberOfVariables + 1.3) + muEff);</span>
+
+    // learning rate for rank-mu update
+<span class="nc" id="L273">    cmu = Math.min(1 - c1,</span>
+        2 * (muEff - 2 + 1 / muEff) / ((numberOfVariables + 2) * (numberOfVariables + 2) + muEff));
+
+    // damping for sigma, usually close to 1
+<span class="nc" id="L277">    dampingSigma = 1 +</span>
+<span class="nc" id="L278">        2 * Math.max(0, Math.sqrt((muEff - 1) / (numberOfVariables + 1)) - 1) + cumulationSigma;</span>
+
+    /* Initialize dynamic (internal) strategy parameters and constants */
+
+    // diagonal D defines the scaling
+<span class="nc" id="L283">    diagD = new double[numberOfVariables];</span>
+
+    // evolution paths for C and sigma
+<span class="nc" id="L286">    pathsC = new double[numberOfVariables];</span>
+<span class="nc" id="L287">    pathsSigma = new double[numberOfVariables];</span>
+
+    // b defines the coordinate system
+<span class="nc" id="L290">    b = new double[numberOfVariables][numberOfVariables];</span>
+    // covariance matrix C
+<span class="nc" id="L292">    c = new double[numberOfVariables][numberOfVariables];</span>
+
+    // C^-1/2
+<span class="nc" id="L295">    invSqrtC = new double[numberOfVariables][numberOfVariables];</span>
+
+<span class="nc bnc" id="L297" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L298">      pathsC[i] = 0;</span>
+<span class="nc" id="L299">      pathsSigma[i] = 0;</span>
+<span class="nc" id="L300">      diagD[i] = 1;</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc" id="L302">        b[i][j] = 0;</span>
+<span class="nc" id="L303">        invSqrtC[i][j] = 0;</span>
+      }
+<span class="nc bnc" id="L305" title="All 2 branches missed.">      for (int j = 0; j &lt; i; j++) {</span>
+<span class="nc" id="L306">        c[i][j] = 0;</span>
+      }
+<span class="nc" id="L308">      b[i][i] = 1;</span>
+<span class="nc" id="L309">      c[i][i] = diagD[i] * diagD[i];</span>
+<span class="nc" id="L310">      invSqrtC[i][i] = 1;</span>
+    }
+
+    // track update of b and D
+<span class="nc" id="L314">    eigenEval = 0;</span>
+
+<span class="nc" id="L316">    chiN = Math.sqrt(numberOfVariables) * (1 - 1 / (4 * numberOfVariables) + 1 / (21</span>
+        * numberOfVariables * numberOfVariables));
+
+<span class="nc" id="L319">  }</span>
+
+  private void updateInternalParameters() {
+
+<span class="nc" id="L323">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+<span class="nc" id="L325">    double[] oldDistributionMean = new double[numberOfVariables];</span>
+<span class="nc" id="L326">    System.arraycopy( distributionMean, 0, oldDistributionMean, 0, numberOfVariables );</span>
+
+    // Sort by fitness and compute weighted mean into distributionMean
+    // minimization
+<span class="nc" id="L330">    Collections.sort(getPopulation(), comparator);</span>
+<span class="nc" id="L331">    storeBest();</span>
+
+    // calculate new distribution mean and BDz~N(0,C)
+<span class="nc" id="L334">    updateDistributionMean();</span>
+
+    // Cumulation: Update evolution paths
+<span class="nc" id="L337">    int hsig = updateEvolutionPaths(oldDistributionMean);</span>
+
+    // Adapt covariance matrix C
+<span class="nc" id="L340">    adaptCovarianceMatrix(oldDistributionMean, hsig);</span>
+
+    // Adapt step size sigma
+<span class="nc" id="L343">    double psxps = CMAESUtils.norm(pathsSigma);</span>
+<span class="nc" id="L344">    sigma *= Math.exp((cumulationSigma / dampingSigma) * (Math.sqrt(psxps) / chiN - 1));</span>
+
+    // Decomposition of C into b*diag(D.^2)*b' (diagonalization)
+<span class="nc" id="L347">    decomposeCovarianceMatrix();</span>
+
+<span class="nc" id="L349">  }</span>
+
+  private void updateDistributionMean() {
+
+<span class="nc" id="L353">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+<span class="nc bnc" id="L355" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L356">      distributionMean[i] = 0.;</span>
+<span class="nc bnc" id="L357" title="All 2 branches missed.">      for (int iNk = 0; iNk &lt; mu; iNk++) {</span>
+<span class="nc" id="L358">        double variableValue = (double) getPopulation().get(iNk).getVariableValue(i);</span>
+<span class="nc" id="L359">        distributionMean[i] += weights[iNk] * variableValue;</span>
+      }
+    }
+
+<span class="nc" id="L363">  }</span>
+
+  private int updateEvolutionPaths(double[] oldDistributionMean) {
+
+<span class="nc" id="L367">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+<span class="nc" id="L369">    double[] artmp = new double[numberOfVariables];</span>
+<span class="nc bnc" id="L370" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L371">      artmp[i] = 0;</span>
+<span class="nc bnc" id="L372" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc" id="L373">        artmp[i] += invSqrtC[i][j] * (distributionMean[j] - oldDistributionMean[j]) / sigma;</span>
+      }
+    }
+    // cumulation for sigma (pathsSigma)
+<span class="nc bnc" id="L377" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L378">      pathsSigma[i] = (1. - cumulationSigma) * pathsSigma[i]</span>
+<span class="nc" id="L379">          + Math.sqrt(cumulationSigma * (2. - cumulationSigma) * muEff) * artmp[i];</span>
+    }
+
+    // calculate norm(pathsSigma)^2
+<span class="nc" id="L383">    double psxps = CMAESUtils.norm(pathsSigma);</span>
+
+    // cumulation for covariance matrix (pathsC)
+<span class="nc" id="L386">    int hsig = 0;</span>
+<span class="nc" id="L387">    if ((Math.sqrt(psxps) / Math</span>
+<span class="nc bnc" id="L388" title="All 2 branches missed.">        .sqrt(1. - Math.pow(1. - cumulationSigma, 2. * evaluations / lambda)) / chiN) &lt; (1.4</span>
+        + 2. / (numberOfVariables + 1.))) {
+<span class="nc" id="L390">      hsig = 1;</span>
+    }
+<span class="nc bnc" id="L392" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L393">      pathsC[i] = (1. - cumulationC) * pathsC[i]</span>
+<span class="nc" id="L394">            + hsig * Math.sqrt(cumulationC * (2. - cumulationC) * muEff)</span>
+            * (distributionMean[i] - oldDistributionMean[i])
+            / sigma;
+    }
+
+<span class="nc" id="L399">    return hsig;</span>
+
+  }
+
+  private void adaptCovarianceMatrix(double[] oldDistributionMean, int hsig) {
+
+<span class="nc" id="L405">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+<span class="nc bnc" id="L407" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc bnc" id="L408" title="All 2 branches missed.">      for (int j = 0; j &lt;= i; j++) {</span>
+<span class="nc" id="L409">        c[i][j] = (1 - c1 - cmu) * c[i][j]</span>
+              + c1
+              * (pathsC[i] * pathsC[j] + (1 - hsig) * cumulationC
+              * (2. - cumulationC) * c[i][j]);
+<span class="nc bnc" id="L413" title="All 2 branches missed.">        for (int k = 0; k &lt; mu; k++) {</span>
+          /*
+           * additional rank mu
+           * update
+           */
+<span class="nc" id="L418">          double valueI = getPopulation().get(k).getVariableValue(i);</span>
+<span class="nc" id="L419">          double valueJ = getPopulation().get(k).getVariableValue(j);</span>
+<span class="nc" id="L420">          c[i][j] += cmu</span>
+                * weights[k]
+                * (valueI - oldDistributionMean[i])
+                * (valueJ - oldDistributionMean[j]) /sigma
+                / sigma;
+        }
+      }
+    }
+
+<span class="nc" id="L429">  }</span>
+
+  private void decomposeCovarianceMatrix() {
+<span class="nc" id="L432">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+<span class="nc bnc" id="L434" title="All 2 branches missed.">    if (evaluations - eigenEval &gt; lambda / (c1 + cmu) / numberOfVariables / 10) {</span>
+
+<span class="nc" id="L436">      eigenEval = evaluations;</span>
+
+      // enforce symmetry
+<span class="nc bnc" id="L439" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc bnc" id="L440" title="All 2 branches missed.">        for (int j = 0; j &lt;= i; j++) {</span>
+<span class="nc" id="L441">          b[i][j] = b[j][i] = c[i][j];</span>
+        }
+      }
+
+      // eigen decomposition, b==normalized eigenvectors
+<span class="nc" id="L446">      double[] offdiag = new double[numberOfVariables];</span>
+<span class="nc" id="L447">      CMAESUtils.tred2(numberOfVariables, b, diagD, offdiag);</span>
+<span class="nc" id="L448">      CMAESUtils.tql2(numberOfVariables, diagD, offdiag, b);</span>
+
+<span class="nc" id="L450">      checkEigenCorrectness();</span>
+
+<span class="nc" id="L452">      double[][] artmp2 = new double[numberOfVariables][numberOfVariables];</span>
+<span class="nc bnc" id="L453" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc bnc" id="L454" title="All 2 branches missed.">        if (diagD[i] &gt; 0) {</span>
+<span class="nc" id="L455">          diagD[i] = Math.sqrt(diagD[i]);</span>
+        }
+<span class="nc bnc" id="L457" title="All 2 branches missed.">        for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc" id="L458">          artmp2[i][j] = b[i][j] * (1 / diagD[j]);</span>
+        }
+      }
+<span class="nc bnc" id="L461" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc bnc" id="L462" title="All 2 branches missed.">        for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc" id="L463">          invSqrtC[i][j] = 0.0;</span>
+<span class="nc bnc" id="L464" title="All 2 branches missed.">          for (int k = 0; k &lt; numberOfVariables; k++) {</span>
+<span class="nc" id="L465">            invSqrtC[i][j] += artmp2[i][k] * b[j][k];</span>
+          }
+        }
+      }
+
+    }
+
+<span class="nc" id="L472">  }</span>
+
+  private void checkEigenCorrectness() {
+<span class="nc" id="L475">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+
+<span class="nc bnc" id="L477" title="All 2 branches missed.">    if (CMAESUtils.checkEigenSystem(numberOfVariables, c, diagD, b) &gt; 0) {</span>
+<span class="nc" id="L478">      evaluations = maxEvaluations;</span>
+    }
+
+<span class="nc bnc" id="L481" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+      // Numerical problem?
+<span class="nc bnc" id="L483" title="All 2 branches missed.">      if (diagD[i] &lt; 0) {</span>
+<span class="nc" id="L484">        JMetalLogger.logger.severe(</span>
+              &quot;CovarianceMatrixAdaptationEvolutionStrategy.updateDistribution:&quot; +
+                    &quot; WARNING - an eigenvalue has become negative.&quot;);
+<span class="nc" id="L487">        evaluations = maxEvaluations;</span>
+      }
+    }
+
+<span class="nc" id="L491">  }</span>
+
+  private DoubleSolution sampleSolution() {
+
+<span class="nc" id="L495">    DoubleSolution solution = getProblem().createSolution();</span>
+
+<span class="nc" id="L497">    int numberOfVariables = getProblem().getNumberOfVariables();</span>
+<span class="nc" id="L498">    double[] artmp = new double[numberOfVariables];</span>
+    double sum;
+
+<span class="nc bnc" id="L501" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+      //TODO: Check the correctness of this random (http://en.wikipedia.org/wiki/CMA-ES)
+<span class="nc" id="L503">      artmp[i] = diagD[i] * rand.nextGaussian();</span>
+    }
+<span class="nc bnc" id="L505" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L506">      sum = 0.0;</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc" id="L508">        sum += b[i][j] * artmp[j];</span>
+      }
+
+<span class="nc" id="L511">      double value = distributionMean[i] + sigma * sum;</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">      if (value &gt; ((DoubleProblem)getProblem()).getUpperBound(i)) {</span>
+<span class="nc" id="L513">        value = ((DoubleProblem)getProblem()).getUpperBound(i);</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">      } else if (value &lt; ((DoubleProblem)getProblem()).getLowerBound(i)) {</span>
+<span class="nc" id="L515">        value = ((DoubleProblem)getProblem()).getLowerBound(i);</span>
+      }
+
+<span class="nc" id="L518">      solution.setVariableValue(i, value);</span>
+    }
+
+<span class="nc" id="L521">    return solution;</span>
+  }
+
+  private void storeBest() {
+<span class="nc bnc" id="L525" title="All 2 branches missed.">    if ((bestSolutionEver == null) || (bestSolutionEver.getObjective(0) &gt; getPopulation().get(0)</span>
+<span class="nc bnc" id="L526" title="All 2 branches missed.">        .getObjective(0))) {</span>
+<span class="nc" id="L527">      bestSolutionEver = getPopulation().get(0);</span>
+    }
+<span class="nc" id="L529">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L532">    return &quot;CMAES&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L536">    return &quot;Covariance Matrix Adaptation Evolution Strategy&quot; ;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

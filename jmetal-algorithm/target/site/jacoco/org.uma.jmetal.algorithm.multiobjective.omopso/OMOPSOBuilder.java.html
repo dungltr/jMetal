@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OMOPSOBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.omopso</a> &gt; <span class="el_source">OMOPSOBuilder.java</span></div><h1>OMOPSOBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.omopso;
+
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.mutation.NonUniformMutation;
+import org.uma.jmetal.operator.impl.mutation.UniformMutation;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+
+/** Class implementing the OMOPSO algorithm */
+public class OMOPSOBuilder implements AlgorithmBuilder&lt;OMOPSO&gt; {
+  protected DoubleProblem problem;
+  protected SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+<span class="nc" id="L16">  private int swarmSize = 100 ;</span>
+<span class="nc" id="L17">  private int archiveSize = 100 ;</span>
+<span class="nc" id="L18">  private int maxIterations = 25000 ;</span>
+
+  private UniformMutation uniformMutation ;
+  private NonUniformMutation nonUniformMutation ;
+
+<span class="nc" id="L23">  public OMOPSOBuilder(DoubleProblem problem, SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {</span>
+<span class="nc" id="L24">    this.evaluator = evaluator ;</span>
+<span class="nc" id="L25">    this.problem = problem ;</span>
+<span class="nc" id="L26">  }</span>
+
+  public OMOPSOBuilder setSwarmSize(int swarmSize) {
+<span class="nc" id="L29">    this.swarmSize = swarmSize ;</span>
+
+<span class="nc" id="L31">    return this ;</span>
+  }
+
+  public OMOPSOBuilder setArchiveSize(int archiveSize) {
+<span class="nc" id="L35">    this.archiveSize = archiveSize ;</span>
+
+<span class="nc" id="L37">    return this ;</span>
+  }
+
+  public OMOPSOBuilder setMaxIterations(int maxIterations) {
+<span class="nc" id="L41">    this.maxIterations = maxIterations ;</span>
+
+<span class="nc" id="L43">    return this ;</span>
+  }
+
+  public OMOPSOBuilder setUniformMutation(MutationOperator&lt;DoubleSolution&gt; uniformMutation) {
+<span class="nc" id="L47">    this.uniformMutation = (UniformMutation)uniformMutation ;</span>
+
+<span class="nc" id="L49">    return this ;</span>
+  }
+
+  public OMOPSOBuilder setNonUniformMutation(MutationOperator&lt;DoubleSolution&gt; nonUniformMutation) {
+<span class="nc" id="L53">    this.nonUniformMutation = (NonUniformMutation)nonUniformMutation ;</span>
+
+<span class="nc" id="L55">    return this ;</span>
+  }
+
+  /* Getters */
+  public int getArchiveSize() {
+<span class="nc" id="L60">    return archiveSize;</span>
+  }
+
+  public int getSwarmSize() {
+<span class="nc" id="L64">    return swarmSize;</span>
+  }
+
+  public int getMaxIterations() {
+<span class="nc" id="L68">    return maxIterations;</span>
+  }
+
+  public UniformMutation getUniformMutation() {
+<span class="nc" id="L72">    return uniformMutation;</span>
+  }
+
+  public NonUniformMutation getNonUniformMutation() {
+<span class="nc" id="L76">    return nonUniformMutation;</span>
+  }
+
+  public OMOPSO build() {
+<span class="nc" id="L80">    return new OMOPSO(problem, evaluator, swarmSize, maxIterations, archiveSize, uniformMutation,</span>
+        nonUniformMutation) ;
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

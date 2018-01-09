@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PAESBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.paes</a> &gt; <span class="el_source">PAESBuilder.java</span></div><h1>PAESBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.paes;
+
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class PAESBuilder&lt;S extends Solution&lt;?&gt;&gt;  implements AlgorithmBuilder&lt;PAES&lt;S&gt;&gt; {
+  private Problem&lt;S&gt; problem;
+
+  private int archiveSize;
+  private int maxEvaluations;
+  private int biSections;
+
+  private MutationOperator&lt;S&gt; mutationOperator;
+
+<span class="nc" id="L20">  public PAESBuilder(Problem&lt;S&gt; problem) {</span>
+<span class="nc" id="L21">    this.problem = problem;</span>
+<span class="nc" id="L22">  }</span>
+
+  public PAESBuilder&lt;S&gt; setArchiveSize(int archiveSize) {
+<span class="nc" id="L25">    this.archiveSize = archiveSize;</span>
+
+<span class="nc" id="L27">    return this;</span>
+  }
+
+  public PAESBuilder&lt;S&gt; setMaxEvaluations(int maxEvaluations) {
+<span class="nc" id="L31">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L33">    return this;</span>
+  }
+
+  public PAESBuilder&lt;S&gt; setBiSections(int biSections) {
+<span class="nc" id="L37">    this.biSections = biSections;</span>
+
+<span class="nc" id="L39">    return this;</span>
+  }
+
+  public PAESBuilder&lt;S&gt; setMutationOperator(MutationOperator&lt;S&gt; mutation) {
+<span class="nc" id="L43">    mutationOperator = mutation;</span>
+
+<span class="nc" id="L45">    return this;</span>
+  }
+
+  public PAES&lt;S&gt; build() {
+<span class="nc" id="L49">    return new PAES&lt;S&gt;(problem, archiveSize, maxEvaluations, biSections, mutationOperator);</span>
+  }
+
+  /*
+   * Getters
+   */
+  public Problem&lt;S&gt; getProblem() {
+<span class="nc" id="L56">    return problem;</span>
+  }
+
+  public int getArchiveSize() {
+<span class="nc" id="L60">    return archiveSize;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L64">    return maxEvaluations;</span>
+  }
+
+  public int getBiSections() {
+<span class="nc" id="L68">    return biSections;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L72">    return mutationOperator;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

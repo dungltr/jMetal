@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConstrEx.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">ConstrEx.java</span></div><h1>ConstrEx.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Class representing problem ConstrEx
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ConstrEx extends AbstractDoubleProblem implements ConstrainedProblem&lt;DoubleSolution&gt; {
+
+  public OverallConstraintViolation&lt;DoubleSolution&gt; overallConstraintViolationDegree ;
+  public NumberOfViolatedConstraints&lt;DoubleSolution&gt; numberOfViolatedConstraints ;
+
+  /**
+   * Constructor
+   * Creates a default instance of the ConstrEx problem
+   */
+<span class="nc" id="L25">  public ConstrEx() {</span>
+<span class="nc" id="L26">    setNumberOfVariables(2);</span>
+<span class="nc" id="L27">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L28">    setNumberOfConstraints(2);</span>
+<span class="nc" id="L29">    setName(&quot;ConstrEx&quot;);</span>
+
+<span class="nc" id="L31">    List&lt;Double&gt; lowerLimit = Arrays.asList(0.1, 0.0) ;</span>
+<span class="nc" id="L32">    List&lt;Double&gt; upperLimit = Arrays.asList(1.0, 5.0) ;</span>
+
+<span class="nc" id="L34">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L35">    setUpperLimit(upperLimit);</span>
+
+<span class="nc" id="L37">    overallConstraintViolationDegree = new OverallConstraintViolation&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L38">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L39">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L44">    double [] f = new double[getNumberOfObjectives()];</span>
+<span class="nc" id="L45">    f[0] = solution.getVariableValue(0) ;</span>
+<span class="nc" id="L46">    f[1] = (1.0 + solution.getVariableValue(1))/solution.getVariableValue(0);</span>
+    
+<span class="nc" id="L48">    solution.setObjective(0,f[0]);</span>
+<span class="nc" id="L49">    solution.setObjective(1,f[1]);</span>
+<span class="nc" id="L50">  }</span>
+
+  /** EvaluateConstraints() method */
+  @Override
+  public void evaluateConstraints(DoubleSolution solution)  {
+<span class="nc" id="L55">    double[] constraint = new double[this.getNumberOfConstraints()];</span>
+
+<span class="nc" id="L57">    double x1 = solution.getVariableValue(0) ;</span>
+<span class="nc" id="L58">    double x2 = solution.getVariableValue(1) ;</span>
+        
+<span class="nc" id="L60">    constraint[0] =  (x2 + 9*x1 -6.0) ;</span>
+<span class="nc" id="L61">    constraint[1] =  (-x2 + 9*x1 -1.0);</span>
+        
+<span class="nc" id="L63">    double overallConstraintViolation = 0.0;</span>
+<span class="nc" id="L64">    int violatedConstraints = 0;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    for (int i = 0; i &lt; this.getNumberOfConstraints(); i++)</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">      if (constraint[i]&lt;0.0){</span>
+<span class="nc" id="L67">        overallConstraintViolation+=constraint[i];</span>
+<span class="nc" id="L68">        violatedConstraints++;</span>
+      }
+
+<span class="nc" id="L71">    overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);</span>
+<span class="nc" id="L72">    numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);</span>
+<span class="nc" id="L73">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

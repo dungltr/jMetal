@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JMetalLogger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util</a> &gt; <span class="el_source">JMetalLogger.java</span></div><h1>JMetalLogger.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+/**
+ * This class provides some facilities to manage loggers. One might use the
+ * static logger of this class or use its own, custom logger. Also, we provide
+ * the static method {@link #configureLoggers(File)} for configuring the loggers
+ * easily. This method is automatically called before any use of the static
+ * logger, but if you want it to apply on other loggers it is preferable to call
+ * it explicitly at the beginning of your main() method.
+ * 
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+<span class="nc" id="L23">public class JMetalLogger implements Serializable {</span>
+
+<span class="nc" id="L25">	public static final Logger logger = Logger.getLogger(JMetalLogger.class</span>
+<span class="nc" id="L26">			.getName());</span>
+
+	static {
+		/*
+		 * Configure the loggers with the default configuration. If the
+		 * configuration method is called manually, this default configuration
+		 * will be called before anyway, leading to 2 configuration calls,
+		 * although only the last one is considered. This is a trade off to
+		 * ensure that, if this method is not called manually, then it is still
+		 * called automatically and as soon as we use jMetalLogger, in order to
+		 * have at least the default configuration.
+		 */
+		try {
+<span class="nc" id="L39">			configureLoggers(null);</span>
+<span class="nc" id="L40">		} catch (IOException e) {</span>
+<span class="nc" id="L41">			throw new RuntimeException(</span>
+					&quot;Impossible to configure the loggers in a static way&quot;, e);
+<span class="nc" id="L43">		}</span>
+<span class="nc" id="L44">	}</span>
+
+	/**
+	 * This method provides a single-call method to configure the {@link Logger}
+	 * instances. A default configuration is considered, enriched with a custom
+	 * property file for more convenient logging. The custom file is considered
+	 * after the default configuration, so it can override it if necessary. The
+	 * custom file might be provided as an argument of this method, otherwise we
+	 * look for a file named &quot;jMetal.log.ini&quot;. If no custom file is provided,
+	 * then only the default configuration is considered.
+	 * 
+	 * @param propertyFile
+	 *            the property file to use for custom configuration,
+	 *            &lt;code&gt;null&lt;/code&gt; to use only the default configuration
+	 * @throws IOException
+	 */
+	public static void configureLoggers(File propertyFile) throws IOException {
+		// Prepare default configuration
+<span class="nc" id="L62">		ByteArrayOutputStream stream = new ByteArrayOutputStream();</span>
+<span class="nc" id="L63">		PrintStream printer = new PrintStream(stream);</span>
+<span class="nc" id="L64">		printer.println(&quot;.level = INFO&quot;);</span>
+<span class="nc" id="L65">		printer.println(&quot;handlers = java.util.logging.FileHandler, java.util.logging.ConsoleHandler&quot;);</span>
+<span class="nc" id="L66">		printer.println(&quot;formatters = java.util.logging.SimpleFormatter&quot;);</span>
+<span class="nc" id="L67">		printer.println(&quot;java.util.logging.SimpleFormatter.format = %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL %4$s: %5$s [%2$s]%6$s%n&quot;);</span>
+
+<span class="nc" id="L69">		printer.println(&quot;java.util.logging.FileHandler.pattern = jMetal.log&quot;);</span>
+<span class="nc" id="L70">		printer.println(&quot;java.util.logging.FileHandler.level = ALL&quot;);</span>
+
+<span class="nc" id="L72">		printer.println(&quot;java.util.logging.ConsoleHandler.level = ALL&quot;);</span>
+
+		// Retrieve custom configuration
+<span class="nc" id="L75">		File defaultFile = new File(&quot;jMetal.log.ini&quot;);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		if (propertyFile != null) {</span>
+<span class="nc" id="L77">			printer.println(FileUtils.readFileToString(propertyFile));</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		} else if (defaultFile.exists()) {</span>
+<span class="nc" id="L79">			printer.println(FileUtils.readFileToString(defaultFile));</span>
+		} else {
+			// use only default configuration
+		}
+<span class="nc" id="L83">		printer.close();</span>
+
+		// Apply configuration
+<span class="nc" id="L86">		LogManager manager = LogManager.getLogManager();</span>
+<span class="nc" id="L87">		manager.readConfiguration(IOUtils.toInputStream(new String(stream</span>
+<span class="nc" id="L88">				.toByteArray(), Charset.forName(&quot;UTF-8&quot;))));</span>
+<span class="nc" id="L89">		logger.info(&quot;Loggers configured with &quot; + propertyFile);</span>
+<span class="nc" id="L90">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PreferenceDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.solutionattribute.impl</a> &gt; <span class="el_source">PreferenceDistance.java</span></div><h1>PreferenceDistance.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.solutionattribute.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.ObjectiveComparator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.solutionattribute.DensityEstimator;
+
+import java.util.*;
+
+public class PreferenceDistance&lt;S extends Solution&lt;?&gt;&gt; extends GenericSolutionAttribute&lt;S, Double&gt; implements DensityEstimator&lt;S&gt; {
+    private  List&lt;Double&gt; interestPoint;
+
+<span class="nc" id="L13">    private List&lt;Double&gt; weights = null;</span>
+    private double epsilon;
+<span class="nc" id="L15">    public PreferenceDistance(List&lt;Double&gt; interestPoint,double epsilon) {</span>
+<span class="nc" id="L16">        this.epsilon =epsilon;</span>
+<span class="nc" id="L17">        this.interestPoint = interestPoint;</span>
+
+<span class="nc" id="L19">    }</span>
+
+
+    public void updatePointOfInterest(List&lt;Double&gt; newInterestPoint) {
+<span class="nc" id="L23">            interestPoint = newInterestPoint;</span>
+<span class="nc" id="L24">    }</span>
+
+
+
+    public int getSize(){
+<span class="nc" id="L29">        return this.weights.size();</span>
+   }
+
+
+    @Override
+    public void computeDensityEstimator(List&lt;S&gt; solutionList) {
+<span class="nc" id="L35">        int size = solutionList.size();</span>
+
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (size == 0) {</span>
+<span class="nc" id="L38">            return;</span>
+        }
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (size == 1) {</span>
+<span class="nc" id="L42">            solutionList.get(0).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+<span class="nc" id="L43">            return;</span>
+        }
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (size == 2) {</span>
+<span class="nc" id="L47">            solutionList.get(0).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+<span class="nc" id="L48">            solutionList.get(1).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+
+<span class="nc" id="L50">            return;</span>
+        }
+
+        // Use a new SolutionSet to avoid altering the original solutionSet
+<span class="nc" id="L54">        List&lt;S&gt; front = new ArrayList&lt;&gt;(size);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        for (S solution : solutionList) {</span>
+<span class="nc" id="L56">            front.add(solution);</span>
+<span class="nc" id="L57">        }</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        for (int i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L60">            front.get(i).setAttribute(getAttributeIdentifier(), 0.0);</span>
+        }
+
+        double objetiveMaxn;
+        double objetiveMinn;
+        double distance;
+
+<span class="nc" id="L67">        int numberOfObjectives = solutionList.get(0).getNumberOfObjectives() ;</span>
+<span class="nc" id="L68">        weights = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for(int i=0; i&lt;numberOfObjectives;i++){</span>
+<span class="nc" id="L70">            weights.add(1.0d/numberOfObjectives);</span>
+
+        }
+
+
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            for (int i = 0; i &lt; front.size() - 1; i++) {</span>
+<span class="nc" id="L76">                double normalizeDiff = 0.0D;</span>
+<span class="nc" id="L77">                distance = 0.0D;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+                    // Sort the population by Obj n
+<span class="nc" id="L80">                    Collections.sort(front, new ObjectiveComparator&lt;S&gt;(j));</span>
+<span class="nc" id="L81">                    objetiveMinn = front.get(0).getObjective(j);</span>
+<span class="nc" id="L82">                    objetiveMaxn = front.get(front.size() - 1).getObjective(j);</span>
+<span class="nc" id="L83">                    normalizeDiff = (front.get(i).getObjective(j) - this.interestPoint.get(j)) /</span>
+                            (objetiveMaxn - objetiveMinn);
+<span class="nc" id="L85">                    distance += weights.get(j) * Math.pow(normalizeDiff, 2.0D);</span>
+                }
+<span class="nc" id="L87">                distance = Math.sqrt(distance);</span>
+<span class="nc" id="L88">                front.get(i).setAttribute(getAttributeIdentifier(), distance);</span>
+
+            }
+
+
+       //solutionList = epsilonClean(front);
+
+<span class="nc" id="L95">    }</span>
+
+    public List&lt;S&gt; epsilonClean(List&lt;S&gt; solutionList){
+<span class="nc" id="L98">        List&lt;S&gt; preference = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L99">        List&lt;S&gt; temporalList = new LinkedList();</span>
+<span class="nc" id="L100">        temporalList.addAll(solutionList);</span>
+<span class="nc" id="L101">        int numerOfObjectives = solutionList.get(0).getNumberOfObjectives();</span>
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        while(!temporalList.isEmpty()) {</span>
+<span class="nc" id="L104">            int indexRandom = JMetalRandom.getInstance().nextInt(0, temporalList.size() - 1);//0</span>
+
+<span class="nc" id="L106">            S randomSolution = temporalList.get(indexRandom);</span>
+
+<span class="nc" id="L108">            preference.add(randomSolution);</span>
+<span class="nc" id="L109">            temporalList.remove(indexRandom);</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            for (int indexOfSolution = 0; indexOfSolution &lt; temporalList.size(); indexOfSolution++) {</span>
+<span class="nc" id="L112">                double sum = 0;</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                for (int indexOfObjective = 0; indexOfObjective &lt; numerOfObjectives; indexOfObjective++) {</span>
+<span class="nc" id="L115">                    Collections.sort(temporalList, new ObjectiveComparator&lt;S&gt;(indexOfObjective)) ;</span>
+<span class="nc" id="L116">                   double objetiveMinn = temporalList.get(0).getObjective(indexOfObjective);</span>
+<span class="nc" id="L117">                    double objetiveMaxn = temporalList.get(temporalList.size() - 1).getObjective(indexOfObjective);</span>
+<span class="nc" id="L118">                    sum = sum + ((Math.abs(randomSolution.getObjective(indexOfObjective) - temporalList.get(indexOfSolution).getObjective(indexOfObjective))) / (objetiveMaxn - objetiveMinn));</span>
+
+                }
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                if (sum &lt; epsilon) {</span>
+<span class="nc" id="L123">                    temporalList.get(indexOfSolution).setAttribute(getAttributeIdentifier(),Double.MAX_VALUE);</span>
+<span class="nc" id="L124">                    preference.add(temporalList.get(indexOfSolution));</span>
+<span class="nc" id="L125">                    temporalList.remove(indexOfSolution);</span>
+                }
+            }
+<span class="nc" id="L128">        }</span>
+<span class="nc" id="L129">        return preference;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

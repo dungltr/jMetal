@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>VariableFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">VariableFactory.java</span></div><h1>VariableFactory.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.solution.SolutionBuilder.Variable;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.Map.Entry;
+
+/**
+ * This factory provides facilities to generate {@link Variable}s from usual
+ * situations.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ */
+<span class="fc" id="L17">public class VariableFactory {</span>
+
+	/**
+	 * This method retrieves all the values accessible through a getter (
+	 * &lt;code&gt;getX()&lt;/code&gt; method) in order to build the corresponding set of
+	 * {@link Variable}s. Notice that {@link Variable}s are supposed to
+	 * represent the fundamental description of a {@link Solution}, so if the
+	 * {@link Solution} has computation or other additional methods which are
+	 * named as getters, they will also be retrieved as {@link Variable}s. In
+	 * such a case, you should filter the returned {@link Variable}s, rely on
+	 * more advanced methods, or generate the {@link Variable}s manually.
+	 * 
+	 * @param solutionClass
+	 *            the {@link Solution} class to analyze
+	 * @return the set of {@link Variable}s retrieved from this class
+	 * @see #createFromGettersAndSetters(Class)
+	 * @see #createFromGettersAndConstructors(Class)
+	 */
+	public &lt;Solution&gt; Collection&lt;Variable&lt;Solution, ?&gt;&gt; createFromGetters(
+			Class&lt;Solution&gt; solutionClass) {
+<span class="fc" id="L37">		Collection&lt;Variable&lt;Solution, ?&gt;&gt; variables = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">		for (Method method : solutionClass.getMethods()) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">			if (isGetter(method)) {</span>
+<span class="fc" id="L40">				String name = method.getName().substring(3);</span>
+<span class="fc" id="L41">				variables.add(createVariableOn(solutionClass, method, name,</span>
+<span class="fc" id="L42">						method.getReturnType()));</span>
+			} else {
+				// not a getter, ignore it
+			}
+		}
+<span class="fc" id="L47">		return variables;</span>
+	}
+
+	/**
+	 * This method retrieves all the values accessible through a getter (
+	 * &lt;code&gt;getX()&lt;/code&gt; method) in order to build the corresponding set of
+	 * {@link Variable}s. At the opposite of {@link #createFromGetters(Class)},
+	 * an additional filter is used: we build a {@link Variable} for each getter
+	 * which corresponds to a setter (&lt;code&gt;setX()&lt;/code&gt; method with the same
+	 * &lt;code&gt;X&lt;/code&gt; than the getter). This method is adapted for dynamic
+	 * {@link Solution} implementations, thus allowing to change the value of
+	 * its {@link Variable}s (e.g. change the path of a TSP {@link Solution}).&lt;br/&gt;
+	 * &lt;br/&gt;
+	 * Notice that, if all the relevant setters are not present (or they do not
+	 * strictly respect the naming of the getter), the corresponding
+	 * {@link Variable}s will not be retrieved. On the opposite, any additional
+	 * setter/getter couple which does not correspond to a relevant
+	 * {@link Variable} will be mistakenly retrieved. So be sure that the
+	 * relevant elements (and only these ones) have their setter and getter.
+	 * Otherwise, you should use a different method or generate the
+	 * {@link Variable}s manually.
+	 * 
+	 * @param solutionClass
+	 *            the {@link Solution} class to analyze
+	 * @return the set of {@link Variable}s retrieved from this class
+	 */
+	public &lt;Solution&gt; Collection&lt;Variable&lt;Solution, ?&gt;&gt; createFromGettersAndSetters(
+			Class&lt;Solution&gt; solutionClass) {
+<span class="fc" id="L75">		Map&lt;String, Method&gt; getters = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L76">		Map&lt;String, Method&gt; setters = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">		for (Method method : solutionClass.getMethods()) {</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">			if (isGetter(method)) {</span>
+<span class="fc" id="L79">				String name = method.getName().substring(3);</span>
+<span class="fc" id="L80">				getters.put(name, method);</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">			} else if (isSetter(method)) {</span>
+<span class="fc" id="L82">				String name = method.getName().substring(3);</span>
+<span class="fc" id="L83">				setters.put(name, method);</span>
+			} else {
+				// not a getter/setter, ignore it
+			}
+		}
+
+<span class="fc" id="L89">		getters.keySet().retainAll(setters.keySet());</span>
+<span class="fc" id="L90">		setters.keySet().retainAll(getters.keySet());</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">		for (String name : getters.keySet()) {</span>
+<span class="fc" id="L92">			Method getter = getters.get(name);</span>
+<span class="fc" id="L93">			Method setter = setters.get(name);</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">			if (getter.getReturnType().equals(setter.getParameterTypes()[0])) {</span>
+				// setter and getter are compatible
+			} else {
+<span class="nc" id="L97">				getters.remove(name);</span>
+<span class="nc" id="L98">				setters.remove(name);</span>
+			}
+<span class="fc" id="L100">		}</span>
+
+<span class="fc" id="L102">		Collection&lt;Variable&lt;Solution, ?&gt;&gt; variables = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">		for (Entry&lt;String, Method&gt; entry : getters.entrySet()) {</span>
+<span class="fc" id="L104">			String name = entry.getKey();</span>
+<span class="fc" id="L105">			Method getter = entry.getValue();</span>
+<span class="fc" id="L106">			variables.add(createVariableOn(solutionClass, getter, name,</span>
+<span class="fc" id="L107">					getter.getReturnType()));</span>
+<span class="fc" id="L108">		}</span>
+<span class="fc" id="L109">		return variables;</span>
+	}
+
+	private boolean isSetter(Method method) {
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">		return method.getParameterTypes().length == 1</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">				&amp;&amp; method.getReturnType() == void.class</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">				&amp;&amp; method.getName().matches(&quot;set[^a-z].*&quot;);</span>
+	}
+
+	private boolean isGetter(Method method) {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		return method.getParameterTypes().length == 0</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">				&amp;&amp; method.getReturnType() != void.class</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">				&amp;&amp; !method.getName().equals(&quot;getClass&quot;)</span>
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">				&amp;&amp; method.getName().matches(&quot;get[^a-z].*&quot;);</span>
+	}
+
+	/**
+	 * This method retrieves all the values accessible through a getter (
+	 * &lt;code&gt;getX()&lt;/code&gt; method) in order to build the corresponding set of
+	 * {@link Variable}s. At the opposite of {@link #createFromGetters(Class)},
+	 * an additional filter is used: we build a {@link Variable} for each getter
+	 * which corresponds to a constructor argument (argument of the same type).
+	 * This method is adapted for static {@link Solution} implementations, which
+	 * usually have a constructor which takes all the relevant values and
+	 * provide getters to retrieve them.&lt;br/&gt;
+	 * &lt;br/&gt;
+	 * Because Java reflection does not always provide the required information
+	 * (e.g. names of constructor arguments), this method can be applied only on
+	 * solution classes which meet strict constraints:
+	 * &lt;ul&gt;
+	 * &lt;li&gt;only one getter should return a given type&lt;/li&gt;
+	 * &lt;li&gt;for each constructor and between constructors, only one argument
+	 * should be of a given type (it can appear in several constructors, but it
+	 * should be always the same argument)&lt;/li&gt;
+	 * &lt;/ul&gt;
+	 * If all the constraints are not met, an exception will be thrown.
+	 * 
+	 * @param solutionClass
+	 *            the {@link Solution} class to analyze
+	 * @return the set of {@link Variable}s retrieved from this class
+	 * @throws IllegalArgumentException
+	 *             if one of the constraints is not met
+	 * @throws IsInterfaceException
+	 *             if the {@link Solution} class to analyze is an interface,
+	 *             thus constructors make no sense
+	 */
+	public &lt;Solution&gt; Collection&lt;Variable&lt;Solution, ?&gt;&gt; createFromGettersAndConstructors(
+			Class&lt;Solution&gt; solutionClass) {
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (solutionClass.isInterface()) {</span>
+<span class="fc" id="L158">			throw new IsInterfaceException(solutionClass);</span>
+		} else {
+<span class="fc" id="L160">			Map&lt;String, Method&gt; getters = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L161">			Map&lt;Class&lt;?&gt;, String&gt; types = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">			for (Method method : solutionClass.getMethods()) {</span>
+<span class="fc" id="L163">				Class&lt;?&gt; returnType = method.getReturnType();</span>
+<span class="pc bpc" id="L164" title="1 of 4 branches missed.">				if (method.getParameterTypes().length == 0</span>
+						&amp;&amp; returnType != null
+<span class="fc bfc" id="L166" title="All 2 branches covered.">						&amp;&amp; !method.getName().equals(&quot;getClass&quot;)</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">						&amp;&amp; method.getName().matches(&quot;get[^a-z].*&quot;)) {</span>
+<span class="fc" id="L168">					String name = method.getName().substring(3);</span>
+<span class="fc" id="L169">					getters.put(name, method);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">					if (types.containsKey(returnType)) {</span>
+<span class="fc" id="L171">						throw new IllegalArgumentException(</span>
+<span class="fc" id="L172">								types.get(returnType) + &quot; and &quot; + name</span>
+										+ &quot; are both of type &quot; + returnType
+										+ &quot;, we cannot differentiate them&quot;);
+					} else {
+<span class="fc" id="L176">						types.put(returnType, name);</span>
+					}
+				} else {
+					// not a getter, ignore it
+				}
+			}
+
+<span class="fc" id="L183">			Collection&lt;Variable&lt;Solution, ?&gt;&gt; variables = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">			for (Constructor&lt;?&gt; constructor : solutionClass.getConstructors()) {</span>
+<span class="fc" id="L185">				Class&lt;?&gt;[] constructorTypes = constructor.getParameterTypes();</span>
+<span class="fc" id="L186">				Set&lt;Class&lt;?&gt;&gt; uniqueTypes = new HashSet&lt;&gt;(</span>
+<span class="fc" id="L187">						Arrays.asList(constructorTypes));</span>
+<span class="fc bfc" id="L188" title="All 2 branches covered.">				if (uniqueTypes.size() &lt; constructorTypes.length) {</span>
+<span class="fc" id="L189">					throw new IllegalArgumentException(</span>
+							&quot;Some constructor types are redundant, we cannot differentiate them: &quot;
+<span class="fc" id="L191">									+ Arrays.asList(constructorTypes));</span>
+				} else {
+<span class="fc bfc" id="L193" title="All 2 branches covered.">					for (Class&lt;?&gt; type : constructorTypes) {</span>
+<span class="fc" id="L194">						String name = types.remove(type);</span>
+<span class="fc bfc" id="L195" title="All 2 branches covered.">						if (name == null) {</span>
+							// constructor value without getter or already done
+						} else {
+<span class="fc" id="L198">							Method getter = getters.get(name);</span>
+<span class="fc" id="L199">							variables.add(createVariableOn(solutionClass,</span>
+									getter, name, type));
+						}
+					}
+				}
+			}
+<span class="fc" id="L205">			return variables;</span>
+		}
+	}
+
+	@SuppressWarnings(&quot;serial&quot;)
+	public static class IsInterfaceException extends RuntimeException {
+		public IsInterfaceException(Class&lt;?&gt; solutionClass) {
+<span class="fc" id="L212">			super(&quot;No constructor exists for &quot; + solutionClass</span>
+					+ &quot;, are you sure it is not an interface?&quot;);
+<span class="fc" id="L214">		}</span>
+	}
+
+	private &lt;Solution, Value&gt; Variable&lt;Solution, Value&gt; createVariableOn(
+			final Class&lt;Solution&gt; solutionClass, final Method getter,
+			final String name, final Class&lt;Value&gt; type) {
+<span class="fc" id="L220">		return new Variable&lt;Solution, Value&gt;() {</span>
+
+			@SuppressWarnings(&quot;unchecked&quot;)
+			@Override
+			public Value get(Solution solution) {
+				try {
+<span class="nc" id="L226">					return (Value) getter.invoke(solution);</span>
+<span class="nc" id="L227">				} catch (Exception e) {</span>
+<span class="nc" id="L228">					throw new RuntimeException(e);</span>
+				}
+			}
+
+			@Override
+			public String getName() {
+<span class="fc" id="L234">				return name;</span>
+			}
+
+			@Override
+			public String getDescription() {
+<span class="nc" id="L239">				return type.getSimpleName() + &quot; value for the &quot;</span>
+<span class="nc" id="L240">						+ solutionClass.getSimpleName() + &quot; solutions.&quot;;</span>
+			}
+
+			@Override
+			public String toString() {
+<span class="fc" id="L245">				return getName();</span>
+			}
+		};
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

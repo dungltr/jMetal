@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Viennet4.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">Viennet4.java</span></div><h1>Viennet4.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class representing problem Viennet4
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Viennet4 extends AbstractDoubleProblem implements ConstrainedProblem&lt;DoubleSolution&gt; {
+  public OverallConstraintViolation&lt;DoubleSolution&gt; overallConstraintViolationDegree ;
+  public NumberOfViolatedConstraints&lt;DoubleSolution&gt; numberOfViolatedConstraints ;
+
+ /** 
+  * Constructor.
+  * Creates a default instance of the Viennet4 problem.
+  */
+<span class="nc" id="L24">  public Viennet4() {</span>
+<span class="nc" id="L25">    setNumberOfVariables(2);</span>
+<span class="nc" id="L26">    setNumberOfObjectives(3);</span>
+<span class="nc" id="L27">    setNumberOfConstraints(3);</span>
+<span class="nc" id="L28">    setName(&quot;Viennet4&quot;) ;</span>
+
+<span class="nc" id="L30">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L31">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L34">      lowerLimit.add(-4.0);</span>
+<span class="nc" id="L35">      upperLimit.add(4.0);</span>
+    }
+
+<span class="nc" id="L38">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L39">    setUpperLimit(upperLimit);</span>
+
+<span class="nc" id="L41">    overallConstraintViolationDegree = new OverallConstraintViolation&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L42">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L43">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L48">    int numberOfVariables = getNumberOfVariables() ;</span>
+
+<span class="nc" id="L50">    double[] f = new double[getNumberOfObjectives()];</span>
+<span class="nc" id="L51">    double[] x = new double[numberOfVariables] ;</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L54">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+        
+<span class="nc" id="L57">    f[0] = (x[0]-2.0)*(x[0]-2.0)/2.0 + </span>
+             (x[1]+1.0)*(x[1]+1.0)/13.0 + 3.0;
+        
+<span class="nc" id="L60">    f[1] = (x[0]+ x[1]-3.0)*(x[0]+x[1]-3.0)/175.0 +</span>
+             (2.0*x[1]-x[0])*(2.0*x[1]-x[0])/17.0 -13.0;
+        
+<span class="nc" id="L63">    f[2] = (3.0*x[0]-2.0*x[1]+4.0)*(3.0*x[0]-2.0*x[1]+4.0)/8.0 + </span>
+             (x[0]-x[1]+1.0)*(x[0]-x[1]+1.0)/27.0 + 15.0;
+        
+        
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L68">      solution.setObjective(i,f[i]);        </span>
+    }
+<span class="nc" id="L70">  } // evaluate</span>
+
+
+  /** EvaluateConstraints() method  */
+  @Override
+  public void evaluateConstraints(DoubleSolution solution)  {
+<span class="nc" id="L76">    double[] constraint = new double[this.getNumberOfConstraints()];</span>
+
+<span class="nc" id="L78">    double x1 = solution.getVariableValue(0);</span>
+<span class="nc" id="L79">    double x2 = solution.getVariableValue(1);</span>
+        
+<span class="nc" id="L81">    constraint[0] = -x2 - (4.0 * x1) + 4.0  ;</span>
+<span class="nc" id="L82">    constraint[1] = x1 + 1.0 ;</span>
+<span class="nc" id="L83">    constraint[2] = x2 - x1 + 2.0 ;</span>
+
+<span class="nc" id="L85">    double overallConstraintViolation = 0.0;</span>
+<span class="nc" id="L86">    int violatedConstraints = 0;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfConstraints(); i++) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">      if (constraint[i]&lt;0.0){</span>
+<span class="nc" id="L89">        overallConstraintViolation+=constraint[i];</span>
+<span class="nc" id="L90">        violatedConstraints++;</span>
+      }
+    }
+
+<span class="nc" id="L94">    overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);</span>
+<span class="nc" id="L95">    numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);</span>
+<span class="nc" id="L96">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

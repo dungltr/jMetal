@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Viennet3.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">Viennet3.java</span></div><h1>Viennet3.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class representing problem Viennet3
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Viennet3 extends AbstractDoubleProblem {
+  
+ /** 
+  * Constructor.
+  * Creates a default instance of the Viennet3 problem.
+  */
+<span class="nc" id="L19">  public Viennet3() {</span>
+<span class="nc" id="L20">    setNumberOfVariables(2);</span>
+<span class="nc" id="L21">    setNumberOfObjectives(3);</span>
+<span class="nc" id="L22">    setNumberOfConstraints(0);</span>
+<span class="nc" id="L23">    setName(&quot;Viennet3&quot;) ;</span>
+
+<span class="nc" id="L25">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L26">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L28" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L29">      lowerLimit.add(-3.0);</span>
+<span class="nc" id="L30">      upperLimit.add(3.0);</span>
+    }
+
+<span class="nc" id="L33">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L34">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L35">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L40">    int numberOfVariables = getNumberOfVariables() ;</span>
+
+<span class="nc" id="L42">    double[] f = new double[getNumberOfObjectives()];</span>
+<span class="nc" id="L43">    double[] x = new double[numberOfVariables] ;</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfVariables; i++) {</span>
+<span class="nc" id="L46">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+                 
+<span class="nc" id="L49">    f[0] = 0.5 * (x[0]*x[0] + x[1]*x[1]) + Math.sin(x[0]*x[0] + x[1]*x[1]) ;</span>
+
+    // Second function
+<span class="nc" id="L52">    double value1 = 3.0 * x[0] - 2.0 * x[1] + 4.0 ;</span>
+<span class="nc" id="L53">    double value2 = x[0] - x[1] + 1.0 ;</span>
+<span class="nc" id="L54">    f[1] = (value1 * value1)/8.0 + (value2 * value2)/27.0 + 15.0 ;</span>
+
+    // Third function
+<span class="nc" id="L57">    f[2] = 1.0 / (x[0]*x[0] + x[1]*x[1]+1) - 1.1 *</span>
+<span class="nc" id="L58">          Math.exp(-(x[0]*x[0])-(x[1]*x[1])) ;</span>
+
+        
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfObjectives(); i++)</span>
+<span class="nc" id="L62">      solution.setObjective(i,f[i]);        </span>
+<span class="nc" id="L63">  }</span>
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

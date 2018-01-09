@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ViolationThresholdComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.comparator.impl</a> &gt; <span class="el_source">ViolationThresholdComparator.java</span></div><h1>ViolationThresholdComparator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.comparator.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.ConstraintViolationComparator;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.List;
+
+/**
+ * This class implements the ViolationThreshold Comparator *
+ *
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ViolationThresholdComparator&lt;S extends Solution&lt;?&gt;&gt; implements
+    ConstraintViolationComparator&lt;S&gt; {
+
+<span class="nc" id="L19">  private double threshold = 0.0;</span>
+
+  private OverallConstraintViolation&lt;S&gt; overallConstraintViolation ;
+  private NumberOfViolatedConstraints&lt;S&gt; numberOfViolatedConstraints ;
+
+  /**
+   * Constructor
+   */
+<span class="nc" id="L27">  public ViolationThresholdComparator() {</span>
+<span class="nc" id="L28">    overallConstraintViolation = new OverallConstraintViolation&lt;S&gt;() ;</span>
+<span class="nc" id="L29">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;S&gt;() ;</span>
+<span class="nc" id="L30">  }</span>
+
+  /**
+   * Compares two solutions. If the solutions has no constraints the method return 0
+   *
+   * @param solution1 Object representing the first &lt;code&gt;Solution&lt;/code&gt;.
+   * @param solution2 Object representing the second &lt;code&gt;Solution&lt;/code&gt;.
+   * @return -1, or 0, or 1 if o1 is less than, equal, or greater than o2,
+   * respectively.
+   */
+  @Override
+  public int compare(S solution1, S solution2) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    if (overallConstraintViolation.getAttribute(solution1) == null) {</span>
+<span class="nc" id="L43">      return 0 ;</span>
+    }
+
+    double overall1, overall2;
+<span class="nc" id="L47">    overall1 = numberOfViolatedConstraints.getAttribute(solution1) *</span>
+<span class="nc" id="L48">        overallConstraintViolation.getAttribute(solution1);</span>
+<span class="nc" id="L49">    overall2 = numberOfViolatedConstraints.getAttribute(solution2) *</span>
+<span class="nc" id="L50">        overallConstraintViolation.getAttribute(solution2);</span>
+
+<span class="nc bnc" id="L52" title="All 4 branches missed.">    if ((overall1 &lt; 0) &amp;&amp; (overall2 &lt; 0)) {</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">      if (overall1 &gt; overall2) {</span>
+<span class="nc" id="L54">        return -1;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">      } else if (overall2 &gt; overall1) {</span>
+<span class="nc" id="L56">        return 1;</span>
+      } else {
+<span class="nc" id="L58">        return 0;</span>
+      }
+<span class="nc bnc" id="L60" title="All 4 branches missed.">    } else if ((overall1 == 0) &amp;&amp; (overall2 &lt; 0)) {</span>
+<span class="nc" id="L61">      return -1;</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">    } else if ((overall1 &lt; 0) &amp;&amp; (overall2 == 0)) {</span>
+<span class="nc" id="L63">      return 1;</span>
+    } else {
+<span class="nc" id="L65">      return 0;</span>
+    }
+  }
+
+  /**
+   * Returns true if solutions s1 and/or s2 have an overall constraint
+   * violation with value less than 0
+   */
+  public boolean needToCompare(S solution1, S solution2) {
+    boolean needToCompare;
+    double overall1, overall2;
+<span class="nc" id="L76">    overall1 = Math.abs(numberOfViolatedConstraints.getAttribute(solution1) *</span>
+<span class="nc" id="L77">        overallConstraintViolation.getAttribute(solution1));</span>
+<span class="nc" id="L78">    overall2 = Math.abs(numberOfViolatedConstraints.getAttribute(solution2) *</span>
+<span class="nc" id="L79">        overallConstraintViolation.getAttribute(solution2));</span>
+
+<span class="nc bnc" id="L81" title="All 4 branches missed.">    needToCompare = (overall1 &gt; this.threshold) || (overall2 &gt; this.threshold);</span>
+
+<span class="nc" id="L83">    return needToCompare;</span>
+  }
+
+  /**
+   * Computes the feasibility ratio
+   * Return the ratio of feasible solutions
+   */
+  public double feasibilityRatio(List&lt;S&gt; solutionSet) {
+<span class="nc" id="L91">    double aux = 0.0;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      if (overallConstraintViolation.getAttribute(solutionSet.get(i)) &lt; 0) {</span>
+<span class="nc" id="L94">        aux = aux + 1.0;</span>
+      }
+    }
+<span class="nc" id="L97">    return aux / (double) solutionSet.size();</span>
+  }
+
+  /**
+   * Computes the feasibility ratio
+   * Return the ratio of feasible solutions
+   */
+  public double meanOverallViolation(List&lt;S&gt; solutionSet) {
+<span class="nc" id="L105">    double aux = 0.0;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc" id="L107">      aux += Math.abs(numberOfViolatedConstraints.getAttribute(solutionSet.get(i)) *</span>
+<span class="nc" id="L108">          overallConstraintViolation.getAttribute(solutionSet.get(i)));</span>
+    }
+<span class="nc" id="L110">    return aux / (double) solutionSet.size();</span>
+  }
+
+  /**
+   * Updates the threshold value using the population
+   */
+  public void updateThreshold(List&lt;S&gt; set) {
+<span class="nc" id="L117">    threshold = feasibilityRatio(set) * meanOverallViolation(set);</span>
+<span class="nc" id="L118">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

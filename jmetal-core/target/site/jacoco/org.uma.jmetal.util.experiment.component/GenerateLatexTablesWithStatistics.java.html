@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenerateLatexTablesWithStatistics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment.component</a> &gt; <span class="el_source">GenerateLatexTablesWithStatistics.java</span></div><h1>GenerateLatexTablesWithStatistics.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment.component;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.experiment.ExperimentComponent;
+import org.uma.jmetal.util.experiment.Experiment;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ * This class computes a number of statistical values (mean, median, standard deviation, interquartile range)
+ * from the indicator files generated after executing {@link ExecuteAlgorithms} and {@link ComputeQualityIndicators}.
+ * After reading the data files and calculating the values, a Latex file is created containing an script
+ * that generates tables with the best and second best values per indicator. The name of the file is
+ * {@link Experiment #getExperimentName()}.tex, which is located by default in the directory
+ * {@link Experiment #getExperimentBaseDirectory()}/latex
+ *
+ * Although the maximum, minimum, and total number of items are also computed, no tables are generated
+ * with them (this is a pending work).
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class GenerateLatexTablesWithStatistics implements ExperimentComponent {
+  private static final String DEFAULT_LATEX_DIRECTORY = &quot;latex&quot; ;
+
+  private final Experiment&lt;?, ?&gt; experiment;
+
+  private double[][][] mean;
+  private double[][][] median;
+  private double[][][] stdDeviation;
+  private double[][][] iqr;
+  private double[][][] max;
+  private double[][][] min;
+  private double[][][] numberOfValues;
+
+<span class="nc" id="L38">  public GenerateLatexTablesWithStatistics(Experiment&lt;?, ?&gt; configuration) {</span>
+<span class="nc" id="L39">    this.experiment = configuration ;</span>
+
+<span class="nc" id="L41">    experiment.removeDuplicatedAlgorithms();</span>
+<span class="nc" id="L42">  }</span>
+
+  @Override
+  public void run() throws IOException {
+<span class="nc" id="L46">    List&lt;List&lt;List&lt;List&lt;Double&gt;&gt;&gt;&gt; data = readDataFromFiles() ;</span>
+<span class="nc" id="L47">    computeDataStatistics(data) ;</span>
+<span class="nc" id="L48">    generateLatexScript(data) ;</span>
+<span class="nc" id="L49">  }</span>
+
+  private List&lt;List&lt;List&lt;List&lt;Double&gt;&gt;&gt;&gt; readDataFromFiles() throws IOException {
+<span class="nc" id="L52">    List&lt;List&lt;List&lt;List&lt;Double&gt;&gt;&gt;&gt; data = new ArrayList&lt;List&lt;List&lt;List&lt;Double&gt;&gt;&gt;&gt;(experiment.getIndicatorList().size()) ;</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">    for (int indicator = 0; indicator &lt; experiment.getIndicatorList().size(); indicator++ ) {</span>
+      // A data vector per problem
+<span class="nc" id="L56">      data.add(indicator, new ArrayList&lt;List&lt;List&lt;Double&gt;&gt;&gt;()) ;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">      for (int problem = 0; problem &lt; experiment.getProblemList().size(); problem++) {</span>
+<span class="nc" id="L58">        data.get(indicator).add(problem, new ArrayList&lt;List&lt;Double&gt;&gt;());</span>
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        for (int algorithm = 0; algorithm &lt; experiment.getAlgorithmList().size(); algorithm++) {</span>
+<span class="nc" id="L61">          data.get(indicator).get(problem).add(algorithm, new ArrayList&lt;Double&gt;());</span>
+
+<span class="nc" id="L63">          String directory = experiment.getExperimentBaseDirectory();</span>
+<span class="nc" id="L64">          directory += &quot;/data/&quot;;</span>
+<span class="nc" id="L65">          directory += &quot;/&quot; + experiment.getAlgorithmList().get(algorithm).getAlgorithmTag();</span>
+<span class="nc" id="L66">          directory += &quot;/&quot; + experiment.getProblemList().get(problem).getTag();</span>
+<span class="nc" id="L67">          directory += &quot;/&quot; + experiment.getIndicatorList().get(indicator).getName();</span>
+          // Read values from data files
+<span class="nc" id="L69">          FileInputStream fis = new FileInputStream(directory);</span>
+<span class="nc" id="L70">          InputStreamReader isr = new InputStreamReader(fis);</span>
+<span class="nc" id="L71">          BufferedReader br = new BufferedReader(isr);</span>
+<span class="nc" id="L72">          String aux = br.readLine();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">          while (aux != null) {</span>
+<span class="nc" id="L74">            data.get(indicator).get(problem).get(algorithm).add(Double.parseDouble(aux));</span>
+<span class="nc" id="L75">            aux = br.readLine();</span>
+          }
+<span class="nc" id="L77">          br.close();</span>
+        }
+      }
+    }
+
+<span class="nc" id="L82">    return data ;</span>
+  }
+
+  private void computeDataStatistics(List&lt;List&lt;List&lt;List&lt;Double&gt;&gt;&gt;&gt; data) {
+<span class="nc" id="L86">    int indicatorListSize = experiment.getIndicatorList().size() ;</span>
+<span class="nc" id="L87">    mean = new double[indicatorListSize][][];</span>
+<span class="nc" id="L88">    median = new double[indicatorListSize][][];</span>
+<span class="nc" id="L89">    stdDeviation = new double[indicatorListSize][][];</span>
+<span class="nc" id="L90">    iqr = new double[indicatorListSize][][];</span>
+<span class="nc" id="L91">    min = new double[indicatorListSize][][];</span>
+<span class="nc" id="L92">    max = new double[indicatorListSize][][];</span>
+<span class="nc" id="L93">    numberOfValues = new double[indicatorListSize][][];</span>
+
+<span class="nc" id="L95">    int problemListSize = experiment.getProblemList().size() ;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    for (int indicator = 0; indicator &lt; indicatorListSize; indicator++) {</span>
+      // A data vector per problem
+<span class="nc" id="L98">      mean[indicator] = new double[problemListSize][];</span>
+<span class="nc" id="L99">      median[indicator] = new double[problemListSize][];</span>
+<span class="nc" id="L100">      stdDeviation[indicator] = new double[problemListSize][];</span>
+<span class="nc" id="L101">      iqr[indicator] = new double[problemListSize][];</span>
+<span class="nc" id="L102">      min[indicator] = new double[problemListSize][];</span>
+<span class="nc" id="L103">      max[indicator] = new double[problemListSize][];</span>
+<span class="nc" id="L104">      numberOfValues[indicator] = new double[problemListSize][];</span>
+
+<span class="nc" id="L106">      int algorithmListSize = experiment.getAlgorithmList().size() ;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">      for (int problem = 0; problem &lt; problemListSize; problem++) {</span>
+<span class="nc" id="L108">        mean[indicator][problem] = new double[algorithmListSize];</span>
+<span class="nc" id="L109">        median[indicator][problem] = new double[algorithmListSize];</span>
+<span class="nc" id="L110">        stdDeviation[indicator][problem] = new double[algorithmListSize];</span>
+<span class="nc" id="L111">        iqr[indicator][problem] = new double[algorithmListSize];</span>
+<span class="nc" id="L112">        min[indicator][problem] = new double[algorithmListSize];</span>
+<span class="nc" id="L113">        max[indicator][problem] = new double[algorithmListSize];</span>
+<span class="nc" id="L114">        numberOfValues[indicator][problem] = new double[algorithmListSize];</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (int algorithm = 0; algorithm &lt; algorithmListSize; algorithm++) {</span>
+<span class="nc" id="L117">          Collections.sort(data.get(indicator).get(problem).get(algorithm));</span>
+
+<span class="nc" id="L119">          Map&lt;String, Double&gt; statValues = computeStatistics(data.get(indicator).get(problem).get(algorithm)) ;</span>
+
+<span class="nc" id="L121">          mean[indicator][problem][algorithm] = statValues.get(&quot;mean&quot;);</span>
+<span class="nc" id="L122">          median[indicator][problem][algorithm] = statValues.get(&quot;median&quot;);</span>
+<span class="nc" id="L123">          stdDeviation[indicator][problem][algorithm] = statValues.get(&quot;stdDeviation&quot;);</span>
+<span class="nc" id="L124">          iqr[indicator][problem][algorithm] = statValues.get(&quot;iqr&quot;);</span>
+<span class="nc" id="L125">          min[indicator][problem][algorithm] = statValues.get(&quot;min&quot;);</span>
+<span class="nc" id="L126">          max[indicator][problem][algorithm] = statValues.get(&quot;max&quot;);</span>
+<span class="nc" id="L127">          numberOfValues[indicator][problem][algorithm] = statValues.get(&quot;numberOfElements&quot;).intValue();</span>
+        }
+      }
+    }
+<span class="nc" id="L131">  }</span>
+
+  private void generateLatexScript(List&lt;List&lt;List&lt;List&lt;Double&gt;&gt;&gt;&gt; data) throws IOException {
+<span class="nc" id="L134">    String latexDirectoryName = experiment.getExperimentBaseDirectory() + &quot;/&quot; + DEFAULT_LATEX_DIRECTORY ;</span>
+    File latexOutput;
+<span class="nc" id="L136">    latexOutput = new File(latexDirectoryName);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    if (!latexOutput.exists()) {</span>
+<span class="nc" id="L138">      new File(latexDirectoryName).mkdirs();</span>
+<span class="nc" id="L139">      JMetalLogger.logger.info(&quot;Creating &quot; + latexDirectoryName + &quot; directory&quot;);</span>
+    }
+    //System.out.println(&quot;Experiment name: &quot; + experimentName_);
+<span class="nc" id="L142">    String latexFile = latexDirectoryName + &quot;/&quot; + experiment.getExperimentName() + &quot;.tex&quot;;</span>
+<span class="nc" id="L143">    printHeaderLatexCommands(latexFile);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">    for (int i = 0; i &lt; experiment.getIndicatorList().size(); i++) {</span>
+<span class="nc" id="L145">      printData(latexFile, i, mean, stdDeviation, &quot;Mean and Standard Deviation&quot;);</span>
+<span class="nc" id="L146">      printData(latexFile, i, median, iqr, &quot;Median and Interquartile Range&quot;);</span>
+    }
+<span class="nc" id="L148">    printEndLatexCommands(latexFile);</span>
+<span class="nc" id="L149">  }</span>
+
+  /**
+   * Computes the statistical values
+   * @param values
+   * @return
+   */
+  private Map&lt;String, Double&gt; computeStatistics(List&lt;Double&gt; values) {
+<span class="nc" id="L157">    Map&lt;String, Double&gt; results = new HashMap&lt;&gt;() ;</span>
+
+<span class="nc" id="L159">    DescriptiveStatistics stats = new DescriptiveStatistics();</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">    for (Double value : values) {</span>
+<span class="nc" id="L161">      stats.addValue(value);</span>
+<span class="nc" id="L162">    }</span>
+
+<span class="nc" id="L164">    results.put(&quot;mean&quot;, stats.getMean()) ;</span>
+<span class="nc" id="L165">    results.put(&quot;median&quot;, stats.getPercentile(50.0)) ;</span>
+<span class="nc" id="L166">    results.put(&quot;stdDeviation&quot;, stats.getStandardDeviation());</span>
+<span class="nc" id="L167">    results.put(&quot;iqr&quot;, stats.getPercentile(75) - stats.getPercentile(25));</span>
+<span class="nc" id="L168">    results.put(&quot;max&quot;, stats.getMax());</span>
+<span class="nc" id="L169">    results.put(&quot;min&quot;, stats.getMean());</span>
+<span class="nc" id="L170">    results.put(&quot;numberOfElements&quot;, (double)values.size()) ;</span>
+
+<span class="nc" id="L172">    return results ;</span>
+  }
+
+  void printHeaderLatexCommands(String fileName) throws IOException {
+<span class="nc" id="L176">    FileWriter os = new FileWriter(fileName, false);</span>
+<span class="nc" id="L177">    os.write(&quot;\\documentclass{article}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L178">    os.write(&quot;\\title{&quot; + experiment.getExperimentName() + &quot;}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L179">    os.write(&quot;\\usepackage{colortbl}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L180">    os.write(&quot;\\usepackage[table*]{xcolor}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L181">    os.write(&quot;\\xdefinecolor{gray95}{gray}{0.65}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L182">    os.write(&quot;\\xdefinecolor{gray25}{gray}{0.8}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L183">    os.write(&quot;\\author{A.J. Nebro}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L184">    os.write(&quot;\\begin{document}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L185">    os.write(&quot;\\maketitle&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L186">    os.write(&quot;\\section{Tables}&quot; + &quot;\n&quot;);</span>
+
+<span class="nc" id="L188">    os.close();</span>
+<span class="nc" id="L189">  }</span>
+
+  void printEndLatexCommands(String fileName) throws IOException {
+<span class="nc" id="L192">    FileWriter os = new FileWriter(fileName, true);</span>
+<span class="nc" id="L193">    os.write(&quot;\\end{document}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L194">    os.close();</span>
+<span class="nc" id="L195">  }</span>
+
+  private void printData(String latexFile, int indicatorIndex, double[][][] centralTendency, double[][][] dispersion, String caption) throws IOException {
+    // Generate header of the table
+<span class="nc" id="L199">    FileWriter os = new FileWriter(latexFile, true);</span>
+<span class="nc" id="L200">    os.write(&quot;\n&quot;);</span>
+<span class="nc" id="L201">    os.write(&quot;\\begin{table}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L202">    os.write(&quot;\\caption{&quot; + experiment.getIndicatorList().get(indicatorIndex).getName() + &quot;. &quot; + caption + &quot;}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L203">    os.write(&quot;\\label{table: &quot; + experiment.getIndicatorList().get(indicatorIndex).getName() + &quot;}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L204">    os.write(&quot;\\centering&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L205">    os.write(&quot;\\begin{scriptsize}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L206">    os.write(&quot;\\begin{tabular}{l&quot;);</span>
+
+    // calculate the number of columns
+<span class="nc" id="L209">    os.write(StringUtils.repeat(&quot;l&quot;, experiment.getAlgorithmList().size()));</span>
+<span class="nc" id="L210">    os.write(&quot;}\n&quot;);</span>
+<span class="nc" id="L211">    os.write(&quot;\\hline&quot;);</span>
+
+    // write table head
+<span class="nc bnc" id="L214" title="All 2 branches missed.">    for (int i = -1; i &lt; experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">      if (i == -1) {</span>
+<span class="nc" id="L216">        os.write(&quot; &amp; &quot;);</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">      } else if (i == (experiment.getAlgorithmList().size() - 1)) {</span>
+<span class="nc" id="L218">        os.write(&quot; &quot; + experiment.getAlgorithmList().get(i).getAlgorithmTag() + &quot;\\\\&quot; + &quot;\n&quot;);</span>
+      } else {
+<span class="nc" id="L220">        os.write(&quot;&quot; + experiment.getAlgorithmList().get(i).getAlgorithmTag() + &quot; &amp; &quot;);</span>
+      }
+    }
+<span class="nc" id="L223">    os.write(&quot;\\hline \n&quot;);</span>
+
+    // write lines
+<span class="nc bnc" id="L226" title="All 2 branches missed.">    for (int i = 0; i &lt; experiment.getProblemList().size(); i++) {</span>
+      // find the best value and second best value
+      double bestCentralTendencyValue;
+      double bestDispersionValue;
+      double secondBestCentralTendencyValue;
+      double secondBestDispersionValue;
+<span class="nc" id="L232">      int bestIndex = -1;</span>
+<span class="nc" id="L233">      int secondBestIndex = -1;</span>
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">      if (experiment.getIndicatorList().get(indicatorIndex).isTheLowerTheIndicatorValueTheBetter()) {</span>
+<span class="nc" id="L236">        bestCentralTendencyValue = Double.MAX_VALUE;</span>
+<span class="nc" id="L237">        bestDispersionValue = Double.MAX_VALUE;</span>
+<span class="nc" id="L238">        secondBestCentralTendencyValue = Double.MAX_VALUE;</span>
+<span class="nc" id="L239">        secondBestDispersionValue = Double.MAX_VALUE;</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">        for (int j = 0; j &lt; (experiment.getAlgorithmList().size()); j++) {</span>
+<span class="nc bnc" id="L241" title="All 6 branches missed.">          if ((centralTendency[indicatorIndex][i][j] &lt; bestCentralTendencyValue) ||</span>
+              ((centralTendency[indicatorIndex][i][j] ==
+                  bestCentralTendencyValue) &amp;&amp; (dispersion[indicatorIndex][i][j] &lt; bestDispersionValue))) {
+<span class="nc" id="L244">            secondBestIndex = bestIndex;</span>
+<span class="nc" id="L245">            secondBestCentralTendencyValue = bestCentralTendencyValue;</span>
+<span class="nc" id="L246">            secondBestDispersionValue = bestDispersionValue;</span>
+<span class="nc" id="L247">            bestCentralTendencyValue = centralTendency[indicatorIndex][i][j];</span>
+<span class="nc" id="L248">            bestDispersionValue = dispersion[indicatorIndex][i][j];</span>
+<span class="nc" id="L249">            bestIndex = j;</span>
+<span class="nc bnc" id="L250" title="All 6 branches missed.">          } else if ((centralTendency[indicatorIndex][i][j] &lt; secondBestCentralTendencyValue) ||</span>
+              ((centralTendency[indicatorIndex][i][j] ==
+                  secondBestCentralTendencyValue) &amp;&amp; (dispersion[indicatorIndex][i][j] &lt; secondBestDispersionValue))) {
+<span class="nc" id="L253">            secondBestIndex = j;</span>
+<span class="nc" id="L254">            secondBestCentralTendencyValue = centralTendency[indicatorIndex][i][j];</span>
+<span class="nc" id="L255">            secondBestDispersionValue = dispersion[indicatorIndex][i][j];</span>
+          }
+        }
+      } else {
+<span class="nc" id="L259">        bestCentralTendencyValue = Double.MIN_VALUE;</span>
+<span class="nc" id="L260">        bestDispersionValue = Double.MIN_VALUE;</span>
+<span class="nc" id="L261">        secondBestCentralTendencyValue = Double.MIN_VALUE;</span>
+<span class="nc" id="L262">        secondBestDispersionValue = Double.MIN_VALUE;</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">        for (int j = 0; j &lt; (experiment.getAlgorithmList().size()); j++) {</span>
+<span class="nc bnc" id="L264" title="All 6 branches missed.">          if ((centralTendency[indicatorIndex][i][j] &gt; bestCentralTendencyValue) ||</span>
+              ((centralTendency[indicatorIndex][i][j] ==
+                  bestCentralTendencyValue) &amp;&amp; (dispersion[indicatorIndex][i][j] &lt; bestDispersionValue))) {
+<span class="nc" id="L267">            secondBestIndex = bestIndex;</span>
+<span class="nc" id="L268">            secondBestCentralTendencyValue = bestCentralTendencyValue;</span>
+<span class="nc" id="L269">            secondBestDispersionValue = bestDispersionValue;</span>
+<span class="nc" id="L270">            bestCentralTendencyValue = centralTendency[indicatorIndex][i][j];</span>
+<span class="nc" id="L271">            bestDispersionValue = dispersion[indicatorIndex][i][j];</span>
+<span class="nc" id="L272">            bestIndex = j;</span>
+<span class="nc bnc" id="L273" title="All 6 branches missed.">          } else if ((centralTendency[indicatorIndex][i][j] &gt; secondBestCentralTendencyValue) ||</span>
+              ((centralTendency[indicatorIndex][i][j] ==
+                  secondBestCentralTendencyValue) &amp;&amp; (dispersion[indicatorIndex][i][j] &lt; secondBestDispersionValue))) {
+<span class="nc" id="L276">            secondBestIndex = j;</span>
+<span class="nc" id="L277">            secondBestCentralTendencyValue = centralTendency[indicatorIndex][i][j];</span>
+<span class="nc" id="L278">            secondBestDispersionValue = dispersion[indicatorIndex][i][j];</span>
+          }
+        }
+      }
+
+<span class="nc" id="L283">      os.write(experiment.getProblemList().get(i).getTag().replace(&quot;_&quot;, &quot;\\_&quot;) + &quot; &amp; &quot;);</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">      for (int j = 0; j &lt; (experiment.getAlgorithmList().size() - 1); j++) {</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">        if (j == bestIndex) {</span>
+<span class="nc" id="L286">          os.write(&quot;\\cellcolor{gray95}&quot;);</span>
+        }
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        if (j == secondBestIndex) {</span>
+<span class="nc" id="L289">          os.write(&quot;\\cellcolor{gray25}&quot;);</span>
+        }
+
+<span class="nc" id="L292">        String m = String.format(Locale.ENGLISH, &quot;%10.2e&quot;, centralTendency[indicatorIndex][i][j]);</span>
+<span class="nc" id="L293">        String s = String.format(Locale.ENGLISH, &quot;%8.1e&quot;, dispersion[indicatorIndex][i][j]);</span>
+<span class="nc" id="L294">        os.write(&quot;$&quot; + m + &quot;_{&quot; + s + &quot;}$ &amp; &quot;);</span>
+      }
+<span class="nc bnc" id="L296" title="All 2 branches missed.">      if (bestIndex == (experiment.getAlgorithmList().size()- 1)) {</span>
+<span class="nc" id="L297">        os.write(&quot;\\cellcolor{gray95}&quot;);</span>
+      }
+<span class="nc bnc" id="L299" title="All 2 branches missed.">      if (secondBestIndex == (experiment.getAlgorithmList().size()- 1)) {</span>
+<span class="nc" id="L300">        os.write(&quot;\\cellcolor{gray25}&quot;);</span>
+      }
+<span class="nc" id="L302">      String m = String.format(Locale.ENGLISH, &quot;%10.2e&quot;,</span>
+<span class="nc" id="L303">          centralTendency[indicatorIndex][i][experiment.getAlgorithmList().size() - 1]);</span>
+<span class="nc" id="L304">      String s = String.format(Locale.ENGLISH, &quot;%8.1e&quot;,</span>
+<span class="nc" id="L305">          dispersion[indicatorIndex][i][experiment.getAlgorithmList().size() - 1]);</span>
+<span class="nc" id="L306">      os.write(&quot;$&quot; + m + &quot;_{&quot; + s + &quot;}$ \\\\&quot; + &quot;\n&quot;);</span>
+    }
+
+    // close table
+<span class="nc" id="L310">    os.write(&quot;\\hline&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L311">    os.write(&quot;\\end{tabular}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L312">    os.write(&quot;\\end{scriptsize}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L313">    os.write(&quot;\\end{table}&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L314">    os.close();</span>
+<span class="nc" id="L315">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

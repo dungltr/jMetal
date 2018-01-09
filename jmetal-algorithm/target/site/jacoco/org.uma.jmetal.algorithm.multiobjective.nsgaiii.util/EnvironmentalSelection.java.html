@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EnvironmentalSelection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.nsgaiii.util</a> &gt; <span class="el_source">EnvironmentalSelection.java</span></div><h1>EnvironmentalSelection.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.nsgaiii.util;
+
+
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.solutionattribute.SolutionAttribute;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class EnvironmentalSelection&lt;S extends Solution&lt;?&gt;&gt; implements SelectionOperator&lt;List&lt;S&gt;, List&lt;S&gt;&gt;,
+											   SolutionAttribute&lt;S, List&lt;Double&gt;&gt; {
+
+	private List&lt;List&lt;S&gt;&gt; fronts;
+	private int solutionsToSelect;
+	private List&lt;ReferencePoint&lt;S&gt;&gt; referencePoints;
+	private int numberOfObjectives;
+	
+<span class="nc" id="L22">	public EnvironmentalSelection(Builder&lt;S&gt; builder) {</span>
+<span class="nc" id="L23">		fronts = builder.getFronts();</span>
+<span class="nc" id="L24">		solutionsToSelect = builder.getSolutionsToSelet();</span>
+<span class="nc" id="L25">		referencePoints = builder.getReferencePoints();</span>
+<span class="nc" id="L26">		numberOfObjectives = builder.getNumberOfObjectives();</span>
+<span class="nc" id="L27">	}</span>
+	
+	
+<span class="nc" id="L30">	public EnvironmentalSelection(List&lt;List&lt;S&gt;&gt; fronts, int solutionsToSelect, List&lt;ReferencePoint&lt;S&gt;&gt; referencePoints, int numberOfObjectives) {</span>
+<span class="nc" id="L31">		this.fronts 			= fronts;</span>
+<span class="nc" id="L32">		this.solutionsToSelect  = solutionsToSelect;</span>
+<span class="nc" id="L33">		this.referencePoints 	= referencePoints;</span>
+<span class="nc" id="L34">		this.numberOfObjectives = numberOfObjectives;</span>
+<span class="nc" id="L35">	}</span>
+	
+	public List&lt;Double&gt; translateObjectives(List&lt;S&gt; population) {
+	   List&lt;Double&gt; ideal_point;
+<span class="nc" id="L39">	   ideal_point = new ArrayList&lt;&gt;(numberOfObjectives);</span>
+	   
+<span class="nc bnc" id="L41" title="All 2 branches missed.">	   for (int f=0; f&lt;numberOfObjectives; f+=1){</span>
+<span class="nc" id="L42">			double minf = Double.MAX_VALUE;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">			for (int i=0; i&lt;fronts.get(0).size(); i+=1) // min values must appear in the first front</span>
+			{
+<span class="nc" id="L45">				minf = Math.min(minf, fronts.get(0).get(i).getObjective(f));</span>
+			}
+<span class="nc" id="L47">			ideal_point.add(minf);</span>
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">			for (List&lt;S&gt; list : fronts) </span>
+			{
+<span class="nc bnc" id="L51" title="All 2 branches missed.">				for (S s : list)</span>
+				{
+<span class="nc bnc" id="L53" title="All 2 branches missed.">					if (f==0) // in the first objective we create the vector of conv_objs</span>
+<span class="nc" id="L54">						setAttribute(s, new ArrayList&lt;Double&gt;());</span>
+					
+<span class="nc" id="L56">					getAttribute(s).add(s.getObjective(f)-minf);</span>
+					
+<span class="nc" id="L58">				}</span>
+<span class="nc" id="L59">			}</span>
+		}
+	   
+<span class="nc" id="L62">	   return ideal_point;</span>
+	}
+
+	
+	// ----------------------------------------------------------------------
+	// ASF: Achivement Scalarization Function
+	// I implement here a effcient version of it, which only receives the index
+	// of the objective which uses 1.0; the rest will use 0.00001. This is 
+	// different to the one impelemented in C++
+	// ----------------------------------------------------------------------
+	private double ASF(S s, int index) {
+<span class="nc" id="L73">		double max_ratio = Double.NEGATIVE_INFINITY;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		for (int i = 0; i &lt; s.getNumberOfObjectives(); i++) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">			double weight = (index == i) ? 1.0 : 0.000001;</span>
+<span class="nc" id="L76">			max_ratio = Math.max(max_ratio, s.getObjective(i)/weight);</span>
+		}
+<span class="nc" id="L78">		return max_ratio;</span>
+	}
+	
+	// ----------------------------------------------------------------------
+	private List&lt;S&gt; findExtremePoints(List&lt;S&gt; population) {
+<span class="nc" id="L83">		List&lt;S&gt; extremePoints = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L84">		S min_indv = null;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">		for (int f=0; f &lt; numberOfObjectives; f+=1)</span>
+		{
+<span class="nc" id="L87">			double min_ASF = Double.MAX_VALUE;	</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">			for (S s : fronts.get(0)) { // only consider the individuals in the first front</span>
+<span class="nc" id="L89">				double asf = ASF(s, f);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">				if ( asf &lt; min_ASF ) {</span>
+<span class="nc" id="L91">					min_ASF = asf;</span>
+<span class="nc" id="L92">					min_indv = s;</span>
+				}
+<span class="nc" id="L94">			}</span>
+			
+<span class="nc" id="L96">			extremePoints.add(min_indv);</span>
+		}
+<span class="nc" id="L98">		return extremePoints;</span>
+	}
+	
+	public List&lt;Double&gt; guassianElimination(List&lt;List&lt;Double&gt;&gt; A, List&lt;Double&gt; b) {
+<span class="nc" id="L102">		List&lt;Double&gt; x = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L104">	    int N = A.size();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">	    for (int i=0; i&lt;N; i+=1)</span>
+	    {
+<span class="nc" id="L107">	    	A.get(i).add(b.get(i));</span>
+	    }
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">	    for (int base=0; base&lt;N-1; base+=1)</span>
+	    {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">	        for (int target=base+1; target&lt;N; target+=1)</span>
+	        {
+<span class="nc" id="L114">	            double ratio = A.get(target).get(base)/A.get(base).get(base);</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">	            for (int term=0; term&lt;A.get(base).size(); term+=1)</span>
+	            {
+<span class="nc" id="L117">	                A.get(target).set(term, A.get(target).get(term) - A.get(base).get(term)*ratio);</span>
+	            }
+	        }
+	    }
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">	    for (int i = 0; i &lt; N; i++)</span>
+<span class="nc" id="L123">	    	x.add(0.0);</span>
+	    
+<span class="nc bnc" id="L125" title="All 2 branches missed.">	    for (int i=N-1; i&gt;=0; i-=1)</span>
+	    {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">	        for (int known=i+1; known&lt;N; known+=1)</span>
+	        {
+<span class="nc" id="L129">	            A.get(i).set(N, A.get(i).get(N) - A.get(i).get(known)*x.get(known));</span>
+	        }
+<span class="nc" id="L131">	        x.set(i, A.get(i).get(N)/A.get(i).get(i));</span>
+	    }
+<span class="nc" id="L133">		return x;</span>
+	}
+	
+	public List&lt;Double&gt; constructHyperplane(List&lt;S&gt; population, List&lt;S&gt; extreme_points) {
+		// Check whether there are duplicate extreme points.
+		// This might happen but the original paper does not mention how to deal with it.
+<span class="nc" id="L139">		boolean duplicate = false;</span>
+<span class="nc bnc" id="L140" title="All 4 branches missed.">		for (int i=0; !duplicate &amp;&amp; i&lt; extreme_points.size(); i+=1)</span>
+		{
+<span class="nc bnc" id="L142" title="All 4 branches missed.">			for (int j=i+1; !duplicate &amp;&amp; j&lt;extreme_points.size(); j+=1)</span>
+			{
+<span class="nc" id="L144">				duplicate = extreme_points.get(i).equals(extreme_points.get(j));</span>
+			}
+		}
+
+<span class="nc" id="L148">		List&lt;Double&gt; intercepts = new ArrayList&lt;&gt;();</span>
+		
+<span class="nc bnc" id="L150" title="All 2 branches missed.">		if (duplicate) // cannot construct the unique hyperplane (this is a casual method to deal with the condition)</span>
+		{
+<span class="nc bnc" id="L152" title="All 2 branches missed.">			for (int f=0; f&lt;numberOfObjectives; f+=1)</span>
+			{
+				// extreme_points[f] stands for the individual with the largest value of objective f
+<span class="nc" id="L155">				intercepts.add(extreme_points.get(f).getObjective(f));</span>
+			}
+		}
+		else
+		{
+			// Find the equation of the hyperplane
+<span class="nc" id="L161">			List&lt;Double&gt; b = new ArrayList&lt;&gt;(); //(pop[0].objs().size(), 1.0);</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">			for (int i =0; i &lt; numberOfObjectives;i++)</span>
+<span class="nc" id="L163">				b.add(1.0);</span>
+			
+<span class="nc" id="L165">			List&lt;List&lt;Double&gt;&gt; A=new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">			for (S s : extreme_points)</span>
+			{
+<span class="nc" id="L168">				List&lt;Double&gt; aux = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">				for (int i = 0; i &lt; numberOfObjectives; i++)</span>
+<span class="nc" id="L170">					aux.add(s.getObjective(i));</span>
+<span class="nc" id="L171">				A.add(aux);</span>
+<span class="nc" id="L172">			}</span>
+<span class="nc" id="L173">			List&lt;Double&gt; x = guassianElimination(A, b);</span>
+		
+			// Find intercepts
+<span class="nc bnc" id="L176" title="All 2 branches missed.">			for (int f=0; f&lt;numberOfObjectives; f+=1)</span>
+			{
+<span class="nc" id="L178">				intercepts.add(1.0/x.get(f));</span>
+				
+			}
+		}
+<span class="nc" id="L182">		return intercepts;</span>
+	}
+	
+	public void normalizeObjectives(List&lt;S&gt; population, List&lt;Double&gt; intercepts, List&lt;Double&gt; ideal_point) {
+<span class="nc bnc" id="L186" title="All 2 branches missed.">		for (int t=0; t&lt;fronts.size(); t+=1)</span>
+		{
+<span class="nc bnc" id="L188" title="All 2 branches missed.">			for (S s : fronts.get(t)) {</span>
+			
+<span class="nc bnc" id="L190" title="All 2 branches missed.">				for (int f = 0; f &lt; numberOfObjectives; f++) {</span>
+<span class="nc" id="L191">					List&lt;Double&gt; conv_obj = (List&lt;Double&gt;)getAttribute(s);</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">					if (Math.abs(intercepts.get(f)-ideal_point.get(f))&gt; 10e-10)</span>
+					{
+<span class="nc" id="L194">						conv_obj.set(f,conv_obj.get(f) / (intercepts.get(f)-ideal_point.get(f)));</span>
+					}
+					else
+					{
+<span class="nc" id="L198">						conv_obj.set(f,conv_obj.get(f) / (10e-10));</span>
+					}
+						
+				}
+<span class="nc" id="L202">			}</span>
+		}
+<span class="nc" id="L204">	}</span>
+	
+	public double perpendicularDistance(List&lt;Double&gt; direction, List&lt;Double&gt; point) {
+<span class="nc" id="L207">	    double numerator = 0, denominator = 0;</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">	    for (int i=0; i&lt;direction.size(); i+=1)</span>
+	    {
+<span class="nc" id="L210">	        numerator += direction.get(i)*point.get(i);</span>
+<span class="nc" id="L211">	        denominator += Math.pow(direction.get(i),2.0);</span>
+	    }
+<span class="nc" id="L213">	    double k = numerator/denominator;</span>
+
+<span class="nc" id="L215">	    double d = 0;</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">	    for (int i=0; i&lt;direction.size(); i+=1)</span>
+	    {
+<span class="nc" id="L218">	        d += Math.pow(k*direction.get(i) - point.get(i),2.0);</span>
+	    }
+<span class="nc" id="L220">	    return Math.sqrt(d);</span>
+	}
+	
+	
+	public void associate(List&lt;S&gt; population) {
+
+
+<span class="nc bnc" id="L227" title="All 2 branches missed.">		for (int t = 0; t &lt; fronts.size(); t++) {</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">			for (S s : fronts.get(t)) {</span>
+<span class="nc" id="L229">				int min_rp = -1;</span>
+<span class="nc" id="L230">				double min_dist = Double.MAX_VALUE;</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">				for (int r = 0; r &lt; this.referencePoints.size(); r++) {</span>
+<span class="nc" id="L232">					double d = perpendicularDistance(this.referencePoints.get(r).position,</span>
+<span class="nc" id="L233">										             (List&lt;Double&gt;)getAttribute(s));</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">					if (d &lt; min_dist) {</span>
+<span class="nc" id="L235">						min_dist=d;</span>
+<span class="nc" id="L236">						min_rp = r; </span>
+					}
+				}
+<span class="nc bnc" id="L239" title="All 2 branches missed.">				if (t+1 != fronts.size()) {</span>
+<span class="nc" id="L240">					this.referencePoints.get(min_rp).AddMember();</span>
+				} else {
+<span class="nc" id="L242">					this.referencePoints.get(min_rp).AddPotentialMember(s, min_dist);</span>
+				}
+<span class="nc" id="L244">			}</span>
+		}
+		
+<span class="nc" id="L247">	}</span>
+	
+	int FindNicheReferencePoint()
+	{
+		// find the minimal cluster size
+<span class="nc" id="L252">		int min_size = Integer.MAX_VALUE;</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">		for (ReferencePoint&lt;S&gt; referencePoint : this.referencePoints)</span>
+<span class="nc" id="L254">			min_size = Math.min(min_size,referencePoint.MemberSize());</span>
+		
+		// find the reference points with the minimal cluster size Jmin
+<span class="nc" id="L257">		List&lt;Integer&gt; min_rps=new ArrayList&lt;&gt;();</span>
+		
+		
+<span class="nc bnc" id="L260" title="All 2 branches missed.">		for (int r=0; r&lt;this.referencePoints.size(); r+=1)</span>
+		{
+<span class="nc bnc" id="L262" title="All 2 branches missed.">			if (this.referencePoints.get(r).MemberSize() == min_size)</span>
+			{
+<span class="nc" id="L264">				min_rps.add(r);</span>
+			}
+		}
+		// return a random reference point (j-bar)
+<span class="nc bnc" id="L268" title="All 2 branches missed.">		return min_rps.get(min_rps.size() &gt; 1 ? JMetalRandom.getInstance().nextInt(0, min_rps.size()-1):0);</span>
+	}
+	
+	// ----------------------------------------------------------------------
+	// SelectClusterMember():
+	//
+	// Select a potential member (an individual in the front Fl) and associate
+	// it with the reference point.
+	//
+	// Check the last two paragraphs in Section IV-E in the original paper.
+	// ----------------------------------------------------------------------
+	S SelectClusterMember(ReferencePoint&lt;S&gt; rp)
+	{
+<span class="nc" id="L281">		S chosen = null;</span>
+<span class="nc bnc" id="L282" title="All 2 branches missed.">		if (rp.HasPotentialMember())</span>
+		{
+<span class="nc bnc" id="L284" title="All 2 branches missed.">			if (rp.MemberSize() == 0) // currently has no member</span>
+			{
+<span class="nc" id="L286">				chosen =  rp.FindClosestMember();</span>
+			}
+			else
+			{
+<span class="nc" id="L290">				chosen =  rp.RandomMember();</span>
+			}
+		}
+<span class="nc" id="L293">		return chosen;</span>
+	}
+	
+	@Override
+	/* This method performs the environmental Selection indicated in the paper describing NSGAIII*/
+	public List&lt;S&gt; execute(List&lt;S&gt; source) throws JMetalException {
+		// The comments show the C++ code
+
+		// ---------- Steps 9-10 in Algorithm 1 ----------
+<span class="nc bnc" id="L302" title="All 2 branches missed.">		if (source.size() == this.solutionsToSelect) return source;</span>
+		
+
+		// ---------- Step 14 / Algorithm 2 ----------
+		//vector&lt;double&gt; ideal_point = TranslateObjectives(&amp;cur, fronts);
+<span class="nc" id="L307">		List&lt;Double&gt;   ideal_point    = translateObjectives(source);</span>
+<span class="nc" id="L308">		List&lt;S&gt; extreme_points = 		findExtremePoints(source);</span>
+<span class="nc" id="L309">		List&lt;Double&gt;   intercepts     = constructHyperplane(source, extreme_points);</span>
+		
+<span class="nc" id="L311"> 	    normalizeObjectives(source, intercepts, ideal_point);</span>
+		// ---------- Step 15 / Algorithm 3, Step 16 ----------
+<span class="nc" id="L313">		associate(source);</span>
+
+		// ---------- Step 17 / Algorithm 4 ----------
+<span class="nc bnc" id="L316" title="All 2 branches missed.">		while (source.size() &lt; this.solutionsToSelect)</span>
+		{
+<span class="nc" id="L318">			int min_rp = FindNicheReferencePoint();</span>
+
+<span class="nc" id="L320">			S chosen = SelectClusterMember(this.referencePoints.get(min_rp));</span>
+<span class="nc bnc" id="L321" title="All 2 branches missed.">			if (chosen == null) // no potential member in Fl, disregard this reference point</span>
+			{
+<span class="nc" id="L323">				this.referencePoints.remove(min_rp); </span>
+			}
+			else
+			{
+<span class="nc" id="L327">				this.referencePoints.get(min_rp).AddMember();</span>
+<span class="nc" id="L328">				this.referencePoints.get(min_rp).RemovePotentialMember(chosen);</span>
+<span class="nc" id="L329">				source.add(chosen);</span>
+			}
+<span class="nc" id="L331">		}</span>
+		
+<span class="nc" id="L333">		return source;</span>
+	}
+	
+<span class="nc" id="L336">	public static class Builder&lt;S extends Solution&lt;?&gt;&gt; {</span>
+		private List&lt;List&lt;S&gt;&gt; fronts;
+		private int solutionsToSelect;
+		private List&lt;ReferencePoint&lt;S&gt;&gt; referencePoints;
+		private int numberOfObjctives;
+		
+		// the default constructor is generated by default
+		
+		public Builder&lt;S&gt; setSolutionsToSelect(int solutions) {
+<span class="nc" id="L345">			solutionsToSelect = solutions;</span>
+<span class="nc" id="L346">			return this;</span>
+		}
+		public Builder&lt;S&gt; setFronts(List&lt;List&lt;S&gt;&gt; f){
+<span class="nc" id="L349">			fronts = f;</span>
+<span class="nc" id="L350">			return this;</span>
+		}
+		
+		public int getSolutionsToSelet() {
+<span class="nc" id="L354">			return this.solutionsToSelect;</span>
+		}
+		
+		public List&lt;List&lt;S&gt;&gt; getFronts() {
+<span class="nc" id="L358">			return this.fronts;</span>
+		}
+		
+		public EnvironmentalSelection&lt;S&gt; build() {
+<span class="nc" id="L362">			return new EnvironmentalSelection&lt;&gt;(this);</span>
+		}
+		
+		public List&lt;ReferencePoint&lt;S&gt;&gt; getReferencePoints() {
+<span class="nc" id="L366">			return referencePoints;</span>
+		}
+		
+		public Builder&lt;S&gt; setReferencePoints(List&lt;ReferencePoint&lt;S&gt;&gt; referencePoints){
+<span class="nc" id="L370">			this.referencePoints = referencePoints;</span>
+<span class="nc" id="L371">			return this;</span>
+		}
+		
+		public Builder&lt;S&gt; setNumberOfObjectives(int n) {
+<span class="nc" id="L375">			this.numberOfObjctives = n;</span>
+<span class="nc" id="L376">			return this;</span>
+		}
+		
+		public int getNumberOfObjectives() {
+<span class="nc" id="L380">			return this.numberOfObjctives;</span>
+		}
+	}
+
+	  @Override
+	  public void setAttribute(S solution, List&lt;Double&gt; value) {
+<span class="nc" id="L386">	    solution.setAttribute(getAttributeIdentifier(), value);</span>
+<span class="nc" id="L387">	  }</span>
+
+	  @Override
+	  @SuppressWarnings(&quot;unchecked&quot;)
+	  public List&lt;Double&gt; getAttribute(S solution) {
+<span class="nc" id="L392">	    return (List&lt;Double&gt;) solution.getAttribute(getAttributeIdentifier());</span>
+	  }
+
+	  @Override
+	  public Object getAttributeIdentifier() {
+<span class="nc" id="L397">	    return this.getClass();</span>
+	  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

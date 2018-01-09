@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.randomsearch</a> &gt; <span class="el_source">RandomSearch.java</span></div><h1>RandomSearch.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.randomsearch;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.archive.impl.NonDominatedSolutionListArchive;
+
+import java.util.List;
+
+/**
+ * This class implements a simple random search algorithm.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class RandomSearch&lt;S extends Solution&lt;?&gt;&gt; implements Algorithm&lt;List&lt;S&gt;&gt; {
+  private Problem&lt;S&gt; problem ;
+  private int maxEvaluations ;
+  NonDominatedSolutionListArchive&lt;S&gt; nonDominatedArchive ;
+
+  /** Constructor */
+<span class="nc" id="L22">  public RandomSearch(Problem&lt;S&gt; problem, int maxEvaluations) {</span>
+<span class="nc" id="L23">    this.problem = problem ;</span>
+<span class="nc" id="L24">    this.maxEvaluations = maxEvaluations ;</span>
+<span class="nc" id="L25">    nonDominatedArchive = new NonDominatedSolutionListArchive&lt;S&gt;();</span>
+<span class="nc" id="L26">  }</span>
+
+  /* Getter */
+  public int getMaxEvaluations() {
+<span class="nc" id="L30">    return maxEvaluations;</span>
+  }
+
+  @Override public void run() {
+    S newSolution;
+<span class="nc bnc" id="L35" title="All 2 branches missed.">    for (int i = 0; i &lt; maxEvaluations; i++) {</span>
+<span class="nc" id="L36">      newSolution = problem.createSolution() ;</span>
+<span class="nc" id="L37">      problem.evaluate(newSolution);</span>
+<span class="nc" id="L38">      nonDominatedArchive.add(newSolution);</span>
+    }
+<span class="nc" id="L40">  }</span>
+
+  @Override public List&lt;S&gt; getResult() {
+<span class="nc" id="L43">    return nonDominatedArchive.getSolutionList();</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L47">    return &quot;RS&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L51">    return &quot;Multi-objective random search algorithm&quot; ;</span>
+  }
+} 
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

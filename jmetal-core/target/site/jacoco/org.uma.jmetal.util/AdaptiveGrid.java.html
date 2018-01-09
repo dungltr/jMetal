@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdaptiveGrid.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util</a> &gt; <span class="el_source">AdaptiveGrid.java</span></div><h1>AdaptiveGrid.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+import java.util.List;
+
+/**
+ * This class defines an adaptive grid over a list of solutions as the one used by algorithm PAES.
+ *
+ * @author Antonio J. Nebro
+ * @author Juan J. Durillo
+ */
+public class AdaptiveGrid&lt;S extends Solution&lt;?&gt;&gt; {
+  private int bisections;
+  private int numberOfObjectives;
+
+  private int[] hypercubes;
+
+  private double[] gridLowerLimits;
+  private double[] gridUpperLimits;
+
+  private double[] divisionSize;
+  private int mostPopulatedHypercube;
+
+  /**
+   * Indicates when an hypercube has solutions
+   */
+  private int[] occupied;
+
+  /**
+   * Constructor.
+   * Creates an instance of AdaptiveGrid.
+   *
+   * @param bisections Number of bi-divisions of the objective space.
+   * @param objectives Number of numberOfObjectives of the problem.
+   */
+<span class="fc" id="L39">  public AdaptiveGrid(int bisections, int objectives) {</span>
+<span class="fc" id="L40">    this.bisections = bisections;</span>
+<span class="fc" id="L41">    numberOfObjectives = objectives;</span>
+<span class="fc" id="L42">    gridLowerLimits = new double[numberOfObjectives];</span>
+<span class="fc" id="L43">    gridUpperLimits = new double[numberOfObjectives];</span>
+<span class="fc" id="L44">    divisionSize = new double[numberOfObjectives];</span>
+<span class="fc" id="L45">    hypercubes = new int[(int) Math.pow(2.0, this.bisections * numberOfObjectives)];</span>
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    for (int i = 0; i &lt; hypercubes.length; i++) {</span>
+<span class="fc" id="L48">      hypercubes[i] = 0;</span>
+    }
+<span class="fc" id="L50">  }</span>
+
+  /**
+   * Updates the grid limits considering the solutions contained in a
+   * &lt;code&gt;solutionList&lt;/code&gt;.
+   *
+   * @param solutionList The &lt;code&gt;solutionList&lt;/code&gt; considered.
+   */
+  private void updateLimits(List&lt;S&gt; solutionList) {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">    for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc" id="L60">      gridLowerLimits[obj] = Double.MAX_VALUE;</span>
+<span class="nc" id="L61">      gridUpperLimits[obj] = Double.MIN_VALUE;</span>
+    }
+
+    //Find the max and min limits of objetives into the population
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    for (int ind = 0; ind &lt; solutionList.size(); ind++) {</span>
+<span class="nc" id="L66">      Solution&lt;?&gt; tmpIndividual = solutionList.get(ind);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">      for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (tmpIndividual.getObjective(obj) &lt; gridLowerLimits[obj]) {</span>
+<span class="nc" id="L69">          gridLowerLimits[obj] = tmpIndividual.getObjective(obj);</span>
+        }
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (tmpIndividual.getObjective(obj) &gt; gridUpperLimits[obj]) {</span>
+<span class="nc" id="L72">          gridUpperLimits[obj] = tmpIndividual.getObjective(obj);</span>
+        }
+      }
+    }
+<span class="nc" id="L76">  }</span>
+
+  /**
+   * Updates the grid adding solutions contained in a specific
+   * &lt;code&gt;solutionList&lt;/code&gt;.
+   * &lt;b&gt;REQUIRE&lt;/b&gt; The grid limits must have been previously calculated.
+   *
+   * @param solutionList The &lt;code&gt;solutionList&lt;/code&gt; considered.
+   */
+  private void addSolutionSet(List&lt;S&gt; solutionList) {
+    //Calculate the location of all individuals and update the grid
+<span class="nc" id="L87">    mostPopulatedHypercube = 0;</span>
+    int location;
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    for (int ind = 0; ind &lt; solutionList.size(); ind++) {</span>
+<span class="nc" id="L91">      location = location(solutionList.get(ind));</span>
+<span class="nc" id="L92">      hypercubes[location]++;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      if (hypercubes[location] &gt; hypercubes[mostPopulatedHypercube]) {</span>
+<span class="nc" id="L94">        mostPopulatedHypercube = location;</span>
+      }
+    }
+
+    //The grid has been updated, so also update ocuppied's hypercubes
+<span class="nc" id="L99">    calculateOccupied();</span>
+<span class="nc" id="L100">  }</span>
+
+
+  /**
+   * Updates the grid limits and the grid content adding the solutions contained
+   * in a specific &lt;code&gt;solutionList&lt;/code&gt;.
+   *
+   * @param solutionList The &lt;code&gt;solutionList&lt;/code&gt;.
+   */
+  public void updateGrid(List&lt;S&gt; solutionList) {
+    //Update lower and upper limits
+<span class="nc" id="L111">    updateLimits(solutionList);</span>
+
+    //Calculate the division size
+<span class="nc bnc" id="L114" title="All 2 branches missed.">    for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc" id="L115">      divisionSize[obj] = gridUpperLimits[obj] - gridLowerLimits[obj];</span>
+    }
+
+    //Clean the hypercubes
+<span class="nc bnc" id="L119" title="All 2 branches missed.">    for (int i = 0; i &lt; hypercubes.length; i++) {</span>
+<span class="nc" id="L120">      hypercubes[i] = 0;</span>
+    }
+
+    //Add the population
+<span class="nc" id="L124">    addSolutionSet(solutionList);</span>
+<span class="nc" id="L125">  }</span>
+
+
+  /**
+   * Updates the grid limits and the grid content adding a new
+   * &lt;code&gt;Solution&lt;/code&gt;.
+   * If the solution falls out of the grid bounds, the limits and content of the
+   * grid must be re-calculated.
+   *
+   * @param solution    &lt;code&gt;Solution&lt;/code&gt; considered to update the grid.
+   * @param solutionSet &lt;code&gt;SolutionSet&lt;/code&gt; used to update the grid.
+   */
+  public void updateGrid(S solution, List&lt;S&gt; solutionSet) {
+
+<span class="nc" id="L139">    int location = location(solution);</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">    if (location == -1) {</span>
+      //Re-build the Adaptative-Grid
+      //Update lower and upper limits
+<span class="nc" id="L143">      updateLimits(solutionSet);</span>
+
+      //Actualize the lower and upper limits whit the individual      
+<span class="nc bnc" id="L146" title="All 2 branches missed.">      for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">        if (solution.getObjective(obj) &lt; gridLowerLimits[obj]) {</span>
+<span class="nc" id="L148">          gridLowerLimits[obj] = solution.getObjective(obj);</span>
+        }
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (solution.getObjective(obj) &gt; gridUpperLimits[obj]) {</span>
+<span class="nc" id="L151">          gridUpperLimits[obj] = solution.getObjective(obj);</span>
+        }
+      }
+
+      //Calculate the division size
+<span class="nc bnc" id="L156" title="All 2 branches missed.">      for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc" id="L157">        divisionSize[obj] = gridUpperLimits[obj] - gridLowerLimits[obj];</span>
+      }
+
+      //Clean the hypercube
+<span class="nc bnc" id="L161" title="All 2 branches missed.">      for (int i = 0; i &lt; hypercubes.length; i++) {</span>
+<span class="nc" id="L162">        hypercubes[i] = 0;</span>
+      }
+
+      //add the population
+<span class="nc" id="L166">      addSolutionSet(solutionSet);</span>
+    }
+<span class="nc" id="L168">  }</span>
+
+  /**
+   * Calculates the hypercube of a solution
+   *
+   * @param solution The &lt;code&gt;Solution&lt;/code&gt;.
+   */
+  public int location(S solution) {
+    //Create a int [] to store the range of each objective
+<span class="nc" id="L177">    int[] position = new int[numberOfObjectives];</span>
+
+    //Calculate the position for each objective
+<span class="nc bnc" id="L180" title="All 2 branches missed.">    for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">      if ((solution.getObjective(obj) &gt; gridUpperLimits[obj])</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">              || (solution.getObjective(obj) &lt; gridLowerLimits[obj])) {</span>
+<span class="nc" id="L183">        return -1;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">      } else if (solution.getObjective(obj) == gridLowerLimits[obj]) {</span>
+<span class="nc" id="L185">        position[obj] = 0;</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">      } else if (solution.getObjective(obj) == gridUpperLimits[obj]) {</span>
+<span class="nc" id="L187">        position[obj] = ((int) Math.pow(2.0, bisections)) - 1;</span>
+      } else {
+<span class="nc" id="L189">        double tmpSize = divisionSize[obj];</span>
+<span class="nc" id="L190">        double value = solution.getObjective(obj);</span>
+<span class="nc" id="L191">        double account = gridLowerLimits[obj];</span>
+<span class="nc" id="L192">        int ranges = (int) Math.pow(2.0, bisections);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        for (int b = 0; b &lt; bisections; b++) {</span>
+<span class="nc" id="L194">          tmpSize /= 2.0;</span>
+<span class="nc" id="L195">          ranges /= 2;</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">          if (value &gt; (account + tmpSize)) {</span>
+<span class="nc" id="L197">            position[obj] += ranges;</span>
+<span class="nc" id="L198">            account += tmpSize;</span>
+          }
+        }
+      }
+    }
+
+    //Calculate the location into the hypercubes
+<span class="nc" id="L205">    int location = 0;</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">    for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc" id="L207">      location += position[obj] * Math.pow(2.0, obj * bisections);</span>
+    }
+<span class="nc" id="L209">    return location;</span>
+  }
+
+  /**
+   * Returns the value of the most populated hypercube.
+   *
+   * @return The hypercube with the maximum number of solutions.
+   */
+  public int getMostPopulatedHypercube() {
+<span class="nc" id="L218">    return mostPopulatedHypercube;</span>
+  }
+
+  /**
+   * Returns the number of solutions into a specific hypercube.
+   *
+   * @param location Number of the hypercube.
+   * @return The number of solutions into a specific hypercube.
+   */
+  public int getLocationDensity(int location) {
+<span class="nc" id="L228">    return hypercubes[location];</span>
+  }
+
+  /**
+   * Decreases the number of solutions into a specific hypercube.
+   *
+   * @param location Number of hypercube.
+   */
+  public void removeSolution(int location) {
+    //Decrease the solutions in the location specified.
+<span class="nc" id="L238">    hypercubes[location]--;</span>
+
+    //Update the most populated hypercube
+<span class="nc bnc" id="L241" title="All 2 branches missed.">    if (location == mostPopulatedHypercube) {</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">      for (int i = 0; i &lt; hypercubes.length; i++) {</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">        if (hypercubes[i] &gt; hypercubes[mostPopulatedHypercube]) {</span>
+<span class="nc" id="L244">          mostPopulatedHypercube = i;</span>
+        }
+      }
+    }
+
+    //If hypercubes[location] now becomes to zero, then update ocuppied hypercubes
+<span class="nc bnc" id="L250" title="All 2 branches missed.">    if (hypercubes[location] == 0) {</span>
+<span class="nc" id="L251">      this.calculateOccupied();</span>
+    }
+<span class="nc" id="L253">  }</span>
+
+  /**
+   * Increases the number of solutions into a specific hypercube.
+   *
+   * @param location Number of hypercube.
+   */
+  public void addSolution(int location) {
+    //Increase the solutions in the location specified.
+<span class="nc" id="L262">    hypercubes[location]++;</span>
+
+    //Update the most populated hypercube
+<span class="nc bnc" id="L265" title="All 2 branches missed.">    if (hypercubes[location] &gt; hypercubes[mostPopulatedHypercube]) {</span>
+<span class="nc" id="L266">      mostPopulatedHypercube = location;</span>
+    }
+
+    //if hypercubes[location] becomes to one, then recalculate 
+    //the occupied hypercubes
+<span class="nc bnc" id="L271" title="All 2 branches missed.">    if (hypercubes[location] == 1) {</span>
+<span class="nc" id="L272">      this.calculateOccupied();</span>
+    }
+<span class="nc" id="L274">  }</span>
+
+  /**
+   * Returns the number of bi-divisions performed in each objective.
+   *
+   * @return the number of bi-divisions.
+   */
+  public int getBisections() {
+<span class="fc" id="L282">    return bisections;</span>
+  }
+
+  /**
+   * Returns a String representing the grid.
+   *
+   * @return The String.
+   */
+  public String toString() {
+<span class="nc" id="L291">    String result = &quot;Grid\n&quot;;</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">    for (int obj = 0; obj &lt; numberOfObjectives; obj++) {</span>
+<span class="nc" id="L293">      result += &quot;Objective &quot; + obj + &quot; &quot; + gridLowerLimits[obj] + &quot; &quot;</span>
+              + gridUpperLimits[obj] + &quot;\n&quot;;
+    }
+<span class="nc" id="L296">    return result;</span>
+  }
+
+  /**
+   * Returns a random hypercube using a rouleteWheel method.
+   *
+   * @return the number of the selected hypercube.
+   */
+  public int rouletteWheel() {
+<span class="fc" id="L305">	  return rouletteWheel((a, b) -&gt; JMetalRandom.getInstance().nextDouble(a, b));</span>
+  }
+
+  /**
+   * Returns a random hypercube using a rouleteWheel method.
+   * 
+   * @param randomGenerator the {@link BoundedRandomGenerator} to use for the roulette
+   * 
+   * @return the number of the selected hypercube.
+   */
+  public int rouletteWheel(BoundedRandomGenerator&lt;Double&gt; randomGenerator) {
+    //Calculate the inverse sum
+<span class="fc" id="L317">    double inverseSum = 0.0;</span>
+<span class="fc bfc" id="L318" title="All 2 branches covered.">    for (int hypercube : hypercubes) {</span>
+<span class="pc bpc" id="L319" title="1 of 2 branches missed.">      if (hypercube &gt; 0) {</span>
+<span class="nc" id="L320">        inverseSum += 1.0 / (double) hypercube;</span>
+      }
+    }
+
+    //Calculate a random value between 0 and sumaInversa
+<span class="fc" id="L325">    double random = randomGenerator.getRandomValue(0.0, inverseSum);</span>
+<span class="fc" id="L326">    int hypercube = 0;</span>
+<span class="fc" id="L327">    double accumulatedSum = 0.0;</span>
+<span class="fc bfc" id="L328" title="All 2 branches covered.">    while (hypercube &lt; hypercubes.length) {</span>
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">      if (hypercubes[hypercube] &gt; 0) {</span>
+<span class="nc" id="L330">        accumulatedSum += 1.0 / (double) hypercubes[hypercube];</span>
+      }
+
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">      if (accumulatedSum &gt; random) {</span>
+<span class="nc" id="L334">        return hypercube;</span>
+      }
+
+<span class="fc" id="L337">      hypercube++;</span>
+    }
+
+<span class="fc" id="L340">    return hypercube;</span>
+  }
+
+  /**
+   * Calculates the number of hypercubes having one or more solutions.
+   * return the number of hypercubes with more than zero solutions.
+   */
+  public void calculateOccupied() {
+<span class="fc" id="L348">    int total = 0;</span>
+<span class="fc bfc" id="L349" title="All 2 branches covered.">    for (int hypercube : hypercubes) {</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">      if (hypercube &gt; 0) {</span>
+<span class="fc" id="L351">        total++;</span>
+      }
+    }
+
+<span class="fc" id="L355">    occupied = new int[total];</span>
+<span class="fc" id="L356">    int base = 0;</span>
+<span class="fc bfc" id="L357" title="All 2 branches covered.">    for (int i = 0; i &lt; hypercubes.length; i++) {</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">      if (hypercubes[i] &gt; 0) {</span>
+<span class="fc" id="L359">        occupied[base] = i;</span>
+<span class="fc" id="L360">        base++;</span>
+      }
+    }
+<span class="fc" id="L363">  }</span>
+
+  /**
+   * Returns the number of hypercubes with more than zero solutions.
+   *
+   * @return the number of hypercubes with more than zero solutions.
+   */
+  public int occupiedHypercubes() {
+<span class="fc" id="L371">    return occupied.length;</span>
+  }
+
+
+  /**
+   * Returns a random hypercube that has more than zero solutions.
+   *
+   * @return The hypercube.
+   */
+  public int randomOccupiedHypercube() {
+<span class="fc" id="L381">	  return randomOccupiedHypercube((a, b) -&gt; JMetalRandom.getInstance().nextInt(a, b));</span>
+  }
+
+  /**
+   * Returns a random hypercube that has more than zero solutions.
+   * 
+   * @param randomGenerator the {@link BoundedRandomGenerator} to use for selecting the hypercube
+   *
+   * @return The hypercube.
+   */
+  public int randomOccupiedHypercube(BoundedRandomGenerator&lt;Integer&gt; randomGenerator) {
+<span class="fc" id="L392">    int rand = randomGenerator.getRandomValue(0, occupied.length - 1);</span>
+<span class="fc" id="L393">    return occupied[rand];</span>
+  }
+
+  /**
+   * Return the average number of solutions in the occupied hypercubes
+   */
+  public double getAverageOccupation() {
+<span class="fc" id="L400">    calculateOccupied();</span>
+    double result;
+
+<span class="fc bfc" id="L403" title="All 2 branches covered.">    if (occupiedHypercubes() == 0) {</span>
+<span class="fc" id="L404">      result = 0.0;</span>
+    } else {
+<span class="fc" id="L406">      double sum = 0.0;</span>
+
+<span class="fc bfc" id="L408" title="All 2 branches covered.">      for (int value : occupied) {</span>
+<span class="fc" id="L409">        sum += hypercubes[value];</span>
+      }
+
+<span class="fc" id="L412">      result = sum / occupiedHypercubes();</span>
+    }
+<span class="fc" id="L414">    return result;</span>
+  }
+
+  /* Getters */
+    public int[] getHypercubes () {
+<span class="fc" id="L419">      return hypercubes;</span>
+    }
+  }
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

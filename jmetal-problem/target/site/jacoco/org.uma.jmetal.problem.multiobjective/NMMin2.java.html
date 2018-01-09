@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NMMin2.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">NMMin2.java</span></div><h1>NMMin2.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.impl.AbstractIntegerDoubleProblem;
+import org.uma.jmetal.solution.IntegerDoubleSolution;
+import org.uma.jmetal.solution.impl.DefaultIntegerDoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Antonio J. Nebro on 18/09/14.
+ * Bi-objective problem for testing integer/double encoding.
+ * Objective 1: minimizing the distance to value N
+ * Objective 2: minimizing the distance to value M
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class NMMin2 extends AbstractIntegerDoubleProblem&lt;IntegerDoubleSolution&gt; {
+  private int valueN ;
+  private int valueM ;
+
+  public NMMin2() {
+<span class="nc" id="L22">    this(10, 10, 100, -100, -1000, +1000);</span>
+<span class="nc" id="L23">  }</span>
+
+  /** Constructor */
+<span class="nc" id="L26">  public NMMin2(int numberOfIntegerVariables, int numberOfDoubleVariables, int n, int m, int lowerBound, int upperBound)  {</span>
+<span class="nc" id="L27">    setNumberOfIntegerVariables(numberOfIntegerVariables);</span>
+<span class="nc" id="L28">    setNumberOfDoubleVariables(numberOfDoubleVariables);</span>
+<span class="nc" id="L29">    valueN = n ;</span>
+<span class="nc" id="L30">    valueM = m ;</span>
+<span class="nc" id="L31">    setNumberOfVariables(numberOfIntegerVariables+numberOfDoubleVariables);</span>
+<span class="nc" id="L32">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L33">    setName(&quot;NMMin&quot;);</span>
+
+<span class="nc" id="L35">    List&lt;Number&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L36">    List&lt;Number&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L39">      lowerLimit.add(lowerBound);</span>
+<span class="nc" id="L40">      upperLimit.add(upperBound);</span>
+    }
+
+<span class="nc" id="L43">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L44">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L45">  }</span>
+
+  @Override
+  public IntegerDoubleSolution createSolution() {
+<span class="nc" id="L49">    return new DefaultIntegerDoubleSolution(this) ;</span>
+  }
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(IntegerDoubleSolution solution) {
+    int approximationToN;
+    int approximationToM ;
+
+<span class="nc" id="L58">    approximationToN = 0;</span>
+<span class="nc" id="L59">    approximationToM = 0;</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfIntegerVariables(); i++) {</span>
+<span class="nc" id="L62">      int value = solution.getVariableValue(i).intValue() ;</span>
+<span class="nc" id="L63">      approximationToN += Math.abs(valueN - value) ;</span>
+<span class="nc" id="L64">      approximationToM += Math.abs(valueM - value) ;</span>
+    }
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    for (int i = solution.getNumberOfIntegerVariables(); i &lt; (solution.getNumberOfIntegerVariables()+solution.getNumberOfDoubleVariables()); i++) {</span>
+<span class="nc" id="L68">      double value = solution.getVariableValue(i).doubleValue() ;</span>
+<span class="nc" id="L69">      approximationToN += Math.abs(valueN - value) ;</span>
+<span class="nc" id="L70">      approximationToM += Math.abs(valueM - value) ;</span>
+    }
+
+<span class="nc" id="L73">    solution.setObjective(0, approximationToN);</span>
+<span class="nc" id="L74">    solution.setObjective(1, approximationToM);</span>
+<span class="nc" id="L75">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

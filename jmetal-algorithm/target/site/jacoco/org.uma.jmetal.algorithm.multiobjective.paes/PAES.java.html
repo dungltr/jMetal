@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PAES.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.paes</a> &gt; <span class="el_source">PAES.java</span></div><h1>PAES.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.paes;
+
+import org.uma.jmetal.algorithm.impl.AbstractEvolutionStrategy;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.archive.impl.AdaptiveGridArchive;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro
+ * @author Juan J. Durillo
+ * @version 1.0
+ *
+ * This class implements the PAES algorithm.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class PAES&lt;S extends Solution&lt;?&gt;&gt; extends AbstractEvolutionStrategy&lt;S, List&lt;S&gt;&gt; {
+  protected int archiveSize;
+  protected int maxEvaluations;
+  protected int biSections;
+  protected int evaluations;
+
+  protected AdaptiveGridArchive&lt;S&gt; archive;
+  protected Comparator&lt;S&gt; comparator;
+
+  /**
+   * Constructor
+   */
+  public PAES(Problem&lt;S&gt; problem, int archiveSize, int maxEvaluations, int biSections,
+      MutationOperator&lt;S&gt; mutationOperator) {
+<span class="nc" id="L36">    super(problem);</span>
+<span class="nc" id="L37">    setProblem(problem);</span>
+<span class="nc" id="L38">    this.archiveSize = archiveSize;</span>
+<span class="nc" id="L39">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L40">    this.biSections = biSections;</span>
+<span class="nc" id="L41">    this.mutationOperator = mutationOperator;</span>
+
+<span class="nc" id="L43">    archive = new AdaptiveGridArchive&lt;S&gt;(archiveSize, biSections, problem.getNumberOfObjectives());</span>
+<span class="nc" id="L44">    comparator = new DominanceComparator&lt;S&gt;();</span>
+<span class="nc" id="L45">  }</span>
+
+  /* Getters */
+  public int getArchiveSize() {
+<span class="nc" id="L49">    return archiveSize;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L53">    return maxEvaluations;</span>
+  }
+
+  public int getBiSections() {
+<span class="nc" id="L57">    return biSections;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L61">    return mutationOperator;</span>
+  }
+
+  @Override protected void initProgress() {
+<span class="nc" id="L65">    evaluations = 0;</span>
+<span class="nc" id="L66">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L69">    evaluations++;</span>
+<span class="nc" id="L70">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    return evaluations &gt;= maxEvaluations;</span>
+  }
+
+  @Override protected List&lt;S&gt; createInitialPopulation() {
+<span class="nc" id="L77">    List&lt;S&gt; solutionList = new ArrayList&lt;&gt;(1);</span>
+<span class="nc" id="L78">    solutionList.add(getProblem().createSolution());</span>
+<span class="nc" id="L79">    return solutionList;</span>
+  }
+
+  @Override protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc" id="L83">    getProblem().evaluate(population.get(0));</span>
+<span class="nc" id="L84">    return population;</span>
+  }
+
+  @Override protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L88">    return population;</span>
+  }
+
+  @SuppressWarnings(&quot;unchecked&quot;)
+  @Override protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
+<span class="nc" id="L93">    S mutatedSolution = (S)population.get(0).copy();</span>
+<span class="nc" id="L94">    mutationOperator.execute(mutatedSolution);</span>
+
+<span class="nc" id="L96">    List&lt;S&gt; mutationSolutionList = new ArrayList&lt;&gt;(1);</span>
+<span class="nc" id="L97">    mutationSolutionList.add(mutatedSolution);</span>
+<span class="nc" id="L98">    return mutationSolutionList;</span>
+  }
+
+  @SuppressWarnings(&quot;unchecked&quot;)
+  @Override protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L103">    S current = population.get(0);</span>
+<span class="nc" id="L104">    S mutatedSolution = offspringPopulation.get(0);</span>
+
+<span class="nc" id="L106">    int flag = comparator.compare(current, mutatedSolution);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    if (flag == 1) {</span>
+<span class="nc" id="L108">      current = (S)mutatedSolution.copy();</span>
+<span class="nc" id="L109">      archive.add(mutatedSolution);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">    } else if (flag == 0) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">      if (archive.add(mutatedSolution)) {</span>
+<span class="nc" id="L112">        population.set(0, test(current, mutatedSolution, archive));</span>
+      }
+    }
+
+<span class="nc" id="L116">    population.set(0, current);</span>
+<span class="nc" id="L117">    return population;</span>
+  }
+
+  @Override public List&lt;S&gt; getResult() {
+<span class="nc" id="L121">    return archive.getSolutionList();</span>
+  }
+
+  /**
+   * Tests two solutions to determine which one becomes be the guide of PAES
+   * algorithm
+   *
+   * @param solution        The actual guide of PAES
+   * @param mutatedSolution A candidate guide
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  public S test(S solution, S mutatedSolution, AdaptiveGridArchive&lt;S&gt; archive) {
+<span class="nc" id="L133">    int originalLocation = archive.getGrid().location(solution);</span>
+<span class="nc" id="L134">    int mutatedLocation = archive.getGrid().location(mutatedSolution);</span>
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    if (originalLocation == -1) {</span>
+<span class="nc" id="L137">      return (S)mutatedSolution.copy();</span>
+    }
+
+<span class="nc bnc" id="L140" title="All 2 branches missed.">    if (mutatedLocation == -1) {</span>
+<span class="nc" id="L141">      return (S)solution.copy();</span>
+    }
+
+<span class="nc" id="L144">    if (archive.getGrid().getLocationDensity(mutatedLocation) &lt; archive.getGrid()</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        .getLocationDensity(originalLocation)) {</span>
+<span class="nc" id="L146">      return (S)mutatedSolution.copy();</span>
+    }
+
+<span class="nc" id="L149">    return (S)solution.copy();</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L153">    return &quot;PAES&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L157">    return &quot;Pareto-Archived Evolution Strategy&quot; ;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

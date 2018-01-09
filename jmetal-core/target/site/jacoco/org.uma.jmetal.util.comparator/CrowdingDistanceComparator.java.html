@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CrowdingDistanceComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.comparator</a> &gt; <span class="el_source">CrowdingDistanceComparator.java</span></div><h1>CrowdingDistanceComparator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.comparator;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.solutionattribute.impl.CrowdingDistance;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
+/**
+ * Compares two solutions according to the crowding distance attribute. The higher
+ * the distance the better
+ *
+ * @author Antonio J. Nebro
+ */
+@SuppressWarnings(&quot;serial&quot;)
+<span class="fc" id="L16">public class CrowdingDistanceComparator&lt;S extends Solution&lt;?&gt;&gt; implements Comparator&lt;S&gt;, Serializable {</span>
+<span class="fc" id="L17">  private final CrowdingDistance&lt;S&gt; crowdingDistance = new CrowdingDistance&lt;S&gt;() ;</span>
+
+  /**
+   * Compare two solutions.
+   *
+   * @param solution1 Object representing the first &lt;code&gt;Solution&lt;/code&gt;.
+   * @param solution2 Object representing the second &lt;code&gt;Solution&lt;/code&gt;.
+   * @return -1, or 0, or 1 if solution1 is has greater, equal, or less distance value than solution2,
+   * respectively.
+   */
+  @Override
+  public int compare(S solution1, S solution2) {
+    int result ;
+<span class="fc bfc" id="L30" title="All 2 branches covered.">    if (solution1 == null) {</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">      if (solution2 == null) {</span>
+<span class="fc" id="L32">        result = 0;</span>
+      } else {
+<span class="fc" id="L34">        result = 1 ;</span>
+      }
+<span class="fc bfc" id="L36" title="All 2 branches covered.">    } else if (solution2 == null) {</span>
+<span class="fc" id="L37">      result = -1;</span>
+    } else {
+<span class="fc" id="L39">      double distance1 = Double.MIN_VALUE ;</span>
+<span class="fc" id="L40">      double distance2 = Double.MIN_VALUE ;</span>
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">      if (crowdingDistance.getAttribute(solution1) != null) {</span>
+<span class="fc" id="L43">        distance1 = (double) crowdingDistance.getAttribute(solution1);</span>
+      }
+
+<span class="fc bfc" id="L46" title="All 2 branches covered.">      if (crowdingDistance.getAttribute(solution2) != null) {</span>
+<span class="fc" id="L47">        distance2 = (double) crowdingDistance.getAttribute(solution2);</span>
+      }
+
+<span class="fc bfc" id="L50" title="All 2 branches covered.">      if (distance1 &gt; distance2) {</span>
+<span class="fc" id="L51">        result = -1;</span>
+<span class="fc bfc" id="L52" title="All 2 branches covered.">      } else  if (distance1 &lt; distance2) {</span>
+<span class="fc" id="L53">        result = 1;</span>
+      } else {
+<span class="fc" id="L55">        result = 0;</span>
+      }
+    }
+
+<span class="fc" id="L59">    return result ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

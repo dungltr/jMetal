@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CountingMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">CountingMeasure.java</span></div><h1>CountingMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+import org.uma.jmetal.measure.MeasureListener;
+import org.uma.jmetal.measure.PullMeasure;
+import org.uma.jmetal.measure.PushMeasure;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+/**
+ * A {@link CountingMeasure} provides a simple way to evaluate a number of
+ * occurrences. For instance, it can be used to count how many solutions have
+ * been generated within an algorithm, how many evaluations have been computed,
+ * how many rounds have been run, etc. If these occurrences are provided by some
+ * {@link PushMeasure}s, you can use {@link #link(PushMeasure)} to register the
+ * {@link CountingMeasure} to these {@link PushMeasure}s. Otherwise, use
+ * {@link #increment()} when the {@link CountingMeasure} need to count one more
+ * occurrence. In order to get the count, one can access it immediately through
+ * {@link #get()} or when it is updated by registering a listener with
+ * {@link #register(MeasureListener)}.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class CountingMeasure extends SimplePushMeasure&lt;Long&gt; implements
+		PullMeasure&lt;Long&gt;, PushMeasure&lt;Long&gt; {
+
+	/**
+	 * The current amount of occurrences counted.
+	 */
+<span class="fc" id="L34">	long count = 0;</span>
+
+	/**
+	 * The measures linked to this {@link CountingMeasure} through
+	 * {@link #link(PushMeasure)}. We use a {@link WeakHashMap} to avoid keeping
+	 * the measures/listeners in memory if they are not used anymore, allowing
+	 * the garbage collection to free the memory properly. When this
+	 * {@link CountingMeasure} is ready to be freed too, the remaining links are
+	 * removed within {@link #finalize()}. This way, the listeners generated can
+	 * also be properly freed and the measures will not notify us anymore.
+	 */
+<span class="fc" id="L45">	private final Map&lt;PushMeasure&lt;?&gt;, MeasureListener&lt;?&gt;&gt; linkedMeasures = new WeakHashMap&lt;&gt;();</span>
+
+	/**
+	 * Create a {@link CountingMeasure} which starts at a given value. The next
+	 * value to be pushed to the registered observers will be this value + 1.
+	 * 
+	 * @param name
+	 *            the name of the measure
+	 * @param description
+	 *            the description of the measure
+	 * @param initialCount
+	 *            the value to start from
+	 */
+	public CountingMeasure(String name, String description, long initialCount) {
+<span class="fc" id="L59">		super(name, description);</span>
+<span class="fc" id="L60">		count = initialCount;</span>
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * Create a {@link CountingMeasure} starting from zero. The registered
+	 * observers will receive their first notification when it will increment to
+	 * 1.
+	 * 
+	 * @param name
+	 *            the name of the measure
+	 * @param description
+	 *            the description of the measure
+	 */
+	public CountingMeasure(String name, String description) {
+<span class="nc" id="L74">		this(name, description, 0);</span>
+<span class="nc" id="L75">	}</span>
+
+	/**
+	 * Create a {@link CountingMeasure} which starts at a given value. The next
+	 * value to be pushed to the registered observers will be this value + 1. A
+	 * default name and description are used.
+	 * 
+	 * @param initialCount
+	 *            the value to start from
+	 */
+	public CountingMeasure(long initialCount) {
+<span class="fc" id="L86">		this(</span>
+				&quot;Counter&quot;,
+				&quot;Generic counting measure which should be renamed/redescribed when it is used to count specific occurrences.&quot;,
+				initialCount);
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * Create a {@link CountingMeasure} starting from zero. The registered
+	 * observers will receive their first notification when it will increment to
+	 * 1. A default name and description are used.
+	 */
+	public CountingMeasure() {
+<span class="fc" id="L98">		this(0);</span>
+<span class="fc" id="L99">	}</span>
+
+	/**
+	 * Add 1 to the current count and push its value to all the registered
+	 * observers.
+	 */
+	public synchronized void increment() {
+<span class="fc" id="L106">		increment(1);</span>
+<span class="fc" id="L107">	}</span>
+
+	/**
+	 * Increment the current count in a given amount. If the amount is zero, no
+	 * change occurs, thus no notification is sent.
+	 * 
+	 * @param amount
+	 *            the amount to add
+	 */
+	public synchronized void increment(long amount) {
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (amount == 0) {</span>
+			// No change, just ignore it
+		} else {
+<span class="fc" id="L120">			count += amount;</span>
+<span class="fc" id="L121">			push(count);</span>
+		}
+<span class="fc" id="L123">	}</span>
+
+	/**
+	 * 
+	 * @return the current amount of occurrences counted
+	 */
+	@Override
+	public synchronized Long get() {
+<span class="fc" id="L131">		return count;</span>
+	}
+
+	/**
+	 * If this {@link CountingMeasure} is used to count the number of time a
+	 * {@link PushMeasure} notifies its observers, you can use this method to
+	 * link them. The {@link CountingMeasure} will automatically register a
+	 * {@link MeasureListener} on the {@link PushMeasure} such that, every time
+	 * the {@link PushMeasure} send a notification,
+	 * {@link CountingMeasure#increment()} is called. You can link several
+	 * {@link PushMeasure}s at the same time, but each of their notifications
+	 * will increment the counter, leading to summing their notifications. When
+	 * a {@link PushMeasure} should not be considered anymore, use
+	 * {@link #unlink(PushMeasure)} to remove the link.
+	 * 
+	 * @param measure
+	 *            the {@link PushMeasure} to link
+	 */
+	public &lt;T&gt; void link(PushMeasure&lt;T&gt; measure) {
+<span class="fc bfc" id="L150" title="All 2 branches covered.">		if (linkedMeasures.containsKey(measure)) {</span>
+			// already linked
+		} else {
+<span class="fc" id="L153">			MeasureListener&lt;T&gt; listener = new MeasureListener&lt;T&gt;() {</span>
+
+				@Override
+				public void measureGenerated(T value) {
+<span class="fc" id="L157">					increment();</span>
+<span class="fc" id="L158">				}</span>
+			};
+<span class="fc" id="L160">			measure.register(listener);</span>
+<span class="fc" id="L161">			linkedMeasures.put(measure, listener);</span>
+		}
+<span class="fc" id="L163">	}</span>
+
+	/**
+	 * If you have linked a {@link PushMeasure} through
+	 * {@link #link(PushMeasure)}, you can discard the link by using this
+	 * method.
+	 * 
+	 * @param measure
+	 *            the {@link PushMeasure} to unlink
+	 */
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;T&gt; void unlink(PushMeasure&lt;T&gt; measure) {
+<span class="fc" id="L175">		MeasureListener&lt;T&gt; listener = (MeasureListener&lt;T&gt;) linkedMeasures</span>
+<span class="fc" id="L176">				.get(measure);</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">		if (listener == null) {</span>
+			// no registered listener
+		} else {
+<span class="fc" id="L180">			measure.unregister(listener);</span>
+<span class="fc" id="L181">			linkedMeasures.remove(measure);</span>
+		}
+<span class="fc" id="L183">	}</span>
+
+	@Override
+	protected void finalize() throws Throwable {
+		/*
+		 * Use an intermediary collection for the loop to avoid the concurrent
+		 * accesses leading to exceptions or inconsistent states.
+		 */
+<span class="fc" id="L191">		Collection&lt;PushMeasure&lt;?&gt;&gt; remainingMeasures = new LinkedList&lt;&gt;(</span>
+<span class="fc" id="L192">				linkedMeasures.keySet());</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">		for (PushMeasure&lt;?&gt; measure : remainingMeasures) {</span>
+<span class="nc" id="L194">			unlink(measure);</span>
+<span class="nc" id="L195">		}</span>
+<span class="fc" id="L196">		super.finalize();</span>
+<span class="fc" id="L197">	}</span>
+
+	/**
+	 * Restart the counter to zero. Generate a notification if the value was not
+	 * zero.
+	 */
+	public synchronized void reset() {
+<span class="fc" id="L204">		reset(0);</span>
+<span class="fc" id="L205">	}</span>
+
+	/**
+	 * Restart the counter to a given value. Generate a notification if the
+	 * value was different.
+	 * 
+	 * @param value
+	 *            the value to restart from
+	 */
+	public synchronized void reset(long value) {
+<span class="fc" id="L215">		increment(value - count);</span>
+<span class="fc" id="L216">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

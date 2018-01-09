@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>L5.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.neighborhood.impl</a> &gt; <span class="el_source">L5.java</span></div><h1>L5.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.neighborhood.impl;
+
+import org.uma.jmetal.util.neighborhood.util.TwoDimensionalMesh;
+
+/**
+ * Class defining a L5 neighborhood of a solution belonging to a list of solutions which is
+ * structured as a bi-dimensional square mesh. The neighbors are those solutions that are in the positions
+ * North, South, East and West
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class L5&lt;S&gt; extends TwoDimensionalMesh&lt;S&gt; {
+<span class="fc" id="L15">  private static final int [] north      = {-1,  0};</span>
+<span class="fc" id="L16">  private static final int [] south      = { 1 , 0};</span>
+<span class="fc" id="L17">  private static final int [] east       = { 0 , 1};</span>
+<span class="fc" id="L18">  private static final int [] west       = { 0 ,-1};</span>
+
+<span class="fc" id="L20">  private static final int [][] neighborhood = {north, south, west, east};</span>
+
+  /**
+   * Constructor.
+   * Defines a neighborhood for solutionSetSize (it has to have an exact squared root)
+   */
+  public L5(int rows, int columns) {
+<span class="fc" id="L27">    super(rows, columns, neighborhood) ;</span>
+<span class="fc" id="L28">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

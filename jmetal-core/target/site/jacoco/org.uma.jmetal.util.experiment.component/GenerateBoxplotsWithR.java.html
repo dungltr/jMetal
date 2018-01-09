@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenerateBoxplotsWithR.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment.component</a> &gt; <span class="el_source">GenerateBoxplotsWithR.java</span></div><h1>GenerateBoxplotsWithR.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment.component;
+
+import org.uma.jmetal.qualityindicator.impl.GenericIndicator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.experiment.ExperimentComponent;
+import org.uma.jmetal.util.experiment.Experiment;
+import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+/**
+ * This class generates a R script that generates an eps file containing boxplots
+ *
+ * The results are a set of R files that are written in the directory
+ * {@link Experiment #getExperimentBaseDirectory()}/R. Each file is called as
+ * indicatorName.Wilcoxon.R
+ *
+ * To run the R script: Rscript indicatorName.Wilcoxon.R
+ * To generate the resulting Latex file: pdflatex indicatorName.Wilcoxon.tex
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class GenerateBoxplotsWithR&lt;Result&gt; implements ExperimentComponent {
+  private static final String DEFAULT_R_DIRECTORY = &quot;R&quot;;
+
+  private final Experiment&lt;?, Result&gt; experiment;
+  private int numberOfRows ;
+  private int numberOfColumns ;
+  private boolean displayNotch ;
+
+<span class="nc" id="L33">  public GenerateBoxplotsWithR(Experiment&lt;?, Result&gt; experimentConfiguration) {</span>
+<span class="nc" id="L34">    this.experiment = experimentConfiguration;</span>
+
+<span class="nc" id="L36">    displayNotch = false ;</span>
+<span class="nc" id="L37">    numberOfRows = 3 ;</span>
+<span class="nc" id="L38">    numberOfColumns = 3 ;</span>
+
+<span class="nc" id="L40">    experiment.removeDuplicatedAlgorithms();</span>
+<span class="nc" id="L41">  }</span>
+
+  public GenerateBoxplotsWithR&lt;Result&gt; setRows(int rows) {
+<span class="nc" id="L44">    numberOfRows = rows ;</span>
+
+<span class="nc" id="L46">    return this ;</span>
+  }
+
+  public GenerateBoxplotsWithR&lt;Result&gt; setColumns(int columns) {
+<span class="nc" id="L50">    numberOfColumns = columns ;</span>
+
+<span class="nc" id="L52">    return this ;</span>
+  }
+
+  public GenerateBoxplotsWithR&lt;Result&gt; setDisplayNotch() {
+<span class="nc" id="L56">    displayNotch = true ;</span>
+
+<span class="nc" id="L58">    return this ;</span>
+  }
+
+  @Override
+  public void run() throws IOException {
+<span class="nc" id="L63">    String rDirectoryName = experiment.getExperimentBaseDirectory() + &quot;/&quot; + DEFAULT_R_DIRECTORY;</span>
+    File rOutput;
+<span class="nc" id="L65">    rOutput = new File(rDirectoryName);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    if (!rOutput.exists()) {</span>
+<span class="nc" id="L67">      new File(rDirectoryName).mkdirs();</span>
+<span class="nc" id="L68">      System.out.println(&quot;Creating &quot; + rDirectoryName + &quot; directory&quot;);</span>
+    }
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    for (GenericIndicator&lt;? extends Solution&lt;?&gt;&gt; indicator : experiment.getIndicatorList()) {</span>
+<span class="nc" id="L71">      String rFileName = rDirectoryName + &quot;/&quot; + indicator.getName() + &quot;.Boxplot&quot; + &quot;.R&quot;;</span>
+
+<span class="nc" id="L73">      FileWriter os = new FileWriter(rFileName, false);</span>
+<span class="nc" id="L74">      os.write(&quot;postscript(\&quot;&quot; +</span>
+<span class="nc" id="L75">               indicator.getName() +</span>
+              &quot;.Boxplot.eps\&quot;, horizontal=FALSE, onefile=FALSE, height=8, width=12, pointsize=10)&quot; +
+              &quot;\n&quot;);
+
+<span class="nc" id="L79">      os.write(&quot;resultDirectory&lt;-\&quot;../data&quot; + &quot;\&quot;&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L80">      os.write(&quot;qIndicator &lt;- function(indicator, problem)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L81">      os.write(&quot;{&quot; + &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">      for (int i = 0; i &lt;  experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc" id="L84">        String algorithmName = experiment.getAlgorithmList().get(i).getAlgorithmTag();</span>
+<span class="nc" id="L85">        os.write(&quot;file&quot; +  algorithmName + &quot;&lt;-paste(resultDirectory, \&quot;&quot; + algorithmName + &quot;\&quot;, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L86">        os.write(&quot;file&quot; +  algorithmName + &quot;&lt;-paste(file&quot; +  algorithmName + &quot;, &quot; +  &quot;problem, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L87">        os.write(&quot;file&quot; +  algorithmName + &quot;&lt;-paste(file&quot; +  algorithmName + &quot;, &quot; + &quot;indicator, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L88">        os.write( algorithmName + &quot;&lt;-scan(&quot; + &quot;file&quot; +  algorithmName + &quot;)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L89">        os.write(&quot;\n&quot;);</span>
+      }
+
+<span class="nc" id="L92">      os.write(&quot;algs&lt;-c(&quot;);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      for (int i = 0; i &lt;  experiment.getAlgorithmList().size() - 1; i++) {</span>
+<span class="nc" id="L94">        os.write(&quot;\&quot;&quot; +  experiment.getAlgorithmList().get(i).getAlgorithmTag() + &quot;\&quot;,&quot;);</span>
+      } // for
+<span class="nc" id="L96">      os.write(&quot;\&quot;&quot; +  experiment.getAlgorithmList().get(experiment.getAlgorithmList().size() - 1).getAlgorithmTag() + &quot;\&quot;)&quot; + &quot;\n&quot;);</span>
+
+<span class="nc" id="L98">      os.write(&quot;boxplot(&quot;);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">      for (int i = 0; i &lt;  experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc" id="L100">        os.write(experiment.getAlgorithmList().get(i).getAlgorithmTag() + &quot;,&quot;);</span>
+      } // for
+<span class="nc bnc" id="L102" title="All 2 branches missed.">      if (displayNotch) {</span>
+<span class="nc" id="L103">        os.write(&quot;names=algs, notch = TRUE)&quot; + &quot;\n&quot;);</span>
+      } else {
+<span class="nc" id="L105">        os.write(&quot;names=algs, notch = FALSE)&quot; + &quot;\n&quot;);</span>
+      }
+<span class="nc" id="L107">      os.write(&quot;titulo &lt;-paste(indicator, problem, sep=\&quot;:\&quot;)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L108">      os.write(&quot;title(main=titulo)&quot; + &quot;\n&quot;);</span>
+
+<span class="nc" id="L110">      os.write(&quot;}&quot; + &quot;\n&quot;);</span>
+
+<span class="nc" id="L112">      os.write(&quot;par(mfrow=c(&quot; + numberOfRows + &quot;,&quot; + numberOfColumns + &quot;))&quot; + &quot;\n&quot;);</span>
+
+<span class="nc" id="L114">      os.write(&quot;indicator&lt;-\&quot;&quot; +  indicator.getName() + &quot;\&quot;&quot; + &quot;\n&quot;);</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">      for (ExperimentProblem&lt;?&gt; problem : experiment.getProblemList()) {</span>
+<span class="nc" id="L117">        os.write(&quot;qIndicator(indicator, \&quot;&quot; + problem.getTag() + &quot;\&quot;)&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L118">      }</span>
+
+<span class="nc" id="L120">      os.close();</span>
+<span class="nc" id="L121">    }</span>
+<span class="nc" id="L122">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

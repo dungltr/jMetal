@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultDoubleBinarySolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">DefaultDoubleBinarySolution.java</span></div><h1>DefaultDoubleBinarySolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.problem.DoubleBinaryProblem;
+import org.uma.jmetal.solution.DoubleBinarySolution;
+
+import java.util.BitSet;
+import java.util.HashMap;
+
+/**
+ * Description:
+ *  - this solution contains an array of double value + a binary string
+ *  - getNumberOfVariables() returns the number of double values + 1 (the string)
+ *  - getNumberOfDoubleVariables() returns the number of double values
+ *  - getNumberOfVariables() = getNumberOfDoubleVariables() + 1
+ *  - the bitset is the last variable
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DefaultDoubleBinarySolution
+    extends AbstractGenericSolution&lt;Object, DoubleBinaryProblem&lt;?&gt;&gt;
+    implements DoubleBinarySolution {
+  private int numberOfDoubleVariables ;
+
+  /** Constructor */
+  public DefaultDoubleBinarySolution(DoubleBinaryProblem&lt;?&gt; problem) {
+<span class="nc" id="L27">    super(problem) ;</span>
+
+<span class="nc" id="L29">    numberOfDoubleVariables = problem.getNumberOfDoubleVariables() ;</span>
+
+<span class="nc" id="L31">    initializeDoubleVariables();</span>
+<span class="nc" id="L32">    initializeBitSet() ;</span>
+<span class="nc" id="L33">    initializeObjectiveValues();</span>
+<span class="nc" id="L34">  }</span>
+
+  /** Copy constructor */
+  public DefaultDoubleBinarySolution(DefaultDoubleBinarySolution solution) {
+<span class="nc" id="L38">    super(solution.problem) ;</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L40">      setObjective(i, solution.getObjective(i)) ;</span>
+    }
+
+<span class="nc" id="L43">    copyDoubleVariables(solution);</span>
+<span class="nc" id="L44">    copyBitSet(solution);</span>
+
+<span class="nc" id="L46">    attributes = new HashMap&lt;Object, Object&gt;(solution.attributes) ;</span>
+<span class="nc" id="L47">  }</span>
+
+  private void initializeDoubleVariables() {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    for (int i = 0 ; i &lt; numberOfDoubleVariables; i++) {</span>
+<span class="nc" id="L51">      Double value = randomGenerator.nextDouble(getLowerBound(i), getUpperBound(i)) ;</span>
+      //variables.add(value) ;
+<span class="nc" id="L53">      setVariableValue(i, value);</span>
+    }
+<span class="nc" id="L55">  }</span>
+
+  private void initializeBitSet() {
+<span class="nc" id="L58">    BitSet bitset = createNewBitSet(problem.getNumberOfBits()) ;</span>
+<span class="nc" id="L59">    setVariableValue(numberOfDoubleVariables, bitset);</span>
+<span class="nc" id="L60">  }</span>
+
+  private void copyDoubleVariables(DefaultDoubleBinarySolution solution) {
+<span class="nc bnc" id="L63" title="All 2 branches missed.">    for (int i = 0 ; i &lt; numberOfDoubleVariables; i++) {</span>
+<span class="nc" id="L64">      setVariableValue(i, solution.getVariableValue(i));</span>
+    }
+<span class="nc" id="L66">  }</span>
+
+  private void copyBitSet(DefaultDoubleBinarySolution solution) {
+<span class="nc" id="L69">    BitSet bitset = (BitSet)solution.getVariableValue(solution.getNumberOfVariables()-1) ;</span>
+<span class="nc" id="L70">    setVariableValue(numberOfDoubleVariables, bitset);</span>
+<span class="nc" id="L71">  }</span>
+
+  @Override
+  public int getNumberOfDoubleVariables() {
+<span class="nc" id="L75">    return numberOfDoubleVariables;</span>
+  }
+
+  @Override
+  public Double getUpperBound(int index) {
+<span class="nc" id="L80">    return (Double)problem.getUpperBound(index);</span>
+  }
+
+  @Override
+  public int getNumberOfBits() {
+<span class="nc" id="L85">    return problem.getNumberOfBits();</span>
+  }
+
+  @Override
+  public Double getLowerBound(int index) {
+<span class="nc" id="L90">    return (Double)problem.getLowerBound(index) ;</span>
+  }
+
+  @Override
+  public DefaultDoubleBinarySolution copy() {
+<span class="nc" id="L95">    return new DefaultDoubleBinarySolution(this);</span>
+  }
+
+  @Override
+  public String getVariableValueString(int index) {
+<span class="nc" id="L100">    return getVariableValue(index).toString() ;</span>
+  }
+
+  private BitSet createNewBitSet(int numberOfBits) {
+<span class="nc" id="L104">    BitSet bitSet = new BitSet(numberOfBits) ;</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfBits; i++) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">      if (randomGenerator.nextDouble() &lt; 0.5) {</span>
+<span class="nc" id="L108">        bitSet.set(i, true);</span>
+      } else {
+<span class="nc" id="L110">        bitSet.set(i, false);</span>
+      }
+    }
+<span class="nc" id="L113">    return bitSet ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Hypervolume.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl</a> &gt; <span class="el_source">Hypervolume.java</span></div><h1>Hypervolume.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl;
+
+import org.uma.jmetal.util.front.Front;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
+/**
+ * This interface represents implementations of the Hypervolume quality indicator
+
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public abstract class Hypervolume&lt;S&gt; extends GenericIndicator&lt;S&gt; {
+
+<span class="fc" id="L17">  public Hypervolume() {</span>
+<span class="fc" id="L18">  }</span>
+
+  public Hypervolume(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L21">    super(referenceParetoFrontFile);</span>
+<span class="nc" id="L22">  }</span>
+
+  public Hypervolume(Front referenceParetoFront) {
+<span class="fc" id="L25">    super(referenceParetoFront);</span>
+<span class="fc" id="L26">  }</span>
+
+  public abstract List&lt;S&gt; computeHypervolumeContribution(List&lt;S&gt; solutionList, List&lt;S&gt; referenceFrontList) ;
+  public abstract double getOffset() ;
+  public abstract void setOffset(double offset) ;
+
+  @Override public String getName() {
+<span class="nc" id="L33">    return &quot;HV&quot; ;</span>
+  }
+
+  @Override
+  public boolean isTheLowerTheIndicatorValueTheBetter() {
+<span class="nc" id="L38">    return false ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

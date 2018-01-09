@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DMOPSOBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.dmopso</a> &gt; <span class="el_source">DMOPSOBuilder.java</span></div><h1>DMOPSOBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.dmopso;
+
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.PseudoRandomGenerator;
+
+/**
+ * @author Jorge Rodriguez
+ */
+public class DMOPSOBuilder implements AlgorithmBuilder&lt;DMOPSO&gt; {
+<span class="nc" id="L15">  public enum DMOPSOVariant {</span>
+<span class="nc" id="L16">    DMOPSO, Measures</span>
+  }
+
+  private String name;
+  private DoubleProblem problem;
+
+  private double c1Max;
+  private double c1Min;
+  private double c2Max;
+  private double c2Min;
+  private double r1Max;
+  private double r1Min;
+  private double r2Max;
+  private double r2Min;
+  private double weightMax;
+  private double weightMin;
+  private double changeVelocity1;
+  private double changeVelocity2;
+
+  private int swarmSize;
+  private int maxIterations;
+  private int maxAge;
+
+  private String dataDirectory;
+
+  private DMOPSO.FunctionType functionType;
+
+  private SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+  private DMOPSOVariant variant;
+
+<span class="nc" id="L47">  public DMOPSOBuilder(DoubleProblem problem) {</span>
+<span class="nc" id="L48">    this.name = &quot;dMOPSO&quot;;</span>
+<span class="nc" id="L49">    this.problem = problem;</span>
+
+<span class="nc" id="L51">    this.swarmSize = 100;</span>
+<span class="nc" id="L52">    this.maxIterations = 250;</span>
+<span class="nc" id="L53">    this.maxAge = 2;</span>
+
+<span class="nc" id="L55">    this.functionType = DMOPSO.FunctionType.PBI;</span>
+
+<span class="nc" id="L57">    this.r1Max = 1.0;</span>
+<span class="nc" id="L58">    this.r1Min = 0.0;</span>
+<span class="nc" id="L59">    this.r2Max = 1.0;</span>
+<span class="nc" id="L60">    this.r2Min = 0.0;</span>
+<span class="nc" id="L61">    this.c1Max = 2.5;</span>
+<span class="nc" id="L62">    this.c1Min = 1.5;</span>
+<span class="nc" id="L63">    this.c2Max = 2.5;</span>
+<span class="nc" id="L64">    this.c2Min = 1.5;</span>
+<span class="nc" id="L65">    this.weightMax = 0.1;</span>
+<span class="nc" id="L66">    this.weightMin = 0.1;</span>
+<span class="nc" id="L67">    this.changeVelocity1 = -1;</span>
+<span class="nc" id="L68">    this.changeVelocity2 = -1;</span>
+
+<span class="nc" id="L70">    this.evaluator = new SequentialSolutionListEvaluator&lt;DoubleSolution&gt;();</span>
+
+<span class="nc" id="L72">    this.variant = DMOPSOVariant.DMOPSO;</span>
+
+<span class="nc" id="L74">  }</span>
+
+  /* Getters */
+  public int getSwarmSize() {
+<span class="nc" id="L78">    return swarmSize;</span>
+  }
+
+  public int getMaxIterations() {
+<span class="nc" id="L82">    return maxIterations;</span>
+  }
+
+  public double getR1Max() {
+<span class="nc" id="L86">    return r1Max;</span>
+  }
+
+  public double getR1Min() {
+<span class="nc" id="L90">    return r1Min;</span>
+  }
+
+  public double getR2Max() {
+<span class="nc" id="L94">    return r2Max;</span>
+  }
+
+  public double getR2Min() {
+<span class="nc" id="L98">    return r2Min;</span>
+  }
+
+  public double getC1Max() {
+<span class="nc" id="L102">    return c1Max;</span>
+  }
+
+  public double getC1Min() {
+<span class="nc" id="L106">    return c1Min;</span>
+  }
+
+  public double getC2Max() {
+<span class="nc" id="L110">    return c2Max;</span>
+  }
+
+  public double getC2Min() {
+<span class="nc" id="L114">    return c2Min;</span>
+  }
+
+  public double getWeightMax() {
+<span class="nc" id="L118">    return weightMax;</span>
+  }
+
+  public double getWeightMin() {
+<span class="nc" id="L122">    return weightMin;</span>
+  }
+
+  public double getChangeVelocity1() {
+<span class="nc" id="L126">    return changeVelocity1;</span>
+  }
+
+  public double getChangeVelocity2() {
+<span class="nc" id="L130">    return changeVelocity2;</span>
+  }
+
+  public int getMaxAge() {
+<span class="nc" id="L134">    return maxAge;</span>
+  }
+
+  public String getDataDirectory() {
+<span class="nc" id="L138">    return dataDirectory;</span>
+  }
+
+  public DMOPSO.FunctionType getFunctionType() {
+<span class="nc" id="L142">    return functionType;</span>
+  }
+
+  public String getName() {
+<span class="nc" id="L146">    return name;</span>
+  }
+
+  /* Setters */
+  public DMOPSOBuilder setSwarmSize(int swarmSize) {
+<span class="nc" id="L151">    this.swarmSize = swarmSize;</span>
+
+<span class="nc" id="L153">    return this;</span>
+  }
+
+  public DMOPSOBuilder setMaxIterations(int maxIterations) {
+<span class="nc" id="L157">    this.maxIterations = maxIterations;</span>
+
+<span class="nc" id="L159">    return this;</span>
+  }
+
+  public DMOPSOBuilder setC1Max(double c1Max) {
+<span class="nc" id="L163">    this.c1Max = c1Max;</span>
+
+<span class="nc" id="L165">    return this;</span>
+  }
+
+  public DMOPSOBuilder setC1Min(double c1Min) {
+<span class="nc" id="L169">    this.c1Min = c1Min;</span>
+
+<span class="nc" id="L171">    return this;</span>
+  }
+
+  public DMOPSOBuilder setC2Max(double c2Max) {
+<span class="nc" id="L175">    this.c2Max = c2Max;</span>
+
+<span class="nc" id="L177">    return this;</span>
+  }
+
+  public DMOPSOBuilder setC2Min(double c2Min) {
+<span class="nc" id="L181">    this.c2Min = c2Min;</span>
+
+<span class="nc" id="L183">    return this;</span>
+  }
+
+  public DMOPSOBuilder setR1Max(double r1Max) {
+<span class="nc" id="L187">    this.r1Max = r1Max;</span>
+
+<span class="nc" id="L189">    return this;</span>
+  }
+
+  public DMOPSOBuilder setR1Min(double r1Min) {
+<span class="nc" id="L193">    this.r1Min = r1Min;</span>
+
+<span class="nc" id="L195">    return this;</span>
+  }
+
+  public DMOPSOBuilder setR2Max(double r2Max) {
+<span class="nc" id="L199">    this.r2Max = r2Max;</span>
+
+<span class="nc" id="L201">    return this;</span>
+  }
+
+  public DMOPSOBuilder setR2Min(double r2Min) {
+<span class="nc" id="L205">    this.r2Min = r2Min;</span>
+
+<span class="nc" id="L207">    return this;</span>
+  }
+
+  public DMOPSOBuilder setWeightMax(double weightMax) {
+<span class="nc" id="L211">    this.weightMax = weightMax;</span>
+
+<span class="nc" id="L213">    return this;</span>
+  }
+
+  public DMOPSOBuilder setWeightMin(double weightMin) {
+<span class="nc" id="L217">    this.weightMin = weightMin;</span>
+
+<span class="nc" id="L219">    return this;</span>
+  }
+
+  public DMOPSOBuilder setChangeVelocity1(double changeVelocity1) {
+<span class="nc" id="L223">    this.changeVelocity1 = changeVelocity1;</span>
+
+<span class="nc" id="L225">    return this;</span>
+  }
+
+  public DMOPSOBuilder setChangeVelocity2(double changeVelocity2) {
+<span class="nc" id="L229">    this.changeVelocity2 = changeVelocity2;</span>
+
+<span class="nc" id="L231">    return this;</span>
+  }
+
+  public DMOPSOBuilder setMaxAge(int maxAge) {
+<span class="nc" id="L235">    this.maxAge = maxAge;</span>
+
+<span class="nc" id="L237">    return this;</span>
+  }
+
+  public DMOPSOBuilder setDataDirectory(String dataDirectory) {
+<span class="nc" id="L241">    this.dataDirectory = dataDirectory;</span>
+
+<span class="nc" id="L243">    return this;</span>
+  }
+
+  public DMOPSOBuilder setFunctionType(DMOPSO.FunctionType functionType) {
+<span class="nc" id="L247">    this.functionType = functionType;</span>
+
+<span class="nc" id="L249">    return this;</span>
+  }
+
+  public DMOPSOBuilder setRandomGenerator(PseudoRandomGenerator randomGenerator) {
+<span class="nc" id="L253">    JMetalRandom.getInstance().setRandomGenerator(randomGenerator);</span>
+
+<span class="nc" id="L255">    return this;</span>
+  }
+
+  public DMOPSOBuilder setSolutionListEvaluator(SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {
+<span class="nc" id="L259">    this.evaluator = evaluator;</span>
+
+<span class="nc" id="L261">    return this;</span>
+  }
+
+  public DMOPSOBuilder setName(String name) {
+<span class="nc" id="L265">    this.name = name;</span>
+
+<span class="nc" id="L267">    return this;</span>
+  }
+
+  public DMOPSOBuilder setVariant(DMOPSOVariant variant) {
+<span class="nc" id="L271">    this.variant = variant;</span>
+
+<span class="nc" id="L273">    return this;</span>
+  }
+
+  public DMOPSO build() {
+<span class="nc" id="L277">    DMOPSO algorithm = null;</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">    if (variant.equals(DMOPSOVariant.DMOPSO)) {</span>
+<span class="nc" id="L279">      algorithm = new DMOPSO(problem, swarmSize, maxIterations, r1Min, r1Max, r2Min, r2Max, c1Min, c1Max, c2Min,</span>
+              c2Max, weightMin, weightMax, changeVelocity1, changeVelocity2, functionType, dataDirectory, maxAge,
+              name);
+<span class="nc bnc" id="L282" title="All 2 branches missed.">    } else if (variant.equals(DMOPSOVariant.Measures)) {</span>
+<span class="nc" id="L283">      algorithm = new DMOPSOMeasures(problem, swarmSize, maxIterations, r1Min, r1Max, r2Min, r2Max, c1Min, c1Max,</span>
+              c2Min, c2Max, weightMin, weightMax, changeVelocity1, changeVelocity2, functionType, dataDirectory,
+              maxAge, name);
+    }
+<span class="nc" id="L287">    return algorithm;</span>
+  }
+
+    /*
+     * Getters
+     */
+
+  public DoubleProblem getProblem() {
+<span class="nc" id="L295">    return problem;</span>
+  }
+
+  public SolutionListEvaluator&lt;DoubleSolution&gt; getEvaluator() {
+<span class="nc" id="L299">    return evaluator;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

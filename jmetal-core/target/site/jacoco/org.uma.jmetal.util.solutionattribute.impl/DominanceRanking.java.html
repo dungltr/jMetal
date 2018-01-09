@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DominanceRanking.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.solutionattribute.impl</a> &gt; <span class="el_source">DominanceRanking.java</span></div><h1>DominanceRanking.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.solutionattribute.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.comparator.impl.OverallConstraintViolationComparator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+
+import java.util.*;
+
+/**
+ * This class implements some facilities for ranking set of solutions.
+ * Given a collection of solutions, they are ranked
+ * according to scheme proposed in NSGA-II; as an output, a set of subsets
+ * are obtained. The subsets are numbered starting from 0 (in NSGA-II, the
+ * numbering starts from 1); thus, subset 0 contains the non-dominated
+ * solutions, subset 1 contains the non-dominated solutions after removing those
+ * belonging to subset 0, and so on.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DominanceRanking &lt;S extends Solution&lt;?&gt;&gt;
+    extends GenericSolutionAttribute&lt;S, Integer&gt; implements Ranking&lt;S&gt; {
+
+<span class="fc" id="L27">  private static final Comparator&lt;Solution&lt;?&gt;&gt; DOMINANCE_COMPARATOR = new DominanceComparator&lt;Solution&lt;?&gt;&gt;();</span>
+<span class="fc" id="L28">  private static final Comparator&lt;Solution&lt;?&gt;&gt; CONSTRAINT_VIOLATION_COMPARATOR =</span>
+      new OverallConstraintViolationComparator&lt;Solution&lt;?&gt;&gt;();
+
+  private List&lt;ArrayList&lt;S&gt;&gt; rankedSubPopulations;
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L36">  public DominanceRanking() {</span>
+<span class="fc" id="L37">    rankedSubPopulations = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L38">  }</span>
+
+  public DominanceRanking(Object id) {
+<span class="nc" id="L41">    super(id) ;</span>
+<span class="nc" id="L42">    rankedSubPopulations = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L43">  }</span>
+
+  @Override
+  public Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionSet) {
+<span class="fc" id="L47">    List&lt;S&gt; population = solutionSet;</span>
+
+    // dominateMe[i] contains the number of solutions dominating i
+<span class="fc" id="L50">    int[] dominateMe = new int[population.size()];</span>
+
+    // iDominate[k] contains the list of solutions dominated by k
+<span class="fc" id="L53">    List&lt;List&lt;Integer&gt;&gt; iDominate = new ArrayList&lt;&gt;(population.size());</span>
+
+    // front[i] contains the list of individuals belonging to the front i
+<span class="fc" id="L56">    ArrayList&lt;List&lt;Integer&gt;&gt; front = new ArrayList&lt;&gt;(population.size() + 1);</span>
+
+    // Initialize the fronts
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    for (int i = 0; i &lt; population.size() + 1; i++) {</span>
+<span class="fc" id="L60">      front.add(new LinkedList&lt;Integer&gt;());</span>
+    }
+
+    // Fast non dominated sorting algorithm
+    // Contribution of Guillaume Jacquenot
+<span class="fc bfc" id="L65" title="All 2 branches covered.">    for (int p = 0; p &lt; population.size(); p++) {</span>
+      // Initialize the list of individuals that i dominate and the number
+      // of individuals that dominate me
+<span class="fc" id="L68">      iDominate.add(new LinkedList&lt;Integer&gt;());</span>
+<span class="fc" id="L69">      dominateMe[p] = 0;</span>
+    }
+
+    int flagDominate;
+<span class="fc bfc" id="L73" title="All 2 branches covered.">    for (int p = 0; p &lt; (population.size() - 1); p++) {</span>
+      // For all q individuals , calculate if p dominates q or vice versa
+<span class="fc bfc" id="L75" title="All 2 branches covered.">      for (int q = p + 1; q &lt; population.size(); q++) {</span>
+<span class="fc" id="L76">        flagDominate =</span>
+<span class="fc" id="L77">            CONSTRAINT_VIOLATION_COMPARATOR.compare(solutionSet.get(p), solutionSet.get(q));</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (flagDominate == 0) {</span>
+<span class="fc" id="L79">          flagDominate = DOMINANCE_COMPARATOR.compare(solutionSet.get(p), solutionSet.get(q));</span>
+        }
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (flagDominate == -1) {</span>
+<span class="fc" id="L82">          iDominate.get(p).add(q);</span>
+<span class="fc" id="L83">          dominateMe[q]++;</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        } else if (flagDominate == 1) {</span>
+<span class="fc" id="L85">          iDominate.get(q).add(p);</span>
+<span class="fc" id="L86">          dominateMe[p]++;</span>
+        }
+      }
+    }
+
+<span class="fc bfc" id="L91" title="All 2 branches covered.">    for (int i = 0; i &lt; population.size(); i++) {</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">      if (dominateMe[i] == 0) {</span>
+<span class="fc" id="L93">        front.get(0).add(i);</span>
+<span class="fc" id="L94">        solutionSet.get(i).setAttribute(getAttributeIdentifier(), 0);</span>
+      }
+    }
+
+    //Obtain the rest of fronts
+<span class="fc" id="L99">    int i = 0;</span>
+    Iterator&lt;Integer&gt; it1, it2; // Iterators
+<span class="fc bfc" id="L101" title="All 2 branches covered.">    while (front.get(i).size() != 0) {</span>
+<span class="fc" id="L102">      i++;</span>
+<span class="fc" id="L103">      it1 = front.get(i - 1).iterator();</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">      while (it1.hasNext()) {</span>
+<span class="fc" id="L105">        it2 = iDominate.get(it1.next()).iterator();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        while (it2.hasNext()) {</span>
+<span class="fc" id="L107">          int index = it2.next();</span>
+<span class="fc" id="L108">          dominateMe[index]--;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">          if (dominateMe[index] == 0) {</span>
+<span class="fc" id="L110">            front.get(i).add(index);</span>
+            //RankingAndCrowdingAttr.getAttributes(solutionSet.get(index)).setRank(i);
+<span class="fc" id="L112">            solutionSet.get(index).setAttribute(getAttributeIdentifier(), i);</span>
+          }
+<span class="fc" id="L114">        }</span>
+      }
+    }
+
+<span class="fc" id="L118">    rankedSubPopulations = new ArrayList&lt;&gt;();</span>
+    //0,1,2,....,i-1 are fronts, then i fronts
+<span class="fc bfc" id="L120" title="All 2 branches covered.">    for (int j = 0; j &lt; i; j++) {</span>
+<span class="fc" id="L121">      rankedSubPopulations.add(j, new ArrayList&lt;S&gt;(front.get(j).size()));</span>
+<span class="fc" id="L122">      it1 = front.get(j).iterator();</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">      while (it1.hasNext()) {</span>
+<span class="fc" id="L124">        rankedSubPopulations.get(j).add(solutionSet.get(it1.next()));</span>
+      }
+    }
+
+<span class="fc" id="L128">    return this;</span>
+  }
+
+  @Override
+  public List&lt;S&gt; getSubfront(int rank) {
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">    if (rank &gt;= rankedSubPopulations.size()) {</span>
+<span class="nc" id="L134">      throw new JMetalException(&quot;Invalid rank: &quot; + rank + &quot;. Max rank = &quot; + (rankedSubPopulations.size() -1)) ;</span>
+    }
+<span class="fc" id="L136">    return rankedSubPopulations.get(rank);</span>
+  }
+
+  @Override
+  public int getNumberOfSubfronts() {
+<span class="fc" id="L141">    return rankedSubPopulations.size();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

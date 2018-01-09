@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WASFGA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.wasfga</a> &gt; <span class="el_source">WASFGA.java</span></div><h1>WASFGA.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.wasfga;
+
+import org.uma.jmetal.algorithm.multiobjective.mombi.AbstractMOMBI;
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.ASFWASFGA;
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.AbstractUtilityFunctionsSet;
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.Normalizer;
+import org.uma.jmetal.algorithm.multiobjective.wasfga.util.WASFGARanking;
+import org.uma.jmetal.algorithm.multiobjective.wasfga.util.WASFGARankingConstraint;
+import org.uma.jmetal.algorithm.multiobjective.wasfga.util.WeightVector;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Implementation of the preference based algorithm named WASF-GA on jMetal5.0
+ *
+ * @author Juanjo Durillo
+ *
+ *         This algorithm is described in the paper: A.B. Ruiz, R. Saborido, M.
+ *         Luque &quot;A Preference-based Evolutionary Algorithm for Multiobjective
+ *         Optimization: The Weighting Achievement Scalarizing Function Genetic
+ *         Algorithm&quot;. Journal of Global Optimization. May 2015, Volume 62,
+ *         Issue 1, pp 101-129
+ *         DOI = {10.1007/s10898-014-0214-y}
+ */
+public class WASFGA&lt;S extends Solution&lt;?&gt;&gt; extends AbstractMOMBI&lt;S&gt; {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	protected int maxEvaluations;
+	protected int evaluations;
+	protected Normalizer normalizer;
+	
+	final AbstractUtilityFunctionsSet&lt;S&gt; achievementScalarizingFunction;
+<span class="nc" id="L45">	List&lt;Double&gt; interestPoint = null;</span>
+
+<span class="nc" id="L47">	private String weightVectorsFileName = &quot;&quot; ;</span>
+	
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to solve
+	 */
+	public WASFGA(Problem&lt;S&gt; problem,
+								int populationSize,
+								int maxIterations,
+								CrossoverOperator&lt;S&gt; crossoverOperator,
+								MutationOperator&lt;S&gt; mutationOperator,
+								SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+								SolutionListEvaluator&lt;S&gt; evaluator,
+								List&lt;Double&gt; referencePoint,
+								String weightVectorsFileName) {
+
+<span class="nc" id="L64">		super(problem,maxIterations,crossoverOperator,mutationOperator,selectionOperator,evaluator);</span>
+<span class="nc" id="L65">		this.weightVectorsFileName = weightVectorsFileName ;</span>
+<span class="nc" id="L66">		setMaxPopulationSize(populationSize);</span>
+<span class="nc" id="L67">		this.interestPoint = referencePoint;</span>
+<span class="nc" id="L68">		this.achievementScalarizingFunction =  createUtilityFunction();</span>
+<span class="nc" id="L69">	}</span>
+	
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to solve
+	 */
+	public WASFGA(Problem&lt;S&gt; problem,
+								int populationSize,
+								int maxIterations,
+								CrossoverOperator&lt;S&gt; crossoverOperator,
+								MutationOperator&lt;S&gt; mutationOperator,
+								SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+								SolutionListEvaluator&lt;S&gt; evaluator,
+								List&lt;Double&gt; referencePoint) {
+		
+<span class="nc" id="L85">		this(problem,</span>
+						populationSize,
+						maxIterations,
+						crossoverOperator,
+						mutationOperator,
+						selectionOperator,
+						evaluator,
+						referencePoint,
+						&quot;&quot;) ;
+<span class="nc" id="L94">	}</span>
+
+	public AbstractUtilityFunctionsSet&lt;S&gt; createUtilityFunction() {
+<span class="nc" id="L97">		WeightVector weightVector = new WeightVector() ;</span>
+		double [][] weights ;
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if (&quot;&quot;.equals(this.weightVectorsFileName)) {</span>
+<span class="nc" id="L100">			weights = weightVector.initUniformWeights2D(0.005, getMaxPopulationSize());</span>
+		} else {
+<span class="nc" id="L102">			weights = weightVector.getWeightsFromFile(this.weightVectorsFileName) ;</span>
+		}
+<span class="nc" id="L104">		weights = WeightVector.invertWeights(weights,true);</span>
+		
+<span class="nc bnc" id="L106" title="All 2 branches missed.">		if (weights.length != maxPopulationSize) {</span>
+<span class="nc" id="L107">			throw new JMetalException(&quot;The number of weight vectors (&quot; + weights.length +&quot;) and the population size(&quot; +</span>
+							maxPopulationSize + &quot;) have different values&quot;) ;
+		}
+		
+<span class="nc" id="L111">		ASFWASFGA&lt;S&gt; aux = new ASFWASFGA&lt;&gt;(weights, interestPoint);</span>
+
+<span class="nc" id="L113">		return aux;</span>
+	}
+
+	public void updatePointOfInterest(List&lt;Double&gt; newPointOfInterest) {
+<span class="nc" id="L117">		((ASFWASFGA&lt;S&gt;)this.achievementScalarizingFunction).updatePointOfInterest(newPointOfInterest);</span>
+<span class="nc" id="L118">	}</span>
+
+	public int getPopulationSize() {
+<span class="nc" id="L121">		return getMaxPopulationSize();</span>
+	}
+
+	@Override
+	public void specificMOEAComputations() {
+<span class="nc" id="L126">		updateNadirPoint(this.getPopulation());</span>
+<span class="nc" id="L127">		updateReferencePoint(this.getPopulation());</span>
+<span class="nc" id="L128">	}</span>
+
+	@Override
+	protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L132">		List&lt;S&gt; jointPopulation = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L133">		jointPopulation.addAll(population);</span>
+<span class="nc" id="L134">		jointPopulation.addAll(offspringPopulation);</span>
+<span class="nc" id="L135">		Ranking&lt;S&gt; ranking = computeRanking(jointPopulation);</span>
+<span class="nc" id="L136">		return selectBest(ranking);</span>
+	}
+	
+	protected Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionList) {
+<span class="nc" id="L140">		Ranking&lt;S&gt; ranking = new WASFGARankingConstraint&lt;&gt;(this.achievementScalarizingFunction);</span>
+<span class="nc" id="L141">		ranking.computeRanking(solutionList);</span>
+<span class="nc" id="L142">		return ranking;</span>
+	}
+	
+	protected void addRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int index, List&lt;S&gt; population) {
+<span class="nc" id="L146">		population.addAll(ranking.getSubfront(index));</span>
+<span class="nc" id="L147">	}</span>
+	
+	protected void addLastRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking,int index, List&lt;S&gt;population) {
+<span class="nc" id="L150">		List&lt;S&gt; front 	= ranking.getSubfront(index);</span>
+<span class="nc" id="L151">		int remain 		= this.getPopulationSize() - population.size();</span>
+<span class="nc" id="L152">		population.addAll(front.subList(0, remain));</span>
+<span class="nc" id="L153">	}</span>
+	
+	protected List&lt;S&gt; selectBest(Ranking&lt;S&gt; ranking) {
+<span class="nc" id="L156">		List&lt;S&gt; population = new ArrayList&lt;&gt;(this.getPopulationSize());</span>
+<span class="nc" id="L157">		int rankingIndex = 0;</span>
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">		while (populationIsNotFull(population)) {</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">			if (subfrontFillsIntoThePopulation(ranking, rankingIndex, population)) {</span>
+<span class="nc" id="L161">				addRankedSolutionsToPopulation(ranking, rankingIndex, population);</span>
+<span class="nc" id="L162">				rankingIndex++;</span>
+			} else {
+<span class="nc" id="L164">				addLastRankedSolutionsToPopulation(ranking, rankingIndex, population);</span>
+			}
+		}
+<span class="nc" id="L167">		return population;</span>
+	}
+
+	private boolean subfrontFillsIntoThePopulation(Ranking&lt;S&gt; ranking, int index, List&lt;S&gt; population) {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		return (population.size()+ranking.getSubfront(index).size() &lt; this.getPopulationSize());</span>
+	}
+	protected AbstractUtilityFunctionsSet&lt;S&gt; getUtilityFunctions() {
+<span class="nc" id="L174">		return this.achievementScalarizingFunction;</span>
+	}
+	
+	@Override public List&lt;S&gt; getResult() {
+<span class="nc" id="L178">		return getNonDominatedSolutions(getPopulation());</span>
+	}
+	protected List&lt;S&gt; getNonDominatedSolutions(List&lt;S&gt; solutionList) {
+<span class="nc" id="L181">		return SolutionListUtils.getNondominatedSolutions(solutionList);</span>
+	}
+
+	@Override public String getName() {
+<span class="nc" id="L185">		return &quot;WASFGA&quot; ;</span>
+	}
+
+	@Override public String getDescription() {
+<span class="nc" id="L189">		return &quot;Weighting Achievement Scalarizing Function Genetic Algorithm&quot; ;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

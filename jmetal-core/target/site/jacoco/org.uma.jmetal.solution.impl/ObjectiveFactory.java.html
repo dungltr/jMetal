@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ObjectiveFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">ObjectiveFactory.java</span></div><h1>ObjectiveFactory.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.solution.SolutionEvaluator.Objective;
+
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+
+/**
+ * This factory provides facilities to generate {@link Objective}s from usual
+ * situations.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ */
+<span class="fc" id="L19">public class ObjectiveFactory {</span>
+
+	/**
+	 * This method retrieves all the values accessible through a getter (
+	 * &lt;code&gt;getX()&lt;/code&gt; method) in order to build the corresponding set of
+	 * {@link Objective}s. Notice that {@link Objective}s are supposed to
+	 * represent evaluations of a {@link Solution}, so if the {@link Solution}
+	 * has other kinds of information accessible through getters, they will also
+	 * be retrieved as {@link Objective}s. In such a case, you should filter the
+	 * returned {@link Objective}s, rely on more advanced methods, or generate
+	 * the {@link Objective}s manually.
+	 * 
+	 * @param solutionClass
+	 *            the {@link Solution} class to analyze
+	 * @return the set of {@link Objective}s retrieved from this class
+	 * @see #createFromLonelyGetters(Class)
+	 */
+	public &lt;Solution&gt; Collection&lt;Objective&lt;Solution, ?&gt;&gt; createFromGetters(
+			Class&lt;Solution&gt; solutionClass) {
+<span class="fc" id="L38">		Collection&lt;Objective&lt;Solution, ?&gt;&gt; objectives = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		for (Method method : solutionClass.getMethods()) {</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">			if (method.getParameterTypes().length == 0</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">					&amp;&amp; method.getReturnType() != null</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">					&amp;&amp; !method.getName().equals(&quot;getClass&quot;)</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">					&amp;&amp; method.getName().matches(&quot;get[^a-z].*&quot;)) {</span>
+<span class="fc" id="L44">				String name = method.getName().substring(3);</span>
+<span class="fc" id="L45">				objectives.add(createObjectiveOn(solutionClass, method, name,</span>
+<span class="fc" id="L46">						method.getReturnType()));</span>
+			} else {
+				// not a getter, ignore it
+			}
+		}
+<span class="fc" id="L51">		return objectives;</span>
+	}
+
+	/**
+	 * This method retrieves all the values accessible through a getter (
+	 * &lt;code&gt;getX()&lt;/code&gt; method) in order to build the corresponding set of
+	 * {@link Objective}s. At the opposite of {@link #createFromGetters(Class)},
+	 * an additional filter is used: we build an {@link Objective} for each
+	 * getter which does not correspond to a setter (&lt;code&gt;setX()&lt;/code&gt; method
+	 * with the same &lt;code&gt;X&lt;/code&gt; than the getter). This method is adapted for
+	 * {@link Solution} implementations which provide setters only for their
+	 * fundamental values (e.g. the path of a TSP {@link Solution}) and use
+	 * getters only for the computed values (e.g. the length of such a path).&lt;br/&gt;
+	 * &lt;br/&gt;
+	 * Notice that, if all the relevant getters are not present, the
+	 * corresponding {@link Objective}s will not be retrieved. On the opposite,
+	 * any additional getter which does not correspond to a relevant
+	 * {@link Objective} will be mistakenly retrieved. So be sure that the
+	 * relevant elements (and only these ones) have their getter (and no
+	 * setter). Otherwise, you should use a different method or generate the
+	 * {@link Objective}s manually.
+	 * 
+	 * @param solutionClass
+	 *            the {@link Solution} class to analyze
+	 * @return the set of {@link Objective}s retrieved from this class
+	 */
+	public &lt;Solution&gt; Collection&lt;Objective&lt;Solution, ?&gt;&gt; createFromGettersWithoutSetters(
+			Class&lt;Solution&gt; solutionClass) {
+<span class="fc" id="L79">		Map&lt;String, Method&gt; getters = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L80">		Map&lt;String, Method&gt; setters = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">		for (Method method : solutionClass.getMethods()) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">			if (isGetter(method)) {</span>
+<span class="fc" id="L83">				String name = method.getName().substring(3);</span>
+<span class="fc" id="L84">				getters.put(name, method);</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">			} else if (isSetter(method)) {</span>
+<span class="fc" id="L86">				String name = method.getName().substring(3);</span>
+<span class="fc" id="L87">				setters.put(name, method);</span>
+			} else {
+				// not a getter/setter, ignore it
+			}
+		}
+
+<span class="fc" id="L93">		getters.keySet().removeAll(setters.keySet());</span>
+
+<span class="fc" id="L95">		Collection&lt;Objective&lt;Solution, ?&gt;&gt; objectives = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">		for (Entry&lt;String, Method&gt; entry : getters.entrySet()) {</span>
+<span class="fc" id="L97">			String name = entry.getKey();</span>
+<span class="fc" id="L98">			Method getter = entry.getValue();</span>
+<span class="fc" id="L99">			objectives.add(createObjectiveOn(solutionClass, getter, name,</span>
+<span class="fc" id="L100">					getter.getReturnType()));</span>
+<span class="fc" id="L101">		}</span>
+<span class="fc" id="L102">		return objectives;</span>
+	}
+
+	private boolean isSetter(Method method) {
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">		return method.getParameterTypes().length == 1</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">				&amp;&amp; method.getReturnType() == void.class</span>
+<span class="pc bpc" id="L108" title="1 of 2 branches missed.">				&amp;&amp; method.getName().matches(&quot;set[^a-z].*&quot;);</span>
+	}
+
+	private boolean isGetter(Method method) {
+<span class="fc bfc" id="L112" title="All 2 branches covered.">		return method.getParameterTypes().length == 0</span>
+<span class="pc bpc" id="L113" title="1 of 2 branches missed.">				&amp;&amp; method.getReturnType() != void.class</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">				&amp;&amp; !method.getName().equals(&quot;getClass&quot;)</span>
+<span class="pc bpc" id="L115" title="1 of 2 branches missed.">				&amp;&amp; method.getName().matches(&quot;get[^a-z].*&quot;);</span>
+	}
+
+	private &lt;Solution, Value&gt; Objective&lt;Solution, Value&gt; createObjectiveOn(
+			final Class&lt;Solution&gt; solutionClass, final Method getter,
+			final String name, final Class&lt;Value&gt; type) {
+<span class="fc" id="L121">		return new Objective&lt;Solution, Value&gt;() {</span>
+
+			@SuppressWarnings(&quot;unchecked&quot;)
+			@Override
+			public Value get(Solution solution) {
+				try {
+<span class="nc" id="L127">					return (Value) getter.invoke(solution);</span>
+<span class="nc" id="L128">				} catch (Exception e) {</span>
+<span class="nc" id="L129">					throw new RuntimeException(e);</span>
+				}
+			}
+
+			@Override
+			public String getName() {
+<span class="fc" id="L135">				return name;</span>
+			}
+
+			@Override
+			public String getDescription() {
+<span class="nc" id="L140">				return type.getSimpleName() + &quot; value for the &quot;</span>
+<span class="nc" id="L141">						+ solutionClass.getSimpleName() + &quot; solutions.&quot;;</span>
+			}
+		};
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

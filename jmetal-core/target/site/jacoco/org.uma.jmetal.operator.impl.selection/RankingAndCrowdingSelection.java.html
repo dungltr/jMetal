@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RankingAndCrowdingSelection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.selection</a> &gt; <span class="el_source">RankingAndCrowdingSelection.java</span></div><h1>RankingAndCrowdingSelection.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.selection;
+
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.CrowdingDistance;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * This class implements a selection for selecting a number of solutions from
+ * a solution list. The solutions are taken by mean of its ranking and
+ * crowding distance values.
+ *
+ * @author Antonio J. Nebro, Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class RankingAndCrowdingSelection&lt;S extends Solution&lt;?&gt;&gt;
+    implements SelectionOperator&lt;List&lt;S&gt;,List&lt;S&gt;&gt; {
+  private final int solutionsToSelect ;
+
+  /** Constructor */
+<span class="fc" id="L28">  public RankingAndCrowdingSelection(int solutionsToSelect) {</span>
+<span class="fc" id="L29">    this.solutionsToSelect = solutionsToSelect ;</span>
+<span class="fc" id="L30">  }</span>
+
+  /* Getter */
+  public int getNumberOfSolutionsToSelect() {
+<span class="nc" id="L34">    return solutionsToSelect;</span>
+  }
+
+  /** Execute() method */
+  public List&lt;S&gt; execute(List&lt;S&gt; solutionList) throws JMetalException {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">    if (null == solutionList) {</span>
+<span class="fc" id="L40">      throw new JMetalException(&quot;The solution list is null&quot;);</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">    } else if (solutionList.isEmpty()) {</span>
+<span class="fc" id="L42">        throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    }  else if (solutionList.size() &lt; solutionsToSelect) {</span>
+<span class="nc" id="L44">      throw new JMetalException(&quot;The population size (&quot;+solutionList.size()+&quot;) is smaller than&quot; +</span>
+              &quot;the solutions to selected (&quot;+solutionsToSelect+&quot;)&quot;)  ;
+    }
+
+<span class="nc" id="L48">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;S&gt;();</span>
+<span class="nc" id="L49">    ranking.computeRanking(solutionList) ;</span>
+
+<span class="nc" id="L51">    return crowdingDistanceSelection(ranking);</span>
+  }
+
+  protected List&lt;S&gt; crowdingDistanceSelection(Ranking&lt;S&gt; ranking) {
+<span class="nc" id="L55">    CrowdingDistance&lt;S&gt; crowdingDistance = new CrowdingDistance&lt;S&gt;() ;</span>
+<span class="nc" id="L56">    List&lt;S&gt; population = new ArrayList&lt;&gt;(solutionsToSelect) ;</span>
+<span class="nc" id="L57">    int rankingIndex = 0;</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">    while (population.size() &lt; solutionsToSelect) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">      if (subfrontFillsIntoThePopulation(ranking, rankingIndex, population)) {</span>
+<span class="nc" id="L60">        crowdingDistance.computeDensityEstimator(ranking.getSubfront(rankingIndex));</span>
+<span class="nc" id="L61">        addRankedSolutionsToPopulation(ranking, rankingIndex, population);</span>
+<span class="nc" id="L62">        rankingIndex++;</span>
+      } else {
+<span class="nc" id="L64">        crowdingDistance.computeDensityEstimator(ranking.getSubfront(rankingIndex));</span>
+<span class="nc" id="L65">        addLastRankedSolutionsToPopulation(ranking, rankingIndex, population);</span>
+      }
+    }
+
+<span class="nc" id="L69">    return population ;</span>
+  }
+
+  protected boolean subfrontFillsIntoThePopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt; population) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    return ranking.getSubfront(rank).size() &lt; (solutionsToSelect - population.size()) ;</span>
+  }
+
+  protected void addRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt; population) {
+    List&lt;S&gt; front ;
+
+<span class="nc" id="L79">    front = ranking.getSubfront(rank);</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">    for (int i = 0 ; i &lt; front.size(); i++) {</span>
+<span class="nc" id="L82">      population.add(front.get(i));</span>
+    }
+<span class="nc" id="L84">  }</span>
+
+  protected void addLastRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt;population) {
+<span class="nc" id="L87">    List&lt;S&gt; currentRankedFront = ranking.getSubfront(rank) ;</span>
+
+<span class="nc" id="L89">    Collections.sort(currentRankedFront, new CrowdingDistanceComparator&lt;S&gt;()) ;</span>
+
+<span class="nc" id="L91">    int i = 0 ;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    while (population.size() &lt; solutionsToSelect) {</span>
+<span class="nc" id="L93">      population.add(currentRankedFront.get(i)) ;</span>
+<span class="nc" id="L94">      i++ ;</span>
+    }
+<span class="nc" id="L96">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

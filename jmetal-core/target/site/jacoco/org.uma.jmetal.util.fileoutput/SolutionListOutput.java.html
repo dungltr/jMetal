@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SolutionListOutput.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.fileoutput</a> &gt; <span class="el_source">SolutionListOutput.java</span></div><h1>SolutionListOutput.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.fileoutput;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class SolutionListOutput {
+  private FileOutputContext varFileContext;
+  private FileOutputContext funFileContext;
+<span class="nc" id="L17">  private String varFileName = &quot;VAR&quot;;</span>
+<span class="nc" id="L18">  private String funFileName = &quot;FUN&quot;;</span>
+<span class="nc" id="L19">  private String separator = &quot;\t&quot;;</span>
+  private List&lt;? extends Solution&lt;?&gt;&gt; solutionList;
+  private List&lt;Boolean&gt; isObjectiveToBeMinimized ;
+
+<span class="nc" id="L23">  public SolutionListOutput(List&lt;? extends Solution&lt;?&gt;&gt; solutionList) {</span>
+<span class="nc" id="L24">    varFileContext = new DefaultFileOutputContext(varFileName);</span>
+<span class="nc" id="L25">    funFileContext = new DefaultFileOutputContext(funFileName);</span>
+<span class="nc" id="L26">    varFileContext.setSeparator(separator);</span>
+<span class="nc" id="L27">    funFileContext.setSeparator(separator);</span>
+<span class="nc" id="L28">    this.solutionList = solutionList;</span>
+<span class="nc" id="L29">    isObjectiveToBeMinimized = null ;</span>
+<span class="nc" id="L30">  }</span>
+
+  public SolutionListOutput setVarFileOutputContext(FileOutputContext fileContext) {
+<span class="nc" id="L33">    varFileContext = fileContext;</span>
+
+<span class="nc" id="L35">    return this;</span>
+  }
+
+  public SolutionListOutput setFunFileOutputContext(FileOutputContext fileContext) {
+<span class="nc" id="L39">    funFileContext = fileContext;</span>
+
+<span class="nc" id="L41">    return this;</span>
+  }
+
+  public SolutionListOutput setObjectiveMinimizingObjectiveList(List&lt;Boolean&gt; isObjectiveToBeMinimized) {
+<span class="nc" id="L45">    this.isObjectiveToBeMinimized = isObjectiveToBeMinimized ;</span>
+
+<span class="nc" id="L47">    return this;</span>
+  }
+
+  public SolutionListOutput setSeparator(String separator) {
+<span class="nc" id="L51">    this.separator = separator;</span>
+<span class="nc" id="L52">    varFileContext.setSeparator(this.separator);</span>
+<span class="nc" id="L53">    funFileContext.setSeparator(this.separator);</span>
+
+<span class="nc" id="L55">    return this;</span>
+  }
+
+  public void print() {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">    if (isObjectiveToBeMinimized == null) {</span>
+<span class="nc" id="L60">      printObjectivesToFile(funFileContext, solutionList);</span>
+    } else {
+<span class="nc" id="L62">      printObjectivesToFile(funFileContext, solutionList, isObjectiveToBeMinimized);</span>
+    }
+<span class="nc" id="L64">    printVariablesToFile(varFileContext, solutionList);</span>
+<span class="nc" id="L65">  }</span>
+
+  public void printVariablesToFile(FileOutputContext context, List&lt;? extends Solution&lt;?&gt;&gt; solutionList) {
+<span class="nc" id="L68">    BufferedWriter bufferedWriter = context.getFileWriter();</span>
+
+    try {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">      if (solutionList.size() &gt; 0) {</span>
+<span class="nc" id="L72">        int numberOfVariables = solutionList.get(0).getNumberOfVariables();</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">          for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc" id="L75">            bufferedWriter.write(solutionList.get(i).getVariableValueString(j) + context.getSeparator());</span>
+          }
+<span class="nc" id="L77">          bufferedWriter.newLine();</span>
+        }
+      }
+
+<span class="nc" id="L81">      bufferedWriter.close();</span>
+<span class="nc" id="L82">    } catch (IOException e) {</span>
+<span class="nc" id="L83">      throw new JMetalException(&quot;Error writing data &quot;, e) ;</span>
+<span class="nc" id="L84">    }</span>
+
+<span class="nc" id="L86">  }</span>
+
+  public void printObjectivesToFile(FileOutputContext context, List&lt;? extends Solution&lt;?&gt;&gt; solutionList) {
+<span class="nc" id="L89">    BufferedWriter bufferedWriter = context.getFileWriter();</span>
+
+    try {
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      if (solutionList.size() &gt; 0) {</span>
+<span class="nc" id="L93">        int numberOfObjectives = solutionList.get(0).getNumberOfObjectives();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">          for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc" id="L96">            bufferedWriter.write(solutionList.get(i).getObjective(j) + context.getSeparator());</span>
+          }
+<span class="nc" id="L98">          bufferedWriter.newLine();</span>
+        }
+      }
+
+<span class="nc" id="L102">      bufferedWriter.close();</span>
+<span class="nc" id="L103">    } catch (IOException e) {</span>
+<span class="nc" id="L104">      throw new JMetalException(&quot;Error printing objecives to file: &quot;, e);</span>
+<span class="nc" id="L105">    }</span>
+<span class="nc" id="L106">  }</span>
+
+  public void printObjectivesToFile(FileOutputContext context,
+                                    List&lt;? extends Solution&lt;?&gt;&gt; solutionList,
+                                    List&lt;Boolean&gt; minimizeObjective) {
+<span class="nc" id="L111">    BufferedWriter bufferedWriter = context.getFileWriter();</span>
+
+    try {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">      if (solutionList.size() &gt; 0) {</span>
+<span class="nc" id="L115">        int numberOfObjectives = solutionList.get(0).getNumberOfObjectives();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        if (numberOfObjectives != minimizeObjective.size()) {</span>
+<span class="nc" id="L117">          throw new JMetalException(&quot;The size of list minimizeObjective is not correct: &quot; + minimizeObjective.size()) ;</span>
+        }
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">          for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">            if (minimizeObjective.get(j)) {</span>
+<span class="nc" id="L122">              bufferedWriter.write(solutionList.get(i).getObjective(j) + context.getSeparator());</span>
+            } else {
+<span class="nc" id="L124">              bufferedWriter.write(-1.0 * solutionList.get(i).getObjective(j) + context.getSeparator());</span>
+            }
+          }
+<span class="nc" id="L127">          bufferedWriter.newLine();</span>
+        }
+      }
+
+<span class="nc" id="L131">      bufferedWriter.close();</span>
+<span class="nc" id="L132">    } catch (IOException e) {</span>
+<span class="nc" id="L133">      throw new JMetalException(&quot;Error printing objecives to file: &quot;, e);</span>
+<span class="nc" id="L134">    }</span>
+<span class="nc" id="L135">  }</span>
+
+  /*
+   * Wrappers for printing with default configuration
+   */
+  public void printObjectivesToFile(String fileName) throws IOException {
+<span class="nc" id="L141">    printObjectivesToFile(new DefaultFileOutputContext(fileName), solutionList);</span>
+<span class="nc" id="L142">  }</span>
+
+  public void printObjectivesToFile(String fileName, List&lt;Boolean&gt; minimizeObjective) throws IOException {
+<span class="nc" id="L145">    printObjectivesToFile(new DefaultFileOutputContext(fileName), solutionList, minimizeObjective);</span>
+<span class="nc" id="L146">  }</span>
+
+  public void printVariablesToFile(String fileName) throws IOException {
+<span class="nc" id="L149">    printVariablesToFile(new DefaultFileOutputContext(fileName), solutionList);</span>
+<span class="nc" id="L150">  }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EuclideanDistanceBetweenSolutionsInSolutionSpace.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.distance.impl</a> &gt; <span class="el_source">EuclideanDistanceBetweenSolutionsInSolutionSpace.java</span></div><h1>EuclideanDistanceBetweenSolutionsInSolutionSpace.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.distance.impl;
+
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.distance.Distance;
+
+/**
+ * Class for calculating the Euclidean distance between two {@link DoubleSolution} objects in solution space.
+ *
+ * @author &lt;antonio@lcc.uma.es&gt;
+ */
+<span class="nc" id="L12">public class EuclideanDistanceBetweenSolutionsInSolutionSpace&lt;S extends Solution&lt;Double&gt;&gt;</span>
+    implements Distance&lt;S, S&gt; {
+
+  @Override
+  public double getDistance(S solution1, S solution2) {
+<span class="nc" id="L17">    double distance = 0.0;</span>
+
+    double diff;
+<span class="nc bnc" id="L20" title="All 2 branches missed.">    for (int i = 0; i &lt; solution1.getNumberOfVariables() ; i++){</span>
+<span class="nc" id="L21">      diff = solution1.getVariableValue(i) - solution2.getVariableValue(i);</span>
+<span class="nc" id="L22">      distance += Math.pow(diff,2.0);</span>
+    }
+
+<span class="nc" id="L25">    return Math.sqrt(distance);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

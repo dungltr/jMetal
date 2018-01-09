@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DMOPSO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.dmopso</a> &gt; <span class="el_source">DMOPSO.java</span></div><h1>DMOPSO.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.dmopso;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class DMOPSO implements Algorithm&lt;List&lt;DoubleSolution&gt;&gt; {
+
+<span class="nc" id="L22">  public enum FunctionType {</span>
+<span class="nc" id="L23">    TCHE, PBI, AGG</span>
+  }
+
+  private String name;
+  private DoubleProblem problem;
+  private List&lt;DoubleSolution&gt; swarm ;
+
+  private double c1Max;
+  private double c1Min;
+  private double c2Max;
+  private double c2Min;
+  private double r1Max;
+  private double r1Min;
+  private double r2Max;
+  private double r2Min;
+  private double weightMax;
+  private double weightMin;
+  private double changeVelocity1;
+  private double changeVelocity2;
+
+  protected int swarmSize;
+  protected int maxIterations;
+  protected int iterations;
+  protected int maxAge ;
+
+  private DoubleSolution[] localBest ;
+  private DoubleSolution[] globalBest ;
+  private int[] shfGBest ;
+  private double[][] speed;
+  private int[] age;
+  double[] z;
+  double[][] lambda;
+  DoubleSolution[] indArray;
+
+  private double deltaMax[];
+  private double deltaMin[];
+
+  String dataDirectory ;
+
+<span class="nc" id="L62">  FunctionType functionType = FunctionType.PBI ;</span>
+
+  private JMetalRandom randomGenerator;
+  private SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+  public DMOPSO(DoubleProblem problem, int swarmSize,
+                int maxIterations, double r1Min, double r1Max,
+                double r2Min, double r2Max, double c1Min, double c1Max, double c2Min, double c2Max,
+                double weightMin, double weightMax, double changeVelocity1, double changeVelocity2,
+                FunctionType functionType, String dataDirectory, int maxAge) {
+<span class="nc" id="L72">      this(problem, swarmSize,</span>
+           maxIterations, r1Min, r1Max,
+           r2Min, r2Max, c1Min, c1Max, c2Min, c2Max,
+           weightMin, weightMax, changeVelocity1, changeVelocity2,
+           functionType, dataDirectory, maxAge, &quot;dMOPSO&quot;);
+<span class="nc" id="L77">  }</span>
+  
+  public DMOPSO(DoubleProblem problem, int swarmSize,
+                int maxIterations, double r1Min, double r1Max,
+                double r2Min, double r2Max, double c1Min, double c1Max, double c2Min, double c2Max,
+                double weightMin, double weightMax, double changeVelocity1, double changeVelocity2,
+<span class="nc" id="L83">                FunctionType functionType, String dataDirectory, int maxAge, String name) {</span>
+<span class="nc" id="L84">    this.name = name;</span>
+<span class="nc" id="L85">    this.problem = problem;</span>
+<span class="nc" id="L86">    this.swarmSize = swarmSize;</span>
+<span class="nc" id="L87">    this.maxIterations = maxIterations;</span>
+
+<span class="nc" id="L89">    this.r1Max = r1Max;</span>
+<span class="nc" id="L90">    this.r1Min = r1Min;</span>
+<span class="nc" id="L91">    this.r2Max = r2Max;</span>
+<span class="nc" id="L92">    this.r2Min = r2Min;</span>
+<span class="nc" id="L93">    this.c1Max = c1Max;</span>
+<span class="nc" id="L94">    this.c1Min = c1Min;</span>
+<span class="nc" id="L95">    this.c2Max = c2Max;</span>
+<span class="nc" id="L96">    this.c2Min = c2Min;</span>
+<span class="nc" id="L97">    this.weightMax = weightMax;</span>
+<span class="nc" id="L98">    this.weightMin = weightMin;</span>
+<span class="nc" id="L99">    this.changeVelocity1 = changeVelocity1;</span>
+<span class="nc" id="L100">    this.changeVelocity2 = changeVelocity2;</span>
+<span class="nc" id="L101">    this.functionType = functionType ;</span>
+<span class="nc" id="L102">    this.maxAge = maxAge ;</span>
+
+<span class="nc" id="L104">    this.dataDirectory = dataDirectory ;</span>
+
+<span class="nc" id="L106">    evaluator = new SequentialSolutionListEvaluator&lt;DoubleSolution&gt;();</span>
+
+<span class="nc" id="L108">    randomGenerator = JMetalRandom.getInstance() ;</span>
+
+<span class="nc" id="L110">    localBest = new DoubleSolution[swarmSize] ;</span>
+<span class="nc" id="L111">    globalBest = new DoubleSolution[swarmSize] ;</span>
+<span class="nc" id="L112">    shfGBest = new int[swarmSize] ;</span>
+<span class="nc" id="L113">    speed = new double[swarmSize][problem.getNumberOfVariables()];</span>
+<span class="nc" id="L114">    age = new int[swarmSize] ;</span>
+
+<span class="nc" id="L116">    indArray = new DoubleSolution[problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L117">    z = new double[problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L118">    lambda = new double[swarmSize][problem.getNumberOfObjectives()];</span>
+
+<span class="nc" id="L120">    deltaMax = new double[problem.getNumberOfVariables()];</span>
+<span class="nc" id="L121">    deltaMin = new double[problem.getNumberOfVariables()];</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L123">      deltaMax[i] = (problem.getUpperBound(i) -</span>
+<span class="nc" id="L124">              problem.getLowerBound(i)) / 2.0;</span>
+<span class="nc" id="L125">      deltaMin[i] = -deltaMax[i];</span>
+    }
+<span class="nc" id="L127">  }</span>
+
+  public List&lt;DoubleSolution&gt; getSwarm() {
+<span class="nc" id="L130">    return swarm ;</span>
+  }
+
+  protected void initProgress() {
+<span class="nc" id="L134">    iterations = 1 ;</span>
+<span class="nc" id="L135">  }</span>
+
+  protected void updateProgress() {
+<span class="nc" id="L138">    iterations ++ ;</span>
+<span class="nc" id="L139">  }</span>
+
+  protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L142" title="All 2 branches missed.">    return iterations &gt;= maxIterations ;</span>
+  }
+
+  protected List&lt;DoubleSolution&gt; createInitialSwarm() {
+<span class="nc" id="L146">    List&lt;DoubleSolution&gt; swarm = new ArrayList&lt;&gt;(swarmSize);</span>
+
+    DoubleSolution newSolution;
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc" id="L150">      newSolution = problem.createSolution();</span>
+<span class="nc" id="L151">      swarm.add(newSolution);</span>
+    }
+
+<span class="nc" id="L154">    return swarm;</span>
+  }
+
+  protected List&lt;DoubleSolution&gt; evaluateSwarm(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc" id="L158">    swarm = evaluator.evaluate(swarm, problem);</span>
+
+<span class="nc" id="L160">    return swarm;</span>
+  }
+
+  protected void initializeLeaders(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    for (int i = 0; i &lt; getSwarm().size(); i++) {</span>
+<span class="nc" id="L165">      DoubleSolution particle = (DoubleSolution)getSwarm().get(i).copy() ;</span>
+<span class="nc" id="L166">      globalBest[i] = particle;</span>
+    }
+
+<span class="nc" id="L169">    updateGlobalBest();</span>
+<span class="nc" id="L170">  }</span>
+
+  protected void initializeParticlesMemory(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L173" title="All 2 branches missed.">    for (int i = 0; i &lt; getSwarm().size(); i++) {</span>
+<span class="nc" id="L174">      DoubleSolution particle = (DoubleSolution)getSwarm().get(i).copy() ;</span>
+<span class="nc" id="L175">      localBest[i] = particle;</span>
+    }
+<span class="nc" id="L177">  }</span>
+
+  protected void initializeVelocity(List&lt;DoubleSolution&gt; swarm) {
+    // Initialize the speed and age of each particle to 0
+<span class="nc bnc" id="L181" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">      for (int j = 0; j &lt; problem.getNumberOfVariables(); j++) {</span>
+<span class="nc" id="L183">        speed[i][j] = 0.0;</span>
+      }
+<span class="nc" id="L185">      age[i] = 0;</span>
+    }
+<span class="nc" id="L187">  }</span>
+
+  protected void updateVelocity(int i) {
+    
+<span class="nc" id="L191">    DoubleSolution particle = getSwarm().get(i) ;</span>
+<span class="nc" id="L192">    DoubleSolution bestParticle = localBest[i] ;</span>
+<span class="nc" id="L193">    DoubleSolution bestGlobal = globalBest[shfGBest[i]] ;</span>
+
+<span class="nc" id="L195">    double r1 = randomGenerator.nextDouble(r1Min, r1Max);</span>
+<span class="nc" id="L196">    double r2 = randomGenerator.nextDouble(r2Min, r2Max);</span>
+<span class="nc" id="L197">    double C1 = randomGenerator.nextDouble(c1Min, c1Max);</span>
+<span class="nc" id="L198">    double C2 = randomGenerator.nextDouble(c2Min, c2Max);</span>
+    
+<span class="nc bnc" id="L200" title="All 2 branches missed.">    for (int var = 0; var &lt; particle.getNumberOfVariables(); var++) {</span>
+      //Computing the velocity of this particle
+<span class="nc" id="L202">        speed[i][var] = velocityConstriction(constrictionCoefficient(C1, C2) *</span>
+<span class="nc" id="L203">                (inertiaWeight(iterations, maxIterations, this.weightMax, this.weightMin) * speed[i][var] +</span>
+<span class="nc" id="L204">                        C1 * r1 * (bestParticle.getVariableValue(var) -</span>
+<span class="nc" id="L205">                                particle.getVariableValue(var)) +</span>
+<span class="nc" id="L206">                        C2 * r2 * (bestGlobal.getVariableValue(var) -</span>
+<span class="nc" id="L207">                                particle.getVariableValue(var))), deltaMax, deltaMin, var, i) ;</span>
+
+    }
+<span class="nc" id="L210">  }</span>
+
+  private void computeNewPositions(int i) {
+<span class="nc" id="L213">    DoubleSolution particle = getSwarm().get(i) ;</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">    for (int var = 0; var &lt; particle.getNumberOfVariables(); var++) {</span>
+<span class="nc" id="L215">      particle.setVariableValue(var, particle.getVariableValue(var) + speed[i][var]) ;</span>
+    }
+<span class="nc" id="L217">  }</span>
+
+  /**
+   * initUniformWeight
+   */
+  private void initUniformWeight() {
+<span class="nc bnc" id="L223" title="All 4 branches missed.">    if ((problem.getNumberOfObjectives() == 2) &amp;&amp; (swarmSize &lt; 300)) {</span>
+<span class="nc bnc" id="L224" title="All 2 branches missed.">      for (int n = 0; n &lt; swarmSize; n++) {</span>
+<span class="nc" id="L225">        double a = 1.0 * n / (swarmSize - 1);</span>
+<span class="nc" id="L226">        lambda[n][0] = a;</span>
+<span class="nc" id="L227">        lambda[n][1] = 1 - a;</span>
+      }
+    }
+    else {
+      String dataFileName;
+<span class="nc" id="L232">      dataFileName = &quot;W&quot; + problem.getNumberOfObjectives() + &quot;D_&quot; +</span>
+              swarmSize + &quot;.dat&quot;;
+
+      try {
+<span class="nc" id="L236">        InputStream in = getClass().getResourceAsStream(&quot;/&quot; + dataDirectory + &quot;/&quot; + dataFileName);</span>
+<span class="nc" id="L237">        InputStreamReader isr = new InputStreamReader(in);</span>
+<span class="nc" id="L238">        BufferedReader br = new BufferedReader(isr);</span>
+
+<span class="nc" id="L240">        int i = 0;</span>
+<span class="nc" id="L241">        int j = 0;</span>
+<span class="nc" id="L242">        String aux = br.readLine();</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">        while (aux != null) {</span>
+<span class="nc" id="L244">          StringTokenizer st = new StringTokenizer(aux);</span>
+<span class="nc" id="L245">          j = 0;</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">          while (st.hasMoreTokens()) {</span>
+<span class="nc" id="L247">            double value = (new Double(st.nextToken())).doubleValue();</span>
+<span class="nc" id="L248">            lambda[i][j] = value;</span>
+<span class="nc" id="L249">            j++;</span>
+<span class="nc" id="L250">          }</span>
+<span class="nc" id="L251">          aux = br.readLine();</span>
+<span class="nc" id="L252">          i++;</span>
+<span class="nc" id="L253">        }</span>
+<span class="nc" id="L254">        br.close();</span>
+<span class="nc" id="L255">      } catch (Exception e) {</span>
+<span class="nc" id="L256">        throw new JMetalException(&quot;initUniformWeight: failed when reading for file: &quot; + dataDirectory + &quot;/&quot; + dataFileName);</span>
+<span class="nc" id="L257">      }</span>
+    }
+<span class="nc" id="L259">  }</span>
+
+
+  private void initIdealPoint()  {
+<span class="nc bnc" id="L263" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L264">      z[i] = 1.0e+30;</span>
+<span class="nc" id="L265">      indArray[i] = problem.createSolution() ;</span>
+<span class="nc" id="L266">      problem.evaluate(indArray[i]);</span>
+    }
+
+<span class="nc bnc" id="L269" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc" id="L270">      updateReference(getSwarm().get(i));</span>
+    }
+<span class="nc" id="L272">  }</span>
+
+  private void updateReference(DoubleSolution individual) {
+<span class="nc bnc" id="L275" title="All 2 branches missed.">    for (int n = 0; n &lt; problem.getNumberOfObjectives(); n++) {</span>
+<span class="nc bnc" id="L276" title="All 2 branches missed.">      if (individual.getObjective(n) &lt; z[n]) {</span>
+<span class="nc" id="L277">        z[n] = individual.getObjective(n);</span>
+
+<span class="nc" id="L279">        indArray[n] = (DoubleSolution)individual.copy() ;</span>
+      }
+    }
+<span class="nc" id="L282">  }</span>
+
+  private void updateGlobalBest() {
+
+    double gBestFitness ;
+
+<span class="nc bnc" id="L288" title="All 2 branches missed.">    for(int j = 0; j&lt;lambda.length; j++){</span>
+<span class="nc" id="L289">      gBestFitness = fitnessFunction(globalBest[j], lambda[j]) ;</span>
+
+<span class="nc bnc" id="L291" title="All 2 branches missed.">      for (int i = 0 ; i &lt; getSwarm().size(); i++) {</span>
+<span class="nc" id="L292">        double v1 = fitnessFunction(getSwarm().get(i), lambda[j]) ;</span>
+<span class="nc" id="L293">        double v2 = gBestFitness ;</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">        if (v1 &lt; v2) {</span>
+<span class="nc" id="L295">          globalBest[j] = (DoubleSolution)getSwarm().get(i).copy() ;</span>
+<span class="nc" id="L296">          gBestFitness = v1;</span>
+        }
+      }
+    }
+<span class="nc" id="L300">  }</span>
+
+  private void updateLocalBest(int part) {
+
+    double f1, f2;
+<span class="nc" id="L305">    DoubleSolution indiv = (DoubleSolution)getSwarm().get(part).copy();</span>
+
+<span class="nc" id="L307">    f1 = fitnessFunction(localBest[part], lambda[part]);</span>
+<span class="nc" id="L308">    f2 = fitnessFunction(indiv, lambda[part]);</span>
+
+<span class="nc bnc" id="L310" title="All 4 branches missed.">    if(age[part] &gt;= maxAge || f2 &lt;= f1){</span>
+<span class="nc" id="L311">      localBest[part] = indiv;</span>
+<span class="nc" id="L312">      age[part] = 0;</span>
+    }else{
+<span class="nc" id="L314">      age[part]++;</span>
+    }
+<span class="nc" id="L316">  }</span>
+
+  private double fitnessFunction(DoubleSolution sol, double[] lambda){
+<span class="nc" id="L319">    double fitness = 0.0;</span>
+
+<span class="nc bnc" id="L321" title="All 2 branches missed.">    if (functionType == FunctionType.TCHE) {</span>
+<span class="nc" id="L322">      double maxFun = -1.0e+30;</span>
+
+<span class="nc bnc" id="L324" title="All 2 branches missed.">      for (int n = 0; n &lt; problem.getNumberOfObjectives(); n++) {</span>
+<span class="nc" id="L325">        double diff = Math.abs(sol.getObjective(n) - z[n]);</span>
+
+        double feval;
+<span class="nc bnc" id="L328" title="All 2 branches missed.">        if (lambda[n] == 0) {</span>
+<span class="nc" id="L329">          feval = 0.0001 * diff;</span>
+        } else {
+<span class="nc" id="L331">          feval = diff * lambda[n];</span>
+        }
+<span class="nc bnc" id="L333" title="All 2 branches missed.">        if (feval &gt; maxFun) {</span>
+<span class="nc" id="L334">          maxFun = feval;</span>
+        }
+      }
+
+<span class="nc" id="L338">      fitness = maxFun;</span>
+
+<span class="nc bnc" id="L340" title="All 2 branches missed.">    }else if(functionType == FunctionType.AGG){</span>
+<span class="nc" id="L341">      double sum = 0.0;</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">      for (int n = 0; n &lt; problem.getNumberOfObjectives(); n++) {</span>
+<span class="nc" id="L343">        sum += (lambda[n]) * sol.getObjective(n);</span>
+      }
+
+<span class="nc" id="L346">      fitness = sum;</span>
+
+<span class="nc bnc" id="L348" title="All 2 branches missed.">    }else if(functionType == FunctionType.PBI){</span>
+      double d1, d2, nl;
+<span class="nc" id="L350">      double theta = 5.0;</span>
+
+<span class="nc" id="L352">      d1 = d2 = nl = 0.0;</span>
+
+<span class="nc bnc" id="L354" title="All 2 branches missed.">      for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++)</span>
+      {
+<span class="nc" id="L356">        d1 += (sol.getObjective(i) - z[i]) * lambda[i];</span>
+<span class="nc" id="L357">        nl += Math.pow(lambda[i], 2.0);</span>
+      }
+<span class="nc" id="L359">      nl = Math.sqrt(nl);</span>
+<span class="nc" id="L360">      d1 = Math.abs(d1) / nl;</span>
+
+<span class="nc bnc" id="L362" title="All 2 branches missed.">      for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++)</span>
+      {
+<span class="nc" id="L364">        d2 += Math.pow((sol.getObjective(i) - z[i]) - d1 * (lambda[i] / nl), 2.0);</span>
+      }
+<span class="nc" id="L366">      d2 = Math.sqrt(d2);</span>
+
+<span class="nc" id="L368">      fitness = (d1 + theta * d2);</span>
+
+<span class="nc" id="L370">    }else{</span>
+<span class="nc" id="L371">      System.out.println(&quot;dMOPSO.fitnessFunction: unknown type &quot; + functionType);</span>
+<span class="nc" id="L372">      System.exit(-1);</span>
+    }
+<span class="nc" id="L374">    return fitness;</span>
+  }
+
+  private void shuffleGlobalBest(){
+<span class="nc" id="L378">    int[] aux = new int[swarmSize];</span>
+    int rnd;
+    int tmp;
+
+<span class="nc bnc" id="L382" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc" id="L383">      aux[i] = i;</span>
+    }
+
+<span class="nc bnc" id="L386" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc" id="L387">      rnd = randomGenerator.nextInt(i, swarmSize - 1);</span>
+<span class="nc" id="L388">      tmp = aux[rnd];</span>
+<span class="nc" id="L389">      aux[rnd] = aux[i];</span>
+<span class="nc" id="L390">      shfGBest[i] = tmp;</span>
+    }
+<span class="nc" id="L392">  }</span>
+
+  private void repairBounds(int part){
+
+<span class="nc" id="L396">    DoubleSolution particle = getSwarm().get(part) ;</span>
+
+<span class="nc bnc" id="L398" title="All 2 branches missed.">    for(int var = 0; var &lt; particle.getNumberOfVariables(); var++){</span>
+<span class="nc bnc" id="L399" title="All 2 branches missed.">      if (particle.getVariableValue(var) &lt; problem.getLowerBound(var)) {</span>
+<span class="nc" id="L400">        particle.setVariableValue(var, problem.getLowerBound(var));</span>
+<span class="nc" id="L401">        speed[part][var] = speed[part][var] * changeVelocity1;</span>
+      }
+<span class="nc bnc" id="L403" title="All 2 branches missed.">      if (particle.getVariableValue(var) &gt; problem.getUpperBound(var)) {</span>
+<span class="nc" id="L404">        particle.setVariableValue(var, problem.getUpperBound(var));</span>
+<span class="nc" id="L405">        speed[part][var] = speed[part][var] * changeVelocity2;</span>
+      }
+    }
+<span class="nc" id="L408">  }</span>
+
+  private void resetParticle(int i) {
+<span class="nc" id="L411">    DoubleSolution particle = getSwarm().get(i) ;</span>
+    double mean, sigma, N;
+
+<span class="nc bnc" id="L414" title="All 2 branches missed.">    for (int var = 0; var &lt; particle.getNumberOfVariables(); var++) {</span>
+      DoubleSolution gB, pB;
+<span class="nc" id="L416">      gB = globalBest[shfGBest[i]];</span>
+<span class="nc" id="L417">      pB = localBest[i];</span>
+
+<span class="nc" id="L419">      mean = (gB.getVariableValue(var) - pB.getVariableValue(var))/2;</span>
+
+<span class="nc" id="L421">      sigma = Math.abs(gB.getVariableValue(var) - pB.getVariableValue(var));</span>
+
+<span class="nc" id="L423">      java.util.Random rnd = new java.util.Random();</span>
+
+<span class="nc" id="L425">      N = rnd.nextGaussian()*sigma + mean;</span>
+
+<span class="nc" id="L427">      particle.setVariableValue(var,N);</span>
+<span class="nc" id="L428">      speed[i][var] = 0.0;</span>
+    }
+<span class="nc" id="L430">  }</span>
+
+  private double velocityConstriction(double v, double[] deltaMax, double[] deltaMin,
+                                      int variableIndex, int particleIndex) {
+
+    double result;
+
+<span class="nc" id="L437">    double dmax = deltaMax[variableIndex];</span>
+<span class="nc" id="L438">    double dmin = deltaMin[variableIndex];</span>
+
+<span class="nc" id="L440">    result = v;</span>
+
+<span class="nc bnc" id="L442" title="All 2 branches missed.">    if (v &gt; dmax) {</span>
+<span class="nc" id="L443">      result = dmax;</span>
+    }
+
+<span class="nc bnc" id="L446" title="All 2 branches missed.">    if (v &lt; dmin) {</span>
+<span class="nc" id="L447">      result = dmin;</span>
+    }
+
+<span class="nc" id="L450">    return result;</span>
+  }
+
+  private double constrictionCoefficient(double c1, double c2) {
+<span class="nc" id="L454">    double rho = c1 + c2;</span>
+<span class="nc bnc" id="L455" title="All 2 branches missed.">    if (rho &lt;= 4) {</span>
+<span class="nc" id="L456">      return 1.0;</span>
+    } else {
+<span class="nc" id="L458">      return 2 / (2 - rho - Math.sqrt(Math.pow(rho, 2.0) - 4.0 * rho));</span>
+    }
+  }
+
+  private double inertiaWeight(int iter, int miter, double wma, double wmin) {
+<span class="nc" id="L463">    return wma;</span>
+  }
+
+  @Override
+  public void run() {
+<span class="nc" id="L468">    swarm = createInitialSwarm() ;</span>
+<span class="nc" id="L469">    evaluateSwarm(swarm) ;</span>
+<span class="nc" id="L470">    initializeVelocity(getSwarm());</span>
+
+<span class="nc" id="L472">    initUniformWeight();</span>
+<span class="nc" id="L473">    initIdealPoint();</span>
+
+<span class="nc" id="L475">    initializeLeaders(getSwarm());</span>
+<span class="nc" id="L476">    initializeParticlesMemory(getSwarm());</span>
+
+<span class="nc" id="L478">    updateGlobalBest();</span>
+
+<span class="nc" id="L480">    initProgress();</span>
+<span class="nc bnc" id="L481" title="All 2 branches missed.">    while (!isStoppingConditionReached()) {</span>
+<span class="nc" id="L482">      shuffleGlobalBest();</span>
+
+<span class="nc bnc" id="L484" title="All 2 branches missed.">      for (int i = 0 ; i &lt; getSwarm().size(); i++) {</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">        if (age[i] &lt; maxAge) {</span>
+<span class="nc" id="L486">          updateVelocity(i);</span>
+<span class="nc" id="L487">          computeNewPositions(i);</span>
+        } else {
+<span class="nc" id="L489">          resetParticle(i);</span>
+        }
+       
+<span class="nc" id="L492">        repairBounds(i);</span>
+
+<span class="nc" id="L494">        problem.evaluate(swarm.get(i));</span>
+<span class="nc" id="L495">        updateReference(swarm.get(i));</span>
+<span class="nc" id="L496">        updateLocalBest(i);</span>
+      }
+<span class="nc" id="L498">      updateGlobalBest();</span>
+<span class="nc" id="L499">      updateProgress();</span>
+    }
+<span class="nc" id="L501">  }</span>
+
+  @Override
+  public List&lt;DoubleSolution&gt; getResult() {
+<span class="nc" id="L505">    return Arrays.asList(globalBest) ;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L509">    return this.name ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L513">    return &quot;MOPSO with decomposition&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

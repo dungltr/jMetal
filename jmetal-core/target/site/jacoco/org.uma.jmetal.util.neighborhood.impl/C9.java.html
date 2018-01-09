@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>C9.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.neighborhood.impl</a> &gt; <span class="el_source">C9.java</span></div><h1>C9.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.neighborhood.impl;
+
+import org.uma.jmetal.util.neighborhood.util.TwoDimensionalMesh;
+
+/**
+ * Class representing neighborhoods for a solution into a list of solutions
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class C9&lt;S&gt; extends TwoDimensionalMesh&lt;S&gt; {
+
+  // There are 8 possible movements: north, south, east, west, northeast, northwest,southeast, southwest
+  // Each movement is represented by an array of two positions: first component represents the
+  // movement in the file, the second one the movement in the column
+<span class="fc" id="L17">  private static final int [] north      = {-1,  0};</span>
+<span class="fc" id="L18">  private static final int [] south      = { 1 , 0};</span>
+<span class="fc" id="L19">  private static final int [] east       = { 0 , 1};</span>
+<span class="fc" id="L20">  private static final int [] west       = { 0 ,-1};</span>
+<span class="fc" id="L21">  private static final int [] north_east = {-1,  1};</span>
+<span class="fc" id="L22">  private static final int [] north_west = {-1, -1};</span>
+<span class="fc" id="L23">  private static final int [] south_east = { 1 , 1};</span>
+<span class="fc" id="L24">  private static final int [] south_west = { 1 ,-1};</span>
+
+<span class="fc" id="L26">  private static final int [][] neighborhood = {north, south, west, east, north_east,</span>
+      north_west, south_east, south_west};
+
+  /**
+   * Constructor
+   *
+   * Defines a neighborhood of shape rows x columns (rows x columns must equal solutionSetSize)
+   * @param rows the number of rows
+   * @param columns the number of columns
+   */
+  public C9(int rows, int columns) {
+<span class="fc" id="L37">    super (rows, columns, neighborhood) ;</span>
+<span class="fc" id="L38">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

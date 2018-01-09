@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WFGHypervolume.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl.hypervolume</a> &gt; <span class="el_source">WFGHypervolume.java</span></div><h1>WFGHypervolume.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl.hypervolume;
+
+import org.uma.jmetal.qualityindicator.impl.Hypervolume;
+import org.uma.jmetal.qualityindicator.impl.hypervolume.util.WfgHypervolumeFront;
+import org.uma.jmetal.qualityindicator.impl.hypervolume.util.WfgHypervolumeVersion;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.HypervolumeContributionComparator;
+import org.uma.jmetal.util.comparator.ObjectiveComparator;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.point.Point;
+import org.uma.jmetal.util.point.impl.ArrayPoint;
+import org.uma.jmetal.util.solutionattribute.impl.HypervolumeContributionAttribute;
+
+import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * Created by ajnebro on 2/2/15.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class WFGHypervolume&lt;S extends Solution&lt;?&gt;&gt; extends Hypervolume&lt;S&gt; {
+
+  private Point referencePoint;
+  private int numberOfObjectives;
+
+  private static final double DEFAULT_OFFSET = 100.0 ;
+<span class="pc" id="L28">  private double offset = DEFAULT_OFFSET ;</span>
+  /**
+   * Default constructor
+   */
+<span class="fc" id="L32">  public WFGHypervolume() {</span>
+<span class="fc" id="L33">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @throws FileNotFoundException
+   */
+  public WFGHypervolume(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L42">    super(referenceParetoFrontFile) ;</span>
+<span class="nc" id="L43">    numberOfObjectives = referenceParetoFront.getPointDimensions() ;</span>
+<span class="nc" id="L44">    referencePoint = null ;</span>
+<span class="nc" id="L45">    updateReferencePoint(referenceParetoFront);</span>
+<span class="nc" id="L46">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFront
+   * @throws FileNotFoundException
+   */
+  public WFGHypervolume(Front referenceParetoFront) {
+<span class="nc" id="L55">    super(referenceParetoFront) ;</span>
+<span class="nc" id="L56">    numberOfObjectives = referenceParetoFront.getPointDimensions() ;</span>
+<span class="nc" id="L57">    referencePoint = null ;</span>
+<span class="nc" id="L58">    updateReferencePoint(referenceParetoFront);</span>
+<span class="nc" id="L59">  }</span>
+
+  @Override
+  public Double evaluate(List&lt;S&gt; solutionList) {
+    double hv;
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">    if (solutionList.size() == 0) {</span>
+<span class="nc" id="L65">      hv = 0.0;</span>
+    } else {
+<span class="fc" id="L67">      numberOfObjectives = solutionList.get(0).getNumberOfObjectives();</span>
+<span class="fc" id="L68">      referencePoint = new ArrayPoint(numberOfObjectives);</span>
+<span class="fc" id="L69">      updateReferencePoint(solutionList);</span>
+
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">      if (numberOfObjectives == 2) {</span>
+<span class="fc" id="L72">        Collections.sort(solutionList, new ObjectiveComparator&lt;Solution&lt;?&gt;&gt;(numberOfObjectives-1,</span>
+            ObjectiveComparator.Ordering.DESCENDING));
+<span class="fc" id="L74">        hv = get2DHV(solutionList) ;</span>
+      } else {
+<span class="nc" id="L76">        WfgHypervolumeVersion wfgHv = new WfgHypervolumeVersion(numberOfObjectives, solutionList.size());</span>
+<span class="nc" id="L77">        hv = wfgHv.getHV(new WfgHypervolumeFront(solutionList));</span>
+      }
+    }
+
+<span class="fc" id="L81">    return hv;</span>
+  }
+
+  public double computeHypervolume(List&lt;S&gt; solutionList, Point referencePoint) {
+<span class="nc" id="L85">    double hv = 0.0;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    if (solutionList.size() == 0) {</span>
+<span class="nc" id="L87">      hv = 0.0;</span>
+    } else {
+<span class="nc" id="L89">      numberOfObjectives = solutionList.get(0).getNumberOfObjectives();</span>
+<span class="nc" id="L90">      this.referencePoint = referencePoint;</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      if (numberOfObjectives == 2) {</span>
+<span class="nc" id="L93">        Collections.sort(solutionList, new ObjectiveComparator&lt;Solution&lt;?&gt;&gt;(solutionList.size()-1,</span>
+            ObjectiveComparator.Ordering.DESCENDING));
+<span class="nc" id="L95">        hv = get2DHV(solutionList) ;</span>
+      } else {
+<span class="nc" id="L97">        WfgHypervolumeVersion wfgHv = new WfgHypervolumeVersion(numberOfObjectives, solutionList.size());</span>
+<span class="nc" id="L98">        hv = wfgHv.getHV(new WfgHypervolumeFront(solutionList));</span>
+      }
+    }
+
+<span class="nc" id="L102">    return hv;</span>
+  }
+
+  /**
+   * Updates the reference point
+   */
+  private void updateReferencePoint(List&lt;? extends Solution&lt;?&gt;&gt; solutionList) {
+<span class="fc" id="L109">    double[] maxObjectives = new double[numberOfObjectives];</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="fc" id="L111">      maxObjectives[i] = 0;</span>
+    }
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">    for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">        if (maxObjectives[j] &lt; solutionList.get(i).getObjective(j)) {</span>
+<span class="fc" id="L117">          maxObjectives[j] = solutionList.get(i).getObjective(j) ;</span>
+        }
+      }
+    }
+
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">    if (referencePoint == null) {</span>
+<span class="nc" id="L123">      referencePoint = new ArrayPoint(numberOfObjectives) ;</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfObjectives ; i++) {</span>
+<span class="nc" id="L125">        referencePoint.setDimensionValue(i, Double.MAX_VALUE);</span>
+      }
+    }
+
+<span class="fc bfc" id="L129" title="All 2 branches covered.">    for (int i = 0; i &lt; referencePoint.getNumberOfDimensions(); i++) {</span>
+<span class="fc" id="L130">      referencePoint.setDimensionValue(i, maxObjectives[i] + offset);</span>
+    }
+<span class="fc" id="L132">  }</span>
+
+  /**
+   * Updates the reference point
+   */
+  private void updateReferencePoint(Front front) {
+<span class="nc" id="L138">    double[] maxObjectives = new double[numberOfObjectives];</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="nc" id="L140">      maxObjectives[i] = 0;</span>
+    }
+
+<span class="nc bnc" id="L143" title="All 2 branches missed.">    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (maxObjectives[j] &lt; front.getPoint(i).getDimensionValue(j)) {</span>
+<span class="nc" id="L146">          maxObjectives[j] = front.getPoint(i).getDimensionValue(j) ;</span>
+        }
+      }
+    }
+
+<span class="nc bnc" id="L151" title="All 2 branches missed.">    for (int i = 0; i &lt; referencePoint.getNumberOfDimensions(); i++) {</span>
+<span class="nc" id="L152">      referencePoint.setDimensionValue(i, maxObjectives[i] + offset);</span>
+    }
+<span class="nc" id="L154">  }</span>
+
+  /**
+   * Computes the HV of a solution list.
+   * REQUIRES: The problem is bi-objective
+   * REQUIRES: The setArchive is ordered in descending order by the second objective
+   *
+   * @return
+   */
+  public double get2DHV(List&lt;? extends Solution&lt;?&gt;&gt; solutionSet) {
+<span class="fc" id="L164">    double hv = 0.0;</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">    if (solutionSet.size() &gt; 0) {</span>
+<span class="fc" id="L166">      hv = Math.abs((solutionSet.get(0).getObjective(0) - referencePoint.getDimensionValue(0)) *</span>
+<span class="fc" id="L167">          (solutionSet.get(0).getObjective(1) - referencePoint.getDimensionValue(1)));</span>
+
+<span class="fc bfc" id="L169" title="All 2 branches covered.">      for (int i = 1; i &lt; solutionSet.size(); i++) {</span>
+<span class="fc" id="L170">        double tmp =</span>
+<span class="fc" id="L171">            Math.abs((solutionSet.get(i).getObjective(0) - referencePoint.getDimensionValue(0)) *</span>
+<span class="fc" id="L172">                (solutionSet.get(i).getObjective(1) - solutionSet.get(i - 1).getObjective(1)));</span>
+<span class="fc" id="L173">        hv += tmp;</span>
+      }
+    }
+<span class="fc" id="L176">    return hv;</span>
+  }
+
+  @Override
+  public List&lt;S&gt; computeHypervolumeContribution(List&lt;S&gt; solutionList, List&lt;S&gt; referenceFrontList) {
+<span class="nc" id="L181">    numberOfObjectives = solutionList.get(0).getNumberOfObjectives() ;</span>
+<span class="nc" id="L182">    updateReferencePoint(referenceFrontList);</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">    if (solutionList.size() &gt; 1) {</span>
+<span class="nc" id="L184">      double[] contributions = new double[solutionList.size()];</span>
+<span class="nc" id="L185">      double solutionSetHV = 0;</span>
+
+<span class="nc" id="L187">      solutionSetHV = evaluate(solutionList);</span>
+
+<span class="nc bnc" id="L189" title="All 2 branches missed.">      for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L190">        S currentPoint = solutionList.get(i);</span>
+<span class="nc" id="L191">        solutionList.remove(i);</span>
+
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if (numberOfObjectives == 2) {</span>
+<span class="nc" id="L194">          contributions[i] = solutionSetHV - get2DHV(solutionList);</span>
+        } else {
+          //Front front = new Front(solutionSet.size(), numberOfObjectives, solutionSet);
+<span class="nc" id="L197">          WfgHypervolumeFront front = new WfgHypervolumeFront(solutionList);</span>
+<span class="nc" id="L198">          double hv = new WfgHypervolumeVersion(numberOfObjectives, solutionList.size()).getHV(front);</span>
+<span class="nc" id="L199">          contributions[i] = solutionSetHV - hv;</span>
+        }
+
+<span class="nc" id="L202">        solutionList.add(i, currentPoint);</span>
+      }
+
+<span class="nc" id="L205">      HypervolumeContributionAttribute&lt;Solution&lt;?&gt;&gt; hvContribution = new HypervolumeContributionAttribute&lt;Solution&lt;?&gt;&gt;();</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">      for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L207">        hvContribution.setAttribute(solutionList.get(i), contributions[i]);</span>
+      }
+
+<span class="nc" id="L210">      Collections.sort(solutionList, new HypervolumeContributionComparator&lt;S&gt;());</span>
+    }
+
+<span class="nc" id="L213">    return solutionList ;</span>
+  }
+
+  @Override
+  public double getOffset() {
+<span class="nc" id="L218">    return offset;</span>
+  }
+
+  @Override
+  public void setOffset(double offset) {
+<span class="nc" id="L223">    this.offset = offset ;</span>
+<span class="nc" id="L224">  }</span>
+
+  @Override public String getDescription() {
+<span class="nc" id="L227">    return &quot;WFG implementation of the hypervolume quality indicator&quot; ;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

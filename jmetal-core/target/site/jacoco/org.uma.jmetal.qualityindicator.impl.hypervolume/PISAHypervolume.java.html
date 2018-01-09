@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PISAHypervolume.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl.hypervolume</a> &gt; <span class="el_source">PISAHypervolume.java</span></div><h1>PISAHypervolume.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl.hypervolume;
+
+import org.uma.jmetal.qualityindicator.impl.Hypervolume;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.HypervolumeContributionComparator;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.util.FrontNormalizer;
+import org.uma.jmetal.util.front.util.FrontUtils;
+import org.uma.jmetal.util.point.Point;
+import org.uma.jmetal.util.solutionattribute.impl.HypervolumeContributionAttribute;
+
+import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * This class implements the hypervolume indicator. The code is the a Java version
+ * of the original metric implementation by Eckart Zitzler.
+ * Reference: E. Zitzler and L. Thiele
+ * Multiobjective Evolutionary Algorithms: A Comparative Case Study and the Strength Pareto Approach,
+ * IEEE Transactions on Evolutionary Computation, vol. 3, no. 4,
+ * pp. 257-271, 1999.
+
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class PISAHypervolume&lt;S extends Solution&lt;?&gt;&gt; extends Hypervolume&lt;S&gt; {
+
+  private static final double DEFAULT_OFFSET = 100.0 ;
+<span class="pc" id="L34">  private double offset = DEFAULT_OFFSET ;</span>
+
+  /**
+   * Default constructor
+   */
+<span class="nc" id="L39">  public PISAHypervolume() {</span>
+<span class="nc" id="L40">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @throws FileNotFoundException
+   */
+  public PISAHypervolume(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L49">    super(referenceParetoFrontFile) ;</span>
+<span class="nc" id="L50">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFront
+   * @throws FileNotFoundException
+   */
+  public PISAHypervolume(Front referenceParetoFront) {
+<span class="fc" id="L59">    super(referenceParetoFront) ;</span>
+<span class="fc" id="L60">  }</span>
+
+  /**
+   * Evaluate() method
+   * @param paretoFrontApproximation
+   * @return
+   */
+  @Override public Double evaluate(List&lt;S&gt; paretoFrontApproximation) {
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">    if (paretoFrontApproximation == null) {</span>
+<span class="fc" id="L69">      throw new JMetalException(&quot;The pareto front approximation is null&quot;) ;</span>
+    }
+
+<span class="nc" id="L72">    return hypervolume(new ArrayFront(paretoFrontApproximation), referenceParetoFront);  }</span>
+
+  /*
+   returns true if 'point1' dominates 'points2' with respect to the
+   to the first 'noObjectives' objectives
+   */
+  private boolean dominates(double point1[], double point2[], int noObjectives) {
+    int i;
+    int betterInAnyObjective;
+
+<span class="nc" id="L82">    betterInAnyObjective = 0;</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">    for (i = 0; i &lt; noObjectives &amp;&amp; point1[i] &gt;= point2[i]; i++) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">      if (point1[i] &gt; point2[i]) {</span>
+<span class="nc" id="L85">        betterInAnyObjective = 1;</span>
+      }
+    }
+
+<span class="nc bnc" id="L89" title="All 4 branches missed.">    return ((i &gt;= noObjectives) &amp;&amp; (betterInAnyObjective &gt; 0));</span>
+  }
+
+  private void swap(double[][] front, int i, int j) {
+    double[] temp;
+
+<span class="nc" id="L95">    temp = front[i];</span>
+<span class="nc" id="L96">    front[i] = front[j];</span>
+<span class="nc" id="L97">    front[j] = temp;</span>
+<span class="nc" id="L98">  }</span>
+
+  /* all nondominated points regarding the first 'noObjectives' dimensions
+  are collected; the points referenced by 'front[0..noPoints-1]' are
+  considered; 'front' is resorted, such that 'front[0..n-1]' contains
+  the nondominated points; n is returned */
+  private int filterNondominatedSet(double[][] front, int noPoints, int noObjectives) {
+    int i, j;
+    int n;
+
+<span class="nc" id="L108">    n = noPoints;</span>
+<span class="nc" id="L109">    i = 0;</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">    while (i &lt; n) {</span>
+<span class="nc" id="L111">      j = i + 1;</span>
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      while (j &lt; n) {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (dominates(front[i], front[j], noObjectives)) {</span>
+  /* remove point 'j' */
+<span class="nc" id="L115">          n--;</span>
+<span class="nc" id="L116">          swap(front, j, n);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        } else if (dominates(front[j], front[i], noObjectives)) {</span>
+	/* remove point 'i'; ensure that the point copied to index 'i'
+	   is considered in the next outer loop (thus, decrement i) */
+<span class="nc" id="L120">          n--;</span>
+<span class="nc" id="L121">          swap(front, i, n);</span>
+<span class="nc" id="L122">          i--;</span>
+<span class="nc" id="L123">          break;</span>
+        } else {
+<span class="nc" id="L125">          j++;</span>
+        }
+      }
+<span class="nc" id="L128">      i++;</span>
+    }
+<span class="nc" id="L130">    return n;</span>
+  }
+
+  /* calculate next value regarding dimension 'objective'; consider
+     points referenced in 'front[0..noPoints-1]' */
+  private double surfaceUnchangedTo(double[][] front, int noPoints, int objective) {
+    int i;
+    double minValue, value;
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (noPoints &lt; 1) {</span>
+<span class="nc" id="L140">      new JMetalException(&quot;run-time error&quot;);</span>
+    }
+
+<span class="nc" id="L143">    minValue = front[0][objective];</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">    for (i = 1; i &lt; noPoints; i++) {</span>
+<span class="nc" id="L145">      value = front[i][objective];</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">      if (value &lt; minValue) {</span>
+<span class="nc" id="L147">        minValue = value;</span>
+      }
+    }
+<span class="nc" id="L150">    return minValue;</span>
+  }
+
+  /* remove all points which have a value &lt;= 'threshold' regarding the
+     dimension 'objective'; the points referenced by
+     'front[0..noPoints-1]' are considered; 'front' is resorted, such that
+     'front[0..n-1]' contains the remaining points; 'n' is returned */
+  private int reduceNondominatedSet(double[][] front, int noPoints, int objective,
+                                    double threshold) {
+    int n;
+    int i;
+
+<span class="nc" id="L162">    n = noPoints;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">    for (i = 0; i &lt; n; i++) {</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">      if (front[i][objective] &lt;= threshold) {</span>
+<span class="nc" id="L165">        n--;</span>
+<span class="nc" id="L166">        swap(front, i, n);</span>
+      }
+    }
+
+<span class="nc" id="L170">    return n;</span>
+  }
+
+  public double calculateHypervolume(double[][] front, int noPoints, int noObjectives) {
+    int n;
+    double volume, distance;
+
+<span class="nc" id="L177">    volume = 0;</span>
+<span class="nc" id="L178">    distance = 0;</span>
+<span class="nc" id="L179">    n = noPoints;</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">    while (n &gt; 0) {</span>
+      int nonDominatedPoints;
+      double tempVolume, tempDistance;
+
+<span class="nc" id="L184">      nonDominatedPoints = filterNondominatedSet(front, n, noObjectives - 1);</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">      if (noObjectives &lt; 3) {</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">        if (nonDominatedPoints &lt; 1) {</span>
+<span class="nc" id="L187">          new JMetalException(&quot;run-time error&quot;);</span>
+        }
+
+<span class="nc" id="L190">        tempVolume = front[0][0];</span>
+      } else {
+<span class="nc" id="L192">        tempVolume = calculateHypervolume(front, nonDominatedPoints, noObjectives - 1);</span>
+      }
+
+<span class="nc" id="L195">      tempDistance = surfaceUnchangedTo(front, n, noObjectives - 1);</span>
+<span class="nc" id="L196">      volume += tempVolume * (tempDistance - distance);</span>
+<span class="nc" id="L197">      distance = tempDistance;</span>
+<span class="nc" id="L198">      n = reduceNondominatedSet(front, n, noObjectives - 1, distance);</span>
+<span class="nc" id="L199">    }</span>
+<span class="nc" id="L200">    return volume;</span>
+  }
+
+  /**
+   * Returns the hypervolume value of a front of points
+   *
+   * @param front        The front
+   * @param referenceFront    The true pareto front
+   */
+  private double hypervolume(Front front, Front referenceFront) {
+
+    Front invertedFront;
+<span class="nc" id="L212">    invertedFront = FrontUtils.getInvertedFront(front);</span>
+
+<span class="nc" id="L214">    int numberOfObjectives = referenceFront.getPoint(0).getNumberOfDimensions() ;</span>
+
+    // STEP4. The hypervolume (control is passed to the Java version of Zitzler code)
+<span class="nc" id="L217">    return this.calculateHypervolume(FrontUtils.convertFrontToArray(invertedFront),</span>
+<span class="nc" id="L218">        invertedFront.getNumberOfPoints(), numberOfObjectives);</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L222">    return &quot;PISA implementation of the hypervolume quality indicator&quot; ;</span>
+  }
+
+  @Override
+  public void setOffset (double offset) {
+<span class="nc" id="L227">    this.offset = offset ;</span>
+<span class="nc" id="L228">  }</span>
+
+  @Override
+  public List&lt;S&gt; computeHypervolumeContribution(List&lt;S&gt; solutionList, List&lt;S&gt; referenceFrontList) {
+<span class="nc bnc" id="L232" title="All 2 branches missed.">    if (solutionList.size() &gt; 1) {</span>
+<span class="nc" id="L233">      Front front = new ArrayFront(solutionList) ;</span>
+<span class="nc" id="L234">      Front referenceFront = new ArrayFront(referenceFrontList) ;</span>
+
+      // STEP 1. Obtain the maximum and minimum values of the Pareto front
+<span class="nc" id="L237">      double[] maximumValues = FrontUtils.getMaximumValues(referenceFront) ;</span>
+<span class="nc" id="L238">      double[] minimumValues = FrontUtils.getMinimumValues(referenceFront) ;</span>
+
+      // STEP 2. Get the normalized front
+<span class="nc" id="L241">      FrontNormalizer frontNormalizer = new FrontNormalizer(minimumValues, maximumValues) ;</span>
+<span class="nc" id="L242">      Front normalizedFront = frontNormalizer.normalize(front) ;</span>
+
+      // compute offsets for reference point in normalized space
+<span class="nc" id="L245">      double[] offsets = new double[maximumValues.length];</span>
+<span class="nc bnc" id="L246" title="All 2 branches missed.">      for (int i = 0; i &lt; maximumValues.length; i++) {</span>
+<span class="nc" id="L247">        offsets[i] = offset / (maximumValues[i] - minimumValues[i]);</span>
+      }
+      // STEP 3. Inverse the pareto front. This is needed because the original
+      // metric by Zitzler is for maximization problem
+<span class="nc" id="L251">      Front invertedFront = FrontUtils.getInvertedFront(normalizedFront);</span>
+
+      // shift away from origin, so that boundary points also get a contribution &gt; 0
+<span class="nc bnc" id="L254" title="All 2 branches missed.">      for (int i = 0; i &lt; invertedFront.getNumberOfPoints(); i++) {</span>
+<span class="nc" id="L255">        Point point = invertedFront.getPoint(i) ;</span>
+
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        for (int j = 0; j &lt; point.getNumberOfDimensions(); j++) {</span>
+<span class="nc" id="L258">          point.setDimensionValue(j, point.getDimensionValue(j)+ offsets[j]);</span>
+        }
+      }
+
+<span class="nc" id="L262">      HypervolumeContributionAttribute&lt;S&gt; hvContribution = new HypervolumeContributionAttribute&lt;&gt;() ;</span>
+
+      // calculate contributions and sort
+<span class="nc" id="L265">      double[] contributions = hvContributions(FrontUtils.convertFrontToArray(invertedFront));</span>
+<span class="nc bnc" id="L266" title="All 2 branches missed.">      for (int i = 0; i &lt; contributions.length; i++) {</span>
+<span class="nc" id="L267">        hvContribution.setAttribute(solutionList.get(i), contributions[i]);</span>
+      }
+
+<span class="nc" id="L270">      Collections.sort(solutionList, new HypervolumeContributionComparator&lt;S&gt;());</span>
+
+    }
+<span class="nc" id="L273">    return solutionList ;</span>
+  }
+
+  @Override
+
+  public double getOffset() {
+<span class="nc" id="L279">    return offset ;</span>
+  }
+
+  /**
+   * Calculates how much hypervolume each point dominates exclusively. The points
+   * have to be transformed beforehand, to accommodate the assumptions of Zitzler's
+   * hypervolume code.
+   *
+   * @param front transformed objective values
+   * @return HV contributions
+   */
+  private double[] hvContributions(double[][] front) {
+
+<span class="nc" id="L292">    int numberOfObjectives = front[0].length ;</span>
+<span class="nc" id="L293">    double[] contributions = new double[front.length];</span>
+<span class="nc" id="L294">    double[][] frontSubset = new double[front.length - 1][front[0].length];</span>
+<span class="nc" id="L295">    LinkedList&lt;double[]&gt; frontCopy = new LinkedList&lt;double[]&gt;();</span>
+<span class="nc" id="L296">    Collections.addAll(frontCopy, front);</span>
+<span class="nc" id="L297">    double[][] totalFront = frontCopy.toArray(frontSubset);</span>
+<span class="nc" id="L298">    double totalVolume =</span>
+<span class="nc" id="L299">        this.calculateHypervolume(totalFront, totalFront.length, numberOfObjectives);</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">    for (int i = 0; i &lt; front.length; i++) {</span>
+<span class="nc" id="L301">      double[] evaluatedPoint = frontCopy.remove(i);</span>
+<span class="nc" id="L302">      frontSubset = frontCopy.toArray(frontSubset);</span>
+      // STEP4. The hypervolume (control is passed to java version of Zitzler code)
+<span class="nc" id="L304">      double hv = this.calculateHypervolume(frontSubset, frontSubset.length, numberOfObjectives);</span>
+<span class="nc" id="L305">      double contribution = totalVolume - hv;</span>
+<span class="nc" id="L306">      contributions[i] = contribution;</span>
+      // put point back
+<span class="nc" id="L308">      frontCopy.add(i, evaluatedPoint);</span>
+    }
+<span class="nc" id="L310">    return contributions;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

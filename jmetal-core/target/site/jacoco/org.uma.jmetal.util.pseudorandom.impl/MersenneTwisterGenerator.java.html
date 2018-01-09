@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MersenneTwisterGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.pseudorandom.impl</a> &gt; <span class="el_source">MersenneTwisterGenerator.java</span></div><h1>MersenneTwisterGenerator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.pseudorandom.impl;
+
+import org.apache.commons.math3.random.MersenneTwister;
+import org.uma.jmetal.util.pseudorandom.PseudoRandomGenerator;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MersenneTwisterGenerator implements PseudoRandomGenerator {
+  private MersenneTwister rnd ;
+  private long seed ;
+  private static final String name = &quot;MersenneTwister&quot; ;
+
+  /** Constructor */
+  public MersenneTwisterGenerator() {
+<span class="nc" id="L17">    this(System.currentTimeMillis());</span>
+<span class="nc" id="L18">  }</span>
+
+  /** Constructor */
+<span class="nc" id="L21">  public MersenneTwisterGenerator(long seed) {</span>
+<span class="nc" id="L22">    this.seed = seed ;</span>
+<span class="nc" id="L23">    rnd = new MersenneTwister(seed) ;</span>
+<span class="nc" id="L24">  }</span>
+
+  @Override
+  public long getSeed() {
+<span class="nc" id="L28">    return seed ;</span>
+  }
+
+  @Override
+  public int nextInt(int lowerBound, int upperBound) {
+<span class="nc" id="L33">    return lowerBound + rnd.nextInt((upperBound - lowerBound) + 1) ;</span>
+  }
+
+  @Override
+  public double nextDouble(double lowerBound, double upperBound) {
+<span class="nc" id="L38">    return lowerBound + rnd.nextDouble()*(upperBound - lowerBound) ;</span>
+  }
+
+  @Override public double nextDouble() {
+<span class="nc" id="L42">    return nextDouble(0.0, 1.0);</span>
+  }
+
+  @Override
+  public void setSeed(long seed) {
+<span class="nc" id="L47">    this.seed = seed ;</span>
+<span class="nc" id="L48">    rnd.setSeed(seed);</span>
+<span class="nc" id="L49">  }</span>
+
+  @Override
+  public String getName() {
+<span class="nc" id="L53">    return name ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

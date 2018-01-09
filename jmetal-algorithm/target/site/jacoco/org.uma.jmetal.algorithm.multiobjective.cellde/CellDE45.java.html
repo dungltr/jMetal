@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CellDE45.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.cellde</a> &gt; <span class="el_source">CellDE45.java</span></div><h1>CellDE45.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.cellde;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.archive.BoundedArchive;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.neighborhood.Neighborhood;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.CrowdingDistance;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+import org.uma.jmetal.util.solutionattribute.impl.LocationAttribute;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ *
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class CellDE45 implements Algorithm&lt;List&lt;DoubleSolution&gt;&gt; {
+  private Problem&lt;DoubleSolution&gt; problem ;
+  private List&lt;DoubleSolution&gt; population ;
+  private int populationSize ;
+
+  protected int evaluations;
+  protected int maxEvaluations;
+
+  private Neighborhood&lt;DoubleSolution&gt; neighborhood;
+  private int currentIndividual;
+  private List&lt;DoubleSolution&gt; currentNeighbors;
+
+  private SelectionOperator&lt;List&lt;DoubleSolution&gt;, DoubleSolution&gt; selection ;
+  private DifferentialEvolutionCrossover crossover ;
+
+  private BoundedArchive&lt;DoubleSolution&gt; archive;
+
+  private Comparator&lt;DoubleSolution&gt; dominanceComparator;
+  private LocationAttribute&lt;DoubleSolution&gt; location;
+
+  private SolutionListEvaluator&lt;DoubleSolution&gt; evaluator ;
+
+  private double feedback ;
+
+<span class="nc" id="L52">  private CrowdingDistanceComparator&lt;DoubleSolution&gt; comparator = new CrowdingDistanceComparator&lt;&gt;() ;</span>
+<span class="nc" id="L53">  private CrowdingDistance&lt;DoubleSolution&gt; distance = new CrowdingDistance&lt;&gt;() ;</span>
+
+  public CellDE45(Problem&lt;DoubleSolution&gt; problem,
+                  int maxEvaluations,
+                  int populationSize,
+                  BoundedArchive&lt;DoubleSolution&gt; archive,
+                  Neighborhood&lt;DoubleSolution&gt; neighborhood,
+                  SelectionOperator&lt;List&lt;DoubleSolution&gt;, DoubleSolution&gt; selection,
+                  DifferentialEvolutionCrossover crossover,
+                  double feedback,
+<span class="nc" id="L63">                  SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {</span>
+<span class="nc" id="L64">    this.problem = problem ;</span>
+<span class="nc" id="L65">    this.populationSize = populationSize;</span>
+<span class="nc" id="L66">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L67">    this.archive = archive ;</span>
+<span class="nc" id="L68">    this.neighborhood = neighborhood ;</span>
+<span class="nc" id="L69">    this.selection = selection;</span>
+<span class="nc" id="L70">    this.crossover = crossover;</span>
+<span class="nc" id="L71">    this.dominanceComparator = new DominanceComparator&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L72">    this.feedback = feedback ;</span>
+
+<span class="nc" id="L74">    this.evaluator = evaluator ;</span>
+<span class="nc" id="L75">  }</span>
+
+  @Override
+  public void run() {
+<span class="nc" id="L79">    population = createInitialPopulation() ;</span>
+<span class="nc" id="L80">    population = evaluatePopulation(population) ;</span>
+<span class="nc" id="L81">    initProgress();</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    while (!isStoppingConditionReached()) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">      for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L85">        DoubleSolution solution = (DoubleSolution) population.get(i).copy();</span>
+
+<span class="nc" id="L87">        currentNeighbors = neighborhood.getNeighbors(population, i);</span>
+<span class="nc" id="L88">        currentNeighbors.add(population.get(i));</span>
+
+<span class="nc" id="L90">        List&lt;DoubleSolution&gt; parents = new ArrayList&lt;&gt;() ;</span>
+<span class="nc" id="L91">        parents.add(selection.execute(currentNeighbors)) ;</span>
+<span class="nc" id="L92">        parents.add(selection.execute(currentNeighbors)) ;</span>
+<span class="nc" id="L93">        parents.add(solution);</span>
+
+<span class="nc" id="L95">        crossover.setCurrentSolution(population.get(i));</span>
+<span class="nc" id="L96">        List&lt;DoubleSolution&gt; children = crossover.execute(parents);</span>
+
+<span class="nc" id="L98">        DoubleSolution offspring = children.get(0) ;</span>
+<span class="nc" id="L99">        problem.evaluate(offspring);</span>
+<span class="nc" id="L100">        evaluations ++ ;</span>
+
+<span class="nc" id="L102">        int result = dominanceComparator.compare(population.get(i), offspring) ;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (result == 1) {</span>
+<span class="nc" id="L104">          location.setAttribute(offspring, location.getAttribute(population.get(i)));</span>
+<span class="nc" id="L105">          population.set(i, (DoubleSolution) offspring.copy()) ;</span>
+<span class="nc" id="L106">          archive.add((DoubleSolution) offspring.copy()) ;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        } else if (result == 0) {</span>
+<span class="nc" id="L108">          Ranking&lt;DoubleSolution&gt; ranking = computeRanking(currentNeighbors);</span>
+
+<span class="nc" id="L110">          distance.computeDensityEstimator(ranking.getSubfront(0));</span>
+<span class="nc" id="L111">          boolean deleteMutant = true ;</span>
+<span class="nc" id="L112">          int compareResult = comparator.compare(solution, offspring) ;</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">          if (compareResult == 1) {</span>
+<span class="nc" id="L115">            deleteMutant = false ;</span>
+          }
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">          if (!deleteMutant) {</span>
+<span class="nc" id="L119">            location.setAttribute(offspring, location.getAttribute(solution));</span>
+<span class="nc" id="L120">            population.set(location.getAttribute(offspring), offspring) ;</span>
+<span class="nc" id="L121">            archive.add((DoubleSolution) offspring.copy()) ;</span>
+          } else {
+<span class="nc" id="L123">            archive.add((DoubleSolution) offspring.copy()) ;</span>
+          }
+        }
+      }
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">      for (int i = 0 ; i &lt; feedback; i++) {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (archive.size() &gt; i) {</span>
+<span class="nc" id="L130">          int random = JMetalRandom.getInstance().nextInt(0, population.size()-1) ;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">          if (random &lt; population.size()) {</span>
+<span class="nc" id="L132">            DoubleSolution solution = archive.get(i) ;</span>
+<span class="nc" id="L133">            location.setAttribute(solution, random);</span>
+<span class="nc" id="L134">            population.set(random, (DoubleSolution) solution.copy()) ;</span>
+          }
+        }
+      }
+    }
+
+<span class="nc" id="L140">  }</span>
+
+  protected List&lt;DoubleSolution&gt; createInitialPopulation() {
+<span class="nc" id="L143">    List&lt;DoubleSolution&gt; population = new ArrayList&lt;&gt;(populationSize);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L145">      DoubleSolution newIndividual = problem.createSolution();</span>
+<span class="nc" id="L146">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L148">    location = new LocationAttribute&lt;&gt;(population);</span>
+<span class="nc" id="L149">    return population;</span>
+  }
+
+  protected List&lt;DoubleSolution&gt; evaluatePopulation(List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L153">    return evaluator.evaluate(population, problem);</span>
+  }
+
+  protected void initProgress() {
+<span class="nc" id="L157">    evaluations = populationSize;</span>
+<span class="nc" id="L158">    currentIndividual=0;</span>
+<span class="nc" id="L159">  }</span>
+
+  protected void updateProgress() {
+<span class="nc" id="L162">    evaluations++;</span>
+<span class="nc" id="L163">    currentIndividual=(currentIndividual+1)%populationSize;</span>
+<span class="nc" id="L164">  }</span>
+
+  protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L167" title="All 2 branches missed.">    return (evaluations==maxEvaluations);</span>
+  }
+
+
+  @Override public String getName() {
+<span class="nc" id="L172">    return &quot;CellDE&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L176">    return &quot;Multi-Objective Differential Evolution Cellular evolutionary algorithm&quot; ;</span>
+  }
+
+  @Override
+  public List&lt;DoubleSolution&gt; getResult() {
+<span class="nc" id="L181">    return archive.getSolutionList();</span>
+  }
+  
+  protected Ranking&lt;DoubleSolution&gt; computeRanking(List&lt;DoubleSolution&gt; solutionList) {
+<span class="nc" id="L185">    Ranking&lt;DoubleSolution&gt; ranking = new DominanceRanking&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L186">    ranking.computeRanking(solutionList);</span>
+    
+<span class="nc" id="L188">    return ranking;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

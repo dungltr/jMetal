@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractMOMBI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi</a> &gt; <span class="el_source">AbstractMOMBI.java</span></div><h1>AbstractMOMBI.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi;
+
+import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Abstract class representing variants of the MOMBI algorithm
+ * @author Juan J. Durillo
+ * Modified by Antonio J. Nebro
+ *
+ * @param &lt;S&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public abstract class AbstractMOMBI&lt;S extends Solution&lt;?&gt;&gt; extends AbstractGeneticAlgorithm&lt;S,List&lt;S&gt;&gt; {
+	protected final int maxIterations;
+
+<span class="nc" id="L26">	protected int iterations = 0;</span>
+	protected final SolutionListEvaluator&lt;S&gt; evaluator;
+	protected final List&lt;Double&gt; referencePoint;
+	protected final List&lt;Double&gt; nadirPoint;
+
+	/**
+	 * Constructor
+	 *
+	 * @param problem Problem to be solved
+	 * @param maxIterations Maximum number of iterations the algorithm
+	 * will perform
+	 * @param crossover Crossover operator
+	 * @param mutation Mutation operator
+	 * @param selection Selection operator
+	 * @param evaluator Evaluator object for evaluating solution lists
+	 */
+	public AbstractMOMBI(Problem&lt;S&gt; problem, int maxIterations,
+											 CrossoverOperator&lt;S&gt; crossover, MutationOperator&lt;S&gt; mutation,
+											 SelectionOperator&lt;List&lt;S&gt;,S&gt; selection,
+											 SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc" id="L46">		super(problem);</span>
+<span class="nc" id="L47">		this.maxIterations = maxIterations;</span>
+
+<span class="nc" id="L49">		this.crossoverOperator 	= crossover;</span>
+<span class="nc" id="L50">		this.mutationOperator  	= mutation;</span>
+<span class="nc" id="L51">		this.selectionOperator  = selection;</span>
+
+<span class="nc" id="L53">		this.evaluator = evaluator;</span>
+
+<span class="nc" id="L55">		this.nadirPoint     = new ArrayList&lt;Double&gt;(this.getProblem().getNumberOfObjectives());</span>
+<span class="nc" id="L56">		this.initializeNadirPoint(this.getProblem().getNumberOfObjectives());</span>
+<span class="nc" id="L57">		this.referencePoint = new ArrayList&lt;Double&gt;(this.getProblem().getNumberOfObjectives());</span>
+<span class="nc" id="L58">		this.initializeReferencePoint(this.getProblem().getNumberOfObjectives());</span>
+<span class="nc" id="L59">	}</span>
+
+	@Override
+	protected void initProgress() {
+<span class="nc" id="L63">		this.iterations = 1;</span>
+<span class="nc" id="L64">	}</span>
+
+	@Override
+	protected void updateProgress() {
+<span class="nc" id="L68">		this.iterations+=1;</span>
+<span class="nc" id="L69">	}</span>
+
+	@Override
+	protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		return this.iterations &gt;= this.maxIterations;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc" id="L78">		population = evaluator.evaluate(population, getProblem());</span>
+
+<span class="nc" id="L80">		return population;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L85">		List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(population.size());</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		for (int i = 0; i &lt; this.getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L87">			S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L88">			matingPopulation.add(solution);</span>
+		}
+
+<span class="nc" id="L91">		return matingPopulation;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
+<span class="nc" id="L96">		List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(this.getMaxPopulationSize());</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		for (int i = 0; i &lt; this.getMaxPopulationSize(); i += 2) {</span>
+<span class="nc" id="L98">			List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L99">			int parent1Index = JMetalRandom.getInstance().nextInt(0, this.getMaxPopulationSize()-1);</span>
+<span class="nc" id="L100">			int parent2Index = JMetalRandom.getInstance().nextInt(0, this.getMaxPopulationSize()-1);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">			while (parent1Index==parent2Index)</span>
+<span class="nc" id="L102">				parent2Index = JMetalRandom.getInstance().nextInt(0, this.getMaxPopulationSize()-1);</span>
+<span class="nc" id="L103">			parents.add(population.get(parent1Index));</span>
+<span class="nc" id="L104">			parents.add(population.get(parent2Index));</span>
+
+<span class="nc" id="L106">			List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+
+<span class="nc" id="L108">			mutationOperator.execute(offspring.get(0));</span>
+<span class="nc" id="L109">			mutationOperator.execute(offspring.get(1));</span>
+
+<span class="nc" id="L111">			offspringPopulation.add(offspring.get(0));</span>
+<span class="nc" id="L112">			offspringPopulation.add(offspring.get(1));</span>
+		}
+<span class="nc" id="L114">		return offspringPopulation;</span>
+	}
+
+	@Override
+	public List&lt;S&gt; getResult() {
+<span class="nc" id="L119">		this.setPopulation(evaluator.evaluate(this.getPopulation(), getProblem()));</span>
+
+<span class="nc" id="L121">		return this.getPopulation();</span>
+	}
+
+	@Override
+	public void run() {
+		List&lt;S&gt; offspringPopulation;
+		List&lt;S&gt; matingPopulation;
+
+<span class="nc" id="L129">		this.setPopulation(createInitialPopulation());</span>
+<span class="nc" id="L130">		this.evaluatePopulation(this.getPopulation());</span>
+<span class="nc" id="L131">		initProgress();</span>
+		//specific GA needed computations
+<span class="nc" id="L133">		this.specificMOEAComputations();</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		while (!isStoppingConditionReached()) {</span>
+<span class="nc" id="L135">			matingPopulation = selection(this.getPopulation());</span>
+<span class="nc" id="L136">			offspringPopulation = reproduction(matingPopulation);</span>
+<span class="nc" id="L137">			offspringPopulation = evaluatePopulation(offspringPopulation);</span>
+<span class="nc" id="L138">			this.setPopulation(replacement(this.getPopulation(), offspringPopulation));</span>
+<span class="nc" id="L139">			updateProgress();</span>
+			// specific GA needed computations
+<span class="nc" id="L141">			this.specificMOEAComputations();</span>
+		}
+<span class="nc" id="L143">	}</span>
+
+	public abstract void specificMOEAComputations();
+
+	public List&lt;Double&gt; getReferencePoint() {
+<span class="nc" id="L148">		return this.referencePoint;</span>
+	}
+
+	public List&lt;Double&gt; getNadirPoint() {
+<span class="nc" id="L152">		return this.nadirPoint;</span>
+	}
+
+	private void initializeReferencePoint(int size) {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">		for (int i = 0; i &lt; size; i++)</span>
+<span class="nc" id="L157">			this.getReferencePoint().add(Double.POSITIVE_INFINITY);</span>
+<span class="nc" id="L158">	}</span>
+
+	private void initializeNadirPoint(int size) {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">		for (int i = 0; i &lt; size; i++)</span>
+<span class="nc" id="L162">			this.getNadirPoint().add(Double.NEGATIVE_INFINITY);</span>
+<span class="nc" id="L163">	}</span>
+
+	protected void updateReferencePoint(S s) {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">		for (int i = 0; i &lt; s.getNumberOfObjectives(); i++)</span>
+<span class="nc" id="L167">			this.getReferencePoint().set(i, Math.min(this.getReferencePoint().get(i),s.getObjective(i)));</span>
+<span class="nc" id="L168">	}</span>
+
+	protected void updateNadirPoint(S s) {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		for (int i = 0; i &lt; s.getNumberOfObjectives(); i++)</span>
+<span class="nc" id="L172">			this.getNadirPoint().set(i, Math.max(this.getNadirPoint().get(i),s.getObjective(i)));</span>
+<span class="nc" id="L173">	}</span>
+
+	public void updateReferencePoint(List&lt;S&gt; population) {
+<span class="nc bnc" id="L176" title="All 2 branches missed.">		for (S solution : population)</span>
+<span class="nc" id="L177">			this.updateReferencePoint(solution);</span>
+<span class="nc" id="L178">	}</span>
+
+	public void updateNadirPoint(List&lt;S&gt; population) {
+<span class="nc bnc" id="L181" title="All 2 branches missed.">		for (S solution : population)</span>
+<span class="nc" id="L182">			this.updateNadirPoint(solution);</span>
+<span class="nc" id="L183">	}</span>
+
+	
+
+	protected boolean populationIsNotFull(List&lt;S&gt; population) {
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		return population.size() &lt; getMaxPopulationSize();</span>
+	}
+
+	protected void setReferencePointValue(Double value, int index) {
+<span class="nc bnc" id="L192" title="All 4 branches missed.">		if ((index &lt; 0) || (index &gt;= this.referencePoint.size())) {</span>
+<span class="nc" id="L193">			throw new IndexOutOfBoundsException();</span>
+		}
+
+<span class="nc" id="L196">		this.referencePoint.set(index, value);</span>
+<span class="nc" id="L197">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

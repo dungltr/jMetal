@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Kursawe.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">Kursawe.java</span></div><h1>Kursawe.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class representing problem Kursawe
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Kursawe extends AbstractDoubleProblem {
+
+  /**
+   * Constructor.
+   * Creates a default instance of the Kursawe problem.
+   */
+  public Kursawe() {
+    // 3 variables by default
+<span class="nc" id="L21">    this(3);</span>
+<span class="nc" id="L22">  }</span>
+
+  /**
+   * Constructor.
+   * Creates a new instance of the Kursawe problem.
+   *
+   * @param numberOfVariables Number of variables of the problem
+   */
+<span class="nc" id="L30">  public Kursawe(Integer numberOfVariables) {</span>
+<span class="nc" id="L31">    setNumberOfVariables(numberOfVariables);</span>
+<span class="nc" id="L32">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L33">    setName(&quot;Kursawe&quot;);</span>
+
+<span class="nc" id="L35">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L36">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L39">      lowerLimit.add(-5.0);</span>
+<span class="nc" id="L40">      upperLimit.add(5.0);</span>
+    }
+
+<span class="nc" id="L43">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L44">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L45">  }</span>
+
+  /** Evaluate() method */
+  public void evaluate(DoubleSolution solution){
+    double aux, xi, xj;
+<span class="nc" id="L50">    double[] fx = new double[getNumberOfObjectives()];</span>
+<span class="nc" id="L51">    double[] x = new double[getNumberOfVariables()];</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L53">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+
+<span class="nc" id="L56">    fx[0] = 0.0;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">    for (int var = 0; var &lt; solution.getNumberOfVariables() - 1; var++) {</span>
+<span class="nc" id="L58">      xi = x[var] * x[var];</span>
+<span class="nc" id="L59">      xj = x[var + 1] * x[var + 1];</span>
+<span class="nc" id="L60">      aux = (-0.2) * Math.sqrt(xi + xj);</span>
+<span class="nc" id="L61">      fx[0] += (-10.0) * Math.exp(aux);</span>
+    }
+
+<span class="nc" id="L64">    fx[1] = 0.0;</span>
+
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    for (int var = 0; var &lt; solution.getNumberOfVariables(); var++) {</span>
+<span class="nc" id="L67">      fx[1] += Math.pow(Math.abs(x[var]), 0.8) +</span>
+<span class="nc" id="L68">        5.0 * Math.sin(Math.pow(x[var], 3.0));</span>
+    }
+
+<span class="nc" id="L71">    solution.setObjective(0, fx[0]);</span>
+<span class="nc" id="L72">    solution.setObjective(1, fx[1]);</span>
+<span class="nc" id="L73">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

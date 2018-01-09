@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>R2RankingNormalized.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi.util</a> &gt; <span class="el_source">R2RankingNormalized.java</span></div><h1>R2RankingNormalized.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi.util;
+
+import org.uma.jmetal.solution.Solution;
+
+import java.util.*;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class R2RankingNormalized&lt;S extends Solution&lt;?&gt;&gt; extends R2Ranking&lt;S&gt; {
+
+  private List&lt;List&lt;S&gt;&gt; rankedSubpopulations;
+<span class="nc" id="L11">  private int numberOfRanks 								= 0;</span>
+  private final Normalizer normalizer;
+
+
+  public R2RankingNormalized(AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctions, Normalizer normalizer) {
+<span class="nc" id="L16">    super(utilityFunctions);</span>
+<span class="nc" id="L17">    this.normalizer       = normalizer;</span>
+<span class="nc" id="L18">  }</span>
+
+  private double computeNorm(S solution) {
+<span class="nc" id="L21">    List&lt;Double&gt; values = new ArrayList&lt;Double&gt;(solution.getNumberOfObjectives());</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfObjectives(); i++)</span>
+<span class="nc bnc" id="L23" title="All 2 branches missed.">      if (normalizer == null)</span>
+<span class="nc" id="L24">        values.add(solution.getObjective(i));</span>
+      else
+<span class="nc" id="L26">        values.add(this.normalizer.normalize(solution.getObjective(i), i));</span>
+
+<span class="nc" id="L28">    double result = 0.0;</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    for (Double d : values)</span>
+<span class="nc" id="L30">      result += Math.pow(d, 2.0);</span>
+
+<span class="nc" id="L32">    return Math.sqrt(result);</span>
+  }
+
+  public R2RankingNormalized&lt;S&gt; computeRanking(List&lt;S&gt; population) {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L37">      R2SolutionData data =  new R2SolutionData();</span>
+<span class="nc" id="L38">      data.utility = this.computeNorm(solution);</span>
+<span class="nc" id="L39">      solution.setAttribute(getAttributeIdentifier(), data);</span>
+<span class="nc" id="L40">    }</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    for (int i = 0; i &lt; this.getUtilityFunctions().getSize(); i++) {</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">      for (S solution : population) {</span>
+<span class="nc" id="L44">        R2SolutionData solutionData = this.getAttribute(solution);</span>
+<span class="nc" id="L45">        solutionData.alpha = this.getUtilityFunctions().evaluate(solution, i);</span>
+<span class="nc" id="L46">      }</span>
+
+<span class="nc" id="L48">      Collections.sort(population, new Comparator&lt;S&gt;() {</span>
+        @Override
+        public int compare(S o1, S o2) {
+<span class="nc" id="L51">          R2RankingAttribute&lt;S&gt; attribute = new R2RankingAttribute&lt;&gt;();</span>
+<span class="nc" id="L52">          R2SolutionData data1 = (R2SolutionData) attribute.getAttribute(o1);</span>
+<span class="nc" id="L53">          R2SolutionData data2 = (R2SolutionData) attribute.getAttribute(o2);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">          if (data1.alpha &lt; data2.alpha)</span>
+<span class="nc" id="L56">            return -1;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">          else if (data1.alpha &gt; data2.alpha)</span>
+<span class="nc" id="L58">            return 1;</span>
+          else
+<span class="nc" id="L60">            return 0;</span>
+        }
+      });
+
+<span class="nc" id="L64">      int rank = 1;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">      for (S p : population) {</span>
+<span class="nc" id="L66">        R2SolutionData r2Data = this.getAttribute(p);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (rank &lt; r2Data.rank) {</span>
+<span class="nc" id="L68">          r2Data.rank   = rank;</span>
+<span class="nc" id="L69">          numberOfRanks = Math.max(numberOfRanks, rank);</span>
+        }
+<span class="nc" id="L71">        rank = rank + 1;</span>
+<span class="nc" id="L72">      }</span>
+    }
+
+<span class="nc" id="L75">    Map&lt;Integer, List&lt;S&gt;&gt; fronts = new TreeMap&lt;&gt;(); // sorted on key</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L77">      R2SolutionData r2Data = this.getAttribute(solution);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">      if (fronts.get(r2Data.rank) == null)</span>
+<span class="nc" id="L79">        fronts.put(r2Data.rank, new LinkedList&lt;S&gt;());</span>
+
+<span class="nc" id="L81">      fronts.get(r2Data.rank).add(solution);</span>
+<span class="nc" id="L82">    }</span>
+
+<span class="nc" id="L84">    this.rankedSubpopulations = new ArrayList&lt;&gt;(fronts.size());</span>
+<span class="nc" id="L85">    Iterator&lt;Integer&gt; iterator = fronts.keySet().iterator();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    while (iterator.hasNext())</span>
+<span class="nc" id="L87">      this.rankedSubpopulations.add(fronts.get(iterator.next()));</span>
+
+<span class="nc" id="L89">    return this;</span>
+  }
+
+  public List&lt;S&gt; getSubfront(int rank) {
+<span class="nc" id="L93">    return this.rankedSubpopulations.get(rank);</span>
+  }
+
+  public int getNumberOfSubfronts() {
+<span class="nc" id="L97">    return this.rankedSubpopulations.size();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

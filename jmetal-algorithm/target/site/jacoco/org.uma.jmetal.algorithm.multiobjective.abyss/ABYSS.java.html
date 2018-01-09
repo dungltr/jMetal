@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ABYSS.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.abyss</a> &gt; <span class="el_source">ABYSS.java</span></div><h1>ABYSS.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.abyss;
+
+import org.uma.jmetal.algorithm.impl.AbstractScatterSearch;
+import org.uma.jmetal.algorithm.multiobjective.abyss.util.MarkAttribute;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.LocalSearchOperator;
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.SolutionUtils;
+import org.uma.jmetal.util.archive.Archive;
+import org.uma.jmetal.util.archive.impl.CrowdingDistanceArchive;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.comparator.EqualSolutionsComparator;
+import org.uma.jmetal.util.comparator.StrengthFitnessComparator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.solutionattribute.impl.DistanceToSolutionListAttribute;
+import org.uma.jmetal.util.solutionattribute.impl.StrengthRawFitness;
+
+import javax.management.JMException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * This class implements the AbYSS algorithm, a multiobjective scatter search metaheuristics,
+ * which is described in:
+ *   A.J. Nebro, F. Luna, E. Alba, B. Dorronsoro, J.J. Durillo, A. Beham
+ *   &quot;AbYSS: Adapting Scatter Search to Multiobjective Optimization.&quot; IEEE Transactions on
+ *   Evolutionary Computation. Vol. 12, No. 4 (August 2008), pp. 439-457
+ *
+ *   @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ *   @author Cristobal Barba
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ABYSS extends AbstractScatterSearch&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt; {
+  protected final int maxEvaluations ;
+  protected final Problem&lt;DoubleSolution&gt; problem;
+
+  protected final int referenceSet1Size ;
+  protected final int referenceSet2Size ;
+  protected List&lt;DoubleSolution&gt; referenceSet1 ;
+  protected List&lt;DoubleSolution&gt; referenceSet2 ;
+
+  protected final int archiveSize ;
+  protected Archive&lt;DoubleSolution&gt; archive ;
+
+  protected LocalSearchOperator&lt;DoubleSolution&gt; localSearch ;
+  protected CrossoverOperator&lt;DoubleSolution&gt; crossover ;
+  protected int evaluations;
+  protected JMetalRandom randomGenerator ;
+
+  /**
+   * These variables are used in the diversification method.
+   */
+  protected int numberOfSubRanges;
+  protected int[] sumOfFrequencyValues;
+  protected int[] sumOfReverseFrequencyValues;
+  protected int[][] frequency;
+  protected int[][] reverseFrequency;
+
+  protected StrengthRawFitness&lt;DoubleSolution&gt; strengthRawFitness; //TODO: invert this dependency
+  protected Comparator&lt;DoubleSolution&gt; fitnessComparator; //TODO: invert this dependency
+  protected MarkAttribute marked;
+  protected DistanceToSolutionListAttribute distanceToSolutionListAttribute;
+  protected Comparator&lt;DoubleSolution&gt; dominanceComparator;
+  protected Comparator&lt;DoubleSolution&gt; equalComparator;
+  protected Comparator&lt;DoubleSolution&gt; crowdingDistanceComparator;
+
+  public ABYSS(DoubleProblem problem, int maxEvaluations, int populationSize, int referenceSet1Size,
+      int referenceSet2Size, int archiveSize, Archive&lt;DoubleSolution&gt; archive,
+      LocalSearchOperator&lt;DoubleSolution&gt; localSearch,
+      CrossoverOperator&lt;DoubleSolution&gt; crossoverOperator,
+<span class="fc" id="L77">      int numberOfSubRanges) {</span>
+
+<span class="fc" id="L79">    setPopulationSize(populationSize);</span>
+
+<span class="fc" id="L81">    this.problem = problem ;</span>
+<span class="fc" id="L82">    this.maxEvaluations = maxEvaluations ;</span>
+<span class="fc" id="L83">    this.referenceSet1Size = referenceSet1Size ;</span>
+<span class="fc" id="L84">    this.referenceSet2Size = referenceSet2Size ;</span>
+<span class="fc" id="L85">    this.archiveSize = archiveSize ;</span>
+<span class="fc" id="L86">    this.archive = archive ;</span>
+<span class="fc" id="L87">    this.localSearch = localSearch ;</span>
+<span class="fc" id="L88">    this.crossover = crossoverOperator ;</span>
+
+<span class="fc" id="L90">    referenceSet1 = new ArrayList&lt;&gt;(referenceSet1Size) ;</span>
+<span class="fc" id="L91">    referenceSet2 = new ArrayList&lt;&gt;(referenceSet2Size) ;</span>
+
+<span class="fc" id="L93">    this.numberOfSubRanges = numberOfSubRanges ;</span>
+
+<span class="fc" id="L95">    randomGenerator = JMetalRandom.getInstance() ;</span>
+
+<span class="fc" id="L97">    sumOfFrequencyValues       = new int[problem.getNumberOfVariables()] ;</span>
+<span class="fc" id="L98">    sumOfReverseFrequencyValues = new int[problem.getNumberOfVariables()] ;</span>
+<span class="fc" id="L99">    frequency       = new int[numberOfSubRanges][problem.getNumberOfVariables()] ;</span>
+<span class="fc" id="L100">    reverseFrequency = new int[numberOfSubRanges][problem.getNumberOfVariables()] ;</span>
+
+<span class="fc" id="L102">    strengthRawFitness = new StrengthRawFitness&lt;DoubleSolution&gt;() ;</span>
+<span class="fc" id="L103">    fitnessComparator = new StrengthFitnessComparator&lt;DoubleSolution&gt;();</span>
+<span class="fc" id="L104">    marked = new MarkAttribute();</span>
+<span class="fc" id="L105">    distanceToSolutionListAttribute = new DistanceToSolutionListAttribute();</span>
+<span class="fc" id="L106">    crowdingDistanceComparator = new CrowdingDistanceComparator&lt;DoubleSolution&gt;();</span>
+
+<span class="fc" id="L108">    dominanceComparator = new DominanceComparator&lt;DoubleSolution&gt;();</span>
+<span class="fc" id="L109">    equalComparator = new EqualSolutionsComparator&lt;DoubleSolution&gt;();</span>
+
+<span class="fc" id="L111">    evaluations = 0 ;</span>
+<span class="fc" id="L112">  }</span>
+
+  @Override public boolean isStoppingConditionReached() {
+<span class="fc bfc" id="L115" title="All 2 branches covered.">    return evaluations &gt;= maxEvaluations ;</span>
+  }
+
+  @Override public DoubleSolution improvement(DoubleSolution solution) {
+<span class="fc" id="L119">    DoubleSolution improvedSolution = localSearch.execute(solution) ;</span>
+<span class="fc" id="L120">    evaluations += localSearch.getEvaluations() ;</span>
+
+<span class="fc" id="L122">    return improvedSolution ;</span>
+  }
+
+  @Override public List&lt;DoubleSolution&gt; getResult() {
+<span class="nc" id="L126">    return archive.getSolutionList();</span>
+  }
+
+  @Override public DoubleSolution diversificationGeneration() {
+<span class="fc" id="L130">    DoubleSolution solution = problem.createSolution();</span>
+
+    double value;
+    int range;
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L136">      sumOfReverseFrequencyValues[i] = 0;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">      for (int j = 0; j &lt; numberOfSubRanges; j++) {</span>
+<span class="fc" id="L138">        reverseFrequency[j][i] = sumOfFrequencyValues[i] - frequency[j][i];</span>
+<span class="fc" id="L139">        sumOfReverseFrequencyValues[i] += reverseFrequency[j][i];</span>
+      }
+
+<span class="fc bfc" id="L142" title="All 2 branches covered.">      if (sumOfReverseFrequencyValues[i] == 0) {</span>
+<span class="fc" id="L143">        range = randomGenerator.nextInt(0, numberOfSubRanges - 1);</span>
+      } else {
+<span class="fc" id="L145">        value = randomGenerator.nextInt(0, sumOfReverseFrequencyValues[i] - 1);</span>
+<span class="fc" id="L146">        range = 0;</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">        while (value &gt; reverseFrequency[range][i]) {</span>
+<span class="fc" id="L148">          value -= reverseFrequency[range][i];</span>
+<span class="fc" id="L149">          range++;</span>
+        }
+      }
+
+<span class="fc" id="L153">      frequency[range][i]++;</span>
+<span class="fc" id="L154">      sumOfFrequencyValues[i]++;</span>
+
+<span class="fc" id="L156">      double low = ((DoubleProblem)problem).getLowerBound(i) + range *</span>
+<span class="fc" id="L157">          (((DoubleProblem)problem).getUpperBound(i) -</span>
+<span class="fc" id="L158">              ((DoubleProblem)problem).getLowerBound(i)) / numberOfSubRanges;</span>
+<span class="fc" id="L159">      double high = low + (((DoubleProblem)problem).getUpperBound(i) -</span>
+<span class="fc" id="L160">          ((DoubleProblem)problem).getLowerBound(i)) / numberOfSubRanges;</span>
+
+<span class="fc" id="L162">      value = randomGenerator.nextDouble(low, high);</span>
+<span class="fc" id="L163">      solution.setVariableValue(i, value);</span>
+    }
+
+<span class="fc" id="L166">    problem.evaluate(solution);</span>
+<span class="fc" id="L167">    evaluations ++ ;</span>
+<span class="fc" id="L168">    return solution;</span>
+  }
+
+  /**
+   * Build the reference set after the initialization phase
+   */
+  @Override public void referenceSetUpdate() {
+<span class="fc" id="L175">    buildNewReferenceSet1() ;</span>
+<span class="fc" id="L176">    buildNewReferenceSet2();</span>
+<span class="fc" id="L177">  }</span>
+
+  /**
+   * Update the reference set with a new solution
+   * @param solution
+   */
+  @Override public void referenceSetUpdate(DoubleSolution solution) {
+<span class="fc bfc" id="L184" title="All 2 branches covered.">    if (refSet1Test(solution)) {</span>
+<span class="fc bfc" id="L185" title="All 2 branches covered.">      for (DoubleSolution solutionInRefSet2 : referenceSet2) {</span>
+<span class="fc" id="L186">        double aux = SolutionUtils.distanceBetweenSolutionsInObjectiveSpace(solution, solutionInRefSet2);</span>
+<span class="fc" id="L187">        DoubleSolution auxSolution = solutionInRefSet2;</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">        if (aux &lt; distanceToSolutionListAttribute.getAttribute(auxSolution)) {</span>
+<span class="nc" id="L189">          distanceToSolutionListAttribute.setAttribute(auxSolution, aux);</span>
+        }
+<span class="fc" id="L191">      }</span>
+    } else {
+<span class="fc" id="L193">      refSet2Test(solution);</span>
+    }
+<span class="fc" id="L195">  }</span>
+
+  /**
+   * Build the referenceSet1 by moving the best referenceSet1Size individuals, according to
+   * a fitness comparator, from the population to the referenceSet1
+   */
+  public void buildNewReferenceSet1() {
+    DoubleSolution individual;
+<span class="fc" id="L203">    strengthRawFitness.computeDensityEstimator(getPopulation());</span>
+<span class="fc" id="L204">    Collections.sort(getPopulation(), fitnessComparator);</span>
+
+<span class="fc bfc" id="L206" title="All 2 branches covered.">    for (int i = 0; i &lt; referenceSet1Size; i++) {</span>
+<span class="fc" id="L207">      individual = getPopulation().get(0);</span>
+<span class="fc" id="L208">      getPopulation().remove(0);</span>
+<span class="fc" id="L209">      marked.setAttribute(individual, false);</span>
+<span class="fc" id="L210">      referenceSet1.add(individual);</span>
+    }
+<span class="fc" id="L212">  }</span>
+
+  /**
+   * Build the referenceSet2 by moving to it the most diverse referenceSet2Size individuals from the
+   * population in respect to the referenceSet1.
+   *
+   * The size of the referenceSet2 can be lower than referenceSet2Size depending on the current size
+   * of the population
+   */
+  public void buildNewReferenceSet2() {
+<span class="fc bfc" id="L222" title="All 2 branches covered.">    for (int i = 0; i &lt; getPopulation().size(); i++) {</span>
+<span class="fc" id="L223">      DoubleSolution individual = getPopulation().get(i);</span>
+<span class="fc" id="L224">      double distanceAux = SolutionUtils</span>
+<span class="fc" id="L225">          .distanceToSolutionListInSolutionSpace(individual, referenceSet1);</span>
+<span class="fc" id="L226">      distanceToSolutionListAttribute.setAttribute(individual, distanceAux);</span>
+    }
+
+<span class="fc" id="L229">    int size = referenceSet2Size;</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">    if (getPopulation().size() &lt; referenceSet2Size) {</span>
+<span class="fc" id="L231">      size = getPopulation().size();</span>
+    }
+
+<span class="fc bfc" id="L234" title="All 2 branches covered.">    for (int i = 0; i &lt; size; i++) {</span>
+      // Find the maximumMinimumDistanceToPopulation
+<span class="fc" id="L236">      double maxMinimum = 0.0;</span>
+<span class="fc" id="L237">      int index = 0;</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">      for (int j = 0; j &lt; getPopulation().size(); j++) {</span>
+
+<span class="fc" id="L240">        DoubleSolution auxSolution = getPopulation().get(j);</span>
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">        if (distanceToSolutionListAttribute.getAttribute(auxSolution) &gt; maxMinimum) {</span>
+<span class="nc" id="L242">          maxMinimum = distanceToSolutionListAttribute.getAttribute(auxSolution);</span>
+<span class="nc" id="L243">          index = j;</span>
+        }
+      }
+<span class="fc" id="L246">      DoubleSolution individual = getPopulation().get(index);</span>
+<span class="fc" id="L247">      getPopulation().remove(index);</span>
+
+      // Update distances to REFSET in population
+<span class="fc bfc" id="L250" title="All 2 branches covered.">      for (int j = 0; j &lt; getPopulation().size(); j++) {</span>
+<span class="fc" id="L251">        double aux = SolutionUtils.distanceBetweenSolutionsInObjectiveSpace(getPopulation().get(j), individual);</span>
+
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">        if (aux &lt; distanceToSolutionListAttribute.getAttribute(individual)) {</span>
+<span class="nc" id="L254">          DoubleSolution auxSolution = getPopulation().get(j);</span>
+<span class="nc" id="L255">          distanceToSolutionListAttribute.setAttribute(auxSolution, aux);</span>
+        }
+      }
+
+      // Insert the individual into REFSET2
+<span class="fc" id="L260">      marked.setAttribute(individual, false);</span>
+<span class="fc" id="L261">      referenceSet2.add(individual);</span>
+
+      // Update distances in REFSET2
+<span class="fc bfc" id="L264" title="All 2 branches covered.">      for (int j = 0; j &lt; referenceSet2.size(); j++) {</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        for (int k = 0; k &lt; referenceSet2.size(); k++) {</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">          if (i != j) {</span>
+<span class="fc" id="L267">            double aux = SolutionUtils.distanceBetweenSolutionsInObjectiveSpace(referenceSet2.get(j), referenceSet2.get(k));</span>
+<span class="fc" id="L268">            DoubleSolution auxSolution = referenceSet2.get(j);</span>
+<span class="pc bpc" id="L269" title="1 of 2 branches missed.">            if (aux &lt; distanceToSolutionListAttribute.getAttribute(auxSolution)) {</span>
+<span class="nc" id="L270">              distanceToSolutionListAttribute.setAttribute(auxSolution, aux);</span>
+            }
+          }
+        }
+      }
+    }
+<span class="fc" id="L276">  }</span>
+
+  /**
+   * Tries to update the reference set one with a solution
+   *
+   * @param solution The &lt;code&gt;Solution&lt;/code&gt;
+   * @return true if the &lt;code&gt;Solution&lt;/code&gt; has been inserted, false
+   * otherwise.
+   */
+  public boolean refSet1Test(DoubleSolution solution) {
+<span class="fc" id="L286">    boolean dominated = false;</span>
+    int flag;
+<span class="fc" id="L288">    int i = 0;</span>
+<span class="fc bfc" id="L289" title="All 2 branches covered.">    while (i &lt; referenceSet1.size()) {</span>
+<span class="fc" id="L290">      flag = dominanceComparator.compare(solution, referenceSet1.get(i));</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">      if (flag == -1) { //This is: solution dominates</span>
+<span class="fc" id="L292">        referenceSet1.remove(i);</span>
+<span class="fc bfc" id="L293" title="All 2 branches covered.">      } else if (flag == 1) {</span>
+<span class="fc" id="L294">        dominated = true;</span>
+<span class="fc" id="L295">        i++;</span>
+      } else {
+<span class="fc" id="L297">        flag = equalComparator.compare(solution, referenceSet1.get(i));</span>
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">        if (flag == 0) {</span>
+<span class="nc" id="L299">          return true;</span>
+        } // if
+<span class="fc" id="L301">        i++;</span>
+      } // if
+    } // while
+
+<span class="fc bfc" id="L305" title="All 2 branches covered.">    if (!dominated) {</span>
+<span class="fc" id="L306">      marked.setAttribute(solution, false);</span>
+<span class="fc bfc" id="L307" title="All 2 branches covered.">      if (referenceSet1.size() &lt; referenceSet1Size) { //refSet1 isn't full</span>
+<span class="fc" id="L308">        referenceSet1.add(solution);</span>
+      } else {
+<span class="fc" id="L310">        archive.add(solution);</span>
+      } // if
+    } else {
+<span class="fc" id="L313">      return false;</span>
+    } // if
+<span class="fc" id="L315">    return true;</span>
+  }
+
+  /**
+   * Try to update the reference set 2 with a &lt;code&gt;Solution&lt;/code&gt;
+   *
+   * @param solution The &lt;code&gt;Solution&lt;/code&gt;
+   * @return true if the &lt;code&gt;Solution&lt;/code&gt; has been inserted, false
+   * otherwise.
+   * @throws JMException
+   */
+  public boolean refSet2Test(DoubleSolution solution) {
+<span class="pc bpc" id="L327" title="1 of 2 branches missed.">    if (referenceSet2.size() &lt; referenceSet2Size) {</span>
+<span class="nc" id="L328">      double solutionAux = SolutionUtils.distanceToSolutionListInSolutionSpace(solution, referenceSet1);</span>
+<span class="nc" id="L329">      distanceToSolutionListAttribute.setAttribute(solution, solutionAux);</span>
+<span class="nc" id="L330">      double aux = SolutionUtils.distanceToSolutionListInSolutionSpace(solution, referenceSet2);</span>
+<span class="nc bnc" id="L331" title="All 2 branches missed.">      if (aux &lt; distanceToSolutionListAttribute.getAttribute(solution)) {</span>
+<span class="nc" id="L332">        distanceToSolutionListAttribute.setAttribute(solution, aux);</span>
+      }
+<span class="nc" id="L334">      referenceSet2.add(solution);</span>
+<span class="nc" id="L335">      return true;</span>
+    }
+<span class="fc" id="L337">    double auxDistance = SolutionUtils.distanceToSolutionListInSolutionSpace(solution, referenceSet1);</span>
+<span class="fc" id="L338">    distanceToSolutionListAttribute.setAttribute(solution, auxDistance);</span>
+<span class="fc" id="L339">    double aux = SolutionUtils.distanceToSolutionListInSolutionSpace(solution, referenceSet2);</span>
+<span class="pc bpc" id="L340" title="1 of 2 branches missed.">    if (aux &lt; distanceToSolutionListAttribute.getAttribute(solution)) {</span>
+<span class="nc" id="L341">      distanceToSolutionListAttribute.setAttribute(solution, aux);</span>
+    }
+<span class="fc" id="L343">    double worst = 0.0;</span>
+<span class="fc" id="L344">    int index = 0;</span>
+<span class="fc bfc" id="L345" title="All 2 branches covered.">    for (int i = 0; i &lt; referenceSet2.size(); i++) {</span>
+<span class="fc" id="L346">      DoubleSolution auxSolution = referenceSet2.get(i);</span>
+<span class="fc" id="L347">      aux = distanceToSolutionListAttribute.getAttribute(auxSolution);</span>
+<span class="pc bpc" id="L348" title="1 of 2 branches missed.">      if (aux &gt; worst) {</span>
+<span class="nc" id="L349">        worst = aux;</span>
+<span class="nc" id="L350">        index = i;</span>
+      }
+    }
+
+<span class="fc" id="L354">    double auxDist = distanceToSolutionListAttribute.getAttribute(solution);</span>
+<span class="pc bpc" id="L355" title="1 of 2 branches missed.">    if (auxDist &lt; worst) {</span>
+<span class="nc" id="L356">      referenceSet2.remove(index);</span>
+      //Update distances in REFSET2
+<span class="nc bnc" id="L358" title="All 2 branches missed.">      for (int j = 0; j &lt; referenceSet2.size(); j++) {</span>
+<span class="nc" id="L359">        aux = SolutionUtils.distanceBetweenSolutionsInObjectiveSpace(referenceSet2.get(j), solution);</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">        if (aux &lt; distanceToSolutionListAttribute.getAttribute(referenceSet2.get(j))) {</span>
+<span class="nc" id="L361">          distanceToSolutionListAttribute.setAttribute(referenceSet2.get(j), aux);</span>
+        }
+      }
+<span class="nc" id="L364">      marked.setAttribute(solution, false);</span>
+<span class="nc" id="L365">      referenceSet2.add(solution);</span>
+<span class="nc" id="L366">      return true;</span>
+    }
+<span class="fc" id="L368">    return false;</span>
+  }
+
+  @Override
+  public boolean restartConditionIsFulfilled(List&lt;DoubleSolution&gt; combinedSolutions) {
+<span class="nc" id="L373">    return combinedSolutions.isEmpty() ;</span>
+  }
+
+  /**
+   * Subset generation method
+   * @return
+   */
+  @Override
+  public List&lt;List&lt;DoubleSolution&gt;&gt; subsetGeneration() {
+    List&lt;List&lt;DoubleSolution&gt;&gt; solutionGroupsList ;
+
+<span class="fc" id="L384">    solutionGroupsList = generatePairsFromSolutionList(referenceSet1) ;</span>
+
+<span class="fc" id="L386">    solutionGroupsList.addAll(generatePairsFromSolutionList(referenceSet2));</span>
+
+<span class="fc" id="L388">    return solutionGroupsList ;</span>
+  }
+
+  /**
+   * Generate all pair combinations of the referenceSet1
+   */
+  public List&lt;List&lt;DoubleSolution&gt;&gt; generatePairsFromSolutionList(List&lt;DoubleSolution&gt; solutionList) {
+<span class="fc" id="L395">    List&lt;List&lt;DoubleSolution&gt;&gt; subset = new ArrayList&lt;&gt;() ;</span>
+<span class="fc bfc" id="L396" title="All 2 branches covered.">    for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="fc" id="L397">      DoubleSolution solution1 = solutionList.get(i);</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">      for (int j = i + 1; j &lt; solutionList.size(); j++) {</span>
+<span class="fc" id="L399">        DoubleSolution solution2 = solutionList.get(j);</span>
+
+<span class="fc bfc" id="L401" title="All 2 branches covered.">        if (!marked.getAttribute(solution1) ||</span>
+<span class="fc bfc" id="L402" title="All 2 branches covered.">            !marked.getAttribute(solution2)) {</span>
+<span class="fc" id="L403">          List&lt;DoubleSolution&gt; pair = new ArrayList&lt;&gt;(2);</span>
+<span class="fc" id="L404">          pair.add(solution1);</span>
+<span class="fc" id="L405">          pair.add(solution2);</span>
+<span class="fc" id="L406">          subset.add(pair);</span>
+
+<span class="fc" id="L408">          marked.setAttribute(solutionList.get(i), true);</span>
+<span class="fc" id="L409">          marked.setAttribute(solutionList.get(j), true);</span>
+        }
+      }
+    }
+
+<span class="fc" id="L414">    return subset ;</span>
+  }
+
+  @Override
+  public List&lt;DoubleSolution&gt; solutionCombination(List&lt;List&lt;DoubleSolution&gt;&gt; solutionList) {
+<span class="fc" id="L419">    List&lt;DoubleSolution&gt; resultList = new ArrayList&lt;&gt;() ;</span>
+<span class="fc bfc" id="L420" title="All 2 branches covered.">    for (List&lt;DoubleSolution&gt; pair : solutionList) {</span>
+<span class="fc" id="L421">      List&lt;DoubleSolution&gt; offspring = (List&lt;DoubleSolution&gt;) crossover.execute(pair);</span>
+<span class="pc bpc" id="L422" title="1 of 2 branches missed.">      if (problem instanceof ConstrainedProblem) {</span>
+<span class="nc" id="L423">        ((ConstrainedProblem&lt;DoubleSolution&gt;) problem).evaluateConstraints(offspring.get(0));</span>
+<span class="nc" id="L424">        ((ConstrainedProblem&lt;DoubleSolution&gt;) problem).evaluateConstraints(offspring.get(1));</span>
+      }
+
+<span class="fc" id="L427">      problem.evaluate(offspring.get(0));</span>
+<span class="fc" id="L428">      problem.evaluate(offspring.get(1));</span>
+<span class="fc" id="L429">      evaluations += 2;</span>
+<span class="fc" id="L430">      resultList.add(offspring.get(0));</span>
+<span class="fc" id="L431">      resultList.add(offspring.get(1));</span>
+<span class="fc" id="L432">    }</span>
+
+<span class="fc" id="L434">    return resultList;</span>
+  }
+
+  @Override
+  public void restart() {
+<span class="fc" id="L439">    getPopulation().clear();</span>
+<span class="fc" id="L440">    addReferenceSet1ToPopulation() ;</span>
+<span class="fc" id="L441">    updatePopulationWithArchive() ;</span>
+<span class="fc" id="L442">    fillPopulationWithRandomSolutions() ;</span>
+<span class="fc" id="L443">  }</span>
+
+  private void addReferenceSet1ToPopulation() {
+<span class="fc bfc" id="L446" title="All 2 branches covered.">    for (int i = 0; i &lt; referenceSet1.size(); i++) {</span>
+<span class="fc" id="L447">      DoubleSolution solution = referenceSet1.get(i);</span>
+<span class="fc" id="L448">      solution = improvement(solution);</span>
+<span class="fc" id="L449">      marked.setAttribute(solution, false);</span>
+
+<span class="fc" id="L451">      getPopulation().add(solution);</span>
+    }
+<span class="fc" id="L453">    referenceSet1.clear();</span>
+<span class="fc" id="L454">    referenceSet2.clear();</span>
+<span class="fc" id="L455">  }</span>
+
+  private void updatePopulationWithArchive() {
+    CrowdingDistanceArchive&lt;DoubleSolution&gt; crowdingArchive ;
+<span class="fc" id="L459">    crowdingArchive = (CrowdingDistanceArchive&lt;DoubleSolution&gt;)archive ;</span>
+<span class="fc" id="L460">    crowdingArchive.computeDensityEstimator();</span>
+
+<span class="fc" id="L462">    Collections.sort(crowdingArchive.getSolutionList(),crowdingDistanceComparator);</span>
+
+<span class="fc" id="L464">    int insert = getPopulationSize() / 2;</span>
+
+<span class="pc bpc" id="L466" title="1 of 2 branches missed.">    if (insert &gt; crowdingArchive.getSolutionList().size())</span>
+<span class="fc" id="L467">      insert = crowdingArchive.getSolutionList().size();</span>
+
+<span class="pc bpc" id="L469" title="1 of 2 branches missed.">    if (insert &gt; (getPopulationSize() - getPopulation().size()))</span>
+<span class="nc" id="L470">      insert = getPopulationSize() - getPopulation().size();</span>
+
+<span class="fc bfc" id="L472" title="All 2 branches covered.">    for (int i = 0; i &lt; insert; i++) {</span>
+<span class="fc" id="L473">      DoubleSolution solution = (DoubleSolution) crowdingArchive.getSolutionList().get(i).copy();</span>
+<span class="fc" id="L474">      marked.setAttribute(solution,false);</span>
+<span class="fc" id="L475">      getPopulation().add(solution);</span>
+    }
+<span class="fc" id="L477">  }</span>
+
+  private void fillPopulationWithRandomSolutions() {
+<span class="fc bfc" id="L480" title="All 2 branches covered.">    while (getPopulation().size() &lt; getPopulationSize()) {</span>
+<span class="fc" id="L481">      DoubleSolution solution = diversificationGeneration();</span>
+<span class="pc bpc" id="L482" title="1 of 2 branches missed.">      if (problem instanceof ConstrainedProblem){</span>
+<span class="nc" id="L483">        ((ConstrainedProblem&lt;DoubleSolution&gt;)problem).evaluateConstraints(solution);</span>
+      }
+
+<span class="fc" id="L486">      problem.evaluate(solution);</span>
+<span class="fc" id="L487">      evaluations++;</span>
+<span class="fc" id="L488">      solution = improvement(solution);</span>
+
+<span class="fc" id="L490">      marked.setAttribute(solution,false);</span>
+<span class="fc" id="L491">      getPopulation().add(solution);</span>
+<span class="fc" id="L492">    }</span>
+<span class="fc" id="L493">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L496">    return &quot;AbYSS&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L500">    return &quot;Archived based hYbrid Scatter Search Algorithm&quot; ;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

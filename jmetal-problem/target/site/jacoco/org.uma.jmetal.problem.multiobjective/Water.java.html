@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Water.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">Water.java</span></div><h1>Water.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Class representing problem Water
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Water extends AbstractDoubleProblem implements ConstrainedProblem&lt;DoubleSolution&gt; {
+  public OverallConstraintViolation&lt;DoubleSolution&gt; overallConstraintViolationDegree ;
+  public NumberOfViolatedConstraints&lt;DoubleSolution&gt; numberOfViolatedConstraints ;
+
+  // defining the lower and upper limits
+<span class="nc" id="L21">  public static final Double [] LOWERLIMIT = {0.01, 0.01, 0.01};</span>
+<span class="nc" id="L22">  public static final Double [] UPPERLIMIT = {0.45, 0.10, 0.10};</span>
+
+  /**
+   * Constructor.
+   * Creates a default instance of the Water problem.
+   */
+<span class="nc" id="L28">  public Water() {</span>
+<span class="nc" id="L29">    setNumberOfVariables(3);</span>
+<span class="nc" id="L30">    setNumberOfObjectives(5);</span>
+<span class="nc" id="L31">    setNumberOfConstraints(7);</span>
+<span class="nc" id="L32">    setName(&quot;Water&quot;) ;</span>
+
+<span class="nc" id="L34">    List&lt;Double&gt; lowerLimit = Arrays.asList(LOWERLIMIT) ;</span>
+<span class="nc" id="L35">    List&lt;Double&gt; upperLimit = Arrays.asList(UPPERLIMIT) ;</span>
+
+<span class="nc" id="L37">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L38">    setUpperLimit(upperLimit);</span>
+
+<span class="nc" id="L40">    overallConstraintViolationDegree = new OverallConstraintViolation&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L41">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L42">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution)  {
+<span class="nc" id="L47">    double[] fx = new double[solution.getNumberOfObjectives()];</span>
+<span class="nc" id="L48">    double[] x = new double[solution.getNumberOfVariables()];</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L50">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+
+<span class="nc" id="L53">    fx[0] = 106780.37 * (x[1] + x[2]) + 61704.67 ;</span>
+<span class="nc" id="L54">    fx[1] = 3000 * x[0] ;</span>
+<span class="nc" id="L55">    fx[2] = 305700 * 2289 * x[1] / Math.pow(0.06*2289, 0.65) ;</span>
+<span class="nc" id="L56">    fx[3] = 250 * 2289 * Math.exp(-39.75*x[1]+9.9*x[2]+2.74) ;</span>
+<span class="nc" id="L57">    fx[4] = 25 * (1.39 /(x[0]*x[1]) + 4940*x[2] -80) ;</span>
+
+<span class="nc" id="L59">    solution.setObjective(0,fx[0]);</span>
+<span class="nc" id="L60">    solution.setObjective(1,fx[1]);</span>
+<span class="nc" id="L61">    solution.setObjective(2,fx[2]);</span>
+<span class="nc" id="L62">    solution.setObjective(3,fx[3]);</span>
+<span class="nc" id="L63">    solution.setObjective(4,fx[4]);</span>
+<span class="nc" id="L64">  }</span>
+
+  /** EvaluateConstraints() method */
+  @Override
+  public void evaluateConstraints(DoubleSolution solution)  {
+<span class="nc" id="L69">    double[] constraint = new double[getNumberOfConstraints()];</span>
+<span class="nc" id="L70">    double[] x = new double[solution.getNumberOfVariables()];</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L72">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+
+<span class="nc" id="L75">    constraint[0] = 1 - (0.00139/(x[0]*x[1])+4.94*x[2]-0.08)             ;</span>
+<span class="nc" id="L76">    constraint[1] = 1 - (0.000306/(x[0]*x[1])+1.082*x[2]-0.0986)         ;</span>
+<span class="nc" id="L77">    constraint[2] = 50000 - (12.307/(x[0]*x[1]) + 49408.24*x[2]+4051.02) ;</span>
+<span class="nc" id="L78">    constraint[3] = 16000 - (2.098/(x[0]*x[1])+8046.33*x[2]-696.71)      ;</span>
+<span class="nc" id="L79">    constraint[4] = 10000 - (2.138/(x[0]*x[1])+7883.39*x[2]-705.04)      ;</span>
+<span class="nc" id="L80">    constraint[5] = 2000 - (0.417*x[0]*x[1] + 1721.26*x[2]-136.54)       ;</span>
+<span class="nc" id="L81">    constraint[6] = 550 - (0.164/(x[0]*x[1])+631.13*x[2]-54.48) ;</span>
+
+<span class="nc" id="L83">    double overallConstraintViolation = 0.0;</span>
+<span class="nc" id="L84">    int violatedConstraints = 0;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfConstraints(); i++) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">      if (constraint[i]&lt;0.0){</span>
+<span class="nc" id="L87">        overallConstraintViolation+=constraint[i];</span>
+<span class="nc" id="L88">        violatedConstraints++;</span>
+      }
+    }
+
+<span class="nc" id="L92">    overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);</span>
+<span class="nc" id="L93">    numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);</span>
+<span class="nc" id="L94">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

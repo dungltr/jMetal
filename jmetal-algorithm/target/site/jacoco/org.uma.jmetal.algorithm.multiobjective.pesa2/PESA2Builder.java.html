@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PESA2Builder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.pesa2</a> &gt; <span class="el_source">PESA2Builder.java</span></div><h1>PESA2Builder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.pesa2;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+
+/**
+ * Created by Antonio J. Nebro
+ */
+public class PESA2Builder&lt;S extends Solution&lt;?&gt;&gt; implements AlgorithmBuilder&lt;PESA2&lt;S&gt;&gt; {
+  private final Problem&lt;S&gt; problem;
+  private int maxEvaluations ;
+  private int archiveSize ;
+  private int populationSize ;
+  private int biSections ;
+  private CrossoverOperator&lt;S&gt; crossoverOperator;
+  private MutationOperator&lt;S&gt; mutationOperator;
+  private SolutionListEvaluator&lt;S&gt; evaluator;
+
+  /**
+   * Constructor
+   */
+  public PESA2Builder(Problem&lt;S&gt; problem, CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="nc" id="L29">      MutationOperator&lt;S&gt; mutationOperator) {</span>
+<span class="nc" id="L30">    this.problem = problem;</span>
+<span class="nc" id="L31">    maxEvaluations = 250;</span>
+<span class="nc" id="L32">    populationSize = 100;</span>
+<span class="nc" id="L33">    archiveSize = 100 ;</span>
+<span class="nc" id="L34">    biSections = 5 ;</span>
+<span class="nc" id="L35">    this.crossoverOperator = crossoverOperator ;</span>
+<span class="nc" id="L36">    this.mutationOperator = mutationOperator ;</span>
+
+<span class="nc" id="L38">    evaluator = new SequentialSolutionListEvaluator&lt;S&gt;();</span>
+<span class="nc" id="L39">  }</span>
+
+  public PESA2Builder&lt;S&gt; setMaxEvaluations(int maxEvaluations) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    if (maxEvaluations &lt; 0) {</span>
+<span class="nc" id="L43">      throw new JMetalException(&quot;maxEvaluations is negative: &quot; + maxEvaluations);</span>
+    }
+<span class="nc" id="L45">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L47">    return this;</span>
+  }
+
+  public PESA2Builder&lt;S&gt; setArchiveSize(int archiveSize) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">    if (archiveSize &lt; 0) {</span>
+<span class="nc" id="L52">      throw new JMetalException(&quot;archiveSize is negative: &quot; + maxEvaluations);</span>
+    }
+<span class="nc" id="L54">    this.archiveSize = archiveSize;</span>
+
+<span class="nc" id="L56">    return this;</span>
+  }
+
+  public PESA2Builder&lt;S&gt; setBisections(int biSections) {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    if (biSections &lt; 0) {</span>
+<span class="nc" id="L61">      throw new JMetalException(&quot;biSections is negative: &quot; + maxEvaluations);</span>
+    }
+<span class="nc" id="L63">    this.biSections = biSections;</span>
+
+<span class="nc" id="L65">    return this;</span>
+  }
+
+  public PESA2Builder&lt;S&gt; setPopulationSize(int populationSize) {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    if (populationSize &lt; 0) {</span>
+<span class="nc" id="L70">      throw new JMetalException(&quot;Population size is negative: &quot; + populationSize);</span>
+    }
+
+<span class="nc" id="L73">    this.populationSize = populationSize;</span>
+
+<span class="nc" id="L75">    return this;</span>
+  }
+
+  public PESA2Builder&lt;S&gt; setSolutionListEvaluator(SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    if (evaluator == null) {</span>
+<span class="nc" id="L80">      throw new JMetalException(&quot;evaluator is null&quot;);</span>
+    }
+<span class="nc" id="L82">    this.evaluator = evaluator;</span>
+
+<span class="nc" id="L84">    return this;</span>
+  }
+
+  public PESA2&lt;S&gt; build() {
+    PESA2&lt;S&gt; algorithm  ;
+<span class="nc" id="L89">    algorithm = new PESA2&lt;S&gt;(problem, maxEvaluations, populationSize, archiveSize, biSections,</span>
+        crossoverOperator, mutationOperator, evaluator);
+    
+<span class="nc" id="L92">    return algorithm ;</span>
+  }
+
+  /* Getters */
+  public Problem&lt;S&gt; getProblem() {
+<span class="nc" id="L97">    return problem;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L101">    return maxEvaluations;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="nc" id="L105">    return populationSize;</span>
+  }
+
+  public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="nc" id="L109">    return crossoverOperator;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L113">    return mutationOperator;</span>
+  }
+
+  public SolutionListEvaluator&lt;S&gt; getSolutionListEvaluator() {
+<span class="nc" id="L117">    return evaluator;</span>
+  }
+
+  public int getBiSections() {
+<span class="nc" id="L121">    return biSections ;</span>
+  }
+
+  public int getArchiveSize() {
+<span class="nc" id="L125">    return archiveSize ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

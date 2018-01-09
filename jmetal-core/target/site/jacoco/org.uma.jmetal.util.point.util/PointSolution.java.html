@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PointSolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.point.util</a> &gt; <span class="el_source">PointSolution.java</span></div><h1>PointSolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.point.util;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.point.Point;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Solution used to wrap a {@link Point} object. Only objectives are used.
+ *
+ * @author Antonio J. Nebro
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class PointSolution implements Solution&lt;Double&gt; {
+  private int numberOfObjectives ;
+  private double[] objectives;
+  protected Map&lt;Object, Object&gt; attributes ;
+
+  /**
+   * Constructor
+   *
+   * @param numberOfObjectives
+   */
+<span class="fc" id="L26">  public PointSolution(int numberOfObjectives) {</span>
+<span class="fc" id="L27">    this.numberOfObjectives = numberOfObjectives ;</span>
+<span class="fc" id="L28">    objectives = new double[numberOfObjectives] ;</span>
+<span class="fc" id="L29">    attributes = new HashMap&lt;&gt;() ;</span>
+<span class="fc" id="L30">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param point
+   */
+<span class="fc" id="L37">  public PointSolution(Point point) {</span>
+<span class="fc" id="L38">    this.numberOfObjectives = point.getNumberOfDimensions() ;</span>
+<span class="fc" id="L39">    objectives = new double[numberOfObjectives] ;</span>
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="fc" id="L42">      this.objectives[i] = point.getDimensionValue(i) ;</span>
+    }
+<span class="fc" id="L44">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param solution
+   */
+<span class="nc" id="L51">  public PointSolution(Solution&lt;?&gt; solution) {</span>
+<span class="nc" id="L52">    this.numberOfObjectives = solution.getNumberOfObjectives() ;</span>
+<span class="nc" id="L53">    objectives = new double[numberOfObjectives] ;</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="nc" id="L56">      this.objectives[i] = solution.getObjective(i) ;</span>
+    }
+<span class="nc" id="L58">  }</span>
+
+  /**
+   * Copy constructor
+   *
+   * @param point
+   */
+  public PointSolution(PointSolution point) {
+<span class="fc" id="L66">    this(point.getNumberOfObjectives()) ;</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="fc" id="L69">      this.objectives[i] = point.getObjective(i) ;</span>
+    }
+<span class="fc" id="L71">  }</span>
+
+  @Override public void setObjective(int index, double value) {
+<span class="fc" id="L74">    objectives[index]=  value ;</span>
+<span class="fc" id="L75">  }</span>
+
+  @Override public double getObjective(int index) {
+<span class="fc" id="L78">    return objectives[index];</span>
+  }
+
+  @Override public Double getVariableValue(int index) {
+<span class="fc" id="L82">    return null;</span>
+  }
+
+  @Override public void setVariableValue(int index, Double value) {
+<span class="fc" id="L86">  }</span>
+
+  @Override public String getVariableValueString(int index) {
+<span class="fc" id="L89">    return null;</span>
+  }
+
+  @Override public int getNumberOfVariables() {
+<span class="fc" id="L93">    return 0;</span>
+  }
+
+  @Override public int getNumberOfObjectives() {
+<span class="fc" id="L97">    return numberOfObjectives;</span>
+  }
+
+  @Override public PointSolution copy() {
+<span class="fc" id="L101">    return new PointSolution(this);</span>
+  }
+
+  @Override public void setAttribute(Object id, Object value) {
+<span class="fc" id="L105">    attributes.put(id, value) ;</span>
+<span class="fc" id="L106">  }</span>
+
+  @Override public Object getAttribute(Object id) {
+<span class="fc" id="L109">    return attributes.get(id);</span>
+  }
+
+  @Override public boolean equals(Object o) {
+<span class="fc bfc" id="L113" title="All 2 branches covered.">    if (this == o)</span>
+<span class="fc" id="L114">      return true;</span>
+<span class="fc bfc" id="L115" title="All 4 branches covered.">    if (o == null || getClass() != o.getClass())</span>
+<span class="fc" id="L116">      return false;</span>
+
+<span class="fc" id="L118">    PointSolution that = (PointSolution) o;</span>
+
+<span class="fc bfc" id="L120" title="All 2 branches covered.">    if (numberOfObjectives != that.numberOfObjectives)</span>
+<span class="fc" id="L121">      return false;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">    if (!Arrays.equals(objectives, that.objectives))</span>
+<span class="fc" id="L123">      return false;</span>
+
+<span class="fc" id="L125">    return true;</span>
+  }
+
+  @Override public int hashCode() {
+<span class="fc" id="L129">    return Arrays.hashCode(objectives);</span>
+  }
+  
+  @Override
+	public String toString() {
+<span class="fc" id="L134">		return Arrays.toString(objectives);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

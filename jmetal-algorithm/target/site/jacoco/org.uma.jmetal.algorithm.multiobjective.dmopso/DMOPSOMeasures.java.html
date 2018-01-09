@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DMOPSOMeasures.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.dmopso</a> &gt; <span class="el_source">DMOPSOMeasures.java</span></div><h1>DMOPSOMeasures.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.dmopso;
+
+import java.util.List;
+
+import org.uma.jmetal.measure.Measurable;
+import org.uma.jmetal.measure.MeasureManager;
+import org.uma.jmetal.measure.impl.BasicMeasure;
+import org.uma.jmetal.measure.impl.CountingMeasure;
+import org.uma.jmetal.measure.impl.DurationMeasure;
+import org.uma.jmetal.measure.impl.SimpleMeasureManager;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.qualityindicator.impl.Epsilon;
+import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class DMOPSOMeasures extends DMOPSO implements Measurable {
+
+  protected CountingMeasure iterations;
+  protected DurationMeasure durationMeasure;
+  protected SimpleMeasureManager measureManager;
+  protected BasicMeasure&lt;List&lt;DoubleSolution&gt;&gt; solutionListMeasure;
+  protected BasicMeasure&lt;Double&gt; hypervolumeValue;
+  protected BasicMeasure&lt;Double&gt; epsilonValue;
+  protected Front referenceFront;
+
+  public DMOPSOMeasures(DoubleProblem problem, int swarmSize, int maxIterations,
+                        double r1Min, double r1Max, double r2Min, double r2Max,
+                        double c1Min, double c1Max, double c2Min, double c2Max,
+                        double weightMin, double weightMax, double changeVelocity1, double changeVelocity2,
+                        FunctionType functionType, String dataDirectory, int maxAge) {
+<span class="nc" id="L34">    this(problem, swarmSize, maxIterations,</span>
+            r1Min, r1Max, r2Min, r2Max,
+            c1Min, c1Max, c2Min, c2Max,
+            weightMin, weightMax, changeVelocity1, changeVelocity2,
+            functionType, dataDirectory, maxAge, &quot;dMOPSO&quot;);
+<span class="nc" id="L39">  }</span>
+
+  public DMOPSOMeasures(DoubleProblem problem, int swarmSize, int maxIterations,
+                        double r1Min, double r1Max, double r2Min, double r2Max,
+                        double c1Min, double c1Max, double c2Min, double c2Max,
+                        double weightMin, double weightMax, double changeVelocity1, double changeVelocity2,
+                        FunctionType functionType, String dataDirectory, int maxAge, String name) {
+<span class="nc" id="L46">    super(problem, swarmSize, maxIterations,</span>
+            r1Min, r1Max, r2Min, r2Max,
+            c1Min, c1Max, c2Min, c2Max,
+            weightMin, weightMax, changeVelocity1, changeVelocity2,
+            functionType, dataDirectory, maxAge, name);
+<span class="nc" id="L51">    this.referenceFront = new ArrayFront();</span>
+<span class="nc" id="L52">    initMeasures();</span>
+<span class="nc" id="L53">  }</span>
+
+  @Override
+  protected void initProgress() {
+<span class="nc" id="L57">    this.iterations.reset();</span>
+<span class="nc" id="L58">  }</span>
+
+  @Override
+  protected void updateProgress() {
+<span class="nc" id="L62">    this.iterations.increment();</span>
+<span class="nc" id="L63">    hypervolumeValue.push(new PISAHypervolume&lt;DoubleSolution&gt;(referenceFront).evaluate(getResult()));</span>
+<span class="nc" id="L64">    epsilonValue.push(new Epsilon&lt;DoubleSolution&gt;(referenceFront).evaluate(getResult()));</span>
+<span class="nc" id="L65">    solutionListMeasure.push(getResult());</span>
+<span class="nc" id="L66">  }</span>
+
+  @Override
+  protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    return this.iterations.get() &gt;= maxIterations;</span>
+  }
+
+  @Override
+  public void run() {
+<span class="nc" id="L75">    durationMeasure.reset();</span>
+<span class="nc" id="L76">    durationMeasure.start();</span>
+<span class="nc" id="L77">    super.run();</span>
+<span class="nc" id="L78">    durationMeasure.stop();</span>
+<span class="nc" id="L79">  }</span>
+
+  /* Measures code */
+  private void initMeasures() {
+<span class="nc" id="L83">    durationMeasure = new DurationMeasure();</span>
+<span class="nc" id="L84">    iterations = new CountingMeasure(0);</span>
+<span class="nc" id="L85">    solutionListMeasure = new BasicMeasure&lt;&gt;();</span>
+<span class="nc" id="L86">    hypervolumeValue = new BasicMeasure&lt;&gt;();</span>
+<span class="nc" id="L87">    epsilonValue = new BasicMeasure&lt;&gt;();</span>
+
+<span class="nc" id="L89">    measureManager = new SimpleMeasureManager();</span>
+<span class="nc" id="L90">    measureManager.setPullMeasure(&quot;currentExecutionTime&quot;, durationMeasure);</span>
+<span class="nc" id="L91">    measureManager.setPullMeasure(&quot;currentEvaluation&quot;, iterations);</span>
+<span class="nc" id="L92">    measureManager.setPullMeasure(&quot;hypervolume&quot;, hypervolumeValue);</span>
+<span class="nc" id="L93">    measureManager.setPullMeasure(&quot;epsilon&quot;, epsilonValue);</span>
+
+<span class="nc" id="L95">    measureManager.setPushMeasure(&quot;currentPopulation&quot;, solutionListMeasure);</span>
+<span class="nc" id="L96">    measureManager.setPushMeasure(&quot;currentEvaluation&quot;, iterations);</span>
+<span class="nc" id="L97">    measureManager.setPushMeasure(&quot;hypervolume&quot;, hypervolumeValue);</span>
+<span class="nc" id="L98">    measureManager.setPushMeasure(&quot;epsilon&quot;, epsilonValue);</span>
+<span class="nc" id="L99">  }</span>
+
+  @Override
+  public String getDescription() {
+<span class="nc" id="L103">    return &quot;MOPSO with decomposition. Version using measures&quot;;</span>
+  }
+
+  @Override
+  public MeasureManager getMeasureManager() {
+<span class="nc" id="L108">    return this.measureManager;</span>
+  }
+
+  public void setReferenceFront(Front referenceFront) {
+<span class="nc" id="L112">    this.referenceFront = referenceFront;</span>
+<span class="nc" id="L113">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

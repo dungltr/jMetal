@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOEADBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.moead</a> &gt; <span class="el_source">MOEADBuilder.java</span></div><h1>MOEADBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.moead;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+
+/**
+ * Builder class for algorithm MOEA/D and variants
+ *
+ * @author Antonio J. Nebro
+ * @version 1.0
+ */
+public class MOEADBuilder implements AlgorithmBuilder&lt;AbstractMOEAD&lt;DoubleSolution&gt;&gt; {
+<span class="nc" id="L18">  public enum Variant {MOEAD, ConstraintMOEAD, MOEADDRA, MOEADSTM, MOEADD} ;</span>
+
+  protected Problem&lt;DoubleSolution&gt; problem ;
+
+  /** T in Zhang &amp; Li paper */
+  protected int neighborSize;
+  /** Delta in Zhang &amp; Li paper */
+  protected double neighborhoodSelectionProbability;
+  /** nr in Zhang &amp; Li paper */
+  protected int maximumNumberOfReplacedSolutions;
+
+  protected MOEAD.FunctionType functionType;
+
+  protected CrossoverOperator&lt;DoubleSolution&gt; crossover;
+  protected MutationOperator&lt;DoubleSolution&gt; mutation;
+  protected String dataDirectory;
+
+  protected int populationSize;
+  protected int resultPopulationSize ;
+
+  protected int maxEvaluations;
+
+  protected int numberOfThreads ;
+
+  protected Variant moeadVariant ;
+
+  /** Constructor */
+<span class="nc" id="L45">  public MOEADBuilder(Problem&lt;DoubleSolution&gt; problem, Variant variant) {</span>
+<span class="nc" id="L46">    this.problem = problem ;</span>
+<span class="nc" id="L47">    populationSize = 300 ;</span>
+<span class="nc" id="L48">    resultPopulationSize = 300 ;</span>
+<span class="nc" id="L49">    maxEvaluations = 150000 ;</span>
+<span class="nc" id="L50">    crossover = new DifferentialEvolutionCrossover() ;</span>
+<span class="nc" id="L51">    mutation = new PolynomialMutation(1.0/problem.getNumberOfVariables(), 20.0);</span>
+<span class="nc" id="L52">    functionType = MOEAD.FunctionType.TCHE ;</span>
+<span class="nc" id="L53">    neighborhoodSelectionProbability = 0.1 ;</span>
+<span class="nc" id="L54">    maximumNumberOfReplacedSolutions = 2 ;</span>
+<span class="nc" id="L55">    dataDirectory = &quot;&quot; ;</span>
+<span class="nc" id="L56">    neighborSize = 20 ;</span>
+<span class="nc" id="L57">    numberOfThreads = 1 ;</span>
+<span class="nc" id="L58">    moeadVariant = variant ;</span>
+<span class="nc" id="L59">  }</span>
+
+  /* Getters/Setters */
+  public int getNeighborSize() {
+<span class="nc" id="L63">    return neighborSize;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L67">    return maxEvaluations;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="nc" id="L71">    return populationSize;</span>
+  }
+
+  public int getResultPopulationSize() {
+<span class="nc" id="L75">    return resultPopulationSize;</span>
+  }
+
+  public String getDataDirectory() {
+<span class="nc" id="L79">    return dataDirectory;</span>
+  }
+
+  public MutationOperator&lt;DoubleSolution&gt; getMutation() {
+<span class="nc" id="L83">    return mutation;</span>
+  }
+
+  public CrossoverOperator&lt;DoubleSolution&gt; getCrossover() {
+<span class="nc" id="L87">    return crossover;</span>
+  }
+
+  public MOEAD.FunctionType getFunctionType() {
+<span class="nc" id="L91">    return functionType;</span>
+  }
+
+  public int getMaximumNumberOfReplacedSolutions() {
+<span class="nc" id="L95">    return maximumNumberOfReplacedSolutions;</span>
+  }
+
+  public double getNeighborhoodSelectionProbability() {
+<span class="nc" id="L99">    return neighborhoodSelectionProbability;</span>
+  }
+
+  public int getNumberOfThreads() {
+<span class="nc" id="L103">    return numberOfThreads ;</span>
+  }
+
+  public MOEADBuilder setPopulationSize(int populationSize) {
+<span class="nc" id="L107">    this.populationSize = populationSize;</span>
+
+<span class="nc" id="L109">    return this;</span>
+  }
+
+  public MOEADBuilder setResultPopulationSize(int resultPopulationSize) {
+<span class="nc" id="L113">    this.resultPopulationSize = resultPopulationSize;</span>
+
+<span class="nc" id="L115">    return this;</span>
+  }
+
+  public MOEADBuilder setMaxEvaluations(int maxEvaluations) {
+<span class="nc" id="L119">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L121">    return this;</span>
+  }
+
+  public MOEADBuilder setNeighborSize(int neighborSize) {
+<span class="nc" id="L125">    this.neighborSize = neighborSize ;</span>
+
+<span class="nc" id="L127">    return this ;</span>
+  }
+
+  public MOEADBuilder setNeighborhoodSelectionProbability(double neighborhoodSelectionProbability) {
+<span class="nc" id="L131">    this.neighborhoodSelectionProbability = neighborhoodSelectionProbability ;</span>
+
+<span class="nc" id="L133">    return this ;</span>
+  }
+
+  public MOEADBuilder setFunctionType(MOEAD.FunctionType functionType) {
+<span class="nc" id="L137">    this.functionType = functionType ;</span>
+
+<span class="nc" id="L139">    return this ;</span>
+  }
+
+  public MOEADBuilder setMaximumNumberOfReplacedSolutions(int maximumNumberOfReplacedSolutions) {
+<span class="nc" id="L143">    this.maximumNumberOfReplacedSolutions = maximumNumberOfReplacedSolutions ;</span>
+
+<span class="nc" id="L145">    return this ;</span>
+  }
+
+  public MOEADBuilder setCrossover(CrossoverOperator&lt;DoubleSolution&gt; crossover) {
+<span class="nc" id="L149">    this.crossover = crossover ;</span>
+
+<span class="nc" id="L151">    return this ;</span>
+  }
+
+  public MOEADBuilder setMutation(MutationOperator&lt;DoubleSolution&gt; mutation) {
+<span class="nc" id="L155">    this.mutation = mutation ;</span>
+
+<span class="nc" id="L157">    return this ;</span>
+  }
+
+  public MOEADBuilder setDataDirectory(String dataDirectory) {
+<span class="nc" id="L161">    this.dataDirectory = dataDirectory ;</span>
+
+<span class="nc" id="L163">    return this ;</span>
+  }
+
+  public MOEADBuilder setNumberOfThreads(int numberOfThreads) {
+<span class="nc" id="L167">    this.numberOfThreads = numberOfThreads ;</span>
+
+<span class="nc" id="L169">    return this ;</span>
+  }
+
+  public AbstractMOEAD&lt;DoubleSolution&gt; build() {
+<span class="nc" id="L173">    AbstractMOEAD&lt;DoubleSolution&gt; algorithm = null ;</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">    if (moeadVariant.equals(Variant.MOEAD)) {</span>
+<span class="nc" id="L175">      algorithm = new MOEAD(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,</span>
+          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+          maximumNumberOfReplacedSolutions, neighborSize);
+<span class="nc bnc" id="L178" title="All 2 branches missed.">    } else if (moeadVariant.equals(Variant.ConstraintMOEAD)) {</span>
+<span class="nc" id="L179">      algorithm =  new ConstraintMOEAD(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,</span>
+          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+          maximumNumberOfReplacedSolutions, neighborSize);
+<span class="nc bnc" id="L182" title="All 2 branches missed.">    } else if (moeadVariant.equals(Variant.MOEADDRA)) {</span>
+<span class="nc" id="L183">      algorithm =  new MOEADDRA(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,</span>
+          crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+          maximumNumberOfReplacedSolutions, neighborSize);
+<span class="nc bnc" id="L186" title="All 2 branches missed.">    } else if (moeadVariant.equals(Variant.MOEADSTM)) {</span>
+<span class="nc" id="L187">        algorithm =  new MOEADSTM(problem, populationSize, resultPopulationSize, maxEvaluations, mutation,</span>
+                crossover, functionType, dataDirectory, neighborhoodSelectionProbability,
+                maximumNumberOfReplacedSolutions, neighborSize);
+<span class="nc bnc" id="L190" title="All 2 branches missed.">    } else if (moeadVariant.equals(Variant.MOEADD)) {</span>
+<span class="nc" id="L191">      algorithm = new MOEADD(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation,</span>
+              functionType, dataDirectory, neighborhoodSelectionProbability,
+              maximumNumberOfReplacedSolutions, neighborSize);
+    }
+<span class="nc" id="L195">    return algorithm ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

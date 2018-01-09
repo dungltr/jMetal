@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepairDoubleSolutionAtRandom.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.util</a> &gt; <span class="el_source">RepairDoubleSolutionAtRandom.java</span></div><h1>RepairDoubleSolutionAtRandom.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.util;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+/**
+ * @author Antonio J. Nebro
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class RepairDoubleSolutionAtRandom implements RepairDoubleSolution {
+  private BoundedRandomGenerator&lt;Double&gt; randomGenerator ;
+
+  /**
+   * Constructor
+   */
+  public RepairDoubleSolutionAtRandom() {
+<span class="fc" id="L19">	  this((a, b) -&gt; JMetalRandom.getInstance().nextDouble(a, b));</span>
+<span class="fc" id="L20">  }</span>
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L25">  public RepairDoubleSolutionAtRandom(BoundedRandomGenerator&lt;Double&gt; randomGenerator) {</span>
+<span class="fc" id="L26">    this.randomGenerator = randomGenerator ;</span>
+<span class="fc" id="L27">  }</span>
+  /**
+   * Checks if the value is between its bounds; if not, a random value between the limits is returned
+   * @param value The value to be checked
+   * @param lowerBound
+   * @param upperBound
+   * @return The same value if it is between the limits or a repaired value otherwise
+   */
+  public double repairSolutionVariableValue(double value, double lowerBound, double upperBound) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">    if (lowerBound &gt; upperBound) {</span>
+<span class="fc" id="L37">      throw new JMetalException(&quot;The lower bound (&quot; + lowerBound + &quot;) is greater than the &quot;</span>
+          + &quot;upper bound (&quot; + upperBound+&quot;)&quot;) ;
+    }
+<span class="fc" id="L40">    double result = value ;</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    if (value &lt; lowerBound) {</span>
+<span class="fc" id="L42">      result = randomGenerator.getRandomValue(lowerBound, upperBound) ;</span>
+    }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    if (value &gt; upperBound) {</span>
+<span class="fc" id="L45">      result = randomGenerator.getRandomValue(lowerBound, upperBound) ;</span>
+    }
+
+<span class="fc" id="L48">    return result ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

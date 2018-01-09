@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WASFGARankingConstraint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.wasfga.util</a> &gt; <span class="el_source">WASFGARankingConstraint.java</span></div><h1>WASFGARankingConstraint.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.wasfga.util;
+
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.AbstractUtilityFunctionsSet;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.impl.OverallConstraintViolationComparator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttribute;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class WASFGARankingConstraint&lt;S extends Solution&lt;?&gt;&gt; extends GenericSolutionAttribute&lt;S, Integer&gt;
+		implements Ranking&lt;S&gt; {
+
+  private List&lt;List&lt;S&gt;&gt; rankedSubpopulations;
+<span class="nc" id="L22">  private int numberOfRanks = 0;</span>
+  //private AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctionsUtopia;
+  private AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctions;
+  private NumberOfViolatedConstraints&lt;S&gt; numberOfViolatedConstraints ;
+  private OverallConstraintViolation&lt;S&gt; constraintViolation;
+
+<span class="nc" id="L28">  public WASFGARankingConstraint( AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctionsNadir) {</span>
+<span class="nc" id="L29">    this.utilityFunctions = utilityFunctionsNadir;</span>
+    //this.utilityFunctionsUtopia = utilityFunctionsUtopia;
+<span class="nc" id="L31">    this.numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;S&gt;() ;</span>
+<span class="nc" id="L32">	this.constraintViolation = new OverallConstraintViolation&lt;&gt;();</span>
+<span class="nc" id="L33">  }</span>
+
+	@Override
+	public Ranking&lt;S&gt; computeRanking(List&lt;S&gt; population) {
+
+
+<span class="nc" id="L39">		List&lt;S&gt; temporalList 	= new LinkedList&lt;&gt;();</span>
+		//temporalList.addAll(population);
+
+<span class="nc" id="L42">		List&lt;S&gt; feasibleList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L43">		List&lt;S&gt; unfeasibleList = new ArrayList&lt;&gt;();</span>
+
+		int numberOfFeasibleFrontiersInNewPopulation, numberOfUnfeasibleFrontiersInNewPopulation;
+
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		for (S solution:population) {</span>
+
+<span class="nc bnc" id="L49" title="All 2 branches missed.">			if((numberOfViolatedConstraints.getAttribute(solution)!= null &amp;&amp;</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">					numberOfViolatedConstraints.getAttribute(solution)&gt;0)){//|| (constraintViolation.getAttribute(solution)!=null &amp;&amp; constraintViolation.getAttribute(solution)==-93)</span>
+<span class="nc" id="L51">				unfeasibleList.add(solution);</span>
+			}else {
+<span class="nc" id="L53">				feasibleList.add(solution);</span>
+			}
+<span class="nc" id="L55">		}</span>
+<span class="nc" id="L56">		temporalList.addAll(feasibleList);</span>
+<span class="nc" id="L57">		temporalList.addAll(unfeasibleList);</span>
+<span class="nc" id="L58">		int numberOfWeights = this.utilityFunctions.getSize() ;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		if(feasibleList.size() &gt; 0){</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">			if(feasibleList.size() &gt; numberOfWeights){</span>
+<span class="nc" id="L61">				numberOfFeasibleFrontiersInNewPopulation = 2;</span>
+			}else{
+<span class="nc" id="L63">				numberOfFeasibleFrontiersInNewPopulation = 1;</span>
+			}
+		}else {
+<span class="nc" id="L66">			numberOfFeasibleFrontiersInNewPopulation = 0;</span>
+		}
+<span class="nc bnc" id="L68" title="All 2 branches missed.">		if (unfeasibleList.size() &gt; 0) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">			if (unfeasibleList.size() &gt; numberOfWeights) {</span>
+<span class="nc" id="L70">				numberOfUnfeasibleFrontiersInNewPopulation = 2;</span>
+			}
+			else
+<span class="nc" id="L73">				numberOfUnfeasibleFrontiersInNewPopulation = 1;</span>
+		}
+		else
+<span class="nc" id="L76">			numberOfUnfeasibleFrontiersInNewPopulation = 0;</span>
+
+<span class="nc" id="L78">		this.numberOfRanks = numberOfFeasibleFrontiersInNewPopulation + numberOfUnfeasibleFrontiersInNewPopulation;</span>
+		//(population.size() + 1) / (this.utilityFunctionsUtopia.getSize() + this.utilityFunctionsNadir.getSize());
+
+<span class="nc" id="L81">		this.rankedSubpopulations = new ArrayList&lt;&gt;(this.numberOfRanks);</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		for (int i = 0; i &lt; this.numberOfRanks; i++) {</span>
+<span class="nc" id="L84">			this.rankedSubpopulations.add(new ArrayList&lt;S&gt;());</span>
+		}
+
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		for (int idx = 0; idx &lt; this.numberOfRanks; idx++) {</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">			if(feasibleList!=null &amp;&amp; !feasibleList.isEmpty()) {</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">				for (int weigth = 0; weigth &lt; this.utilityFunctions.getSize(); weigth++) {</span>
+<span class="nc bnc" id="L91" title="All 4 branches missed.">					if(feasibleList!=null &amp;&amp; !feasibleList.isEmpty()) {</span>
+<span class="nc" id="L92">						int toRemoveIdx = 0;</span>
+<span class="nc" id="L93">						double minimumValue = this.utilityFunctions.evaluate(feasibleList.get(0), weigth);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">						for (int solutionIdx = 1; solutionIdx &lt; feasibleList.size(); solutionIdx++) {</span>
+<span class="nc" id="L95">							double value = this.utilityFunctions.evaluate(feasibleList.get(solutionIdx), weigth);</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">							if (value &lt; minimumValue) {</span>
+<span class="nc" id="L98">								minimumValue = value;</span>
+<span class="nc" id="L99">								toRemoveIdx = solutionIdx;</span>
+							}
+						}
+
+<span class="nc" id="L103">						S solutionToInsert = feasibleList.remove(toRemoveIdx);</span>
+<span class="nc" id="L104">						setAttribute(solutionToInsert, idx);</span>
+<span class="nc" id="L105">						this.rankedSubpopulations.get(idx).add(solutionToInsert);</span>
+					}
+				}
+<span class="nc bnc" id="L108" title="All 4 branches missed.">			}else if(unfeasibleList!=null &amp;&amp; !unfeasibleList.isEmpty()){</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">				for (int weigth = 0; weigth &lt; this.utilityFunctions.getSize(); weigth++) {</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">					if(unfeasibleList!=null &amp;&amp; !unfeasibleList.isEmpty()) {</span>
+<span class="nc" id="L111">						int toRemoveIdx = 0;</span>
+<span class="nc" id="L112">						double minimumValue = this.utilityFunctions.evaluate(unfeasibleList.get(0), weigth);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">						for (int solutionIdx = 1; solutionIdx &lt; unfeasibleList.size(); solutionIdx++) {</span>
+<span class="nc" id="L114">							double value = this.utilityFunctions.evaluate(unfeasibleList.get(solutionIdx), weigth);</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">							if (value &lt; minimumValue) {</span>
+<span class="nc" id="L117">								minimumValue = value;</span>
+<span class="nc" id="L118">								toRemoveIdx = solutionIdx;</span>
+							}
+						}
+
+<span class="nc" id="L122">						S solutionToInsert = unfeasibleList.remove(toRemoveIdx);</span>
+<span class="nc" id="L123">						setAttribute(solutionToInsert, idx);</span>
+<span class="nc" id="L124">						this.rankedSubpopulations.get(idx).add(solutionToInsert);</span>
+					}
+				}
+			}
+		}
+		
+<span class="nc" id="L130">		return this;</span>
+	}
+	
+	@Override
+	public List&lt;S&gt; getSubfront(int rank) {
+<span class="nc" id="L135">		return this.rankedSubpopulations.get(rank);</span>
+	}
+
+	@Override
+	public int getNumberOfSubfronts() {
+<span class="nc" id="L140">		return this.rankedSubpopulations.size();</span>
+	}
+  
+  
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

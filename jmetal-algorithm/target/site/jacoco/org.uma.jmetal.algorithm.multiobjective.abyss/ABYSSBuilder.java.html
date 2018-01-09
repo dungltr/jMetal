@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ABYSSBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.abyss</a> &gt; <span class="el_source">ABYSSBuilder.java</span></div><h1>ABYSSBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.abyss;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.LocalSearchOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
+import org.uma.jmetal.operator.impl.localsearch.ArchiveMutationLocalSearch;
+import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.archive.Archive;
+import org.uma.jmetal.util.archive.impl.CrowdingDistanceArchive;
+
+/**
+ *  @author Cristobal Barba
+ */
+public class ABYSSBuilder implements AlgorithmBuilder&lt;ABYSS&gt; {
+  private DoubleProblem problem  ;
+  private CrossoverOperator&lt;DoubleSolution&gt; crossoverOperator   ;
+  protected LocalSearchOperator&lt;DoubleSolution&gt; improvementOperator ;
+
+  private MutationOperator&lt;DoubleSolution&gt; mutationOperator;
+  private int numberOfSubranges;
+  private int populationSize;
+  private int refSet1Size;
+  private int refSet2Size;
+  private int archiveSize;
+  private int maxEvaluations;
+  private CrowdingDistanceArchive&lt;DoubleSolution&gt; archive;
+
+<span class="nc" id="L32">  public ABYSSBuilder(DoubleProblem problem, Archive&lt;DoubleSolution&gt; archive){</span>
+<span class="nc" id="L33">    this.populationSize = 20;</span>
+<span class="nc" id="L34">    this.maxEvaluations = 25000;</span>
+<span class="nc" id="L35">    this.archiveSize = 100;</span>
+<span class="nc" id="L36">    this.refSet1Size = 10;</span>
+<span class="nc" id="L37">    this.refSet2Size = 10;</span>
+<span class="nc" id="L38">    this.numberOfSubranges = 4;</span>
+<span class="nc" id="L39">    this.problem = problem;</span>
+<span class="nc" id="L40">    double crossoverProbability = 0.9;</span>
+<span class="nc" id="L41">    double distributionIndex=20.0;</span>
+<span class="nc" id="L42">    this.crossoverOperator = new SBXCrossover(crossoverProbability,distributionIndex);</span>
+<span class="nc" id="L43">    double mutationProbability= 1.0/problem.getNumberOfVariables();</span>
+<span class="nc" id="L44">    this.mutationOperator = new PolynomialMutation(mutationProbability,distributionIndex);</span>
+<span class="nc" id="L45">    int improvementRounds= 1;</span>
+<span class="nc" id="L46">    this.archive =(CrowdingDistanceArchive&lt;DoubleSolution&gt;)archive;</span>
+<span class="nc" id="L47">    this.improvementOperator = new ArchiveMutationLocalSearch&lt;&gt;(improvementRounds,mutationOperator,this.archive,problem);</span>
+<span class="nc" id="L48">  }</span>
+
+  public CrossoverOperator&lt;DoubleSolution&gt; getCrossoverOperator() {
+<span class="nc" id="L51">    return crossoverOperator;</span>
+  }
+
+  public ABYSSBuilder setCrossoverOperator(CrossoverOperator&lt;DoubleSolution&gt; crossoverOperator) {
+<span class="nc" id="L55">    this.crossoverOperator = crossoverOperator;</span>
+<span class="nc" id="L56">    return  this;</span>
+  }
+
+  public LocalSearchOperator&lt;DoubleSolution&gt; getImprovementOperator() {
+<span class="nc" id="L60">    return improvementOperator;</span>
+  }
+
+  public ABYSSBuilder setImprovementOperator(ArchiveMutationLocalSearch&lt;DoubleSolution&gt; improvementOperator) {
+<span class="nc" id="L64">    this.improvementOperator = improvementOperator;</span>
+<span class="nc" id="L65">    return  this;</span>
+  }
+
+  public MutationOperator&lt;DoubleSolution&gt; getMutationOperator() {
+<span class="nc" id="L69">    return mutationOperator;</span>
+  }
+
+  public ABYSSBuilder setMutationOperator(MutationOperator&lt;DoubleSolution&gt; mutationOperator) {
+<span class="nc" id="L73">    this.mutationOperator = mutationOperator;</span>
+<span class="nc" id="L74">    return  this;</span>
+  }
+
+  public int getNumberOfSubranges() {
+<span class="nc" id="L78">    return numberOfSubranges;</span>
+  }
+
+  public ABYSSBuilder setNumberOfSubranges(int numberOfSubranges) {
+<span class="nc" id="L82">    this.numberOfSubranges = numberOfSubranges;</span>
+<span class="nc" id="L83">    return  this;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="nc" id="L87">    return populationSize;</span>
+  }
+
+  public ABYSSBuilder setPopulationSize(int populationSize) {
+<span class="nc" id="L91">    this.populationSize = populationSize;</span>
+<span class="nc" id="L92">    return  this;</span>
+  }
+
+  public int getRefSet1Size() {
+<span class="nc" id="L96">    return refSet1Size;</span>
+  }
+
+  public ABYSSBuilder setRefSet1Size(int refSet1Size) {
+<span class="nc" id="L100">    this.refSet1Size = refSet1Size;</span>
+<span class="nc" id="L101">    return  this;</span>
+  }
+
+  public int getRefSet2Size() {
+<span class="nc" id="L105">    return refSet2Size;</span>
+  }
+
+  public ABYSSBuilder setRefSet2Size(int refSet2Size) {
+<span class="nc" id="L109">    this.refSet2Size = refSet2Size;</span>
+<span class="nc" id="L110">    return  this;</span>
+  }
+
+  public int getArchiveSize() {
+<span class="nc" id="L114">    return archiveSize;</span>
+  }
+
+  public ABYSSBuilder setArchiveSize(int archiveSize) {
+<span class="nc" id="L118">    this.archiveSize = archiveSize;</span>
+<span class="nc" id="L119">    return  this;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L123">    return maxEvaluations;</span>
+  }
+
+  public ABYSSBuilder setMaxEvaluations(int maxEvaluations) {
+<span class="nc" id="L127">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L128">    return  this;</span>
+  }
+
+  @Override
+  public ABYSS build() {
+<span class="nc" id="L133">    return new ABYSS(problem, maxEvaluations, populationSize,refSet1Size,refSet2Size,archiveSize,</span>
+        archive, improvementOperator, crossoverOperator, numberOfSubranges);
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

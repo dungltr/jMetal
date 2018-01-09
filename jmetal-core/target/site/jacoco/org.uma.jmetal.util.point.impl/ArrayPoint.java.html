@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArrayPoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.point.impl</a> &gt; <span class="el_source">ArrayPoint.java</span></div><h1>ArrayPoint.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.point.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.point.Point;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
+
+/**
+ * Class representing a point (i.e, an array of double values)
+ *
+ * @author Antonio J. Nebro
+ */
+public class ArrayPoint implements Point {
+  protected double[] point;
+
+
+  /**
+   * Default constructor
+   */
+<span class="nc" id="L28">  public ArrayPoint() {</span>
+<span class="nc" id="L29">    point = null ;</span>
+<span class="nc" id="L30">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param dimensions Dimensions of the point
+   */
+<span class="fc" id="L37">  public ArrayPoint(int dimensions) {</span>
+<span class="fc" id="L38">    point = new double[dimensions];</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    for (int i = 0; i &lt; dimensions; i++) {</span>
+<span class="fc" id="L41">      point[i] = 0.0;</span>
+    }
+<span class="fc" id="L43">  }</span>
+
+  /**
+   * Copy constructor
+   *
+   * @param point
+   */
+<span class="fc" id="L50">  public ArrayPoint(Point point) {</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">    if (point == null) {</span>
+<span class="fc" id="L52">      throw new JMetalException(&quot;The point is null&quot;) ;</span>
+    }
+
+<span class="fc" id="L55">    this.point = new double[point.getNumberOfDimensions()];</span>
+
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    for (int i = 0; i &lt; point.getNumberOfDimensions(); i++) {</span>
+<span class="fc" id="L58">      this.point[i] = point.getDimensionValue(i);</span>
+    }
+<span class="fc" id="L60">  }</span>
+
+  /**
+   * Constructor from a solution
+   *
+   * @param solution
+   */
+<span class="fc" id="L67">  public ArrayPoint(Solution&lt;?&gt; solution) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">    if (solution == null) {</span>
+<span class="fc" id="L69">      throw new JMetalException(&quot;The solution is null&quot;) ;</span>
+    }
+
+<span class="fc" id="L72">    int dimensions = solution.getNumberOfObjectives();</span>
+<span class="fc" id="L73">    point = new double[dimensions];</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">    for (int i = 0; i &lt; dimensions; i++) {</span>
+<span class="fc" id="L76">      point[i] = solution.getObjective(i);</span>
+    }
+<span class="fc" id="L78">  }</span>
+
+  /**
+   * Constructor from an array of double values
+   *
+   * @param point
+   */
+<span class="fc" id="L85">  public ArrayPoint(double[] point) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">    if (point == null) {</span>
+<span class="fc" id="L87">      throw new JMetalException(&quot;The array of values is null&quot;) ;</span>
+    }
+
+<span class="fc" id="L90">    this.point = new double[point.length];</span>
+<span class="fc" id="L91">    System.arraycopy(point, 0, this.point, 0, point.length);</span>
+<span class="fc" id="L92">  }</span>
+
+  /**
+   * Constructor reading the values from a file
+   * @param fileName
+   */
+<span class="nc" id="L98">  public ArrayPoint(String fileName) throws IOException {</span>
+<span class="nc" id="L99">    FileInputStream fis = new FileInputStream(fileName);</span>
+<span class="nc" id="L100">    InputStreamReader isr = new InputStreamReader(fis);</span>
+<span class="nc" id="L101">    BufferedReader br = new BufferedReader(isr);</span>
+
+<span class="nc" id="L103">    List&lt;Double&gt; auxiliarPoint = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L104">    String aux = br.readLine();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">    while (aux != null) {</span>
+<span class="nc" id="L106">      StringTokenizer st = new StringTokenizer(aux);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">      while (st.hasMoreTokens()) {</span>
+<span class="nc" id="L109">        Double value = (new Double(st.nextToken()));</span>
+<span class="nc" id="L110">        auxiliarPoint.add(value);</span>
+<span class="nc" id="L111">      }</span>
+<span class="nc" id="L112">      aux = br.readLine();</span>
+<span class="nc" id="L113">    }</span>
+
+<span class="nc" id="L115">    point = new double[auxiliarPoint.size()] ;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    for (int i = 0; i &lt; auxiliarPoint.size(); i++) {</span>
+<span class="nc" id="L117">      point[i] = auxiliarPoint.get(i) ;</span>
+    }
+
+<span class="nc" id="L120">    br.close();</span>
+<span class="nc" id="L121">  }</span>
+
+  @Override
+  public int getNumberOfDimensions() {
+<span class="fc" id="L125">    return point.length;</span>
+  }
+
+  @Override
+  public double[] getValues() {
+<span class="fc" id="L130">    return point;</span>
+  }
+
+  @Override
+  public double getDimensionValue(int index) {
+<span class="pc bpc" id="L135" title="1 of 4 branches missed.">    if ((index &lt; 0) || (index &gt;= point.length)) {</span>
+<span class="fc" id="L136">      throw new JMetalException(&quot;Index value invalid: &quot; + index +</span>
+          &quot;. The point length is: &quot; + point.length) ;
+    }
+<span class="fc" id="L139">    return point[index] ;</span>
+  }
+
+  @Override
+  public void setDimensionValue(int index, double value) {
+<span class="pc bpc" id="L144" title="1 of 4 branches missed.">    if ((index &lt; 0) || (index &gt;= point.length)) {</span>
+<span class="fc" id="L145">      throw new JMetalException(&quot;Index value invalid: &quot; + index +</span>
+          &quot;. The point length is: &quot; + point.length) ;
+    }
+<span class="fc" id="L148">    point[index] = value ;</span>
+<span class="fc" id="L149">  }</span>
+
+  @Override
+  public String toString() {
+<span class="fc" id="L153">    String result = &quot;&quot;;</span>
+<span class="fc bfc" id="L154" title="All 2 branches covered.">    for (double anObjectives_ : point) {</span>
+<span class="fc" id="L155">      result += anObjectives_ + &quot; &quot;;</span>
+    }
+
+<span class="fc" id="L158">    return result;</span>
+  }
+
+  @Override public boolean equals(Object o) {
+<span class="fc bfc" id="L162" title="All 2 branches covered.">    if (this == o)</span>
+<span class="fc" id="L163">      return true;</span>
+<span class="fc bfc" id="L164" title="All 4 branches covered.">    if (o == null || getClass() != o.getClass())</span>
+<span class="fc" id="L165">      return false;</span>
+
+<span class="fc" id="L167">    ArrayPoint that = (ArrayPoint) o;</span>
+
+<span class="fc bfc" id="L169" title="All 2 branches covered.">    if (!Arrays.equals(point, that.point))</span>
+<span class="fc" id="L170">      return false;</span>
+
+<span class="fc" id="L172">    return true;</span>
+  }
+
+  @Override public int hashCode() {
+<span class="fc" id="L176">    return Arrays.hashCode(point);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

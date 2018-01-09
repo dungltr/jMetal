@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NSGAIIBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.nsgaii</a> &gt; <span class="el_source">NSGAIIBuilder.java</span></div><h1>NSGAIIBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.nsgaii;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class NSGAIIBuilder&lt;S extends Solution&lt;?&gt;&gt; implements AlgorithmBuilder&lt;NSGAII&lt;S&gt;&gt; {
+<span class="pc" id="L21">  public enum NSGAIIVariant {NSGAII, SteadyStateNSGAII, Measures, NSGAII45}</span>
+
+  /**
+   * NSGAIIBuilder class
+   */
+  private final Problem&lt;S&gt; problem;
+  private int maxEvaluations;
+  private int populationSize;
+  private CrossoverOperator&lt;S&gt;  crossoverOperator;
+  private MutationOperator&lt;S&gt; mutationOperator;
+  private SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator;
+  private SolutionListEvaluator&lt;S&gt; evaluator;
+
+  private NSGAIIVariant variant;
+
+  /**
+   * NSGAIIBuilder constructor
+   */
+  public NSGAIIBuilder(Problem&lt;S&gt; problem, CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="fc" id="L40">      MutationOperator&lt;S&gt; mutationOperator) {</span>
+<span class="fc" id="L41">    this.problem = problem;</span>
+<span class="fc" id="L42">    maxEvaluations = 25000;</span>
+<span class="fc" id="L43">    populationSize = 100;</span>
+<span class="fc" id="L44">    this.crossoverOperator = crossoverOperator ;</span>
+<span class="fc" id="L45">    this.mutationOperator = mutationOperator ;</span>
+<span class="fc" id="L46">    selectionOperator = new BinaryTournamentSelection&lt;S&gt;(new RankingAndCrowdingDistanceComparator&lt;S&gt;()) ;</span>
+<span class="fc" id="L47">    evaluator = new SequentialSolutionListEvaluator&lt;S&gt;();</span>
+
+<span class="fc" id="L49">    this.variant = NSGAIIVariant.NSGAII ;</span>
+<span class="fc" id="L50">  }</span>
+
+  public NSGAIIBuilder&lt;S&gt; setMaxEvaluations(int maxEvaluations) {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    if (maxEvaluations &lt; 0) {</span>
+<span class="fc" id="L54">      throw new JMetalException(&quot;maxEvaluations is negative: &quot; + maxEvaluations);</span>
+    }
+<span class="fc" id="L56">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="fc" id="L58">    return this;</span>
+  }
+
+  public NSGAIIBuilder&lt;S&gt; setPopulationSize(int populationSize) {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    if (populationSize &lt; 0) {</span>
+<span class="fc" id="L63">      throw new JMetalException(&quot;Population size is negative: &quot; + populationSize);</span>
+    }
+
+<span class="fc" id="L66">    this.populationSize = populationSize;</span>
+
+<span class="fc" id="L68">    return this;</span>
+  }
+
+  public NSGAIIBuilder&lt;S&gt; setSelectionOperator(SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator) {
+<span class="fc bfc" id="L72" title="All 2 branches covered.">    if (selectionOperator == null) {</span>
+<span class="fc" id="L73">      throw new JMetalException(&quot;selectionOperator is null&quot;);</span>
+    }
+<span class="fc" id="L75">    this.selectionOperator = selectionOperator;</span>
+
+<span class="fc" id="L77">    return this;</span>
+  }
+
+  public NSGAIIBuilder&lt;S&gt; setSolutionListEvaluator(SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">    if (evaluator == null) {</span>
+<span class="fc" id="L82">      throw new JMetalException(&quot;evaluator is null&quot;);</span>
+    }
+<span class="fc" id="L84">    this.evaluator = evaluator;</span>
+
+<span class="fc" id="L86">    return this;</span>
+  }
+
+
+  public NSGAIIBuilder&lt;S&gt; setVariant(NSGAIIVariant variant) {
+<span class="nc" id="L91">    this.variant = variant;</span>
+
+<span class="nc" id="L93">    return this;</span>
+  }
+
+  public NSGAII&lt;S&gt; build() {
+<span class="fc" id="L97">    NSGAII&lt;S&gt; algorithm = null ;</span>
+<span class="pc bpc" id="L98" title="1 of 2 branches missed.">    if (variant.equals(NSGAIIVariant.NSGAII)) {</span>
+<span class="fc" id="L99">      algorithm = new NSGAII&lt;S&gt;(problem, maxEvaluations, populationSize, crossoverOperator,</span>
+          mutationOperator, selectionOperator, evaluator);
+<span class="nc bnc" id="L101" title="All 2 branches missed.">    } else if (variant.equals(NSGAIIVariant.SteadyStateNSGAII)) {</span>
+<span class="nc" id="L102">      algorithm = new SteadyStateNSGAII&lt;S&gt;(problem, maxEvaluations, populationSize, crossoverOperator,</span>
+          mutationOperator, selectionOperator, evaluator);
+<span class="nc bnc" id="L104" title="All 2 branches missed.">    } else if (variant.equals(NSGAIIVariant.Measures)) {</span>
+<span class="nc" id="L105">      algorithm = new NSGAIIMeasures&lt;S&gt;(problem, maxEvaluations, populationSize, crossoverOperator,</span>
+          mutationOperator, selectionOperator, evaluator);
+    }
+
+<span class="fc" id="L109">    return algorithm ;</span>
+  }
+
+  /* Getters */
+  public Problem&lt;S&gt; getProblem() {
+<span class="fc" id="L114">    return problem;</span>
+  }
+
+  public int getMaxIterations() {
+<span class="fc" id="L118">    return maxEvaluations;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="fc" id="L122">    return populationSize;</span>
+  }
+
+  public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="fc" id="L126">    return crossoverOperator;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="fc" id="L130">    return mutationOperator;</span>
+  }
+
+  public SelectionOperator&lt;List&lt;S&gt;, S&gt; getSelectionOperator() {
+<span class="fc" id="L134">    return selectionOperator;</span>
+  }
+
+  public SolutionListEvaluator&lt;S&gt; getSolutionListEvaluator() {
+<span class="fc" id="L138">    return evaluator;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

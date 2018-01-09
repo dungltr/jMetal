@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimplePushMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">SimplePushMeasure.java</span></div><h1>SimplePushMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+import org.uma.jmetal.measure.Measure;
+import org.uma.jmetal.measure.MeasureListener;
+import org.uma.jmetal.measure.PushMeasure;
+
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * {@link SimplePushMeasure} is a basic implementation of {@link PushMeasure}.
+ * As a {@link PushMeasure}, it is intended to be fed by the algorithm while
+ * external entities should use {@link #register(MeasureListener)} to be
+ * notified in real time. For the algorithm to feed it, it should provide a
+ * solution and its value to {@link #push(Object, Object)}, leading to the
+ * notification of the registered observers.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ * @param &lt;Value&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SimplePushMeasure&lt;Value&gt; extends SimpleMeasure&lt;Value&gt; implements
+		PushMeasure&lt;Value&gt; {
+
+	/**
+	 * The observers registered to this {@link SimplePushMeasure}.
+	 */
+<span class="pc" id="L29">	private final Set&lt;MeasureListener&lt;Value&gt;&gt; listeners = new HashSet&lt;&gt;();</span>
+
+	/**
+	 * Create a {@link SimplePushMeasure} with a given name and a given
+	 * description.
+	 * 
+	 * @param name
+	 *            the name of the {@link Measure}
+	 * @param description
+	 *            the description of the {@link Measure}
+	 */
+	public SimplePushMeasure(String name, String description) {
+<span class="fc" id="L41">		super(name, description);</span>
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * Create a {@link SimplePushMeasure} with a given name and a
+	 * &lt;code&gt;null&lt;/code&gt; description.
+	 * 
+	 * @param name
+	 *            the name of the {@link Measure}
+	 */
+	public SimplePushMeasure(String name) {
+<span class="nc" id="L52">		super(name);</span>
+<span class="nc" id="L53">	}</span>
+
+	/**
+	 * Create a {@link SimplePushMeasure} with the class name as its name and a
+	 * &lt;code&gt;null&lt;/code&gt; description.
+	 */
+	public SimplePushMeasure() {
+<span class="fc" id="L60">		super();</span>
+<span class="fc" id="L61">	}</span>
+
+	@Override
+	public void register(MeasureListener&lt;Value&gt; listener) {
+<span class="fc" id="L65">		listeners.add(listener);</span>
+<span class="fc" id="L66">	}</span>
+
+	@Override
+	public void unregister(MeasureListener&lt;Value&gt; listener) {
+<span class="fc" id="L70">		listeners.remove(listener);</span>
+<span class="fc" id="L71">	}</span>
+
+	/**
+	 * Notify the observers which has registered a {@link MeasureListener}
+	 * through {@link #register(MeasureListener)} about a value.
+	 * 
+	 * @param value
+	 *            the value to send to the observers
+	 */
+	public void push(Value value) {
+<span class="fc bfc" id="L81" title="All 2 branches covered.">		for (MeasureListener&lt;Value&gt; listener : listeners) {</span>
+<span class="fc" id="L82">			listener.measureGenerated(value);</span>
+<span class="fc" id="L83">		}</span>
+<span class="fc" id="L84">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArrayFront.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.front.imp</a> &gt; <span class="el_source">ArrayFront.java</span></div><h1>ArrayFront.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.front.imp;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.point.Point;
+import org.uma.jmetal.util.point.impl.ArrayPoint;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ * This class implements the {@link Front} interface by using an array of {@link Point} objects
+ *
+ * @author Antonio J. Nebro
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ArrayFront implements Front {
+  protected Point[] points;
+  protected int numberOfPoints ;
+  private int pointDimensions ;
+
+  /** Constructor */
+<span class="fc" id="L24">  public ArrayFront() {</span>
+<span class="fc" id="L25">    points = null ;</span>
+<span class="fc" id="L26">    numberOfPoints = 0 ;</span>
+<span class="fc" id="L27">    pointDimensions = 0 ;</span>
+<span class="fc" id="L28">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L31">  public ArrayFront(List&lt;? extends Solution&lt;?&gt;&gt; solutionList) {</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">    if (solutionList == null) {</span>
+<span class="fc" id="L33">      throw new JMetalException(&quot;The list of solutions is null&quot;) ;</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    } else if (solutionList.size() == 0) {</span>
+<span class="fc" id="L35">      throw new JMetalException(&quot;The list of solutions is empty&quot;) ;</span>
+    }
+
+<span class="fc" id="L38">    numberOfPoints = solutionList.size();</span>
+<span class="fc" id="L39">    pointDimensions = solutionList.get(0).getNumberOfObjectives() ;</span>
+<span class="fc" id="L40">    points = new Point[numberOfPoints] ;</span>
+
+<span class="fc" id="L42">    points = new Point[numberOfPoints];</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfPoints; i++) {</span>
+<span class="fc" id="L44">      Point point = new ArrayPoint(pointDimensions) ;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">      for (int j = 0; j &lt; pointDimensions; j++) {</span>
+<span class="fc" id="L46">        point.setDimensionValue(j, solutionList.get(i).getObjective(j));</span>
+      }
+<span class="fc" id="L48">      points[i] = point;</span>
+    }
+<span class="fc" id="L50">  }</span>
+
+  /** Copy Constructor */
+<span class="fc" id="L53">  public ArrayFront(Front front) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">    if (front == null) {</span>
+<span class="fc" id="L55">      throw new JMetalException(&quot;The front is null&quot;) ;</span>
+<span class="fc bfc" id="L56" title="All 2 branches covered.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="fc" id="L57">      throw new JMetalException(&quot;The front is empty&quot;) ;</span>
+    }
+<span class="fc" id="L59">    numberOfPoints = front.getNumberOfPoints();</span>
+<span class="fc" id="L60">    pointDimensions = front.getPoint(0).getNumberOfDimensions() ;</span>
+<span class="fc" id="L61">    points = new Point[numberOfPoints] ;</span>
+
+<span class="fc" id="L63">    points = new Point[numberOfPoints];</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfPoints; i++) {</span>
+<span class="fc" id="L65">      points[i] = new ArrayPoint(front.getPoint(i));</span>
+    }
+<span class="fc" id="L67">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L70">  public ArrayFront(int numberOfPoints, int dimensions) {</span>
+<span class="fc" id="L71">    this.numberOfPoints = numberOfPoints;</span>
+<span class="fc" id="L72">    pointDimensions = dimensions ;</span>
+<span class="fc" id="L73">    points = new Point[this.numberOfPoints];</span>
+
+<span class="fc bfc" id="L75" title="All 2 branches covered.">    for (int i = 0; i &lt; this.numberOfPoints; i++) {</span>
+<span class="fc" id="L76">      Point point = new ArrayPoint(pointDimensions) ;</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">      for (int j = 0; j &lt; pointDimensions; j++) {</span>
+<span class="fc" id="L78">        point.setDimensionValue(j, 0.0) ;</span>
+      }
+<span class="fc" id="L80">      points[i] = point ;</span>
+    }
+<span class="fc" id="L82">  }</span>
+
+  /**
+   * Constructor
+   * @param fileName File containing the data. Each line of the file is a list of objective values
+   * @throws FileNotFoundException
+   */
+  public ArrayFront(String fileName) throws FileNotFoundException {
+<span class="fc" id="L90">    this() ;</span>
+    // TODO: investigate why no exception is raised if fileName == &quot;&quot;
+<span class="fc" id="L92">    InputStream inputStream = createInputStream(fileName) ;</span>
+
+<span class="fc" id="L94">    InputStreamReader isr = new InputStreamReader(inputStream);</span>
+<span class="fc" id="L95">    BufferedReader br = new BufferedReader(isr);</span>
+
+<span class="fc" id="L97">    List&lt;Point&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L98">    int numberOfObjectives = 0;</span>
+    String aux ;
+    try {
+<span class="fc" id="L101">      aux = br.readLine();</span>
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">      while (aux != null) {</span>
+<span class="fc" id="L104">        StringTokenizer tokenizer = new StringTokenizer(aux);</span>
+<span class="fc" id="L105">        int i = 0;</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">        if (numberOfObjectives == 0) {</span>
+<span class="fc" id="L107">          numberOfObjectives = tokenizer.countTokens();</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        } else if (numberOfObjectives != tokenizer.countTokens()) {</span>
+<span class="fc" id="L109">          throw new JMetalException(&quot;Invalid number of points read. &quot;</span>
+<span class="fc" id="L110">              + &quot;Expected: &quot; + numberOfObjectives + &quot;, received: &quot; + tokenizer.countTokens()) ;</span>
+        }
+
+<span class="fc" id="L113">        Point point = new ArrayPoint(numberOfObjectives) ;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        while (tokenizer.hasMoreTokens()) {</span>
+<span class="fc" id="L115">          double value = new Double(tokenizer.nextToken());</span>
+<span class="fc" id="L116">          point.setDimensionValue(i, value);</span>
+<span class="fc" id="L117">          i++;</span>
+<span class="fc" id="L118">        }</span>
+<span class="fc" id="L119">        list.add(point);</span>
+<span class="fc" id="L120">        aux = br.readLine();</span>
+<span class="fc" id="L121">      }</span>
+<span class="fc" id="L122">      br.close();</span>
+<span class="nc" id="L123">    } catch (IOException e) {</span>
+<span class="nc" id="L124">      throw new JMetalException(&quot;Error reading file&quot;, e);</span>
+<span class="nc" id="L125">    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L126">      throw new JMetalException(&quot;Format number exception when reading file&quot;, e);</span>
+<span class="fc" id="L127">    }</span>
+
+<span class="fc" id="L129">    numberOfPoints = list.size();</span>
+<span class="fc" id="L130">    points = new Point[list.size()];</span>
+<span class="fc" id="L131">    points = list.toArray(points) ;</span>
+<span class="fc bfc" id="L132" title="All 2 branches covered.">    if (numberOfPoints == 0) {</span>
+<span class="fc" id="L133">      pointDimensions = 0 ;</span>
+    } else {
+<span class="fc" id="L135">      pointDimensions = points[0].getNumberOfDimensions() ;</span>
+    }
+<span class="fc bfc" id="L137" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfPoints; i++) {</span>
+<span class="fc" id="L138">      points[i] = list.get(i);</span>
+    }
+<span class="fc" id="L140">  }</span>
+
+  public InputStream createInputStream(String fileName) throws FileNotFoundException {
+<span class="fc" id="L143">    InputStream inputStream = getClass().getResourceAsStream(fileName);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">    if (inputStream == null) {</span>
+<span class="nc" id="L145">      inputStream = new FileInputStream(fileName) ;</span>
+    }
+
+<span class="fc" id="L148">    return inputStream ;</span>
+  }
+
+  @Override public int getNumberOfPoints() {
+<span class="fc" id="L152">    return numberOfPoints ;</span>
+  }
+
+  @Override public int getPointDimensions() {
+<span class="fc" id="L156">    return pointDimensions ;</span>
+  }
+
+  @Override public Point getPoint(int index) {
+<span class="fc bfc" id="L160" title="All 2 branches covered.">    if (index &lt; 0) {</span>
+<span class="fc" id="L161">      throw new JMetalException(&quot;The index value is negative&quot;) ;</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">    } else if (index &gt;= numberOfPoints) {</span>
+<span class="fc" id="L163">      throw new JMetalException(</span>
+          &quot;The index value (&quot; + index + &quot;) is greater than the number of &quot; + &quot;points (&quot; + numberOfPoints + &quot;)&quot;);
+    }
+<span class="fc" id="L166">    return points[index];</span>
+  }
+
+  @Override public void setPoint(int index, Point point) {
+<span class="fc bfc" id="L170" title="All 2 branches covered.">    if (index &lt; 0) {</span>
+<span class="fc" id="L171">      throw new JMetalException(&quot;The index value is negative&quot;) ;</span>
+<span class="fc bfc" id="L172" title="All 2 branches covered.">    } else if (index &gt;= numberOfPoints) {</span>
+<span class="fc" id="L173">      throw new JMetalException(&quot;The index value (&quot; + index + &quot;) is greater than the number of &quot;</span>
+          + &quot;points (&quot; + numberOfPoints +&quot;)&quot;) ;
+<span class="fc bfc" id="L175" title="All 2 branches covered.">    } else if (point == null) {</span>
+<span class="fc" id="L176">      throw new JMetalException(&quot;The point is null&quot;) ;</span>
+    }
+<span class="fc" id="L178">    points[index] = point ;</span>
+<span class="fc" id="L179">  }</span>
+
+  @Override public void sort(Comparator&lt;Point&gt; comparator) {
+    //Arrays.sort(points, comparator);
+<span class="fc" id="L183">    Arrays.sort(points, 0, numberOfPoints, comparator);</span>
+<span class="fc" id="L184">  }</span>
+
+  @Override public boolean equals(Object o) {
+<span class="fc bfc" id="L187" title="All 2 branches covered.">    if (this == o)</span>
+<span class="fc" id="L188">      return true;</span>
+<span class="fc bfc" id="L189" title="All 4 branches covered.">    if (o == null || getClass() != o.getClass())</span>
+<span class="fc" id="L190">      return false;</span>
+
+<span class="fc" id="L192">    ArrayFront that = (ArrayFront) o;</span>
+
+<span class="fc bfc" id="L194" title="All 2 branches covered.">    if (numberOfPoints != that.numberOfPoints)</span>
+<span class="fc" id="L195">      return false;</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">    if (pointDimensions != that.pointDimensions)</span>
+<span class="fc" id="L197">      return false;</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">    if (!Arrays.equals(points, that.points))</span>
+<span class="fc" id="L199">      return false;</span>
+
+<span class="fc" id="L201">    return true;</span>
+  }
+
+  @Override public int hashCode() {
+<span class="nc" id="L205">    int result = Arrays.hashCode(points);</span>
+<span class="nc" id="L206">    result = 31 * result + numberOfPoints;</span>
+<span class="nc" id="L207">    result = 31 * result + pointDimensions;</span>
+<span class="nc" id="L208">    return result;</span>
+  }
+  
+  @Override
+	public String toString() {
+<span class="fc" id="L213">		return Arrays.toString(points);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

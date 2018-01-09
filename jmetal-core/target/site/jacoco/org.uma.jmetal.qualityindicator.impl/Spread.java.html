@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Spread.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl</a> &gt; <span class="el_source">Spread.java</span></div><h1>Spread.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.point.util.comparator.LexicographicalPointComparator;
+import org.uma.jmetal.util.point.util.distance.EuclideanDistance;
+import org.uma.jmetal.util.point.util.distance.PointDistance;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
+/**
+ * This class implements the spread quality indicator. It must be only to two bi-objective problem.
+ * Reference: Deb, K., Pratap, A., Agarwal, S., Meyarivan, T.: A fast and
+ * elitist multiobjective genetic algorithm: NSGA-II. IEEE Trans. on Evol. Computation 6 (2002) 182-197
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Spread &lt;S extends Solution&lt;?&gt;&gt; extends GenericIndicator&lt;S&gt; {
+
+  /**
+   * Default constructor
+   */
+<span class="nc" id="L27">  public Spread() {</span>
+<span class="nc" id="L28">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @throws FileNotFoundException
+   */
+  public Spread(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L37">    super(referenceParetoFrontFile) ;</span>
+<span class="nc" id="L38">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFront
+   * @throws FileNotFoundException
+   */
+  public Spread(Front referenceParetoFront) {
+<span class="nc" id="L47">    super(referenceParetoFront) ;</span>
+<span class="nc" id="L48">  }</span>
+
+  /**
+   * Evaluate() method
+   * @param solutionList
+   * @return
+   */
+  @Override public Double evaluate(List&lt;S&gt; solutionList) {
+<span class="nc" id="L56">    return spread(new ArrayFront(solutionList), referenceParetoFront);</span>
+  }
+
+  /**
+   * Calculates the Spread metric.
+   *
+   * @param front              The front.
+   * @param referenceFront    The true pareto front.
+   */
+  public double spread(Front front, Front referenceFront) {
+<span class="nc" id="L66">    PointDistance distance = new EuclideanDistance() ;</span>
+
+    // STEP 1. Sort normalizedFront and normalizedParetoFront;
+<span class="nc" id="L69">    front.sort(new LexicographicalPointComparator());</span>
+<span class="nc" id="L70">    referenceFront.sort(new LexicographicalPointComparator());</span>
+
+    // STEP 2. Compute df and dl (See specifications in Deb's description of the metric)
+<span class="nc" id="L73">    double df = distance.compute(front.getPoint(0), referenceFront.getPoint(0)) ;</span>
+<span class="nc" id="L74">    double dl = distance.compute(front.getPoint(front.getNumberOfPoints() - 1),</span>
+<span class="nc" id="L75">        referenceFront.getPoint(referenceFront.getNumberOfPoints() - 1)) ;</span>
+
+<span class="nc" id="L77">    double mean = 0.0;</span>
+<span class="nc" id="L78">    double diversitySum = df + dl;</span>
+
+<span class="nc" id="L80">    int numberOfPoints = front.getNumberOfPoints() ;</span>
+
+    // STEP 3. Calculate the mean of distances between points i and (i - 1).
+    // (the points are in lexicografical order)
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    for (int i = 0; i &lt; (numberOfPoints - 1); i++) {</span>
+<span class="nc" id="L85">      mean += distance.compute(front.getPoint(i), front.getPoint(i + 1));</span>
+    }
+
+<span class="nc" id="L88">    mean = mean / (double) (numberOfPoints - 1);</span>
+
+    // STEP 4. If there are more than a single point, continue computing the
+    // metric. In other case, return the worse value (1.0, see metric's description).
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    if (numberOfPoints &gt; 1) {</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      for (int i = 0; i &lt; (numberOfPoints - 1); i++) {</span>
+<span class="nc" id="L94">        diversitySum += Math.abs(distance.compute(front.getPoint(i),</span>
+<span class="nc" id="L95">            front.getPoint(i + 1)) - mean);</span>
+      }
+<span class="nc" id="L97">      return diversitySum / (df + dl + (numberOfPoints - 1) * mean);</span>
+    } else {
+<span class="nc" id="L99">      return 1.0;</span>
+    }
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L104">    return &quot;SPREAD&quot; ;</span>
+  }
+  @Override public String getDescription() {
+<span class="nc" id="L107">    return &quot;Spread quality indicator&quot; ;</span>
+  }
+
+  @Override
+  public boolean isTheLowerTheIndicatorValueTheBetter() {
+<span class="nc" id="L112">    return true ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

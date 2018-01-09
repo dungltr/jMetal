@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenerateWilcoxonTestTablesWithR.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment.component</a> &gt; <span class="el_source">GenerateWilcoxonTestTablesWithR.java</span></div><h1>GenerateWilcoxonTestTablesWithR.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment.component;
+
+import org.apache.commons.lang3.StringUtils;
+import org.uma.jmetal.qualityindicator.impl.GenericIndicator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.experiment.ExperimentComponent;
+import org.uma.jmetal.util.experiment.Experiment;
+import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+/**
+ * This class generates a R script that computes the Wilcoxon Signed Rank Test and generates a Latex script
+ * that produces a table per quality indicator containing the pairwise comparison between all the algorithms
+ * on all the solved problems.
+ *
+ * The results are a set of R files that are written in the directory
+ * {@link Experiment #getExperimentBaseDirectory()}/R. Each file is called as
+ * indicatorName.Wilcoxon.R
+ *
+ * To run the R script: Rscript indicatorName.Wilcoxon.R
+ * To generate the resulting Latex file: pdflatex indicatorName.Wilcoxon.tex
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class GenerateWilcoxonTestTablesWithR&lt;Result&gt; implements ExperimentComponent {
+  private static final String DEFAULT_R_DIRECTORY = &quot;R&quot;;
+
+  private final Experiment&lt;?, Result&gt; experiment;
+
+<span class="nc" id="L33">  public GenerateWilcoxonTestTablesWithR(Experiment&lt;?, Result&gt; experimentConfiguration) {</span>
+<span class="nc" id="L34">    this.experiment = experimentConfiguration;</span>
+
+<span class="nc" id="L36">    experiment.removeDuplicatedAlgorithms();</span>
+<span class="nc" id="L37">  }</span>
+
+  @Override
+  public void run() throws IOException {
+<span class="nc" id="L41">    String rDirectoryName = experiment.getExperimentBaseDirectory() + &quot;/&quot; + DEFAULT_R_DIRECTORY;</span>
+    File rOutput;
+<span class="nc" id="L43">    rOutput = new File(rDirectoryName);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    if (!rOutput.exists()) {</span>
+<span class="nc" id="L45">      new File(rDirectoryName).mkdirs();</span>
+<span class="nc" id="L46">      System.out.println(&quot;Creating &quot; + rDirectoryName + &quot; directory&quot;);</span>
+    }
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    for (GenericIndicator&lt;? extends Solution&lt;?&gt;&gt; indicator : experiment.getIndicatorList()) {</span>
+<span class="nc" id="L49">      String rFileName = rDirectoryName + &quot;/&quot; + indicator.getName() + &quot;.Wilcoxon&quot; + &quot;.R&quot;;</span>
+<span class="nc" id="L50">      String latexFileName = rDirectoryName + &quot;/&quot; + indicator.getName() + &quot;.Wilcoxon&quot; + &quot;.tex&quot;;</span>
+
+<span class="nc" id="L52">      printHeaderLatexCommands(rFileName, latexFileName);</span>
+<span class="nc" id="L53">      printTableHeader(indicator, rFileName, latexFileName);</span>
+<span class="nc" id="L54">      printLines(indicator, rFileName, latexFileName);</span>
+<span class="nc" id="L55">      printTableTail(rFileName, latexFileName);</span>
+<span class="nc" id="L56">      printEndLatexCommands(rFileName, latexFileName);</span>
+
+<span class="nc" id="L58">      printGenerateMainScript(indicator, rFileName, latexFileName) ;</span>
+<span class="nc" id="L59">    }</span>
+<span class="nc" id="L60">  }</span>
+
+  private void printHeaderLatexCommands(String rFileName, String latexFileName) throws IOException {
+<span class="nc" id="L63">    FileWriter os = new FileWriter(rFileName, false);</span>
+<span class="nc" id="L64">    String output = &quot;write(\&quot;\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;,append=FALSE)&quot;;</span>
+<span class="nc" id="L65">    os.write(output + &quot;\n&quot;);</span>
+
+<span class="nc" id="L67">    String dataDirectory = experiment.getExperimentBaseDirectory() + &quot;/data&quot;;</span>
+<span class="nc" id="L68">    os.write(&quot;resultDirectory&lt;-\&quot;&quot; + dataDirectory + &quot;\&quot;&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L69">    output = &quot;latexHeader &lt;- function() {&quot; + &quot;\n&quot; +</span>
+        &quot;  write(\&quot;\\\\documentclass{article}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\title{StandardStudy}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\usepackage{amssymb}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\author{A.J.Nebro}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\begin{document}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\maketitle\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\section{Tables}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; + &quot;}&quot; + &quot;\n&quot;;
+<span class="nc" id="L78">    os.write(output + &quot;\n&quot;);</span>
+
+<span class="nc" id="L80">    os.close();</span>
+<span class="nc" id="L81">  }</span>
+
+  private void printEndLatexCommands(String rFileName, String latexFileName) throws IOException {
+<span class="nc" id="L84">    FileWriter os = new FileWriter(rFileName, true);</span>
+<span class="nc" id="L85">    String output = &quot;latexTail &lt;- function() { &quot; + &quot;\n&quot; +</span>
+        &quot;  write(\&quot;\\\\end{document}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; + &quot;}&quot; + &quot;\n&quot;;
+<span class="nc" id="L87">    os.write(output + &quot;\n&quot;);</span>
+<span class="nc" id="L88">    os.close();</span>
+<span class="nc" id="L89">  }</span>
+
+  private void printTableHeader(GenericIndicator&lt;?&gt; indicator, String rFileName, String latexFileName) throws IOException {
+<span class="nc" id="L92">    FileWriter os = new FileWriter(rFileName, true);</span>
+
+<span class="nc" id="L94">    String latexTableLabel = &quot;&quot;;</span>
+<span class="nc" id="L95">    String latexTableCaption = &quot;&quot;;</span>
+
+    // Write function latexTableHeader
+<span class="nc" id="L98">    latexTableCaption = &quot;  write(\&quot;\\\\caption{\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +</span>
+        &quot;  write(problem, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+<span class="nc" id="L100">        &quot;  write(\&quot;.&quot; + indicator.getName() + &quot;.}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot;;</span>
+<span class="nc" id="L101">    latexTableLabel = &quot;  write(\&quot;\\\\label{Table:\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +</span>
+        &quot;  write(problem, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+<span class="nc" id="L103">        &quot;  write(\&quot;.&quot; + indicator.getName() + &quot;.}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot;;</span>
+
+    // Generate function latexTableHeader()
+<span class="nc" id="L106">    String output = &quot;latexTableHeader &lt;- function(problem, tabularString, latexTableFirstLine) {&quot; + &quot;\n&quot; +</span>
+        &quot;  write(\&quot;\\\\begin{table}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        latexTableCaption + &quot;\n&quot; +
+        latexTableLabel + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\centering\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\begin{scriptsize}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        //&quot;  write(\&quot;\\\\begin{tabular}{&quot; + latexTabularAlignment + &quot;}\&quot;, \&quot;&quot; + texFile + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\begin{tabular}{\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(tabularString, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        //latexTableFirstLine +
+        &quot;  write(latexTableFirstLine, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\hline \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; + &quot;}&quot; + &quot;\n&quot;;
+<span class="nc" id="L119">    os.write(output + &quot;\n&quot;);</span>
+<span class="nc" id="L120">    os.close();</span>
+<span class="nc" id="L121">  }</span>
+
+  private void printTableTail(String rFileName, String latexFileName) throws IOException {
+    // Generate function latexTableTail()
+<span class="nc" id="L125">    FileWriter os = new FileWriter(rFileName, true);</span>
+
+<span class="nc" id="L127">    String output = &quot;latexTableTail &lt;- function() { &quot; + &quot;\n&quot; +</span>
+        &quot;  write(\&quot;\\\\hline\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\end{tabular}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\end{scriptsize}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;  write(\&quot;\\\\end{table}\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; + &quot;}&quot; + &quot;\n&quot;;
+<span class="nc" id="L132">    os.write(output + &quot;\n&quot;);</span>
+
+<span class="nc" id="L134">    os.close();</span>
+<span class="nc" id="L135">  }</span>
+
+  private void printLines(GenericIndicator&lt;?&gt; indicator, String rFileName, String latexFileName) throws IOException {
+<span class="nc" id="L138">    FileWriter os = new FileWriter(rFileName, true);</span>
+
+    String output ;
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    if (indicator.isTheLowerTheIndicatorValueTheBetter()) {</span>
+<span class="nc" id="L142">      output = &quot;printTableLine &lt;- function(indicator, algorithm1, algorithm2, i, j, problem) { &quot; + &quot;\n&quot; +</span>
+          &quot;  file1&lt;-paste(resultDirectory, algorithm1, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file1&lt;-paste(file1, problem, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file1&lt;-paste(file1, indicator, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  data1&lt;-scan(file1)&quot; + &quot;\n&quot; +
+          &quot;  file2&lt;-paste(resultDirectory, algorithm2, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file2&lt;-paste(file2, problem, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file2&lt;-paste(file2, indicator, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  data2&lt;-scan(file2)&quot; + &quot;\n&quot; +
+          &quot;  if (i == j) {&quot; + &quot;\n&quot; +
+          &quot;    write(\&quot;-- \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+          &quot;  }&quot; + &quot;\n&quot; +
+          &quot;  else if (i &lt; j) {&quot; + &quot;\n&quot; +
+          &quot;    if (is.finite(wilcox.test(data1, data2)$p.value) &amp; wilcox.test(data1, data2)$p.value &lt;= 0.05) {&quot; + &quot;\n&quot; +
+          &quot;      if (median(data1) &lt;= median(data2)) {&quot; + &quot;\n&quot; +
+          &quot;        write(\&quot;$\\\\blacktriangle$\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+          &quot;      }&quot; + &quot;\n&quot; +
+          &quot;      else {&quot; + &quot;\n&quot; +
+          &quot;        write(\&quot;$\\\\triangledown$\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE) &quot; + &quot;\n&quot; +
+          &quot;      }&quot; + &quot;\n&quot; +
+          &quot;    }&quot; + &quot;\n&quot; +
+          &quot;    else {&quot; + &quot;\n&quot; +
+          &quot;      write(\&quot;--\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE) &quot; + &quot;\n&quot; +
+          &quot;    }&quot; + &quot;\n&quot; +
+          &quot;  }&quot; + &quot;\n&quot; +
+          &quot;  else {&quot; + &quot;\n&quot; +
+          &quot;    write(\&quot; \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+          &quot;  }&quot; + &quot;\n&quot; +
+          &quot;}&quot; + &quot;\n&quot;;
+
+    } else {
+<span class="nc" id="L173">      output = &quot;printTableLine &lt;- function(indicator, algorithm1, algorithm2, i, j, problem) { &quot; + &quot;\n&quot; +</span>
+          &quot;  file1&lt;-paste(resultDirectory, algorithm1, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file1&lt;-paste(file1, problem, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file1&lt;-paste(file1, indicator, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  data1&lt;-scan(file1)&quot; + &quot;\n&quot; +
+          &quot;  file2&lt;-paste(resultDirectory, algorithm2, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file2&lt;-paste(file2, problem, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  file2&lt;-paste(file2, indicator, sep=\&quot;/\&quot;)&quot; + &quot;\n&quot; +
+          &quot;  data2&lt;-scan(file2)&quot; + &quot;\n&quot; +
+          &quot;  if (i == j) {&quot; + &quot;\n&quot; +
+          &quot;    write(\&quot;--\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+          &quot;  }&quot; + &quot;\n&quot; +
+          &quot;  else if (i &lt; j) {&quot; + &quot;\n&quot; +
+          &quot;    if (is.finite(wilcox.test(data1, data2)$p.value) &amp; wilcox.test(data1, data2)$p.value &lt;= 0.05) {&quot; + &quot;\n&quot; +
+          &quot;      if (median(data1) &gt;= median(data2)) {&quot; + &quot;\n&quot; +
+          &quot;        write(\&quot;$\\\\blacktriangle$\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+          &quot;      }&quot; + &quot;\n&quot; +
+          &quot;      else {&quot; + &quot;\n&quot; +
+          &quot;        write(\&quot;$\\\\triangledown$\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE) &quot; + &quot;\n&quot; +
+          &quot;      }&quot; + &quot;\n&quot; +
+          &quot;    }&quot; + &quot;\n&quot; +
+          &quot;    else {&quot; + &quot;\n&quot; +
+          &quot;      write(\&quot;$-$\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE) &quot; + &quot;\n&quot; +
+          &quot;    }&quot; + &quot;\n&quot; +
+          &quot;  }&quot; + &quot;\n&quot; +
+          &quot;  else {&quot; + &quot;\n&quot; +
+          &quot;    write(\&quot; \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+          &quot;  }&quot; + &quot;\n&quot; +
+          &quot;}&quot; + &quot;\n&quot;;
+    }
+<span class="nc" id="L203">    os.write(output + &quot;\n&quot;);</span>
+<span class="nc" id="L204">    os.close();</span>
+<span class="nc" id="L205">  }</span>
+
+  private void printGenerateMainScript(GenericIndicator&lt;?&gt; indicator, String rFileName, String latexFileName) throws IOException {
+<span class="nc" id="L208">    FileWriter os = new FileWriter(rFileName, true);</span>
+
+    // Start of the R script
+<span class="nc" id="L211">    String output = &quot;### START OF SCRIPT &quot;;</span>
+<span class="nc" id="L212">    os.write(output + &quot;\n&quot;);</span>
+
+<span class="nc" id="L214">    String problemList = &quot;problemList &lt;-c(&quot;;</span>
+<span class="nc" id="L215">    String algorithmList = &quot;algorithmList &lt;-c(&quot;;</span>
+
+<span class="nc bnc" id="L217" title="All 2 branches missed.">    for (int i = 0; i &lt; (experiment.getProblemList().size() - 1); i++) {</span>
+<span class="nc" id="L218">      problemList += &quot;\&quot;&quot; + experiment.getProblemList().get(i).getTag() + &quot;\&quot;, &quot;;</span>
+    }
+<span class="nc" id="L220">    problemList += &quot;\&quot;&quot; + experiment.getProblemList().get(experiment.getProblemList().size() - 1).getTag() + &quot;\&quot;) &quot;;</span>
+
+<span class="nc bnc" id="L222" title="All 2 branches missed.">    for (int i = 0; i &lt; (experiment.getAlgorithmList().size() - 1); i++) {</span>
+<span class="nc" id="L223">      algorithmList += &quot;\&quot;&quot; + experiment.getAlgorithmList().get(i).getAlgorithmTag() + &quot;\&quot;, &quot;;</span>
+    }
+<span class="nc" id="L225">    algorithmList += &quot;\&quot;&quot; + experiment.getAlgorithmList().get(experiment.getAlgorithmList().size() - 1).getAlgorithmTag() + &quot;\&quot;) &quot;;</span>
+
+<span class="nc" id="L227">    String latexTabularAlignment = &quot;l&quot;;</span>
+<span class="nc bnc" id="L228" title="All 2 branches missed.">    for (int i = 1; i &lt; experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc" id="L229">      latexTabularAlignment += &quot;c&quot;;</span>
+    }
+
+<span class="nc" id="L232">    latexTabularAlignment = &quot;l&quot;;</span>
+<span class="nc" id="L233">    String latexTableFirstLine = &quot;\\\\hline &quot;;</span>
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">    for (int i = 1; i &lt; experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc" id="L236">      latexTabularAlignment += &quot;c&quot;;</span>
+<span class="nc" id="L237">      latexTableFirstLine += &quot; &amp; &quot; + experiment.getAlgorithmList().get(i).getAlgorithmTag();</span>
+    }
+<span class="nc" id="L239">    latexTableFirstLine += &quot;\\\\\\\\ \&quot;&quot;;</span>
+
+<span class="nc" id="L241">    String tabularString = &quot;tabularString &lt;-c(&quot; + &quot;\&quot;&quot;+ latexTabularAlignment + &quot;\&quot;&quot;+ &quot;) &quot; ;</span>
+<span class="nc" id="L242">    String tableFirstLine = &quot;latexTableFirstLine &lt;-c(&quot; + &quot;\&quot;&quot; + latexTableFirstLine + &quot;) &quot; ;</span>
+
+<span class="nc" id="L244">    output = &quot;# Constants&quot; + &quot;\n&quot; +</span>
+        problemList + &quot;\n&quot; +
+        algorithmList + &quot;\n&quot; +
+        tabularString + &quot;\n&quot; +
+        tableFirstLine + &quot;\n&quot; +
+<span class="nc" id="L249">        &quot;indicator&lt;-\&quot;&quot; + indicator.getName() + &quot;\&quot;&quot;;</span>
+<span class="nc" id="L250">    os.write(output + &quot;\n&quot;);</span>
+
+<span class="nc" id="L252">    output = &quot;\n # Step 1.  Writes the latex header&quot; + &quot;\n&quot; +</span>
+        &quot;latexHeader()&quot;;
+<span class="nc" id="L254">    os.write(output + &quot;\n&quot;);</span>
+
+    // Generate full table
+<span class="nc" id="L257">    problemList = &quot;&quot;;</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">    for (ExperimentProblem&lt;?&gt; problem : experiment.getProblemList()) {</span>
+<span class="nc" id="L259">      problemList += problem.getTag() + &quot; &quot;;</span>
+<span class="nc" id="L260">    }</span>
+    // The tabular environment and the latexTableFirstLine encodings.variable must be redefined
+<span class="nc" id="L262">    latexTabularAlignment = &quot;| l | &quot;;</span>
+<span class="nc" id="L263">    latexTableFirstLine = &quot;\\\\hline \\\\multicolumn{1}{|c|}{}&quot;;</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">    for (int i = 1; i &lt; experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc" id="L265">      latexTabularAlignment += StringUtils.repeat(&quot;p{0.15cm }&quot;, experiment.getProblemList().size());</span>
+<span class="nc" id="L266">      latexTableFirstLine += &quot; &amp; \\\\multicolumn{&quot; + experiment.getProblemList().size() + &quot;}{c|}{&quot; + experiment.getAlgorithmList().get(i).getAlgorithmTag()+&quot;}&quot;;</span>
+<span class="nc" id="L267">      latexTabularAlignment += &quot; | &quot; ;</span>
+    }
+<span class="nc" id="L269">    latexTableFirstLine += &quot; \\\\\\\\&quot;;</span>
+
+<span class="nc" id="L271">    tabularString = &quot;tabularString &lt;-c(&quot; + &quot;\&quot;&quot;+ latexTabularAlignment + &quot;\&quot;&quot;+ &quot;) &quot; ;</span>
+<span class="nc" id="L272">    latexTableFirstLine = &quot;latexTableFirstLine &lt;-c(&quot; + &quot;\&quot;&quot;+ latexTableFirstLine + &quot;\&quot;&quot;+ &quot;) &quot; ;</span>
+
+<span class="nc" id="L274">    output = tabularString;</span>
+<span class="nc" id="L275">    os.write(output + &quot;\n&quot; + &quot;\n&quot;);</span>
+<span class="nc" id="L276">    output = latexTableFirstLine ;</span>
+<span class="nc" id="L277">    os.write(output + &quot;\n&quot; + &quot;\n&quot;);</span>
+
+<span class="nc" id="L279">    output = &quot;# Step 3. Problem loop &quot; + &quot;\n&quot; +</span>
+        &quot;latexTableHeader(\&quot;&quot; + problemList + &quot;\&quot;, tabularString, latexTableFirstLine)&quot; + &quot;\n\n&quot; +
+        &quot;indx = 0&quot; + &quot;\n&quot; +
+        &quot;for (i in algorithmList) {&quot; + &quot;\n&quot; +
+<span class="nc" id="L283">        &quot;  if (i != \&quot;&quot; +  experiment.getAlgorithmList().get(experiment.getAlgorithmList().size() - 1).getAlgorithmTag()+ &quot;\&quot;) {&quot; + &quot;\n&quot; +</span>
+        &quot;    write(i , \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;    write(\&quot; &amp; \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; + &quot;\n&quot; +
+        &quot;    jndx = 0&quot; + &quot;\n&quot; +
+        &quot;    for (j in algorithmList) {&quot; + &quot;\n&quot; +
+        &quot;      for (problem in problemList) {&quot; + &quot;\n&quot; +
+        &quot;        if (jndx != 0) {&quot; + &quot;\n&quot; +
+        &quot;          if (i != j) {&quot; + &quot;\n&quot; +
+        &quot;            printTableLine(indicator, i, j, indx, jndx, problem)&quot; + &quot;\n&quot; +
+        &quot;          }&quot; + &quot;\n&quot; +
+        &quot;          else {&quot; + &quot;\n&quot; +
+        &quot;            write(\&quot;  \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;          } &quot; + &quot;\n&quot; +
+<span class="nc" id="L296">        &quot;          if (problem == \&quot;&quot; + experiment.getProblemList().get(experiment.getProblemList().size()- 1).getTag() + &quot;\&quot;) {&quot; + &quot;\n&quot; +</span>
+<span class="nc" id="L297">        &quot;            if (j == \&quot;&quot; + experiment.getAlgorithmList().get(experiment.getAlgorithmList().size() - 1).getAlgorithmTag() + &quot;\&quot;) {&quot; + &quot;\n&quot; +</span>
+        &quot;              write(\&quot; \\\\\\\\ \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;            } &quot; + &quot;\n&quot; +
+        &quot;            else {&quot; + &quot;\n&quot; +
+        &quot;              write(\&quot; &amp; \&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;            }&quot; + &quot;\n&quot; +
+        &quot;          }&quot; + &quot;\n&quot; +
+        &quot;     else {&quot; + &quot;\n&quot; +
+        &quot;    write(\&quot;&amp;\&quot;, \&quot;&quot; + latexFileName + &quot;\&quot;, append=TRUE)&quot; + &quot;\n&quot; +
+        &quot;     }&quot; + &quot;\n&quot; +
+        &quot;        }&quot; + &quot;\n&quot; +
+        &quot;      }&quot; + &quot;\n&quot; +
+        &quot;      jndx = jndx + 1&quot; + &quot;\n&quot; +
+        &quot;    }&quot; + &quot;\n&quot; +
+        &quot;    indx = indx + 1&quot; + &quot;\n&quot; +
+        &quot;  }&quot; + &quot;\n&quot; +
+        &quot;} # for algorithm&quot; + &quot;\n&quot; + &quot;\n&quot; +
+        &quot;  latexTableTail()&quot; + &quot;\n&quot;;
+
+<span class="nc" id="L316">    os.write(output + &quot;\n&quot;);</span>
+
+    // Generate end of file
+<span class="nc" id="L319">    output = &quot;#Step 3. Writes the end of latex file &quot; + &quot;\n&quot; +</span>
+        &quot;latexTail()&quot; + &quot;\n&quot;;
+<span class="nc" id="L321">    os.write(output + &quot;\n&quot;);</span>
+
+<span class="nc" id="L323">    os.close();</span>
+<span class="nc" id="L324">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

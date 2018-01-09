@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IBEA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.ibea</a> &gt; <span class="el_source">IBEA.java</span></div><h1>IBEA.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.ibea;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.solutionattribute.impl.Fitness;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class implements the IBEA algorithm
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class IBEA&lt;S extends Solution&lt;?&gt;&gt; implements Algorithm&lt;List&lt;S&gt;&gt; {
+  protected Problem&lt;S&gt; problem;
+
+  public static final int TOURNAMENTS_ROUNDS = 1;
+
+  protected List&lt;List&lt;Double&gt;&gt; indicatorValues;
+  protected double maxIndicatorValue;
+
+  protected int populationSize;
+  protected int archiveSize;
+  protected int maxEvaluations;
+
+  protected List&lt;S&gt; archive;
+
+  protected CrossoverOperator&lt;S&gt; crossoverOperator;
+  protected MutationOperator&lt;S&gt; mutationOperator;
+  protected SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator;
+
+<span class="nc" id="L38">  protected Fitness&lt;S&gt; solutionFitness = new Fitness&lt;S&gt;();</span>
+
+  /**
+   * Constructor
+   */
+  public IBEA(Problem&lt;S&gt; problem, int populationSize, int archiveSize, int maxEvaluations,
+      SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator, CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="nc" id="L45">      MutationOperator&lt;S&gt; mutationOperator) {</span>
+<span class="nc" id="L46">    this.problem = problem;</span>
+<span class="nc" id="L47">    this.populationSize = populationSize;</span>
+<span class="nc" id="L48">    this.archiveSize = archiveSize;</span>
+<span class="nc" id="L49">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L50">    this.crossoverOperator = crossoverOperator;</span>
+<span class="nc" id="L51">    this.mutationOperator = mutationOperator;</span>
+<span class="nc" id="L52">    this.selectionOperator = selectionOperator;</span>
+<span class="nc" id="L53">  }</span>
+
+  /**
+   * Execute() method
+   */
+  @Override public void run() {
+    int evaluations;
+    List&lt;S&gt; solutionSet, offSpringSolutionSet;
+
+    //Initialize the variables
+<span class="nc" id="L63">    solutionSet = new ArrayList&lt;&gt;(populationSize);</span>
+<span class="nc" id="L64">    archive = new ArrayList&lt;&gt;(archiveSize);</span>
+<span class="nc" id="L65">    evaluations = 0;</span>
+
+    //-&gt; Create the initial solutionSet
+    S newSolution;
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L70">      newSolution = problem.createSolution();</span>
+<span class="nc" id="L71">      problem.evaluate(newSolution);</span>
+<span class="nc" id="L72">      evaluations++;</span>
+<span class="nc" id="L73">      solutionSet.add(newSolution);</span>
+    }
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    while (evaluations &lt; maxEvaluations) {</span>
+<span class="nc" id="L77">      List&lt;S&gt; union = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L78">      union.addAll(solutionSet);</span>
+<span class="nc" id="L79">      union.addAll(archive);</span>
+<span class="nc" id="L80">      calculateFitness(union);</span>
+<span class="nc" id="L81">      archive = union;</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">      while (archive.size() &gt; populationSize) {</span>
+<span class="nc" id="L84">        removeWorst(archive);</span>
+      }
+      // Create a new offspringPopulation
+<span class="nc" id="L87">      offSpringSolutionSet = new ArrayList&lt;&gt;(populationSize);</span>
+      S parent1;
+      S parent2;
+<span class="nc bnc" id="L90" title="All 2 branches missed.">      while (offSpringSolutionSet.size() &lt; populationSize) {</span>
+<span class="nc" id="L91">        int j = 0;</span>
+        do {
+<span class="nc" id="L93">          j++;</span>
+<span class="nc" id="L94">          parent1 = selectionOperator.execute(archive);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        } while (j &lt; IBEA.TOURNAMENTS_ROUNDS);</span>
+<span class="nc" id="L96">        int k = 0;</span>
+        do {
+<span class="nc" id="L98">          k++;</span>
+<span class="nc" id="L99">          parent2 = selectionOperator.execute(archive);</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        } while (k &lt; IBEA.TOURNAMENTS_ROUNDS);</span>
+
+<span class="nc" id="L102">        List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L103">        parents.add(parent1);</span>
+<span class="nc" id="L104">        parents.add(parent2);</span>
+
+        //make the crossover
+<span class="nc" id="L107">        List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+<span class="nc" id="L108">        mutationOperator.execute(offspring.get(0));</span>
+<span class="nc" id="L109">        problem.evaluate(offspring.get(0));</span>
+        //problem.evaluateConstraints(offSpring[0]);
+<span class="nc" id="L111">        offSpringSolutionSet.add(offspring.get(0));</span>
+<span class="nc" id="L112">        evaluations++;</span>
+<span class="nc" id="L113">      }</span>
+<span class="nc" id="L114">      solutionSet = offSpringSolutionSet;</span>
+<span class="nc" id="L115">    }</span>
+<span class="nc" id="L116">  }</span>
+
+  @Override public List&lt;S&gt; getResult() {
+<span class="nc" id="L119">    return SolutionListUtils.getNondominatedSolutions(archive);</span>
+  }
+
+  /**
+   * Calculates the hypervolume of that portion of the objective space that
+   * is dominated by individual a but not by individual b
+   */
+  double calculateHypervolumeIndicator(Solution&lt;?&gt; solutionA, Solution&lt;?&gt; solutionB, int d,
+      double maximumValues[], double minimumValues[]) {
+    double a, b, r, max;
+    double volume ;
+<span class="nc" id="L130">    double rho = 2.0;</span>
+
+<span class="nc" id="L132">    r = rho * (maximumValues[d - 1] - minimumValues[d - 1]);</span>
+<span class="nc" id="L133">    max = minimumValues[d - 1] + r;</span>
+
+<span class="nc" id="L135">    a = solutionA.getObjective(d - 1);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    if (solutionB == null) {</span>
+<span class="nc" id="L137">      b = max;</span>
+    } else {
+<span class="nc" id="L139">      b = solutionB.getObjective(d - 1);</span>
+    }
+
+<span class="nc bnc" id="L142" title="All 2 branches missed.">    if (d == 1) {</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">      if (a &lt; b) {</span>
+<span class="nc" id="L144">        volume = (b - a) / r;</span>
+      } else {
+<span class="nc" id="L146">        volume = 0;</span>
+      }
+    } else {
+<span class="nc bnc" id="L149" title="All 2 branches missed.">      if (a &lt; b) {</span>
+<span class="nc" id="L150">        volume =</span>
+<span class="nc" id="L151">            calculateHypervolumeIndicator(solutionA, null, d - 1, maximumValues, minimumValues) * (b</span>
+                - a) / r;
+<span class="nc" id="L153">        volume +=</span>
+<span class="nc" id="L154">            calculateHypervolumeIndicator(solutionA, solutionB, d - 1, maximumValues, minimumValues)</span>
+                * (max - b) / r;
+      } else {
+<span class="nc" id="L157">        volume =</span>
+<span class="nc" id="L158">            calculateHypervolumeIndicator(solutionA, solutionB, d - 1, maximumValues, minimumValues)</span>
+                * (max - a) / r;
+      }
+    }
+
+<span class="nc" id="L163">    return (volume);</span>
+  }
+
+  /**
+   * This structure stores the indicator values of each pair of elements
+   */
+  public void computeIndicatorValuesHD(List&lt;S&gt; solutionSet, double[] maximumValues,
+      double[] minimumValues) {
+    List&lt;S&gt; A, B;
+    // Initialize the structures
+<span class="nc" id="L173">    indicatorValues = new ArrayList&lt;List&lt;Double&gt;&gt;();</span>
+<span class="nc" id="L174">    maxIndicatorValue = -Double.MAX_VALUE;</span>
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">    for (int j = 0; j &lt; solutionSet.size(); j++) {</span>
+<span class="nc" id="L177">      A = new ArrayList&lt;&gt;(1);</span>
+<span class="nc" id="L178">      A.add(solutionSet.get(j));</span>
+
+<span class="nc" id="L180">      List&lt;Double&gt; aux = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">      for (S solution : solutionSet) {</span>
+<span class="nc" id="L182">        B = new ArrayList&lt;&gt;(1);</span>
+<span class="nc" id="L183">        B.add(solution);</span>
+
+<span class="nc" id="L185">        int flag = (new DominanceComparator&lt;S&gt;()).compare(A.get(0), B.get(0));</span>
+
+        double value;
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        if (flag == -1) {</span>
+<span class="nc" id="L189">          value =</span>
+<span class="nc" id="L190">              -calculateHypervolumeIndicator(A.get(0), B.get(0), problem.getNumberOfObjectives(),</span>
+                  maximumValues, minimumValues);
+        } else {
+<span class="nc" id="L193">          value = calculateHypervolumeIndicator(B.get(0), A.get(0), problem.getNumberOfObjectives(),</span>
+              maximumValues, minimumValues);
+        }
+
+        //Update the max value of the indicator
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if (Math.abs(value) &gt; maxIndicatorValue) {</span>
+<span class="nc" id="L199">          maxIndicatorValue = Math.abs(value);</span>
+        }
+<span class="nc" id="L201">        aux.add(value);</span>
+<span class="nc" id="L202">      }</span>
+<span class="nc" id="L203">      indicatorValues.add(aux);</span>
+    }
+<span class="nc" id="L205">  }</span>
+
+  /**
+   * Calculate the fitness for the individual at position pos
+   */
+  public void fitness(List&lt;S&gt; solutionSet, int pos) {
+<span class="nc" id="L211">    double fitness = 0.0;</span>
+<span class="nc" id="L212">    double kappa = 0.05;</span>
+
+<span class="nc bnc" id="L214" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">      if (i != pos) {</span>
+<span class="nc" id="L216">        fitness += Math.exp((-1 * indicatorValues.get(i).get(pos) / maxIndicatorValue) / kappa);</span>
+      }
+    }
+<span class="nc" id="L219">    solutionFitness.setAttribute(solutionSet.get(pos), fitness);</span>
+<span class="nc" id="L220">  }</span>
+
+  /**
+   * Calculate the fitness for the entire population.
+   */
+  public void calculateFitness(List&lt;S&gt; solutionSet) {
+    // Obtains the lower and upper bounds of the population
+<span class="nc" id="L227">    double[] maximumValues = new double[problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L228">    double[] minimumValues = new double[problem.getNumberOfObjectives()];</span>
+
+<span class="nc bnc" id="L230" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L231">      maximumValues[i] = -Double.MAX_VALUE;</span>
+<span class="nc" id="L232">      minimumValues[i] = Double.MAX_VALUE;</span>
+    }
+
+<span class="nc bnc" id="L235" title="All 2 branches missed.">    for (S solution : solutionSet) {</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">      for (int obj = 0; obj &lt; problem.getNumberOfObjectives(); obj++) {</span>
+<span class="nc" id="L237">        double value = solution.getObjective(obj);</span>
+<span class="nc bnc" id="L238" title="All 2 branches missed.">        if (value &gt; maximumValues[obj]) {</span>
+<span class="nc" id="L239">          maximumValues[obj] = value;</span>
+        }
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        if (value &lt; minimumValues[obj]) {</span>
+<span class="nc" id="L242">          minimumValues[obj] = value;</span>
+        }
+      }
+<span class="nc" id="L245">    }</span>
+
+<span class="nc" id="L247">    computeIndicatorValuesHD(solutionSet, maximumValues, minimumValues);</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">    for (int pos = 0; pos &lt; solutionSet.size(); pos++) {</span>
+<span class="nc" id="L249">      fitness(solutionSet, pos);</span>
+    }
+<span class="nc" id="L251">  }</span>
+
+  /**
+   * Update the fitness before removing an individual
+   */
+  public void removeWorst(List&lt;S&gt; solutionSet) {
+
+    // Find the worst;
+<span class="nc" id="L259">    double worst = (double) solutionFitness.getAttribute(solutionSet.get(0));</span>
+<span class="nc" id="L260">    int worstIndex = 0;</span>
+<span class="nc" id="L261">    double kappa = 0.05;</span>
+
+<span class="nc bnc" id="L263" title="All 2 branches missed.">    for (int i = 1; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">      if ((double) solutionFitness.getAttribute(solutionSet.get(i)) &gt; worst) {</span>
+<span class="nc" id="L265">        worst = (double) solutionFitness.getAttribute(solutionSet.get(i));</span>
+<span class="nc" id="L266">        worstIndex = i;</span>
+      }
+    }
+
+    // Update the population
+<span class="nc bnc" id="L271" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">      if (i != worstIndex) {</span>
+<span class="nc" id="L273">        double fitness = (double) solutionFitness.getAttribute(solutionSet.get(i));</span>
+<span class="nc" id="L274">        fitness -= Math.exp((-indicatorValues.get(worstIndex).get(i) / maxIndicatorValue) / kappa);</span>
+<span class="nc" id="L275">        solutionFitness.setAttribute(solutionSet.get(i), fitness);</span>
+      }
+    }
+
+    // remove worst from the indicatorValues list
+<span class="nc" id="L280">    indicatorValues.remove(worstIndex);</span>
+<span class="nc bnc" id="L281" title="All 2 branches missed.">    for (List&lt;Double&gt; anIndicatorValues_ : indicatorValues) {</span>
+<span class="nc" id="L282">      anIndicatorValues_.remove(worstIndex);</span>
+<span class="nc" id="L283">    }</span>
+
+<span class="nc" id="L285">    solutionSet.remove(worstIndex);</span>
+<span class="nc" id="L286">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L289">    return &quot;IBEA&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L293">    return &quot;Indicator based Evolutionary Algorithm&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

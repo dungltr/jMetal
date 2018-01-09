@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SinglePointCrossover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.crossover</a> &gt; <span class="el_source">SinglePointCrossover.java</span></div><h1>SinglePointCrossover.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.crossover;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.solution.BinarySolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.binarySet.BinarySet;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class implements a single point crossover operator.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SinglePointCrossover implements CrossoverOperator&lt;BinarySolution&gt; {
+  private double crossoverProbability ;
+  private RandomGenerator&lt;Double&gt; crossoverRandomGenerator ;
+  private BoundedRandomGenerator&lt;Integer&gt; pointRandomGenerator ;
+
+  /** Constructor */
+  public SinglePointCrossover(double crossoverProbability) {
+<span class="fc" id="L27">	  this(crossoverProbability, () -&gt; JMetalRandom.getInstance().nextDouble(), (a, b) -&gt; JMetalRandom.getInstance().nextInt(a, b));</span>
+<span class="fc" id="L28">  }</span>
+
+  /** Constructor */
+  public SinglePointCrossover(double crossoverProbability, RandomGenerator&lt;Double&gt; randomGenerator) {
+<span class="nc" id="L32">	  this(crossoverProbability, randomGenerator, BoundedRandomGenerator.fromDoubleToInteger(randomGenerator));</span>
+<span class="nc" id="L33">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L36">  public SinglePointCrossover(double crossoverProbability, RandomGenerator&lt;Double&gt; crossoverRandomGenerator, BoundedRandomGenerator&lt;Integer&gt; pointRandomGenerator) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">    if (crossoverProbability &lt; 0) {</span>
+<span class="fc" id="L38">      throw new JMetalException(&quot;Crossover probability is negative: &quot; + crossoverProbability) ;</span>
+    }
+<span class="fc" id="L40">    this.crossoverProbability = crossoverProbability;</span>
+<span class="fc" id="L41">    this.crossoverRandomGenerator = crossoverRandomGenerator ;</span>
+<span class="fc" id="L42">    this.pointRandomGenerator = pointRandomGenerator ;</span>
+<span class="fc" id="L43">  }</span>
+
+  /* Getter */
+  public double getCrossoverProbability() {
+<span class="fc" id="L47">    return crossoverProbability;</span>
+  }
+
+  /* Setter */
+  public void setCrossoverProbability(double crossoverProbability) {
+<span class="nc" id="L52">    this.crossoverProbability = crossoverProbability;</span>
+<span class="nc" id="L53">  }</span>
+
+  @Override
+  public List&lt;BinarySolution&gt; execute(List&lt;BinarySolution&gt; solutions) {
+<span class="fc bfc" id="L57" title="All 2 branches covered.">    if (solutions == null) {</span>
+<span class="fc" id="L58">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">    } else if (solutions.size() != 2) {</span>
+<span class="fc" id="L60">      throw new JMetalException(&quot;There must be two parents instead of &quot; + solutions.size()) ;</span>
+    }
+
+<span class="fc" id="L63">    return doCrossover(crossoverProbability, solutions.get(0), solutions.get(1)) ;</span>
+  }
+
+  /**
+   * Perform the crossover operation.
+   *
+   * @param probability Crossover setProbability
+   * @param parent1     The first parent
+   * @param parent2     The second parent
+   * @return An array containing the two offspring
+   */
+  public List&lt;BinarySolution&gt; doCrossover(double probability, BinarySolution parent1, BinarySolution parent2)  {
+<span class="fc" id="L75">    List&lt;BinarySolution&gt; offspring = new ArrayList&lt;&gt;(2);</span>
+<span class="fc" id="L76">    offspring.add((BinarySolution) parent1.copy()) ;</span>
+<span class="fc" id="L77">    offspring.add((BinarySolution) parent2.copy()) ;</span>
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">    if (crossoverRandomGenerator.getRandomValue() &lt; probability) {</span>
+      // 1. Get the total number of bits
+<span class="fc" id="L81">      int totalNumberOfBits = parent1.getTotalNumberOfBits();</span>
+
+      // 2. Calculate the point to make the crossover
+<span class="fc" id="L84">      int crossoverPoint = pointRandomGenerator.getRandomValue(0, totalNumberOfBits - 1);</span>
+
+      // 3. Compute the variable containing the crossover bit
+<span class="fc" id="L87">      int variable = 0;</span>
+<span class="fc" id="L88">      int bitsAccount = parent1.getVariableValue(variable).getBinarySetLength() ;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">      while (bitsAccount &lt; (crossoverPoint + 1)) {</span>
+<span class="fc" id="L90">        variable++;</span>
+<span class="fc" id="L91">        bitsAccount += parent1.getVariableValue(variable).getBinarySetLength() ;</span>
+      }
+
+      // 4. Compute the bit into the selected variable
+<span class="fc" id="L95">      int diff = bitsAccount - crossoverPoint;</span>
+<span class="fc" id="L96">      int intoVariableCrossoverPoint = parent1.getVariableValue(variable).getBinarySetLength() - diff ;</span>
+
+      // 5. Apply the crossover to the variable;
+      BinarySet offspring1, offspring2;
+<span class="fc" id="L100">      offspring1 = (BinarySet) parent1.getVariableValue(variable).clone();</span>
+<span class="fc" id="L101">      offspring2 = (BinarySet) parent2.getVariableValue(variable).clone();</span>
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">      for (int i = intoVariableCrossoverPoint; i &lt; offspring1.getBinarySetLength(); i++) {</span>
+<span class="fc" id="L104">        boolean swap = offspring1.get(i);</span>
+<span class="fc" id="L105">        offspring1.set(i, offspring2.get(i));</span>
+<span class="fc" id="L106">        offspring2.set(i, swap);</span>
+      }
+
+<span class="fc" id="L109">      offspring.get(0).setVariableValue(variable, offspring1);</span>
+<span class="fc" id="L110">      offspring.get(1).setVariableValue(variable, offspring2);</span>
+
+      // 6. Apply the crossover to the other variables
+<span class="fc bfc" id="L113" title="All 2 branches covered.">      for (int i = variable + 1; i &lt; parent1.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L114">          offspring.get(0).setVariableValue(i, (BinarySet) parent2.getVariableValue(i).clone());</span>
+<span class="fc" id="L115">          offspring.get(1).setVariableValue(i, (BinarySet) parent1.getVariableValue(i).clone());</span>
+      }
+
+    }
+<span class="fc" id="L119">    return offspring ;</span>
+  }
+
+  @Override
+  public int getNumberOfRequiredParents() {
+<span class="nc" id="L124">    return 2 ;</span>
+  }
+
+  @Override
+  public int getNumberOfGeneratedChildren() {
+<span class="nc" id="L129">    return 2;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArchiveMutationLocalSearch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.localsearch</a> &gt; <span class="el_source">ArchiveMutationLocalSearch.java</span></div><h1>ArchiveMutationLocalSearch.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.localsearch;
+
+import org.uma.jmetal.operator.LocalSearchOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.archive.Archive;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.comparator.impl.OverallConstraintViolationComparator;
+
+import java.util.Comparator;
+
+
+/**
+ * This class implements a local search operator based in the use of a
+ * mutation operator. An archive is used to store the non-dominated solutions
+ * found during the search.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ArchiveMutationLocalSearch&lt;S extends Solution&lt;?&gt;&gt; implements LocalSearchOperator&lt;S&gt;{
+  private Problem&lt;S&gt; problem;
+  private Archive&lt;S&gt; archive;
+  private int improvementRounds ;
+  private Comparator&lt;S&gt; constraintComparator ;
+  private Comparator&lt;S&gt; dominanceComparator ;
+
+  private MutationOperator&lt;S&gt; mutationOperator;
+  private int evaluations ;
+
+  private int numberOfImprovements ;
+  private int numberOfNonComparableSolutions ;
+  /**
+   * Constructor.
+   * Creates a new local search object.
+   * @param improvementRounds number of iterations
+   * @param mutationOperator mutation operator
+   * @param archive archive to store non-dominated solution
+   * @param problem problem to resolve
+
+   */
+  public ArchiveMutationLocalSearch(int improvementRounds, MutationOperator&lt;S&gt; mutationOperator,
+<span class="nc" id="L45">      Archive&lt;S&gt; archive, Problem&lt;S&gt; problem){</span>
+<span class="nc" id="L46">    this.problem=problem;</span>
+<span class="nc" id="L47">    this.mutationOperator=mutationOperator;</span>
+<span class="nc" id="L48">    this.improvementRounds=improvementRounds;</span>
+<span class="nc" id="L49">    this.archive=archive;</span>
+<span class="nc" id="L50">    dominanceComparator  = new DominanceComparator&lt;S&gt;();</span>
+<span class="nc" id="L51">    constraintComparator = new OverallConstraintViolationComparator&lt;S&gt;();</span>
+
+<span class="nc" id="L53">    numberOfImprovements = 0 ;</span>
+<span class="nc" id="L54">    numberOfNonComparableSolutions = 0 ;</span>
+<span class="nc" id="L55">  }</span>
+
+  /**
+   * Executes the local search.
+   *
+   * @param  solution The solution to improve
+   * @return The improved solution
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  public S execute(S solution) {
+<span class="nc" id="L65">    int i = 0;</span>
+    int best ;
+<span class="nc" id="L67">    evaluations = 0;</span>
+<span class="nc" id="L68">    numberOfNonComparableSolutions = 0 ;</span>
+
+<span class="nc" id="L70">    int rounds = improvementRounds;</span>
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">    while (i &lt; rounds) {</span>
+<span class="nc" id="L73">      S mutatedSolution = mutationOperator.execute((S) solution.copy());</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">      if (problem.getNumberOfConstraints() &gt; 0) {</span>
+
+<span class="nc" id="L76">        ((ConstrainedProblem&lt;S&gt;) problem).evaluateConstraints(mutatedSolution);</span>
+<span class="nc" id="L77">        best = constraintComparator.compare(mutatedSolution, solution);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (best == 0)</span>
+        {
+<span class="nc" id="L80">          problem.evaluate(mutatedSolution);</span>
+<span class="nc" id="L81">          evaluations++;</span>
+<span class="nc" id="L82">          best = dominanceComparator.compare(mutatedSolution, solution);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        } else if (best == -1) {</span>
+<span class="nc" id="L84">          problem.evaluate(mutatedSolution);</span>
+<span class="nc" id="L85">          evaluations++;</span>
+        }
+      } else {
+<span class="nc" id="L88">        problem.evaluate(mutatedSolution);</span>
+<span class="nc" id="L89">        evaluations++;</span>
+<span class="nc" id="L90">        best = dominanceComparator.compare(mutatedSolution, solution);</span>
+      }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      if (best == -1) {</span>
+<span class="nc" id="L93">        solution = mutatedSolution;</span>
+<span class="nc" id="L94">        numberOfImprovements ++ ;</span>
+      }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">      else if (best == 1) {</span>
+        ;
+      }
+      else {
+<span class="nc" id="L100">        numberOfNonComparableSolutions ++ ;</span>
+<span class="nc" id="L101">        archive.add(mutatedSolution);</span>
+      }
+<span class="nc" id="L103">      i++ ;</span>
+<span class="nc" id="L104">    }</span>
+<span class="nc" id="L105">    return (S) solution.copy();</span>
+  }
+
+  /**
+   * Returns the number of evaluations
+   */
+  public int getEvaluations() {
+<span class="nc" id="L112">    return evaluations;</span>
+  }
+
+  @Override public int getNumberOfImprovements() {
+<span class="nc" id="L116">    return numberOfImprovements ;</span>
+  }
+
+  @Override public int getNumberOfNonComparableSolutions() {
+<span class="nc" id="L120">    return numberOfNonComparableSolutions ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

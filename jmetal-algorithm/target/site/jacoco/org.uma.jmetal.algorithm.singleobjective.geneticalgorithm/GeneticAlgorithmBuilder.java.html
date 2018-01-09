@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeneticAlgorithmBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.geneticalgorithm</a> &gt; <span class="el_source">GeneticAlgorithmBuilder.java</span></div><h1>GeneticAlgorithmBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.geneticalgorithm;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+
+import java.util.List;
+
+/**
+ * Created by ajnebro on 10/12/14.
+ */
+public class GeneticAlgorithmBuilder&lt;S extends Solution&lt;?&gt;&gt; {
+<span class="nc" id="L20">  public enum GeneticAlgorithmVariant {GENERATIONAL, STEADY_STATE}</span>
+  /**
+   * Builder class
+   */
+  private Problem&lt;S&gt; problem;
+  private int maxEvaluations;
+  private int populationSize;
+  private CrossoverOperator&lt;S&gt; crossoverOperator;
+  private MutationOperator&lt;S&gt; mutationOperator;
+  private SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator;
+  private SolutionListEvaluator&lt;S&gt; evaluator;
+
+  private GeneticAlgorithmVariant variant ;
+<span class="nc" id="L33">  private SelectionOperator&lt;List&lt;S&gt;, S&gt; defaultSelectionOperator = new BinaryTournamentSelection&lt;S&gt;() ;</span>
+
+  /**
+   * Builder constructor
+   */
+  public GeneticAlgorithmBuilder(Problem&lt;S&gt; problem,
+      CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="nc" id="L40">      MutationOperator&lt;S&gt; mutationOperator) {</span>
+<span class="nc" id="L41">    this.problem = problem;</span>
+<span class="nc" id="L42">    maxEvaluations = 25000;</span>
+<span class="nc" id="L43">    populationSize = 100;</span>
+<span class="nc" id="L44">    this.mutationOperator = mutationOperator ;</span>
+<span class="nc" id="L45">    this.crossoverOperator = crossoverOperator ;</span>
+<span class="nc" id="L46">    this.selectionOperator = defaultSelectionOperator ;</span>
+
+<span class="nc" id="L48">    evaluator = new SequentialSolutionListEvaluator&lt;S&gt;();</span>
+
+<span class="nc" id="L50">    this.variant = GeneticAlgorithmVariant.GENERATIONAL ;</span>
+<span class="nc" id="L51">  }</span>
+
+  public GeneticAlgorithmBuilder&lt;S&gt; setMaxEvaluations(int maxEvaluations) {
+<span class="nc" id="L54">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L56">    return this;</span>
+  }
+
+  public GeneticAlgorithmBuilder&lt;S&gt; setPopulationSize(int populationSize) {
+<span class="nc" id="L60">    this.populationSize = populationSize;</span>
+
+<span class="nc" id="L62">    return this;</span>
+  }
+
+  public GeneticAlgorithmBuilder&lt;S&gt; setSelectionOperator(SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator) {
+<span class="nc" id="L66">    this.selectionOperator = selectionOperator;</span>
+
+<span class="nc" id="L68">    return this;</span>
+  }
+
+  public GeneticAlgorithmBuilder&lt;S&gt; setSolutionListEvaluator(SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc" id="L72">    this.evaluator = evaluator;</span>
+
+<span class="nc" id="L74">    return this;</span>
+  }
+
+  public GeneticAlgorithmBuilder&lt;S&gt; setVariant(GeneticAlgorithmVariant variant) {
+<span class="nc" id="L78">    this.variant = variant;</span>
+
+<span class="nc" id="L80">    return this;</span>
+  }
+
+  public Algorithm&lt;S&gt; build() {
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    if (variant == GeneticAlgorithmVariant.GENERATIONAL) {</span>
+<span class="nc" id="L85">      return new GenerationalGeneticAlgorithm&lt;S&gt;(problem, maxEvaluations, populationSize,</span>
+          crossoverOperator, mutationOperator, selectionOperator, evaluator);
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    } else if (variant == GeneticAlgorithmVariant.STEADY_STATE) {</span>
+<span class="nc" id="L88">      return new SteadyStateGeneticAlgorithm&lt;S&gt;(problem, maxEvaluations, populationSize,</span>
+          crossoverOperator, mutationOperator, selectionOperator);
+    } else {
+<span class="nc" id="L91">      throw new JMetalException(&quot;Unknown variant: &quot; + variant) ;</span>
+    }
+  }
+
+  /*
+   * Getters
+   */
+  public Problem&lt;S&gt; getProblem() {
+<span class="nc" id="L99">    return problem;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L103">    return maxEvaluations;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="nc" id="L107">    return populationSize;</span>
+  }
+
+  public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="nc" id="L111">    return crossoverOperator;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L115">    return mutationOperator;</span>
+  }
+
+  public SelectionOperator&lt;List&lt;S&gt;, S&gt; getSelectionOperator() {
+<span class="nc" id="L119">    return selectionOperator;</span>
+  }
+
+  public SolutionListEvaluator&lt;S&gt; getEvaluator() {
+<span class="nc" id="L123">    return evaluator;</span>
+  }
+
+  public GeneticAlgorithmVariant getVariant() {
+<span class="nc" id="L127">    return variant ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

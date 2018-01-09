@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExperimentBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment</a> &gt; <span class="el_source">ExperimentBuilder.java</span></div><h1>ExperimentBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment;
+
+import org.uma.jmetal.qualityindicator.impl.GenericIndicator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
+import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Builder for class {@link Experiment}
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class ExperimentBuilder&lt;S extends Solution&lt;?&gt;, Result&gt; {
+  private final String experimentName ;
+  private List&lt;ExperimentAlgorithm&lt;S, Result&gt;&gt; algorithmList;
+  private List&lt;ExperimentProblem&lt;S&gt;&gt; problemList;
+  private List&lt;String&gt; referenceFrontFileNames ;
+  private String referenceFrontDirectory;
+  private String experimentBaseDirectory;
+  private String outputParetoFrontFileName;
+  private String outputParetoSetFileName;
+  private int independentRuns;
+
+  private List&lt;GenericIndicator&lt;S&gt;&gt; indicatorList ;
+
+  private int numberOfCores ;
+
+<span class="nc" id="L31">  public ExperimentBuilder(String experimentName) {</span>
+<span class="nc" id="L32">    this.experimentName = experimentName ;</span>
+<span class="nc" id="L33">    this.independentRuns = 1 ;</span>
+<span class="nc" id="L34">    this.numberOfCores = 1 ;</span>
+<span class="nc" id="L35">    this.referenceFrontFileNames = null ;</span>
+<span class="nc" id="L36">    this.referenceFrontDirectory = null ;</span>
+<span class="nc" id="L37">  }</span>
+
+  public ExperimentBuilder&lt;S, Result&gt; setAlgorithmList(List&lt;ExperimentAlgorithm&lt;S, Result&gt;&gt; algorithmList) {
+<span class="nc" id="L40">    this.algorithmList = new ArrayList&lt;&gt;(algorithmList) ;</span>
+
+<span class="nc" id="L42">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setProblemList(List&lt;ExperimentProblem&lt;S&gt;&gt; problemList) {
+<span class="nc" id="L46">    this.problemList = problemList ;</span>
+
+<span class="nc" id="L48">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setExperimentBaseDirectory(String experimentBaseDirectory) {
+<span class="nc" id="L52">    this.experimentBaseDirectory = experimentBaseDirectory+&quot;/&quot;+experimentName ;</span>
+
+<span class="nc" id="L54">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setReferenceFrontDirectory(String referenceFrontDirectory) {
+<span class="nc" id="L58">    this.referenceFrontDirectory = referenceFrontDirectory ;</span>
+
+<span class="nc" id="L60">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setReferenceFrontFileNames(List&lt;String&gt; referenceFrontFileNames) {
+<span class="nc" id="L64">    this.referenceFrontFileNames = referenceFrontFileNames ;</span>
+
+<span class="nc" id="L66">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setIndicatorList(
+      List&lt;GenericIndicator&lt;S&gt;&gt; indicatorList ) {
+<span class="nc" id="L71">    this.indicatorList = indicatorList ;</span>
+
+<span class="nc" id="L73">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setOutputParetoFrontFileName(String outputParetoFrontFileName) {
+<span class="nc" id="L77">    this.outputParetoFrontFileName = outputParetoFrontFileName ;</span>
+
+<span class="nc" id="L79">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setOutputParetoSetFileName(String outputParetoSetFileName) {
+<span class="nc" id="L83">    this.outputParetoSetFileName = outputParetoSetFileName ;</span>
+
+<span class="nc" id="L85">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setIndependentRuns(int independentRuns) {
+<span class="nc" id="L89">    this.independentRuns = independentRuns ;</span>
+
+<span class="nc" id="L91">    return this ;</span>
+  }
+
+  public ExperimentBuilder&lt;S, Result&gt; setNumberOfCores(int numberOfCores) {
+<span class="nc" id="L95">    this.numberOfCores = numberOfCores;</span>
+
+<span class="nc" id="L97">    return this ;</span>
+  }
+
+  public Experiment&lt;S, Result&gt; build() {
+<span class="nc" id="L101">    return new Experiment&lt;S, Result&gt;(this);</span>
+  }
+
+  /* Getters */
+  public String getExperimentName() {
+<span class="nc" id="L106">    return experimentName;</span>
+  }
+
+  public List&lt;ExperimentAlgorithm&lt;S, Result&gt;&gt; getAlgorithmList() {
+<span class="nc" id="L110">    return algorithmList;</span>
+  }
+
+  public List&lt;ExperimentProblem&lt;S&gt;&gt; getProblemList() {
+<span class="nc" id="L114">    return problemList;</span>
+  }
+
+  public String getExperimentBaseDirectory() {
+<span class="nc" id="L118">    return experimentBaseDirectory;</span>
+  }
+
+  public String getOutputParetoFrontFileName() {
+<span class="nc" id="L122">    return outputParetoFrontFileName;</span>
+  }
+
+  public String getOutputParetoSetFileName() {
+<span class="nc" id="L126">    return outputParetoSetFileName;</span>
+  }
+
+  public int getIndependentRuns() {
+<span class="nc" id="L130">    return independentRuns;</span>
+  }
+
+  public int getNumberOfCores() {
+<span class="nc" id="L134">    return numberOfCores;</span>
+  }
+
+  public List&lt;String&gt; getReferenceFrontFileNames() {
+<span class="nc" id="L138">    return referenceFrontFileNames;</span>
+  }
+
+  public String getReferenceFrontDirectory() {
+<span class="nc" id="L142">    return referenceFrontDirectory;</span>
+  }
+
+  public List&lt;GenericIndicator&lt;S&gt;&gt; getIndicatorList() {
+<span class="nc" id="L146">    return indicatorList;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

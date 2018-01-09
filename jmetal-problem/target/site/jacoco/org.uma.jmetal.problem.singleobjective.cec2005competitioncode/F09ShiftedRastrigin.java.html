@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>F09ShiftedRastrigin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.singleobjective.cec2005competitioncode</a> &gt; <span class="el_source">F09ShiftedRastrigin.java</span></div><h1>F09ShiftedRastrigin.java</h1><pre class="source lang-java linenums">//
+// Special Session on Real-Parameter Optimization at CEC-05
+// Edinburgh, UK, 2-5 Sept. 2005
+//
+// Organizers:
+//	Prof. Kalyanmoy Deb
+//		deb@iitk.ac.in
+//		http://www.iitk.ac.in/kangal/deb.htm
+//	A/Prof. P. N. Suganthan
+//		epnsugan@ntu.edu.sg
+//		http://www.ntu.edu.sg/home/EPNSugan
+//
+// Java version of the org.uma.test functions
+//
+// Matlab reference code
+//	http://www.ntu.edu.sg/home/EPNSugan
+//
+// Java version developer:
+//	Assistant Prof. Ying-ping Chen
+//		Department of Computer Science
+//		National Chiao Tung University
+//		HsinChu City, Taiwan
+//		ypchen@csie.nctu.edu.tw
+//		http://www.csie.nctu.edu.tw/~ypchen/
+//
+// Typical use of the org.uma.test functions in the Benchmark:
+//
+//		// Create a Benchmark object
+// 		Benchmark theBenchmark = new Benchmark();
+//		// Use the factory function call to create a org.uma.test function object
+//		//		org.uma.test function 3 with 50 dimension
+//		//		the object class is &quot;TestFunc&quot;
+//		TestFunc aTestFunc = theBenchmark.testFunctionFactory(3, 50);
+//		// Invoke the function with x
+//		double experimentoutput = aTestFunc.f(x);
+//
+// Version 0.90
+//		Currently, this version cannot handle any numbers of dimensions.
+//		It cannot generate the shifted global optima and rotation matrices
+//		that are not provided with the Matlab reference code.
+//		It can handle all cases whose data files are provided with
+//		the Matlab reference code.
+// Version 0.91
+//		Revised according to the Matlab reference code and the PDF document
+//		dated March 8, 2005.
+//
+package org.uma.jmetal.problem.singleobjective.cec2005competitioncode;
+
+import org.uma.jmetal.util.JMetalException;
+
+public class F09ShiftedRastrigin extends TestFunc {
+
+  // Fixed (class) parameters
+  static final public String FUNCTION_NAME = &quot;Shifted Rastrigin's Function&quot;;
+  static final public String DEFAULT_FILE_DATA = Benchmark.CEC2005SUPPORTDATADIRECTORY + &quot;/rastrigin_func_data.txt&quot;;
+
+  // Shifted global optimum
+  private final double[] m_o;
+
+  // In order to avoid excessive memory allocation,
+  // a fixed memory buffer is allocated for each function object.
+  private double[] m_z;
+
+  // Constructors
+  public F09ShiftedRastrigin(int dimension, double bias) throws JMetalException {
+<span class="nc" id="L66">    this(dimension, bias, DEFAULT_FILE_DATA);</span>
+<span class="nc" id="L67">  }</span>
+
+  public F09ShiftedRastrigin(int dimension, double bias, String file_data) throws JMetalException {
+<span class="nc" id="L70">    super(dimension, bias, FUNCTION_NAME);</span>
+
+    // Note: dimension starts from 0
+<span class="nc" id="L73">    m_o = new double[mDimension];</span>
+<span class="nc" id="L74">    m_z = new double[mDimension];</span>
+
+    // Load the shifted global optimum
+<span class="nc" id="L77">    Benchmark.loadRowVectorFromFile(file_data, mDimension, m_o);</span>
+<span class="nc" id="L78">  }</span>
+
+  // Function body
+  public double f(double[] x) {
+
+<span class="nc" id="L83">    double result = 0.0;</span>
+
+<span class="nc" id="L85">    Benchmark.shift(m_z, x, m_o);</span>
+
+<span class="nc" id="L87">    result = Benchmark.rastrigin(m_z);</span>
+
+<span class="nc" id="L89">    result += mBias;</span>
+
+<span class="nc" id="L91">    return (result);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

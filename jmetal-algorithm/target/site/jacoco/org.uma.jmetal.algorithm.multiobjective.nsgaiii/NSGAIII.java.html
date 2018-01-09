@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NSGAIII.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.nsgaiii</a> &gt; <span class="el_source">NSGAIII.java</span></div><h1>NSGAIII.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.nsgaiii;
+
+import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
+import org.uma.jmetal.algorithm.multiobjective.nsgaiii.util.EnvironmentalSelection;
+import org.uma.jmetal.algorithm.multiobjective.nsgaiii.util.ReferencePoint;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+/**
+ * Created by ajnebro on 30/10/14.
+ * Modified by Juanjo on 13/11/14
+ *
+ * This implementation is based on the code of Tsung-Che Chiang
+ * http://web.ntnu.edu.tw/~tcchiang/publications/nsga3cpp/nsga3cpp.htm
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class NSGAIII&lt;S extends Solution&lt;?&gt;&gt; extends AbstractGeneticAlgorithm&lt;S, List&lt;S&gt;&gt; {
+  protected int iterations ;
+  protected int maxIterations ;
+
+  protected SolutionListEvaluator&lt;S&gt; evaluator ;
+
+  protected Vector&lt;Integer&gt; numberOfDivisions  ;
+<span class="nc" id="L32">  protected List&lt;ReferencePoint&lt;S&gt;&gt; referencePoints = new Vector&lt;&gt;() ;</span>
+
+  /** Constructor */
+  public NSGAIII(NSGAIIIBuilder&lt;S&gt; builder) { // can be created from the NSGAIIIBuilder within the same package
+<span class="nc" id="L36">    super(builder.getProblem()) ;</span>
+<span class="nc" id="L37">    maxIterations = builder.getMaxIterations() ;</span>
+
+<span class="nc" id="L39">    crossoverOperator =  builder.getCrossoverOperator() ;</span>
+<span class="nc" id="L40">    mutationOperator  =  builder.getMutationOperator() ;</span>
+<span class="nc" id="L41">    selectionOperator =  builder.getSelectionOperator() ;</span>
+
+<span class="nc" id="L43">    evaluator = builder.getEvaluator() ;</span>
+
+    /// NSGAIII
+<span class="nc" id="L46">    numberOfDivisions = new Vector&lt;&gt;(1) ;</span>
+<span class="nc" id="L47">    numberOfDivisions.add(12) ; // Default value for 3D problems</span>
+
+<span class="nc" id="L49">    (new ReferencePoint&lt;S&gt;()).generateReferencePoints(referencePoints,getProblem().getNumberOfObjectives() , numberOfDivisions);</span>
+
+<span class="nc" id="L51">    int populationSize = referencePoints.size();</span>
+<span class="nc" id="L52">    System.out.println(referencePoints.size());</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    while (populationSize%4&gt;0) {</span>
+<span class="nc" id="L54">      populationSize++;</span>
+    }
+
+<span class="nc" id="L57">    setMaxPopulationSize(populationSize);</span>
+
+<span class="nc" id="L59">    JMetalLogger.logger.info(&quot;rpssize: &quot; + referencePoints.size()); ;</span>
+<span class="nc" id="L60">  }</span>
+
+  @Override
+  protected void initProgress() {
+<span class="nc" id="L64">    iterations = 1 ;</span>
+<span class="nc" id="L65">  }</span>
+
+  @Override
+  protected void updateProgress() {
+<span class="nc" id="L69">    iterations++ ;</span>
+<span class="nc" id="L70">  }</span>
+
+  @Override
+  protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    return iterations &gt;= maxIterations;</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc" id="L79">    population = evaluator.evaluate(population, getProblem()) ;</span>
+
+<span class="nc" id="L81">    return population ;</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L86">    List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(population.size()) ;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L88">      S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L89">      matingPopulation.add(solution) ;</span>
+    }
+
+<span class="nc" id="L92">    return matingPopulation;</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
+<span class="nc" id="L97">    List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i+=2) {</span>
+<span class="nc" id="L99">      List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L100">      parents.add(population.get(i));</span>
+<span class="nc" id="L101">      parents.add(population.get(Math.min(i + 1, getMaxPopulationSize()-1)));</span>
+
+<span class="nc" id="L103">      List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+
+<span class="nc" id="L105">      mutationOperator.execute(offspring.get(0));</span>
+<span class="nc" id="L106">      mutationOperator.execute(offspring.get(1));</span>
+
+<span class="nc" id="L108">      offspringPopulation.add(offspring.get(0));</span>
+<span class="nc" id="L109">      offspringPopulation.add(offspring.get(1));</span>
+    }
+<span class="nc" id="L111">    return offspringPopulation ;</span>
+  }
+
+  
+  private List&lt;ReferencePoint&lt;S&gt;&gt; getReferencePointsCopy() {
+<span class="nc" id="L116">	  List&lt;ReferencePoint&lt;S&gt;&gt; copy = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">	  for (ReferencePoint&lt;S&gt; r : this.referencePoints) {</span>
+<span class="nc" id="L118">		  copy.add(new ReferencePoint&lt;&gt;(r));</span>
+<span class="nc" id="L119">	  }</span>
+<span class="nc" id="L120">	  return copy;</span>
+  }
+  
+  @Override
+  protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+   
+<span class="nc" id="L126">	List&lt;S&gt; jointPopulation = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L127">    jointPopulation.addAll(population) ;</span>
+<span class="nc" id="L128">    jointPopulation.addAll(offspringPopulation) ;</span>
+
+<span class="nc" id="L130">    Ranking&lt;S&gt; ranking = computeRanking(jointPopulation);</span>
+    
+    //List&lt;Solution&gt; pop = crowdingDistanceSelection(ranking);
+<span class="nc" id="L133">    List&lt;S&gt; pop = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L134">    List&lt;List&lt;S&gt;&gt; fronts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L135">    int rankingIndex = 0;</span>
+<span class="nc" id="L136">    int candidateSolutions = 0;</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    while (candidateSolutions &lt; getMaxPopulationSize()) {</span>
+<span class="nc" id="L138">      fronts.add(ranking.getSubfront(rankingIndex));</span>
+<span class="nc" id="L139">      candidateSolutions += ranking.getSubfront(rankingIndex).size();</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">      if ((pop.size() + ranking.getSubfront(rankingIndex).size()) &lt;= getMaxPopulationSize())</span>
+<span class="nc" id="L141">        addRankedSolutionsToPopulation(ranking, rankingIndex, pop);</span>
+<span class="nc" id="L142">      rankingIndex++;</span>
+    }
+    
+    // A copy of the reference list should be used as parameter of the environmental selection
+<span class="nc" id="L146">    EnvironmentalSelection&lt;S&gt; selection =</span>
+<span class="nc" id="L147">            new EnvironmentalSelection&lt;&gt;(fronts,getMaxPopulationSize(),getReferencePointsCopy(),</span>
+<span class="nc" id="L148">                    getProblem().getNumberOfObjectives());</span>
+    
+<span class="nc" id="L150">    pop = selection.execute(pop);</span>
+     
+<span class="nc" id="L152">    return pop;</span>
+  }
+
+  @Override
+  public List&lt;S&gt; getResult() {
+<span class="nc" id="L157">    return getNonDominatedSolutions(getPopulation()) ;</span>
+  }
+
+  protected Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionList) {
+<span class="nc" id="L161">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;&gt;() ;</span>
+<span class="nc" id="L162">    ranking.computeRanking(solutionList) ;</span>
+
+<span class="nc" id="L164">    return ranking ;</span>
+  }
+
+  protected void addRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt; population) {
+    List&lt;S&gt; front ;
+
+<span class="nc" id="L170">    front = ranking.getSubfront(rank);</span>
+
+<span class="nc bnc" id="L172" title="All 2 branches missed.">    for (int i = 0 ; i &lt; front.size(); i++) {</span>
+<span class="nc" id="L173">      population.add(front.get(i));</span>
+    }
+<span class="nc" id="L175">  }</span>
+
+  protected List&lt;S&gt; getNonDominatedSolutions(List&lt;S&gt; solutionList) {
+<span class="nc" id="L178">    return SolutionListUtils.getNondominatedSolutions(solutionList) ;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L182">    return &quot;NSGAIII&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L186">    return &quot;Nondominated Sorting Genetic Algorithm version III&quot; ;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

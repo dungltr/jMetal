@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LZ09F6.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.lz09</a> &gt; <span class="el_source">LZ09F6.java</span></div><h1>LZ09F6.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.lz09;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class representing problem LZ09F6
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class LZ09F6 extends AbstractDoubleProblem {
+  private LZ09 lz09;
+
+  /**
+   * Creates a default LZ09F6 problem (30 variables and 2 objectives)
+   */
+  public LZ09F6() {
+<span class="nc" id="L21">    this(31, 1, 32);</span>
+<span class="nc" id="L22">  }</span>
+
+  /**
+   * Creates a LZ09F6 problem instance
+   */
+  public LZ09F6(Integer ptype,
+                Integer dtype,
+<span class="nc" id="L29">                Integer ltype) throws JMetalException {</span>
+<span class="nc" id="L30">    setNumberOfVariables(10);</span>
+<span class="nc" id="L31">    setNumberOfObjectives(3);</span>
+<span class="nc" id="L32">    setNumberOfConstraints(0);</span>
+<span class="nc" id="L33">    setName(&quot;LZ09F6&quot;);</span>
+
+<span class="nc" id="L35">    lz09 = new LZ09(getNumberOfVariables(),</span>
+<span class="nc" id="L36">            getNumberOfObjectives(),</span>
+<span class="nc" id="L37">            ptype,</span>
+<span class="nc" id="L38">            dtype,</span>
+<span class="nc" id="L39">            ltype);</span>
+
+<span class="nc" id="L41">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L42">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L45">      lowerLimit.add(0.0);</span>
+<span class="nc" id="L46">      upperLimit.add(1.0);</span>
+    }
+
+<span class="nc" id="L49">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L50">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L51">  }</span>
+
+  /** Evaluate() method */
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L55">    List&lt;Double&gt; x = new ArrayList&lt;Double&gt;(getNumberOfVariables());</span>
+<span class="nc" id="L56">    List&lt;Double&gt; y = new ArrayList&lt;Double&gt;(getNumberOfObjectives());</span>
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L59">      x.add(solution.getVariableValue(i));</span>
+<span class="nc" id="L60">      y.add(0.0);</span>
+    }
+
+<span class="nc" id="L63">    lz09.objective(x, y);</span>
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L66">      solution.setObjective(i, y.get(i));</span>
+    }
+<span class="nc" id="L68">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

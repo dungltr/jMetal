@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LastEvaluationMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">LastEvaluationMeasure.java</span></div><h1>LastEvaluationMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+import org.uma.jmetal.measure.PushMeasure;
+import org.uma.jmetal.measure.impl.LastEvaluationMeasure.Evaluation;
+
+/**
+ * {@link LastEvaluationMeasure} is a {@link PushMeasure} providing the last
+ * evaluation made in an algorithm. It extends {@link SimplePushMeasure} and add
+ * the method {@link #push(Object, Object)} for simplicity.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ * @param &lt;Solution&gt;
+ *            the solution evaluated
+ * @param &lt;Value&gt;
+ *            the type of value used to evaluate the solution (Double,
+ *            BigDecimal, enum, ...)
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class LastEvaluationMeasure&lt;Solution, Value&gt; extends
+		SimplePushMeasure&lt;Evaluation&lt;Solution, Value&gt;&gt; {
+
+	public LastEvaluationMeasure() {
+<span class="fc" id="L24">		super(&quot;Last evaluation&quot;,</span>
+				&quot;Provide the last solution evaluated and the result of its evaluation.&quot;);
+<span class="fc" id="L26">	}</span>
+
+	/**
+	 * This method is equivalent to {@link #push(Object)} excepted that it
+	 * automatically create the {@link Evaluation} instance.
+	 * 
+	 * @param solution
+	 *            the solution evaluated
+	 * @param value
+	 *            the value of this solution
+	 */
+	public void push(Solution solution, Value value) {
+<span class="fc" id="L38">		Evaluation&lt;Solution, Value&gt; evaluation = new Evaluation&lt;Solution, Value&gt;();</span>
+<span class="fc" id="L39">		evaluation.solution = solution;</span>
+<span class="fc" id="L40">		evaluation.value = value;</span>
+<span class="fc" id="L41">		push(evaluation);</span>
+<span class="fc" id="L42">	}</span>
+
+	/**
+	 * This structure represent an atomic evaluation of a given solution.
+	 * 
+	 * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+	 * 
+	 */
+<span class="fc" id="L50">	public static class Evaluation&lt;Solution, Value&gt; {</span>
+		/**
+		 * The solution evaluated.
+		 */
+		Solution solution;
+		/**
+		 * The evaluation of the solution.
+		 */
+		Value value;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

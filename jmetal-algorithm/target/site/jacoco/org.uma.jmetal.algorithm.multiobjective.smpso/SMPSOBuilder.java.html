@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SMPSOBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.smpso</a> &gt; <span class="el_source">SMPSOBuilder.java</span></div><h1>SMPSOBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.smpso;
+
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.archive.BoundedArchive;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.PseudoRandomGenerator;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class SMPSOBuilder implements AlgorithmBuilder&lt;SMPSO&gt; {
+<span class="nc" id="L18">  public enum SMPSOVariant {SMPSO, Measures}</span>
+
+  private DoubleProblem problem;
+
+  private double c1Max;
+  private double c1Min;
+  private double c2Max;
+  private double c2Min;
+  private double r1Max;
+  private double r1Min;
+  private double r2Max;
+  private double r2Min;
+  private double weightMax;
+  private double weightMin;
+  private double changeVelocity1;
+  private double changeVelocity2;
+
+  private int swarmSize;
+  private int maxIterations;
+
+  protected int archiveSize;
+
+  protected MutationOperator&lt;DoubleSolution&gt; mutationOperator;
+
+  protected BoundedArchive&lt;DoubleSolution&gt; leaders;
+
+  protected SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+  protected SMPSOVariant variant ;
+
+<span class="nc" id="L48">  public SMPSOBuilder(DoubleProblem problem, BoundedArchive&lt;DoubleSolution&gt; leaders) {</span>
+<span class="nc" id="L49">    this.problem = problem;</span>
+<span class="nc" id="L50">    this.leaders = leaders;</span>
+
+<span class="nc" id="L52">    swarmSize = 100;</span>
+<span class="nc" id="L53">    maxIterations = 250;</span>
+
+<span class="nc" id="L55">    r1Max = 1.0;</span>
+<span class="nc" id="L56">    r1Min = 0.0;</span>
+<span class="nc" id="L57">    r2Max = 1.0;</span>
+<span class="nc" id="L58">    r2Min = 0.0;</span>
+<span class="nc" id="L59">    c1Max = 2.5;</span>
+<span class="nc" id="L60">    c1Min = 1.5;</span>
+<span class="nc" id="L61">    c2Max = 2.5;</span>
+<span class="nc" id="L62">    c2Min = 1.5;</span>
+<span class="nc" id="L63">    weightMax = 0.1;</span>
+<span class="nc" id="L64">    weightMin = 0.1;</span>
+<span class="nc" id="L65">    changeVelocity1 = -1;</span>
+<span class="nc" id="L66">    changeVelocity2 = -1;</span>
+
+<span class="nc" id="L68">    mutationOperator = new PolynomialMutation(1.0/problem.getNumberOfVariables(), 20.0) ;</span>
+<span class="nc" id="L69">    evaluator = new SequentialSolutionListEvaluator&lt;DoubleSolution&gt;() ;</span>
+
+<span class="nc" id="L71">    this.variant = SMPSOVariant.SMPSO ;</span>
+
+<span class="nc" id="L73">  }</span>
+
+  /* Getters */
+  public int getSwarmSize() {
+<span class="nc" id="L77">    return swarmSize;</span>
+  }
+
+  public int getMaxIterations() {
+<span class="nc" id="L81">    return maxIterations;</span>
+  }
+
+  public double getR1Max() {
+<span class="nc" id="L85">    return r1Max;</span>
+  }
+
+  public double getR1Min() {
+<span class="nc" id="L89">    return r1Min;</span>
+  }
+
+  public double getR2Max() {
+<span class="nc" id="L93">    return r2Max;</span>
+  }
+
+  public double getR2Min() {
+<span class="nc" id="L97">    return r2Min;</span>
+  }
+
+  public double getC1Max() {
+<span class="nc" id="L101">    return c1Max;</span>
+  }
+
+  public double getC1Min() {
+<span class="nc" id="L105">    return c1Min;</span>
+  }
+
+  public double getC2Max() {
+<span class="nc" id="L109">    return c2Max;</span>
+  }
+
+  public double getC2Min() {
+<span class="nc" id="L113">    return c2Min;</span>
+  }
+
+  public MutationOperator&lt;DoubleSolution&gt; getMutation() {
+<span class="nc" id="L117">    return mutationOperator;</span>
+  }
+
+  public double getWeightMax() {
+<span class="nc" id="L121">    return weightMax;</span>
+  }
+
+  public double getWeightMin() {
+<span class="nc" id="L125">    return weightMin;</span>
+  }
+
+  public double getChangeVelocity1() {
+<span class="nc" id="L129">    return changeVelocity1;</span>
+  }
+
+  public double getChangeVelocity2() {
+<span class="nc" id="L133">    return changeVelocity2;</span>
+  }
+
+  /* Setters */
+  public SMPSOBuilder setSwarmSize(int swarmSize) {
+<span class="nc" id="L138">    this.swarmSize = swarmSize;</span>
+
+<span class="nc" id="L140">    return this;</span>
+  }
+
+  public SMPSOBuilder setMaxIterations(int maxIterations) {
+<span class="nc" id="L144">    this.maxIterations = maxIterations;</span>
+
+<span class="nc" id="L146">    return this;</span>
+  }
+
+  public SMPSOBuilder setMutation(MutationOperator&lt;DoubleSolution&gt; mutation) {
+<span class="nc" id="L150">    mutationOperator = mutation;</span>
+
+<span class="nc" id="L152">    return this;</span>
+  }
+
+  public SMPSOBuilder setC1Max(double c1Max) {
+<span class="nc" id="L156">    this.c1Max = c1Max;</span>
+
+<span class="nc" id="L158">    return this;</span>
+  }
+
+  public SMPSOBuilder setC1Min(double c1Min) {
+<span class="nc" id="L162">    this.c1Min = c1Min;</span>
+
+<span class="nc" id="L164">    return this;</span>
+  }
+
+  public SMPSOBuilder setC2Max(double c2Max) {
+<span class="nc" id="L168">    this.c2Max = c2Max;</span>
+
+<span class="nc" id="L170">    return this;</span>
+  }
+
+  public SMPSOBuilder setC2Min(double c2Min) {
+<span class="nc" id="L174">    this.c2Min = c2Min;</span>
+
+<span class="nc" id="L176">    return this;</span>
+  }
+
+  public SMPSOBuilder setR1Max(double r1Max) {
+<span class="nc" id="L180">    this.r1Max = r1Max;</span>
+
+<span class="nc" id="L182">    return this;</span>
+  }
+
+  public SMPSOBuilder setR1Min(double r1Min) {
+<span class="nc" id="L186">    this.r1Min = r1Min;</span>
+
+<span class="nc" id="L188">    return this;</span>
+  }
+
+  public SMPSOBuilder setR2Max(double r2Max) {
+<span class="nc" id="L192">    this.r2Max = r2Max;</span>
+
+<span class="nc" id="L194">    return this;</span>
+  }
+
+  public SMPSOBuilder setR2Min(double r2Min) {
+<span class="nc" id="L198">    this.r2Min = r2Min;</span>
+
+<span class="nc" id="L200">    return this;</span>
+  }
+
+  public SMPSOBuilder setWeightMax(double weightMax) {
+<span class="nc" id="L204">    this.weightMax = weightMax;</span>
+
+<span class="nc" id="L206">    return this;</span>
+  }
+
+  public SMPSOBuilder setWeightMin(double weightMin) {
+<span class="nc" id="L210">    this.weightMin = weightMin;</span>
+
+<span class="nc" id="L212">    return this;</span>
+  }
+
+  public SMPSOBuilder setChangeVelocity1(double changeVelocity1) {
+<span class="nc" id="L216">    this.changeVelocity1 = changeVelocity1;</span>
+
+<span class="nc" id="L218">    return this;</span>
+  }
+
+  public SMPSOBuilder setChangeVelocity2(double changeVelocity2) {
+<span class="nc" id="L222">    this.changeVelocity2 = changeVelocity2;</span>
+
+<span class="nc" id="L224">    return this;</span>
+  }
+
+  public SMPSOBuilder setRandomGenerator(PseudoRandomGenerator randomGenerator) {
+<span class="nc" id="L228">    JMetalRandom.getInstance().setRandomGenerator(randomGenerator);</span>
+
+<span class="nc" id="L230">    return this;</span>
+  }
+
+  public SMPSOBuilder setSolutionListEvaluator(SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {
+<span class="nc" id="L234">    this.evaluator = evaluator ;</span>
+
+<span class="nc" id="L236">    return this ;</span>
+  }
+
+  public SMPSOBuilder setVariant(SMPSOVariant variant) {
+<span class="nc" id="L240">    this.variant = variant;</span>
+
+<span class="nc" id="L242">    return this;</span>
+  }
+
+  public SMPSO build() {
+<span class="nc bnc" id="L246" title="All 2 branches missed.">    if (variant.equals(SMPSOVariant.SMPSO)) {</span>
+<span class="nc" id="L247">      return new SMPSO(problem, swarmSize, leaders, mutationOperator, maxIterations, r1Min, r1Max,</span>
+          r2Min, r2Max, c1Min, c1Max, c2Min, c2Max, weightMin, weightMax, changeVelocity1,
+          changeVelocity2, evaluator);
+    } else {
+<span class="nc" id="L251">      return new SMPSOMeasures(problem, swarmSize, leaders, mutationOperator, maxIterations, r1Min, r1Max,</span>
+          r2Min, r2Max, c1Min, c1Max, c2Min, c2Max, weightMin, weightMax, changeVelocity1,
+          changeVelocity2, evaluator);
+    }
+  }
+
+  /*
+   * Getters
+   */
+  public DoubleProblem getProblem() {
+<span class="nc" id="L261">    return problem;</span>
+  }
+
+  public int getArchiveSize() {
+<span class="nc" id="L265">    return archiveSize;</span>
+  }
+
+  public MutationOperator&lt;DoubleSolution&gt; getMutationOperator() {
+<span class="nc" id="L269">    return mutationOperator;</span>
+  }
+
+  public BoundedArchive&lt;DoubleSolution&gt; getLeaders() {
+<span class="nc" id="L273">    return leaders;</span>
+  }
+
+  public SolutionListEvaluator&lt;DoubleSolution&gt; getEvaluator() {
+<span class="nc" id="L277">    return evaluator;</span>
+  }
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

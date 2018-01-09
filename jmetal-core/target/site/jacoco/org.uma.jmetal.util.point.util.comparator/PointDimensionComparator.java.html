@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PointDimensionComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.point.util.comparator</a> &gt; <span class="el_source">PointDimensionComparator.java</span></div><h1>PointDimensionComparator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.point.util.comparator;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.point.Point;
+
+import java.util.Comparator;
+
+/**
+ * This class implements the {@link Comparator} interface. It is used
+ * to compare two points according the value of a particular dimension.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+public class PointDimensionComparator implements Comparator&lt;Point&gt; {
+
+  /**
+   * Stores the value of the index to compare
+   */
+  private int index;
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L25">  public PointDimensionComparator(int index) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">    if (index &lt; 0) {</span>
+<span class="fc" id="L27">      throw new JMetalException(&quot;The index value is negative&quot;);</span>
+    }
+<span class="fc" id="L29">    this.index = index;</span>
+<span class="fc" id="L30">  }</span>
+
+  /**
+   * Compares the objects o1 and o2.
+   *
+   * @param pointOne An object that reference a double[]
+   * @param pointTwo An object that reference a double[]
+   * @return -1 if o1 &lt; o1, 1 if o1 &gt; o2 or 0 in other case.
+   */
+  @Override
+  public int compare(Point pointOne, Point pointTwo) {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">    if (pointOne ==  null) {</span>
+<span class="fc" id="L42">      throw new JMetalException(&quot;PointOne is null&quot;) ;</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    } else if (pointTwo == null) {</span>
+<span class="fc" id="L44">      throw new JMetalException(&quot;PointTwo is null&quot;) ;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    } else if (index &gt;= pointOne.getNumberOfDimensions()) {</span>
+<span class="fc" id="L46">      throw new JMetalException(&quot;The index value &quot; + index</span>
+<span class="fc" id="L47">          + &quot; is out of range (0,  &quot; + (pointOne.getNumberOfDimensions()-1) + &quot;)&quot;) ;</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">    } else if (index &gt;= pointTwo.getNumberOfDimensions()) {</span>
+<span class="fc" id="L49">      throw new JMetalException(&quot;The index value &quot; + index</span>
+<span class="fc" id="L50">          + &quot; is out of range (0,  &quot; + (pointTwo.getNumberOfDimensions()-1) + &quot;)&quot;) ;</span>
+    }
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    if (pointOne.getDimensionValue(index) &lt; pointTwo.getDimensionValue(index)) {</span>
+<span class="fc" id="L54">      return -1;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">    } else if (pointOne.getDimensionValue(index) &gt; pointTwo.getDimensionValue(index)) {</span>
+<span class="fc" id="L56">      return 1;</span>
+    } else {
+<span class="fc" id="L58">      return 0;</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

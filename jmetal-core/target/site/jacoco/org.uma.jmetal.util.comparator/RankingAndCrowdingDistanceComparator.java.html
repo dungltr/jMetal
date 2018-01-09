@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RankingAndCrowdingDistanceComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.comparator</a> &gt; <span class="el_source">RankingAndCrowdingDistanceComparator.java</span></div><h1>RankingAndCrowdingDistanceComparator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.comparator;
+
+import org.uma.jmetal.solution.Solution;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @version 1.0
+ *
+ * This class implements a comparator based on the rank of the solutions; if the rank is the same
+ * then the crowding distance is used.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+<span class="fc" id="L16">public class RankingAndCrowdingDistanceComparator&lt;S extends Solution&lt;?&gt;&gt; implements Comparator&lt;S&gt;, Serializable {</span>
+<span class="fc" id="L17">  private final Comparator&lt;S&gt; rankComparator = new RankingComparator&lt;S&gt;();</span>
+<span class="fc" id="L18">  private final Comparator&lt;S&gt; crowdingDistanceComparator = new CrowdingDistanceComparator&lt;S&gt;() ;</span>
+
+  /**
+   * Compares two solutions.
+   *
+   * @param solution1 Object representing the first solution
+   * @param solution2 Object representing the second solution.
+   * @return -1, or 0, or 1 if solution1 is less than, equal, or greater than solution2,
+   * respectively.
+   */
+  @Override
+  public int compare(S solution1, S solution2) {
+<span class="fc" id="L30">    int result = rankComparator.compare(solution1, solution2) ;</span>
+<span class="fc bfc" id="L31" title="All 2 branches covered.">    if (result == 0) {</span>
+<span class="fc" id="L32">      result = crowdingDistanceComparator.compare(solution1, solution2);</span>
+    }
+
+<span class="fc" id="L35">    return result;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

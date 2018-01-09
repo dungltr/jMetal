@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractUtilityFunctionsSet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi.util</a> &gt; <span class="el_source">AbstractUtilityFunctionsSet.java</span></div><h1>AbstractUtilityFunctionsSet.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi.util;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+
+
+/**
+ * @author Juan J. Durillo
+ * Modified by Antonio J. Nebro
+ *
+ * @param &lt;S&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public abstract class AbstractUtilityFunctionsSet&lt;S extends Solution&lt;?&gt;&gt; implements Serializable {
+
+	private List&lt;List&lt;Double&gt;&gt; weightVectors;
+	private int vectorSize;
+	
+<span class="nc" id="L25">	public AbstractUtilityFunctionsSet(double [][] weights) {</span>
+<span class="nc" id="L26">		this.weightVectors = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">		for (int i = 0; i &lt; weights.length; i++) {</span>
+<span class="nc" id="L28">			this.weightVectors.add(new ArrayList&lt;Double&gt;());</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">			for (int j = 0; j &lt; weights[i].length;j++) {</span>
+<span class="nc" id="L30">				this.weightVectors.get(i).add(weights[i][j]);</span>
+			}
+		}
+<span class="nc bnc" id="L33" title="All 2 branches missed.">		if (this.weightVectors.size() &gt; 0) {</span>
+<span class="nc" id="L34">			this.vectorSize = this.weightVectors.get(0).size();</span>
+		}
+				
+<span class="nc" id="L37">	}</span>
+	
+<span class="nc" id="L39">	public AbstractUtilityFunctionsSet(String file_path) {</span>
+<span class="nc" id="L40">		loadWeightsFromFile(file_path);</span>
+<span class="nc" id="L41">	}</span>
+
+	/**
+	 * Returns the number of utility functions stored in this set
+	 * @return The number of vectors
+	 */
+	public int getSize() {
+<span class="nc" id="L48">		return this.weightVectors.size();</span>
+	}
+	
+	/**
+	 * Returns the number of components for all weight vectors 
+	 */
+	public int getVectorSize() {
+<span class="nc" id="L55">		return this.vectorSize;</span>
+	}
+	
+	/**
+	 * Returns a given weight vector
+	 */
+	public List&lt;Double&gt; getWeightVector(int index) {
+<span class="nc bnc" id="L62" title="All 4 branches missed.">		if ((index &lt; 0) &amp;&amp; (index &gt;= weightVectors.size())) {</span>
+<span class="nc" id="L63">			throw new JMetalException(&quot;getWeightVector: index &quot; + index + &quot; invalid &quot;) ;</span>
+		}
+<span class="nc" id="L65">		return this.weightVectors.get(index);</span>
+	}
+	
+	/**
+	 * Evaluates a solution using all the utility functions stored in this set
+	 * @param solution
+	 * @return
+	 */
+	public List&lt;Double&gt; evaluate(S solution) {
+<span class="nc" id="L74">		List&lt;Double&gt; result = new ArrayList&lt;&gt;(this.getSize());</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		for (int i = 0; i &lt; this.getSize(); i++) {</span>
+<span class="nc" id="L76">			result.add(evaluate(solution,i));</span>
+		}
+<span class="nc" id="L78">		return result;</span>
+	}
+	
+	/**
+	 * Evaluates a solution using the i-th utility function stored in this set
+	 * @param solution
+	 * @param vector
+	 * @return
+	 */
+	public abstract Double evaluate(S solution, int vector);
+
+	/**
+	 * Reads a set of weight vectors from a file. 
+	 * The expected format for the file is as follows.
+	 * The first line should start with at least the following three tokens
+	 * # &lt;number_of_vectors&gt; &lt;number_of_obectives&gt;
+	 * Any other token on this line will be ignored. 
+	 * &lt;number_of_vectors&gt; indicates how many weight vectors are included in this file
+	 * &lt;number_of_objectives&gt; indicates how many component has each included vector
+	 *
+	 * Each of the following lines of the file represents a weight vector of at least
+	 * &lt;number_of_objectives&gt; components 
+	 * If more components are provided, they will be ignored by the program
+	 *
+	 * @param filePath The path in the file system of the file containing the weight vectors
+	 */
+	public void loadWeightsFromFile(String filePath) {
+<span class="nc" id="L105">    System.out.println(&quot;FILE PATH: &quot; + filePath) ;</span>
+<span class="nc" id="L106">		InputStream in = getClass().getResourceAsStream(&quot;/&quot; + filePath);</span>
+<span class="nc" id="L107">		InputStreamReader isr = new InputStreamReader(in);</span>
+<span class="nc" id="L108">		BufferedReader buffer = new BufferedReader(isr);</span>
+
+		// First line format: # &lt;num_weights&gt; &lt;num_objectives&gt;
+<span class="nc" id="L111">		String line = null;</span>
+		try {
+<span class="nc" id="L113">			line = buffer.readLine();</span>
+
+
+<span class="nc" id="L116">			StringTokenizer st = new StringTokenizer(line);</span>
+<span class="nc" id="L117">			st.nextToken(); // reading the #</span>
+
+			// reading the number of weights (only used as estimator
+			// of the number of them)
+<span class="nc" id="L121">			int number_of_weight_vectors = new Integer(st.nextToken());</span>
+<span class="nc" id="L122">			this.weightVectors = new ArrayList&lt;&gt;(number_of_weight_vectors);</span>
+
+			// reading the number of objectives
+<span class="nc" id="L125">			int number_of_objectives     = new Integer(st.nextToken());</span>
+<span class="nc" id="L126">			this.vectorSize 			 = number_of_objectives;</span>
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">			while ((line = buffer.readLine())!=null) {</span>
+<span class="nc" id="L129">				st = new StringTokenizer(line);</span>
+<span class="nc" id="L130">				List&lt;Double&gt; new_vector = new ArrayList&lt;&gt;(number_of_objectives);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">				for (int i = 0; i &lt; number_of_objectives; i++)</span>
+<span class="nc" id="L132">					new_vector.add(new Double(st.nextToken()));</span>
+<span class="nc" id="L133">				this.weightVectors.add(new_vector);</span>
+<span class="nc" id="L134">			}</span>
+<span class="nc" id="L135">		} catch (IOException e) {</span>
+<span class="nc" id="L136">			throw new JMetalException(&quot;loadWeightsFromFile: failed when reading for file: &quot;</span>
+							+ &quot;/&quot; + filePath) ;
+<span class="nc" id="L138">    }</span>
+<span class="nc" id="L139">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

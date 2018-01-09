@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExtendedPseudoRandomGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.pseudorandom.impl</a> &gt; <span class="el_source">ExtendedPseudoRandomGenerator.java</span></div><h1>ExtendedPseudoRandomGenerator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.pseudorandom.impl;
+
+import org.uma.jmetal.util.pseudorandom.PseudoRandomGenerator;
+
+/**
+ * Extended pseudo random number generator based on the decorator pattern.
+ * Two new methods are added: randNormal() and randSphere()
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ExtendedPseudoRandomGenerator implements PseudoRandomGenerator {
+  private final PseudoRandomGenerator randomGenerator ;
+
+<span class="nc" id="L15">  public ExtendedPseudoRandomGenerator(PseudoRandomGenerator randomGenerator) {</span>
+<span class="nc" id="L16">    this.randomGenerator = randomGenerator ;</span>
+<span class="nc" id="L17">  }</span>
+
+  @Override
+  public int nextInt(int lowerBound, int upperBound) {
+<span class="nc" id="L21">    return randomGenerator.nextInt(lowerBound, upperBound) ;</span>
+  }
+
+  @Override
+  public double nextDouble(double lowerBound, double upperBound) {
+<span class="nc" id="L26">    return randomGenerator.nextDouble(lowerBound, upperBound);</span>
+  }
+
+  @Override
+  public double nextDouble() {
+<span class="nc" id="L31">    return randomGenerator.nextDouble();</span>
+  }
+
+  @Override
+  public void setSeed(long seed) {
+<span class="nc" id="L36">    randomGenerator.setSeed(seed);</span>
+<span class="nc" id="L37">  }</span>
+
+  @Override
+  public long getSeed() {
+<span class="nc" id="L41">    return randomGenerator.getSeed() ;</span>
+  }
+
+  @Override
+  public String getName() {
+<span class="nc" id="L46">    return randomGenerator.getName() + &quot; (extended)&quot;;</span>
+  }
+
+  /**
+   * Use the polar form of the Box-Muller transformation to obtain
+   * a pseudo random number from a Gaussian distribution
+   * Code taken from Maurice Clerc's implementation
+   *
+   * @param mean
+   * @param standardDeviation
+   * @return A pseudo random number
+   */
+  public double randNormal(double mean, double standardDeviation) {
+    double x1, x2, w, y1;
+
+    do {
+<span class="nc" id="L62">      x1 = 2.0 * randomGenerator.nextDouble() - 1.0;</span>
+<span class="nc" id="L63">      x2 = 2.0 * randomGenerator.nextDouble() - 1.0;</span>
+<span class="nc" id="L64">      w = x1 * x1 + x2 * x2;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    } while (w &gt;= 1.0);</span>
+
+<span class="nc" id="L67">    w = Math.sqrt((-2.0 * Math.log(w)) / w);</span>
+<span class="nc" id="L68">    y1 = x1 * w;</span>
+<span class="nc" id="L69">    y1 = y1 * standardDeviation + mean;</span>
+<span class="nc" id="L70">    return y1;</span>
+  }
+
+  /**
+   * Get a random point from an hypersphere (center = 0, radius = 1)
+   * Code taken from Maurice Clerc's implementation
+   *
+   * @param dimension
+   * @return A pseudo random point
+   */
+  public double[] randSphere(int dimension) {
+<span class="nc" id="L81">    int D = dimension;</span>
+<span class="nc" id="L82">    double[] x = new double[dimension];</span>
+
+<span class="nc" id="L84">    double length = 0;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    for (int i = 0; i &lt; dimension; i++) {</span>
+<span class="nc" id="L86">      x[i] = 0.0;</span>
+    }
+
+    // --------- Step 1. Direction
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    for (int i = 0; i &lt; D; i++) {</span>
+<span class="nc" id="L92">      x[i] = this.randNormal(0, 1);</span>
+<span class="nc" id="L93">      length += length + x[i] * x[i];</span>
+    }
+
+<span class="nc" id="L96">    length = Math.sqrt(length);</span>
+
+    // --------- Step 2. Random radius
+
+<span class="nc" id="L100">    double r = randomGenerator.nextDouble(0, 1);</span>
+
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    for (int i = 0; i &lt; D; i++) {</span>
+<span class="nc" id="L103">      x[i] = r * x[i] / length;</span>
+    }
+
+<span class="nc" id="L106">    return x;</span>
+  }
+
+  /**
+   * Ger a random point from an hypersphere
+   * Code taken from Maurice Clerc's implementation
+   *
+   * @param center
+   * @param radius
+   * @return A pseudo random number
+   */
+  public double[] randSphere(int dimension, double center, double radius) {
+<span class="nc" id="L118">    int d = dimension;</span>
+<span class="nc" id="L119">    double[] x = new double[dimension];</span>
+
+<span class="nc" id="L121">    double length = 0;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">    for (int i = 0; i &lt; dimension; i++) {</span>
+<span class="nc" id="L123">      x[i] = 0.0;</span>
+    }
+
+    // --------- Step 1. Direction
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    for (int i = 0; i &lt; d; i++) {</span>
+<span class="nc" id="L129">      x[i] = randNormal(0, 1);</span>
+<span class="nc" id="L130">      length += length + x[i] * x[i];</span>
+    }
+
+<span class="nc" id="L133">    length = Math.sqrt(length);</span>
+
+    // --------- Step 2. Random radius
+
+<span class="nc" id="L137">    double r = randomGenerator.nextDouble(0, 1);</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    for (int i = 0; i &lt; d; i++) {</span>
+<span class="nc" id="L140">      x[i] = center + radius * r * x[i] / length;</span>
+    }
+
+<span class="nc" id="L143">    return x;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

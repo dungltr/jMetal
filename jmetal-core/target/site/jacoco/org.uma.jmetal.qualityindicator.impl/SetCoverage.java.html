@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SetCoverage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl</a> &gt; <span class="el_source">SetCoverage.java</span></div><h1>SetCoverage.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.uma.jmetal.qualityindicator.QualityIndicator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.naming.impl.SimpleDescribedEntity;
+
+import java.util.List;
+
+/**
+ * Set coverage metric
+ *
+ * @author Antonio J. Nebro
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SetCoverage
+    extends SimpleDescribedEntity
+    implements QualityIndicator&lt;Pair&lt;List&lt;? extends Solution&lt;?&gt;&gt;, List&lt;? extends Solution&lt;?&gt;&gt;&gt;, Pair&lt;Double, Double&gt;&gt; {
+
+  /**
+   * Constructor
+   */
+  public SetCoverage() {
+<span class="fc" id="L28">    super(&quot;SC&quot;, &quot;Set coverage&quot;) ;</span>
+<span class="fc" id="L29">  }</span>
+
+  @Override
+  public Pair&lt;Double, Double&gt; evaluate(
+      Pair&lt;List&lt;? extends Solution&lt;?&gt;&gt;, List&lt;? extends Solution&lt;?&gt;&gt;&gt; pairOfSolutionLists) {
+<span class="fc" id="L34">    List&lt;? extends Solution&lt;?&gt;&gt; front1 = pairOfSolutionLists.getLeft() ;</span>
+<span class="fc" id="L35">    List&lt;? extends Solution&lt;?&gt;&gt; front2 = pairOfSolutionLists.getRight() ;</span>
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">    if (front1 == null) {</span>
+<span class="fc" id="L38">      throw new JMetalException(&quot;The first front is null&quot;) ;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">    } else if (front2 == null) {</span>
+<span class="fc" id="L40">      throw new JMetalException(&quot;The second front is null&quot;);</span>
+    }
+
+<span class="fc" id="L43">    return new ImmutablePair&lt;&gt;(evaluate(front1, front2), evaluate(front2, front1));</span>
+  }
+
+  /**
+   * Calculates the set coverage of set1 over set2
+   * @param set1
+   * @param set2
+   * @return The value of the set coverage
+   */
+  public double evaluate(List&lt;? extends Solution&lt;?&gt;&gt; set1, List&lt;? extends Solution&lt;?&gt;&gt; set2) {
+    double result ;
+<span class="fc" id="L54">    int sum = 0 ;</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">    if (set2.size()==0) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">      if (set1.size()==0) {</span>
+<span class="fc" id="L58">        result = 0.0 ;</span>
+      } else {
+<span class="fc" id="L60">        result = 1.0 ;</span>
+      }
+    } else {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">      for (Solution&lt;?&gt; solution : set2) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (SolutionListUtils.isSolutionDominatedBySolutionList(solution, set1)) {</span>
+<span class="fc" id="L65">          sum++;</span>
+        }
+<span class="fc" id="L67">      }</span>
+<span class="fc" id="L68">      result = (double)sum/set2.size() ;</span>
+    }
+<span class="fc" id="L70">    return result ;</span>
+  }
+
+  @Override public String getName() {
+<span class="fc" id="L74">    return super.getName() ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

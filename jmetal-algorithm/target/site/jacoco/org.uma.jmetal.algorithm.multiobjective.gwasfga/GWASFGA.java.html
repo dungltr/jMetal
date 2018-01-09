@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GWASFGA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.gwasfga</a> &gt; <span class="el_source">GWASFGA.java</span></div><h1>GWASFGA.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.gwasfga;
+
+import org.uma.jmetal.algorithm.multiobjective.gwasfga.util.GWASFGARanking;
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.ASFWASFGA;
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.AbstractUtilityFunctionsSet;
+import org.uma.jmetal.algorithm.multiobjective.wasfga.WASFGA;
+import org.uma.jmetal.algorithm.multiobjective.wasfga.util.WeightVector;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+
+import java.util.List;
+
+/**
+ * This class executes the GWASFGA algorithm described in:
+ * Saborido, R., Ruiz, A. B. and Luque, M. (2015). Global WASF-GA: An Evolutionary Algorithm in
+ * Multiobjective Optimization to Approximate the whole Pareto Optimal Front.
+ * Evolutionary Computation Accepted for publication.
+ *
+ * @author Juanjo Durillo
+ */
+public class GWASFGA&lt;S extends Solution&lt;?&gt;&gt; extends WASFGA&lt;S&gt; {
+  final AbstractUtilityFunctionsSet&lt;S&gt; achievementScalarizingUtopia;
+  final AbstractUtilityFunctionsSet&lt;S&gt; achievementScalarizingNadir;
+  private static final long serialVersionUID = 1L;
+
+  public GWASFGA(Problem&lt;S&gt; problem, int populationSize, int maxIterations, CrossoverOperator&lt;S&gt; crossoverOperator,
+                 MutationOperator&lt;S&gt; mutationOperator, SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+                 SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc" id="L34">    super(problem, populationSize, maxIterations, crossoverOperator, mutationOperator, selectionOperator, evaluator,</span>
+        null);
+<span class="nc" id="L36">    setMaxPopulationSize(populationSize);</span>
+
+<span class="nc" id="L38">    WeightVector weightVector = new WeightVector() ;</span>
+<span class="nc" id="L39">    double [][] weights =  weightVector.initUniformWeights2D(0.005, getMaxPopulationSize());</span>
+
+<span class="nc" id="L41">    int halfVectorSize = weights.length  / 2;</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    int evenVectorsSize    = (weights.length%2==0) ? halfVectorSize : (halfVectorSize+1);</span>
+<span class="nc" id="L43">    int oddVectorsSize     = halfVectorSize;</span>
+
+<span class="nc" id="L45">    double [][] evenVectors = new double[evenVectorsSize][getProblem().getNumberOfObjectives()];</span>
+<span class="nc" id="L46">    double [][] oddVectors = new double[oddVectorsSize][getProblem().getNumberOfObjectives()];</span>
+
+<span class="nc" id="L48">    int index = 0;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    for (int i = 0; i &lt; weights.length; i = i + 2)</span>
+<span class="nc" id="L50">      evenVectors[index++] = weights[i];</span>
+
+<span class="nc" id="L52">    index = 0;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    for (int i = 1; i &lt; weights.length; i = i + 2)</span>
+<span class="nc" id="L54">      oddVectors[index++] = weights[i];</span>
+
+<span class="nc" id="L56">    this.achievementScalarizingNadir  =  createUtilityFunction(this.getNadirPoint(), evenVectors);</span>
+<span class="nc" id="L57">    this.achievementScalarizingUtopia =  createUtilityFunction(this.getReferencePoint(), oddVectors);</span>
+
+<span class="nc" id="L59">  }</span>
+
+  public AbstractUtilityFunctionsSet&lt;S&gt; createUtilityFunction(List&lt;Double&gt; referencePoint, double [][] weights) {
+<span class="nc" id="L62">    weights = WeightVector.invertWeights(weights,true);</span>
+<span class="nc" id="L63">    ASFWASFGA&lt;S&gt; aux = new ASFWASFGA&lt;&gt;(weights,referencePoint);</span>
+
+<span class="nc" id="L65">    return aux;</span>
+  }
+
+  protected Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionList) {
+<span class="nc" id="L69">    Ranking&lt;S&gt; ranking = new GWASFGARanking&lt;&gt;(this.achievementScalarizingUtopia, this.achievementScalarizingNadir);</span>
+<span class="nc" id="L70">    ranking.computeRanking(solutionList);</span>
+<span class="nc" id="L71">    return ranking;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L75">    return &quot;GWASFGA&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L79">    return &quot;Global Weighting Achievement Scalarizing Function Genetic Algorithm&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

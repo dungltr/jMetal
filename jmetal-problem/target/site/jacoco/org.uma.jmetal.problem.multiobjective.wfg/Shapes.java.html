@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Shapes.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.wfg</a> &gt; <span class="el_source">Shapes.java</span></div><h1>Shapes.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.wfg;
+
+/**
+ * Class implementing shape functions for wfg benchmark
+ * Reference: Simon Huband, Luigi Barone, Lyndon While, Phil Hingston
+ * A Scalable Multi-objective Test Problem Toolkit.
+ * Evolutionary Multi-Criterion Optimization:
+ * Third International Conference, EMO 2005.
+ * Proceedings, volume 3410 of Lecture Notes in Computer Science
+ */
+<span class="nc" id="L11">public class Shapes {</span>
+
+  /**
+   * Calculate a linear shape
+   */
+  public float linear(float[] x, int m) {
+<span class="nc" id="L17">    float result = (float) 1.0;</span>
+<span class="nc" id="L18">    int M = x.length;</span>
+
+<span class="nc bnc" id="L20" title="All 2 branches missed.">    for (int i = 1; i &lt;= M - m; i++) {</span>
+<span class="nc" id="L21">      result *= x[i - 1];</span>
+    }
+
+<span class="nc bnc" id="L24" title="All 2 branches missed.">    if (m != 1) {</span>
+<span class="nc" id="L25">      result *= (1 - x[M - m]);</span>
+    }
+
+<span class="nc" id="L28">    return result;</span>
+  }
+
+  /**
+   * Calculate a convex shape
+   */
+  public float convex(float[] x, int m) {
+<span class="nc" id="L35">    float result = (float) 1.0;</span>
+<span class="nc" id="L36">    int M = x.length;</span>
+
+<span class="nc bnc" id="L38" title="All 2 branches missed.">    for (int i = 1; i &lt;= M - m; i++) {</span>
+<span class="nc" id="L39">      result *= (1 - Math.cos(x[i - 1] * Math.PI * 0.5));</span>
+    }
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">    if (m != 1) {</span>
+<span class="nc" id="L43">      result *= (1 - Math.sin(x[M - m] * Math.PI * 0.5));</span>
+    }
+
+<span class="nc" id="L46">    return result;</span>
+  }
+
+  /**
+   * Calculate a concave shape
+   */
+  public float concave(float[] x, int m) {
+<span class="nc" id="L53">    float result = (float) 1.0;</span>
+<span class="nc" id="L54">    int M = x.length;</span>
+
+<span class="nc bnc" id="L56" title="All 2 branches missed.">    for (int i = 1; i &lt;= M - m; i++) {</span>
+<span class="nc" id="L57">      result *= Math.sin(x[i - 1] * Math.PI * 0.5);</span>
+    }
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    if (m != 1) {</span>
+<span class="nc" id="L61">      result *= Math.cos(x[M - m] * Math.PI * 0.5);</span>
+    }
+
+<span class="nc" id="L64">    return result;</span>
+  }
+
+  /**
+   * Calculate a mixed shape
+   */
+  public float mixed(float[] x, int A, float alpha) {
+    float tmp;
+<span class="nc" id="L72">    tmp =</span>
+<span class="nc" id="L73">      (float) Math.cos((float) 2.0 * A * (float) Math.PI * x[0] + (float) Math.PI * (float) 0.5);</span>
+<span class="nc" id="L74">    tmp /= (2.0 * (float) A * Math.PI);</span>
+
+<span class="nc" id="L76">    return (float) Math.pow(((float) 1.0 - x[0] - tmp), alpha);</span>
+  }
+
+  /**
+   * Calculate a disc shape
+   */
+  public float disc(float[] x, int A, float alpha, float beta) {
+    float tmp;
+<span class="nc" id="L84">    tmp = (float) Math.cos((float) A * Math.pow(x[0], beta) * Math.PI);</span>
+
+<span class="nc" id="L86">    return (float) 1.0 - (float) Math.pow(x[0], alpha) * (float) Math.pow(tmp, 2.0);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiobjectiveTSP.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">MultiobjectiveTSP.java</span></div><h1>MultiobjectiveTSP.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+
+import org.uma.jmetal.problem.impl.AbstractIntegerPermutationProblem;
+import org.uma.jmetal.solution.PermutationSolution;
+import org.uma.jmetal.util.JMetalException;
+
+import java.io.*;
+
+/**
+ * Class representing a bi-objective TSP (Traveling Salesman Problem) problem.
+ * It accepts data files from TSPLIB:
+ *   http://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/tsp/
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MultiobjectiveTSP extends AbstractIntegerPermutationProblem {
+  protected int         numberOfCities ;
+  protected double [][] distanceMatrix ;
+  protected double [][] costMatrix;
+
+  /**
+   * Creates a new MultiobjectiveTSP problem instance
+   */
+<span class="nc" id="L24">  public MultiobjectiveTSP(String distanceFile, String costFile) throws IOException {</span>
+<span class="nc" id="L25">    distanceMatrix = readProblem(distanceFile) ;</span>
+<span class="nc" id="L26">    costMatrix     = readProblem(costFile);</span>
+
+<span class="nc" id="L28">    setNumberOfVariables(numberOfCities);</span>
+<span class="nc" id="L29">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L30">    setName(&quot;MultiobjectiveTSP&quot;);</span>
+<span class="nc" id="L31">  }</span>
+
+  /** Evaluate() method */
+  public void evaluate(PermutationSolution&lt;Integer&gt; solution){
+    double fitness1   ;
+    double fitness2   ;
+
+<span class="nc" id="L38">    fitness1 = 0.0 ;</span>
+<span class="nc" id="L39">    fitness2 = 0.0 ;</span>
+
+<span class="nc bnc" id="L41" title="All 2 branches missed.">    for (int i = 0; i &lt; (numberOfCities - 1); i++) {</span>
+      int x ;
+      int y ;
+
+<span class="nc" id="L45">      x = solution.getVariableValue(i) ;</span>
+<span class="nc" id="L46">      y = solution.getVariableValue(i+1) ;</span>
+
+<span class="nc" id="L48">      fitness1 += distanceMatrix[x][y] ;</span>
+<span class="nc" id="L49">      fitness2 += costMatrix[x][y];</span>
+    }
+    int firstCity ;
+    int lastCity  ;
+
+<span class="nc" id="L54">    firstCity = solution.getVariableValue(0) ;</span>
+<span class="nc" id="L55">    lastCity = solution.getVariableValue(numberOfCities - 1) ;</span>
+
+<span class="nc" id="L57">    fitness1 += distanceMatrix[firstCity][lastCity] ;</span>
+<span class="nc" id="L58">    fitness2 += costMatrix[firstCity][lastCity];</span>
+
+<span class="nc" id="L60">    solution.setObjective(0, fitness1);</span>
+<span class="nc" id="L61">    solution.setObjective(1, fitness2);</span>
+<span class="nc" id="L62">  }</span>
+
+  private double [][] readProblem(String file) throws IOException {
+<span class="nc" id="L65">    double [][] matrix = null;</span>
+
+<span class="nc" id="L67">    InputStream in = getClass().getResourceAsStream(file);</span>
+<span class="nc" id="L68">    InputStreamReader isr = new InputStreamReader(in);</span>
+<span class="nc" id="L69">    BufferedReader br = new BufferedReader(isr);</span>
+
+<span class="nc" id="L71">    StreamTokenizer token = new StreamTokenizer(br);</span>
+    try {
+      boolean found ;
+<span class="nc" id="L74">      found = false ;</span>
+
+<span class="nc" id="L76">      token.nextToken();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">      while(!found) {</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">        if ((token.sval != null) &amp;&amp; ((token.sval.compareTo(&quot;DIMENSION&quot;) == 0)))</span>
+<span class="nc" id="L79">          found = true ;</span>
+        else
+<span class="nc" id="L81">          token.nextToken() ;</span>
+      }
+
+<span class="nc" id="L84">      token.nextToken() ;</span>
+<span class="nc" id="L85">      token.nextToken() ;</span>
+
+<span class="nc" id="L87">      numberOfCities =  (int)token.nval ;</span>
+
+<span class="nc" id="L89">      matrix = new double[numberOfCities][numberOfCities] ;</span>
+
+      // Find the string SECTION  
+<span class="nc" id="L92">      found = false ;</span>
+<span class="nc" id="L93">      token.nextToken();</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">      while(!found) {</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if ((token.sval != null) &amp;&amp;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            ((token.sval.compareTo(&quot;SECTION&quot;) == 0)))</span>
+<span class="nc" id="L97">          found = true ;</span>
+        else
+<span class="nc" id="L99">          token.nextToken() ;</span>
+      }
+
+<span class="nc" id="L102">      double [] c = new double[2*numberOfCities] ;</span>
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfCities; i++) {</span>
+<span class="nc" id="L105">        token.nextToken() ;</span>
+<span class="nc" id="L106">        int j = (int)token.nval ;</span>
+
+<span class="nc" id="L108">        token.nextToken() ;</span>
+<span class="nc" id="L109">        c[2*(j-1)] = token.nval ;</span>
+<span class="nc" id="L110">        token.nextToken() ;</span>
+<span class="nc" id="L111">        c[2*(j-1)+1] = token.nval ;</span>
+      } // for
+
+      double dist ;
+<span class="nc bnc" id="L115" title="All 2 branches missed.">      for (int k = 0; k &lt; numberOfCities; k++) {</span>
+<span class="nc" id="L116">        matrix[k][k] = 0;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (int j = k + 1; j &lt; numberOfCities; j++) {</span>
+<span class="nc" id="L118">          dist = Math.sqrt(Math.pow((c[k*2]-c[j*2]),2.0) +</span>
+<span class="nc" id="L119">              Math.pow((c[k*2+1]-c[j*2+1]), 2));</span>
+<span class="nc" id="L120">          dist = (int)(dist + .5);</span>
+<span class="nc" id="L121">          matrix[k][j] = dist;</span>
+<span class="nc" id="L122">          matrix[j][k] = dist;</span>
+        }
+      }
+<span class="nc" id="L125">    } catch (Exception e) {</span>
+<span class="nc" id="L126">      new JMetalException(&quot;TSP.readProblem(): error when reading data file &quot; + e);</span>
+<span class="nc" id="L127">    }</span>
+<span class="nc" id="L128">    return matrix;</span>
+  }
+
+  @Override public int getPermutationLength() {
+<span class="nc" id="L132">    return numberOfCities ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

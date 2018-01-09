@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DescribedEntitySet.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.naming.impl</a> &gt; <span class="el_source">DescribedEntitySet.java</span></div><h1>DescribedEntitySet.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.naming.impl;
+
+import org.uma.jmetal.util.naming.DescribedEntity;
+
+import java.util.*;
+
+<span class="fc" id="L7">public class DescribedEntitySet&lt;Entity extends DescribedEntity&gt; implements</span>
+		Set&lt;Entity&gt; {
+
+<span class="fc" id="L10">	private final Map&lt;String, Entity&gt; map = new HashMap&lt;&gt;();</span>
+
+	@Override
+	public boolean add(Entity e) {
+<span class="fc" id="L14">		Entity stored = map.get(e.getName());</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">		if (stored == null) {</span>
+<span class="fc" id="L16">			map.put(e.getName(), e);</span>
+<span class="fc" id="L17">			return true;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">		} else if (stored.equals(e)) {</span>
+<span class="fc" id="L19">			return false;</span>
+		} else {
+<span class="fc" id="L21">			throw new IllegalArgumentException(&quot;Cannot add &quot; + e</span>
+					+ &quot;, conflicting name with &quot; + stored);
+		}
+	}
+
+	@Override
+	public boolean addAll(Collection&lt;? extends Entity&gt; c) {
+<span class="nc" id="L28">		boolean isModified = false;</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">		for (Entity entity : c) {</span>
+<span class="nc" id="L30">			isModified |= add(entity);</span>
+<span class="nc" id="L31">		}</span>
+<span class="nc" id="L32">		return isModified;</span>
+	}
+
+	@SuppressWarnings(&quot;unchecked&quot;)
+	public &lt;E extends Entity&gt; E get(String name) {
+<span class="fc" id="L37">		return (E) map.get(name);</span>
+	}
+
+	@Override
+	public boolean remove(Object o) {
+<span class="nc" id="L42">		return map.values().remove(o);</span>
+	}
+
+	public boolean remove(String name) {
+<span class="nc" id="L46">		return map.keySet().remove(name);</span>
+	}
+
+	@Override
+	public boolean removeAll(Collection&lt;?&gt; c) {
+<span class="nc" id="L51">		return map.values().removeAll(c);</span>
+	}
+
+	@Override
+	public boolean contains(Object o) {
+<span class="nc" id="L56">		return map.values().contains(o);</span>
+	}
+
+	public boolean contains(String name) {
+<span class="nc" id="L60">		return map.keySet().contains(name);</span>
+	}
+
+	@Override
+	public boolean containsAll(Collection&lt;?&gt; c) {
+<span class="nc" id="L65">		return map.values().containsAll(c);</span>
+	}
+
+	@Override
+	public boolean retainAll(Collection&lt;?&gt; c) {
+<span class="nc" id="L70">		return map.values().retainAll(c);</span>
+	}
+
+	@Override
+	public int size() {
+<span class="fc" id="L75">		return map.size();</span>
+	}
+
+	@Override
+	public boolean isEmpty() {
+<span class="nc" id="L80">		return map.isEmpty();</span>
+	}
+
+	@Override
+	public void clear() {
+<span class="nc" id="L85">		map.clear();</span>
+<span class="nc" id="L86">	}</span>
+
+	@Override
+	public Iterator&lt;Entity&gt; iterator() {
+<span class="nc" id="L90">		return map.values().iterator();</span>
+	}
+
+	@Override
+	public Object[] toArray() {
+<span class="nc" id="L95">		return map.values().toArray();</span>
+	}
+
+	@Override
+	public &lt;T&gt; T[] toArray(T[] a) {
+<span class="nc" id="L100">		return map.values().toArray(a);</span>
+	}
+
+	@Override
+	public String toString() {
+<span class="fc" id="L105">		TreeSet&lt;String&gt; displaySet = new TreeSet&lt;&gt;(new Comparator&lt;String&gt;() {</span>
+
+			@Override
+			public int compare(String s1, String s2) {
+<span class="fc" id="L109">				int comparison = s1.compareToIgnoreCase(s2);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">				return comparison == 0 ? s1.compareTo(s2) : comparison;</span>
+			}
+		});
+<span class="fc" id="L113">		displaySet.addAll(map.keySet());</span>
+<span class="fc" id="L114">		return displaySet.toString();</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

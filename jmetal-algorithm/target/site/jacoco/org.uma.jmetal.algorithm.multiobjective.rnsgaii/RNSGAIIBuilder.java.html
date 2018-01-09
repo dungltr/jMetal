@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RNSGAIIBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.rnsgaii</a> &gt; <span class="el_source">RNSGAIIBuilder.java</span></div><h1>RNSGAIIBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.rnsgaii;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class RNSGAIIBuilder&lt;S extends Solution&lt;?&gt;&gt; implements AlgorithmBuilder&lt;RNSGAII&lt;S&gt;&gt; {
+<span class="nc" id="L21">  public enum NSGAIIVariant {NSGAII, SteadyStateNSGAII, Measures, NSGAII45}</span>
+
+  /**
+   * NSGAIIBuilder class
+   */
+  private final Problem&lt;S&gt; problem;
+  private int maxEvaluations;
+  private int populationSize;
+  private CrossoverOperator&lt;S&gt;  crossoverOperator;
+  private MutationOperator&lt;S&gt; mutationOperator;
+  private SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator;
+  private SolutionListEvaluator&lt;S&gt; evaluator;
+private List&lt;Double&gt; interestPoint;
+private  double epsilon;
+  private NSGAIIVariant variant;
+
+  /**
+   * NSGAIIBuilder constructor
+   */
+  public RNSGAIIBuilder(Problem&lt;S&gt; problem, CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="nc" id="L41">                        MutationOperator&lt;S&gt; mutationOperator, List&lt;Double&gt; interestPoint, double epsilon) {</span>
+<span class="nc" id="L42">    this.problem = problem;</span>
+<span class="nc" id="L43">    maxEvaluations = 25000;</span>
+<span class="nc" id="L44">    populationSize = 100;</span>
+<span class="nc" id="L45">    this.crossoverOperator = crossoverOperator ;</span>
+<span class="nc" id="L46">    this.mutationOperator = mutationOperator ;</span>
+<span class="nc" id="L47">    selectionOperator = new BinaryTournamentSelection&lt;S&gt;(new RankingAndCrowdingDistanceComparator&lt;S&gt;()) ;</span>
+<span class="nc" id="L48">    evaluator = new SequentialSolutionListEvaluator&lt;S&gt;();</span>
+<span class="nc" id="L49">this.epsilon = epsilon;</span>
+<span class="nc" id="L50">this.interestPoint = interestPoint;</span>
+<span class="nc" id="L51">    this.variant = NSGAIIVariant.NSGAII ;</span>
+<span class="nc" id="L52">  }</span>
+
+  public RNSGAIIBuilder&lt;S&gt; setMaxEvaluations(int maxEvaluations) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    if (maxEvaluations &lt; 0) {</span>
+<span class="nc" id="L56">      throw new JMetalException(&quot;maxEvaluations is negative: &quot; + maxEvaluations);</span>
+    }
+<span class="nc" id="L58">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L60">    return this;</span>
+  }
+
+  public RNSGAIIBuilder&lt;S&gt; setPopulationSize(int populationSize) {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    if (populationSize &lt; 0) {</span>
+<span class="nc" id="L65">      throw new JMetalException(&quot;Population size is negative: &quot; + populationSize);</span>
+    }
+
+<span class="nc" id="L68">    this.populationSize = populationSize;</span>
+
+<span class="nc" id="L70">    return this;</span>
+  }
+
+  public RNSGAIIBuilder&lt;S&gt; setSelectionOperator(SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator) {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (selectionOperator == null) {</span>
+<span class="nc" id="L75">      throw new JMetalException(&quot;selectionOperator is null&quot;);</span>
+    }
+<span class="nc" id="L77">    this.selectionOperator = selectionOperator;</span>
+
+<span class="nc" id="L79">    return this;</span>
+  }
+
+  public RNSGAIIBuilder&lt;S&gt; setSolutionListEvaluator(SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (evaluator == null) {</span>
+<span class="nc" id="L84">      throw new JMetalException(&quot;evaluator is null&quot;);</span>
+    }
+<span class="nc" id="L86">    this.evaluator = evaluator;</span>
+
+<span class="nc" id="L88">    return this;</span>
+  }
+
+
+  public RNSGAIIBuilder&lt;S&gt; setVariant(NSGAIIVariant variant) {
+<span class="nc" id="L93">    this.variant = variant;</span>
+
+<span class="nc" id="L95">    return this;</span>
+  }
+
+  public RNSGAII&lt;S&gt; build() {
+<span class="nc" id="L99">    RNSGAII&lt;S&gt; algorithm = null ;</span>
+
+<span class="nc" id="L101">      algorithm = new RNSGAII&lt;&gt;(problem, maxEvaluations, populationSize, crossoverOperator,</span>
+          mutationOperator, selectionOperator, evaluator,interestPoint,epsilon);
+
+
+<span class="nc" id="L105">    return algorithm ;</span>
+  }
+
+  /* Getters */
+  public Problem&lt;S&gt; getProblem() {
+<span class="nc" id="L110">    return problem;</span>
+  }
+
+  public int getMaxIterations() {
+<span class="nc" id="L114">    return maxEvaluations;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="nc" id="L118">    return populationSize;</span>
+  }
+
+  public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="nc" id="L122">    return crossoverOperator;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L126">    return mutationOperator;</span>
+  }
+
+  public SelectionOperator&lt;List&lt;S&gt;, S&gt; getSelectionOperator() {
+<span class="nc" id="L130">    return selectionOperator;</span>
+  }
+
+  public SolutionListEvaluator&lt;S&gt; getSolutionListEvaluator() {
+<span class="nc" id="L134">    return evaluator;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

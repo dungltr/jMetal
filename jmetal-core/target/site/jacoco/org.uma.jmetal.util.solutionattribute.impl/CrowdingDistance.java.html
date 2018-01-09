@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CrowdingDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.solutionattribute.impl</a> &gt; <span class="el_source">CrowdingDistance.java</span></div><h1>CrowdingDistance.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.solutionattribute.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.ObjectiveComparator;
+import org.uma.jmetal.util.solutionattribute.DensityEstimator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * This class implements the crowding distance
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+<span class="fc" id="L17">public class CrowdingDistance&lt;S extends Solution&lt;?&gt;&gt;</span>
+    extends GenericSolutionAttribute&lt;S, Double&gt; implements DensityEstimator&lt;S&gt;{
+
+  /**
+   * Assigns crowding distances to all solutions in a &lt;code&gt;SolutionSet&lt;/code&gt;.
+   *
+   * @param solutionList The &lt;code&gt;SolutionSet&lt;/code&gt;.
+   * @throws org.uma.jmetal.util.JMetalException
+   */
+
+  @Override
+  public void computeDensityEstimator(List&lt;S&gt; solutionList) {
+<span class="fc" id="L29">    int size = solutionList.size();</span>
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">    if (size == 0) {</span>
+<span class="fc" id="L32">      return;</span>
+    }
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    if (size == 1) {</span>
+<span class="fc" id="L36">      solutionList.get(0).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+<span class="fc" id="L37">      return;</span>
+    }
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">    if (size == 2) {</span>
+<span class="fc" id="L41">      solutionList.get(0).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+<span class="fc" id="L42">      solutionList.get(1).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+
+<span class="fc" id="L44">      return;</span>
+    }
+
+    // Use a new SolutionSet to avoid altering the original solutionSet
+<span class="fc" id="L48">    List&lt;S&gt; front = new ArrayList&lt;&gt;(size);</span>
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    for (S solution : solutionList) {</span>
+<span class="fc" id="L50">      front.add(solution);</span>
+<span class="fc" id="L51">    }</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    for (int i = 0; i &lt; size; i++) {</span>
+<span class="fc" id="L54">      front.get(i).setAttribute(getAttributeIdentifier(), 0.0);</span>
+    }
+
+    double objetiveMaxn;
+    double objetiveMinn;
+    double distance;
+
+<span class="fc" id="L61">    int numberOfObjectives = solutionList.get(0).getNumberOfObjectives() ;</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+      // Sort the population by Obj n
+<span class="fc" id="L65">      Collections.sort(front, new ObjectiveComparator&lt;S&gt;(i)) ;</span>
+<span class="fc" id="L66">      objetiveMinn = front.get(0).getObjective(i);</span>
+<span class="fc" id="L67">      objetiveMaxn = front.get(front.size() - 1).getObjective(i);</span>
+
+      // Set de crowding distance
+<span class="fc" id="L70">      front.get(0).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+<span class="fc" id="L71">      front.get(size - 1).setAttribute(getAttributeIdentifier(), Double.POSITIVE_INFINITY);</span>
+
+<span class="fc bfc" id="L73" title="All 2 branches covered.">      for (int j = 1; j &lt; size - 1; j++) {</span>
+<span class="fc" id="L74">        distance = front.get(j + 1).getObjective(i) - front.get(j - 1).getObjective(i);</span>
+<span class="fc" id="L75">        distance = distance / (objetiveMaxn - objetiveMinn);</span>
+<span class="fc" id="L76">        distance += (double)front.get(j).getAttribute(getAttributeIdentifier());</span>
+<span class="fc" id="L77">        front.get(j).setAttribute(getAttributeIdentifier(), distance);</span>
+      }
+    }
+<span class="fc" id="L80">  }</span>
+
+  @Override
+  public Object getAttributeIdentifier() {
+<span class="fc" id="L84">    return this.getClass() ;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

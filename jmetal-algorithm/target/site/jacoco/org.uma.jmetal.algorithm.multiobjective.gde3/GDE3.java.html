@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GDE3.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.gde3</a> &gt; <span class="el_source">GDE3.java</span></div><h1>GDE3.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.gde3;
+
+import org.uma.jmetal.algorithm.impl.AbstractDifferentialEvolution;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelection;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.solutionattribute.DensityEstimator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.CrowdingDistance;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+
+import java.util.*;
+
+/**
+ * This class implements the GDE3 algorithm
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class GDE3 extends AbstractDifferentialEvolution&lt;List&lt;DoubleSolution&gt;&gt; {
+  protected int maxEvaluations;
+  protected int evaluations;
+  private int maxPopulationSize ;
+
+  protected Comparator&lt;DoubleSolution&gt; dominanceComparator;
+
+  protected Ranking&lt;DoubleSolution&gt; ranking;
+  protected DensityEstimator&lt;DoubleSolution&gt; crowdingDistance;
+
+  protected SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+  /**
+   * Constructor
+   */
+  public GDE3(DoubleProblem problem, int populationSize, int maxEvaluations,
+      DifferentialEvolutionSelection selection, DifferentialEvolutionCrossover crossover,
+<span class="nc" id="L40">      SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {</span>
+<span class="nc" id="L41">    setProblem(problem);</span>
+<span class="nc" id="L42">    setMaxPopulationSize(populationSize);</span>
+<span class="nc" id="L43">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L44">    this.crossoverOperator = crossover;</span>
+<span class="nc" id="L45">    this.selectionOperator = selection;</span>
+
+<span class="nc" id="L47">    dominanceComparator = new DominanceComparator&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L48">    ranking = new DominanceRanking&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L49">    crowdingDistance = new CrowdingDistance&lt;DoubleSolution&gt;();</span>
+
+<span class="nc" id="L51">    this.evaluator = evaluator ;</span>
+<span class="nc" id="L52">  }</span>
+  
+  public void setMaxPopulationSize(int maxPopulationSize) {
+<span class="nc" id="L55">    this.maxPopulationSize = maxPopulationSize ;</span>
+<span class="nc" id="L56">  }</span>
+  public int getMaxPopulationSize() {
+<span class="nc" id="L58">    return maxPopulationSize ;</span>
+  }
+
+  @Override protected void initProgress() {
+<span class="nc" id="L62">    evaluations = getMaxPopulationSize();</span>
+<span class="nc" id="L63">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L66">    evaluations += getMaxPopulationSize() ;</span>
+<span class="nc" id="L67">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">    return evaluations &gt;= maxEvaluations;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; createInitialPopulation() {
+<span class="nc" id="L74">    List&lt;DoubleSolution&gt; population = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L76">      DoubleSolution newIndividual = getProblem().createSolution();</span>
+<span class="nc" id="L77">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L79">    return population;</span>
+  }
+
+  /**
+   * Evaluate population method
+   * @param population The list of solutions to be evaluated
+   * @return A list of evaluated solutions
+   */
+  @Override protected List&lt;DoubleSolution&gt; evaluatePopulation(List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L88">    return evaluator.evaluate(population, getProblem());</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; selection(List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L92">    List&lt;DoubleSolution&gt; matingPopulation = new LinkedList&lt;&gt;();</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+      // Obtain parents. Two parameters are required: the population and the
+      //                 index of the current individual
+<span class="nc" id="L96">      selectionOperator.setIndex(i);</span>
+<span class="nc" id="L97">      List&lt;DoubleSolution&gt; parents = selectionOperator.execute(population);</span>
+
+<span class="nc" id="L99">      matingPopulation.addAll(parents);</span>
+    }
+
+<span class="nc" id="L102">    return matingPopulation;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; reproduction(List&lt;DoubleSolution&gt; matingPopulation) {
+<span class="nc" id="L106">    List&lt;DoubleSolution&gt; offspringPopulation = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L109">      crossoverOperator.setCurrentSolution(getPopulation().get(i));</span>
+<span class="nc" id="L110">      List&lt;DoubleSolution&gt; parents = new ArrayList&lt;&gt;(3);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">      for (int j = 0; j &lt; 3; j++) {</span>
+<span class="nc" id="L112">        parents.add(matingPopulation.get(0));</span>
+<span class="nc" id="L113">        matingPopulation.remove(0);</span>
+      }
+
+<span class="nc" id="L116">      crossoverOperator.setCurrentSolution(getPopulation().get(i));</span>
+<span class="nc" id="L117">      List&lt;DoubleSolution&gt; children = crossoverOperator.execute(parents);</span>
+
+<span class="nc" id="L119">      offspringPopulation.add(children.get(0));</span>
+    }
+
+<span class="nc" id="L122">    return offspringPopulation;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; replacement(List&lt;DoubleSolution&gt; population,
+      List&lt;DoubleSolution&gt; offspringPopulation) {
+<span class="nc" id="L127">    List&lt;DoubleSolution&gt; tmpList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+      // Dominance test
+<span class="nc" id="L130">      DoubleSolution child = offspringPopulation.get(i);</span>
+      int result;
+<span class="nc" id="L132">      result = dominanceComparator.compare(population.get(i), child);</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">      if (result == -1) {</span>
+        // Solution i dominates child
+<span class="nc" id="L135">        tmpList.add(population.get(i));</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">      } else if (result == 1) {</span>
+        // child dominates
+<span class="nc" id="L138">        tmpList.add(child);</span>
+      } else {
+        // the two solutions are non-dominated
+<span class="nc" id="L141">        tmpList.add(child);</span>
+<span class="nc" id="L142">        tmpList.add(population.get(i));</span>
+      }
+    }
+<span class="nc" id="L145">    Ranking&lt;DoubleSolution&gt; ranking = computeRanking(tmpList);</span>
+
+<span class="nc" id="L147">    return crowdingDistanceSelection(ranking);</span>
+  }
+
+  @Override public List&lt;DoubleSolution&gt; getResult() {
+<span class="nc" id="L151">    return getNonDominatedSolutions(getPopulation());</span>
+  }
+
+
+  protected Ranking&lt;DoubleSolution&gt; computeRanking(List&lt;DoubleSolution&gt; solutionList) {
+<span class="nc" id="L156">    Ranking&lt;DoubleSolution&gt; ranking = new DominanceRanking&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L157">    ranking.computeRanking(solutionList);</span>
+
+<span class="nc" id="L159">    return ranking;</span>
+  }
+
+  protected List&lt;DoubleSolution&gt; crowdingDistanceSelection(Ranking&lt;DoubleSolution&gt; ranking) {
+<span class="nc" id="L163">    CrowdingDistance&lt;DoubleSolution&gt; crowdingDistance = new CrowdingDistance&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L164">    List&lt;DoubleSolution&gt; population = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc" id="L165">    int rankingIndex = 0;</span>
+<span class="nc bnc" id="L166" title="All 2 branches missed.">    while (populationIsNotFull(population)) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">      if (subfrontFillsIntoThePopulation(ranking, rankingIndex, population)) {</span>
+<span class="nc" id="L168">        addRankedSolutionsToPopulation(ranking, rankingIndex, population);</span>
+<span class="nc" id="L169">        rankingIndex++;</span>
+      } else {
+<span class="nc" id="L171">        crowdingDistance.computeDensityEstimator(ranking.getSubfront(rankingIndex));</span>
+<span class="nc" id="L172">        addLastRankedSolutionsToPopulation(ranking, rankingIndex, population);</span>
+      }
+    }
+
+<span class="nc" id="L176">    return population;</span>
+  }
+
+  protected boolean populationIsNotFull(List&lt;DoubleSolution&gt; population) {
+<span class="nc bnc" id="L180" title="All 2 branches missed.">    return population.size() &lt; getMaxPopulationSize();</span>
+  }
+
+  protected boolean subfrontFillsIntoThePopulation(Ranking&lt;DoubleSolution&gt; ranking, int rank,
+      List&lt;DoubleSolution&gt; population) {
+<span class="nc bnc" id="L185" title="All 2 branches missed.">    return ranking.getSubfront(rank).size() &lt; (getMaxPopulationSize() - population.size());</span>
+  }
+
+  protected void addRankedSolutionsToPopulation(Ranking&lt;DoubleSolution&gt; ranking, int rank,
+      List&lt;DoubleSolution&gt; population) {
+    List&lt;DoubleSolution&gt; front;
+
+<span class="nc" id="L192">    front = ranking.getSubfront(rank);</span>
+
+<span class="nc bnc" id="L194" title="All 2 branches missed.">    for (DoubleSolution solution : front) {</span>
+<span class="nc" id="L195">      population.add(solution);</span>
+<span class="nc" id="L196">    }</span>
+<span class="nc" id="L197">  }</span>
+
+  protected void addLastRankedSolutionsToPopulation(Ranking&lt;DoubleSolution&gt; ranking, int rank,
+      List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L201">    List&lt;DoubleSolution&gt; currentRankedFront = ranking.getSubfront(rank);</span>
+
+<span class="nc" id="L203">    Collections.sort(currentRankedFront, new CrowdingDistanceComparator&lt;DoubleSolution&gt;());</span>
+
+<span class="nc" id="L205">    int i = 0;</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">    while (population.size() &lt; getMaxPopulationSize()) {</span>
+<span class="nc" id="L207">      population.add(currentRankedFront.get(i));</span>
+<span class="nc" id="L208">      i++;</span>
+    }
+<span class="nc" id="L210">  }</span>
+
+  protected List&lt;DoubleSolution&gt; getNonDominatedSolutions(List&lt;DoubleSolution&gt; solutionList) {
+<span class="nc" id="L213">    return SolutionListUtils.getNondominatedSolutions(solutionList);</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L217">    return &quot;GDE3&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L221">    return &quot;Generalized Differential Evolution version 3&quot; ;</span>
+  }
+} 
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

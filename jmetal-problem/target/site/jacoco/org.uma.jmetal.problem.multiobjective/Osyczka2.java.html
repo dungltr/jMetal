@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Osyczka2.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">Osyczka2.java</span></div><h1>Osyczka2.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Class representing problem Oyczka2
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Osyczka2 extends AbstractDoubleProblem implements ConstrainedProblem&lt;DoubleSolution&gt; {
+  public OverallConstraintViolation&lt;DoubleSolution&gt; overallConstraintViolationDegree ;
+  public NumberOfViolatedConstraints&lt;DoubleSolution&gt; numberOfViolatedConstraints ;
+
+ /**
+  * Constructor.
+  * Creates a default instance of the Osyczka2 problem.
+  */
+<span class="nc" id="L24">  public Osyczka2() {</span>
+<span class="nc" id="L25">    setNumberOfVariables(6);</span>
+<span class="nc" id="L26">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L27">    setNumberOfConstraints(6);</span>
+<span class="nc" id="L28">    setName(&quot;Osyczka2&quot;) ;</span>
+
+<span class="nc" id="L30">    List&lt;Double&gt; lowerLimit = Arrays.asList(0.0, 0.0, 1.0, 0.0, 1.0, 0.0) ;</span>
+<span class="nc" id="L31">    List&lt;Double&gt; upperLimit = Arrays.asList(10.0, 10.0, 5.0, 6.0, 5.0, 10.0) ;</span>
+
+<span class="nc" id="L33">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L34">    setUpperLimit(upperLimit);</span>
+
+<span class="nc" id="L36">    overallConstraintViolationDegree = new OverallConstraintViolation&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L37">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L38">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution)  {
+<span class="nc" id="L43">    double [] fx = new double[getNumberOfObjectives()];</span>
+    
+    double x1,x2,x3,x4,x5,x6;
+<span class="nc" id="L46">    x1 = solution.getVariableValue(0);</span>
+<span class="nc" id="L47">    x2 = solution.getVariableValue(1);</span>
+<span class="nc" id="L48">    x3 = solution.getVariableValue(2);</span>
+<span class="nc" id="L49">    x4 = solution.getVariableValue(3);</span>
+<span class="nc" id="L50">    x5 = solution.getVariableValue(4);</span>
+<span class="nc" id="L51">    x6 = solution.getVariableValue(5);</span>
+
+<span class="nc" id="L53">    fx[0] = - (25.0*(x1-2.0)*(x1-2.0) +</span>
+                  (x2-2.0)*(x2-2.0) + 
+                  (x3-1.0)*(x3-1.0) + 
+                  (x4-4.0)*(x4-4.0)+
+                  (x5-1.0)*(x5-1.0));
+                
+<span class="nc" id="L59">    fx[1] = x1*x1 + x2*x2 + x3*x3 + x4*x4 + x5*x5 + x6*x6;</span>
+    
+<span class="nc" id="L61">    solution.setObjective(0,fx[0]);</span>
+<span class="nc" id="L62">    solution.setObjective(1,fx[1]);</span>
+<span class="nc" id="L63">  }</span>
+
+  /** EvaluateConstraints() method */
+  @Override
+  public void evaluateConstraints(DoubleSolution solution)  {
+<span class="nc" id="L68">    double[] constraint = new double[this.getNumberOfConstraints()];</span>
+
+    double x1,x2,x3,x4,x5,x6;
+<span class="nc" id="L71">    x1 = solution.getVariableValue(0);</span>
+<span class="nc" id="L72">    x2 = solution.getVariableValue(1);</span>
+<span class="nc" id="L73">    x3 = solution.getVariableValue(2);</span>
+<span class="nc" id="L74">    x4 = solution.getVariableValue(3);</span>
+<span class="nc" id="L75">    x5 = solution.getVariableValue(4);</span>
+<span class="nc" id="L76">    x6 = solution.getVariableValue(5);</span>
+
+<span class="nc" id="L78">    constraint[0] = (x1 + x2)/2.0 - 1.0;</span>
+<span class="nc" id="L79">    constraint[1] = (6.0 - x1 - x2)/6.0;</span>
+<span class="nc" id="L80">    constraint[2] = (2.0 - x2 + x1)/2.0;</span>
+<span class="nc" id="L81">    constraint[3] = (2.0 - x1 + 3.0*x2)/2.0;</span>
+<span class="nc" id="L82">    constraint[4] = (4.0 - (x3-3.0)*(x3-3.0) - x4)/4.0;</span>
+<span class="nc" id="L83">    constraint[5] = ((x5-3.0)*(x5-3.0) +x6 - 4.0)/4.0;</span>
+
+<span class="nc" id="L85">    double overallConstraintViolation = 0.0;</span>
+<span class="nc" id="L86">    int violatedConstraints = 0;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfConstraints(); i++) {</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">      if (constraint[i]&lt;0.0){</span>
+<span class="nc" id="L89">        overallConstraintViolation+=constraint[i];</span>
+<span class="nc" id="L90">        violatedConstraints++;</span>
+      }
+    }
+
+<span class="nc" id="L94">    overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);</span>
+<span class="nc" id="L95">    numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);</span>
+<span class="nc" id="L96">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

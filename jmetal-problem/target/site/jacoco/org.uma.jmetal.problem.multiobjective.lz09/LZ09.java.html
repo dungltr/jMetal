@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LZ09.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.lz09</a> &gt; <span class="el_source">LZ09.java</span></div><h1>LZ09.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.lz09;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Base class to implement the problem of the lz09 benchmark, which is
+ * defined in:
+ * H. Li and Q. Zhang. Multiobjective optimization problem with complicated
+ * pareto sets, MOEA/D and NSGA-II. IEEE Transactions on Evolutionary
+ * Computation, 12(2):284-302, April 2009.
+ */
+public class LZ09 {
+  int nvar;
+  int nobj;
+  int ltype;
+  int dtype;
+  int ptype;
+<span class="nc" id="L19">  public LZ09(int nvar, int nobj, int ptype, int dtype, int ltype) {</span>
+<span class="nc" id="L20">    this.nvar = nvar;</span>
+<span class="nc" id="L21">    this.nobj = nobj;</span>
+<span class="nc" id="L22">    this.ltype = ltype;</span>
+<span class="nc" id="L23">    this.dtype = dtype;</span>
+<span class="nc" id="L24">    this.ptype = ptype;</span>
+<span class="nc" id="L25">  }</span>
+
+  // control the PF shape
+  void alphaFunction(double alpha[], List&lt;Double&gt; x, int dim, int type) {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    if (dim == 2) {</span>
+<span class="nc bnc" id="L30" title="All 2 branches missed.">      if (type == 21) {</span>
+<span class="nc" id="L31">        alpha[0] = x.get(0);</span>
+<span class="nc" id="L32">        alpha[1] = 1 - Math.sqrt(x.get(0));</span>
+      }
+
+<span class="nc bnc" id="L35" title="All 2 branches missed.">      if (type == 22) {</span>
+<span class="nc" id="L36">        alpha[0] = x.get(0);</span>
+<span class="nc" id="L37">        alpha[1] = 1 - x.get(0) * x.get(0);</span>
+      }
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">      if (type == 23) {</span>
+<span class="nc" id="L41">        alpha[0] = x.get(0);</span>
+<span class="nc" id="L42">        alpha[1] = 1 - Math.sqrt(alpha[0]) - alpha[0]</span>
+<span class="nc" id="L43">          * Math.sin(10 * alpha[0] * alpha[0] * Math.PI);</span>
+      }
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">      if (type == 24) {</span>
+<span class="nc" id="L47">        alpha[0] = x.get(0);</span>
+<span class="nc" id="L48">        alpha[1] = 1 - x.get(0) - 0.05 * Math.sin(4 * Math.PI * x.get(0));</span>
+      }
+    } else {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">      if (type == 31) {</span>
+<span class="nc" id="L52">        alpha[0] = Math.cos(x.get(0) * Math.PI / 2) * Math.cos(x.get(1) * Math.PI / 2);</span>
+<span class="nc" id="L53">        alpha[1] = Math.cos(x.get(0) * Math.PI / 2) * Math.sin(x.get(1) * Math.PI / 2);</span>
+<span class="nc" id="L54">        alpha[2] = Math.sin(x.get(0) * Math.PI / 2);</span>
+      }
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">      if (type == 32) {</span>
+<span class="nc" id="L58">        alpha[0] = 1 - Math.cos(x.get(0) * Math.PI / 2)</span>
+<span class="nc" id="L59">          * Math.cos(x.get(1) * Math.PI / 2);</span>
+<span class="nc" id="L60">        alpha[1] = 1 - Math.cos(x.get(0) * Math.PI / 2)</span>
+<span class="nc" id="L61">          * Math.sin(x.get(1) * Math.PI / 2);</span>
+<span class="nc" id="L62">        alpha[2] = 1 - Math.sin(x.get(0) * Math.PI / 2);</span>
+      }
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">      if (type == 33) {</span>
+<span class="nc" id="L66">        alpha[0] = x.get(0);</span>
+<span class="nc" id="L67">        alpha[1] = x.get(1);</span>
+<span class="nc" id="L68">        alpha[2] = 3</span>
+<span class="nc" id="L69">          - (Math.sin(3 * Math.PI * x.get(0)) + Math.sin(3 * Math.PI * x.get(1))) - 2</span>
+<span class="nc" id="L70">          * (x.get(0) + x.get(1));</span>
+      }
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">      if (type == 34) {</span>
+<span class="nc" id="L74">        alpha[0] = x.get(0) * x.get(1);</span>
+<span class="nc" id="L75">        alpha[1] = x.get(0) * (1 - x.get(1));</span>
+<span class="nc" id="L76">        alpha[2] = (1 - x.get(0));</span>
+      }
+    }
+<span class="nc" id="L79">  }</span>
+
+  // control the distance
+  double betaFunction(List&lt;Double&gt; x, int type) {
+    double beta;
+<span class="nc" id="L84">    beta = 0;</span>
+<span class="nc" id="L85">    int dim = x.size();</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    if (dim == 0) {</span>
+<span class="nc" id="L88">      beta = 0;</span>
+    }
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    if (type == 1) {</span>
+<span class="nc" id="L92">      beta = 0;</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">      for (int i = 0; i &lt; dim; i++) {</span>
+<span class="nc" id="L94">        beta += x.get(i) * x.get(i);</span>
+      }
+<span class="nc" id="L96">      beta = 2.0 * beta / dim;</span>
+    }
+
+<span class="nc bnc" id="L99" title="All 2 branches missed.">    if (type == 2) {</span>
+<span class="nc" id="L100">      beta = 0;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">      for (int i = 0; i &lt; dim; i++) {</span>
+<span class="nc" id="L102">        beta += Math.sqrt(i + 1) * x.get(i) * x.get(i);</span>
+      }
+<span class="nc" id="L104">      beta = 2.0 * beta / dim;</span>
+    }
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    if (type == 3) {</span>
+<span class="nc" id="L108">      double sum = 0, xx;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">      for (int i = 0; i &lt; dim; i++) {</span>
+<span class="nc" id="L110">        xx = 2 * x.get(i);</span>
+<span class="nc" id="L111">        sum += (xx * xx - Math.cos(4 * Math.PI * xx) + 1);</span>
+      }
+<span class="nc" id="L113">      beta = 2.0 * sum / dim;</span>
+    }
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">    if (type == 4) {</span>
+<span class="nc" id="L117">      double sum = 0, prod = 1, xx;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">      for (int i = 0; i &lt; dim; i++) {</span>
+<span class="nc" id="L119">        xx = 2 * x.get(i);</span>
+<span class="nc" id="L120">        sum += xx * xx;</span>
+<span class="nc" id="L121">        prod *= Math.cos(10 * Math.PI * xx / Math.sqrt(i + 1));</span>
+      }
+<span class="nc" id="L123">      beta = 2.0 * (sum - 2 * prod + 2) / dim;</span>
+    }
+
+<span class="nc" id="L126">    return beta;</span>
+  }
+
+  //	control the PS shape of 2-d instances
+  double psfunc2(double x, double t1, int dim, int type, int css) {
+    // type:  the type of curve 
+    // css:   the class of index
+    double beta;
+<span class="nc" id="L134">    beta = 0.0;</span>
+
+<span class="nc" id="L136">    dim++;</span>
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">    if (type == 21) {</span>
+<span class="nc" id="L139">      double xy = 2 * (x - 0.5);</span>
+<span class="nc" id="L140">      beta = xy - Math.pow(t1, 0.5 * (nvar + 3 * dim - 8) / (nvar - 2));</span>
+    }
+
+<span class="nc bnc" id="L143" title="All 2 branches missed.">    if (type == 22) {</span>
+<span class="nc" id="L144">      double theta = 6 * Math.PI * t1 + dim * Math.PI / nvar;</span>
+<span class="nc" id="L145">      double xy = 2 * (x - 0.5);</span>
+<span class="nc" id="L146">      beta = xy - Math.sin(theta);</span>
+    }
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    if (type == 23) {</span>
+<span class="nc" id="L150">      double theta = 6 * Math.PI * t1 + dim * Math.PI / nvar;</span>
+<span class="nc" id="L151">      double ra = 0.8 * t1;</span>
+<span class="nc" id="L152">      double xy = 2 * (x - 0.5);</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">      if (css == 1) {</span>
+<span class="nc" id="L154">        beta = xy - ra * Math.cos(theta);</span>
+      } else {
+<span class="nc" id="L156">        beta = xy - ra * Math.sin(theta);</span>
+      }
+    }
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">    if (type == 24) {</span>
+<span class="nc" id="L161">      double theta = 6 * Math.PI * t1 + dim * Math.PI / nvar;</span>
+<span class="nc" id="L162">      double xy = 2 * (x - 0.5);</span>
+<span class="nc" id="L163">      double ra = 0.8 * t1;</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">      if (css == 1) {</span>
+<span class="nc" id="L165">        beta = xy - ra * Math.cos(theta / 3);</span>
+      } else {
+<span class="nc" id="L167">        beta = xy - ra * Math.sin(theta);</span>
+      }
+    }
+
+<span class="nc bnc" id="L171" title="All 2 branches missed.">    if (type == 25) {</span>
+<span class="nc" id="L172">      double rho = 0.8;</span>
+<span class="nc" id="L173">      double phi = Math.PI * t1;</span>
+<span class="nc" id="L174">      double theta = 6 * Math.PI * t1 + dim * Math.PI / nvar;</span>
+<span class="nc" id="L175">      double xy = 2 * (x - 0.5);</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">      if (css == 1) {</span>
+<span class="nc" id="L177">        beta = xy - rho * Math.sin(phi) * Math.sin(theta);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">      } else if (css == 2) {</span>
+<span class="nc" id="L179">        beta = xy - rho * Math.sin(phi) * Math.cos(theta);</span>
+      } else {
+<span class="nc" id="L181">        beta = xy - rho * Math.cos(phi);</span>
+      }
+    }
+
+<span class="nc bnc" id="L185" title="All 2 branches missed.">    if (type == 26) {</span>
+<span class="nc" id="L186">      double theta = 6 * Math.PI * t1 + dim * Math.PI / nvar;</span>
+<span class="nc" id="L187">      double ra = 0.3 * t1 * (t1 * Math.cos(4 * theta) + 2);</span>
+<span class="nc" id="L188">      double xy = 2 * (x - 0.5);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">      if (css == 1) {</span>
+<span class="nc" id="L190">        beta = xy - ra * Math.cos(theta);</span>
+      } else {
+<span class="nc" id="L192">        beta = xy - ra * Math.sin(theta);</span>
+      }
+    }
+
+<span class="nc" id="L196">    return beta;</span>
+  }
+
+  //	control the PS shapes of 3-D instances
+  double psfunc3(double x, double t1, double t2, int dim, int type) {
+    // type:  the type of curve 
+    // css:   the class of index
+    double beta;
+<span class="nc" id="L204">    beta = 0.0;</span>
+
+<span class="nc" id="L206">    dim++;</span>
+
+<span class="nc bnc" id="L208" title="All 2 branches missed.">    if (type == 31) {</span>
+<span class="nc" id="L209">      double xy = 4 * (x - 0.5);</span>
+<span class="nc" id="L210">      double rate = 1.0 * dim / nvar;</span>
+<span class="nc" id="L211">      beta = xy - 4 * (t1 * t1 * rate + t2 * (1.0 - rate)) + 2;</span>
+    }
+
+<span class="nc bnc" id="L214" title="All 2 branches missed.">    if (type == 32) {</span>
+<span class="nc" id="L215">      double theta = 2 * Math.PI * t1 + dim * Math.PI / nvar;</span>
+<span class="nc" id="L216">      double xy = 4 * (x - 0.5);</span>
+<span class="nc" id="L217">      beta = xy - 2 * t2 * Math.sin(theta);</span>
+    }
+
+<span class="nc" id="L220">    return beta;</span>
+  }
+
+  void objective(List&lt;Double&gt; xVar, List&lt;Double&gt; yObj) {
+    // 2-objective case
+<span class="nc bnc" id="L225" title="All 2 branches missed.">    if (nobj == 2) {</span>
+<span class="nc bnc" id="L226" title="All 10 branches missed.">      if (ltype == 21 || ltype == 22 || ltype == 23 || ltype == 24 || ltype == 26) {</span>
+<span class="nc" id="L227">        double g = 0, h = 0, a, b;</span>
+<span class="nc" id="L228">        ArrayList&lt;Double&gt; aa = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L229">        ArrayList&lt;Double&gt; bb = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L230" title="All 2 branches missed.">        for (int n = 1; n &lt; nvar; n++) {</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">          if (n % 2 == 0) {</span>
+<span class="nc" id="L232">            a = psfunc2(xVar.get(n), xVar.get(0), n, ltype, 1);  // linkage</span>
+<span class="nc" id="L233">            aa.add(a);</span>
+          } else {
+<span class="nc" id="L235">            b = psfunc2(xVar.get(n), xVar.get(0), n, ltype, 2);</span>
+<span class="nc" id="L236">            bb.add(b);</span>
+          }
+
+        }
+<span class="nc" id="L240">        g = betaFunction(aa, dtype);</span>
+<span class="nc" id="L241">        h = betaFunction(bb, dtype);</span>
+
+<span class="nc" id="L243">        double alpha[] = new double[2];</span>
+<span class="nc" id="L244">        alphaFunction(alpha, xVar, 2, ptype);  // shape function</span>
+<span class="nc" id="L245">        yObj.set(0, alpha[0] + h);</span>
+<span class="nc" id="L246">        yObj.set(1, alpha[1] + g);</span>
+<span class="nc" id="L247">        aa.clear();</span>
+<span class="nc" id="L248">        bb.clear();</span>
+      }
+
+<span class="nc bnc" id="L251" title="All 2 branches missed.">      if (ltype == 25) {</span>
+<span class="nc" id="L252">        double g = 0, h = 0, a, b;</span>
+        double /*e = 0,*/ c;
+<span class="nc" id="L254">        ArrayList&lt;Double&gt; aa = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L255">        ArrayList&lt;Double&gt; bb = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">        for (int n = 1; n &lt; nvar; n++) {</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">          if (n % 3 == 0) {</span>
+<span class="nc" id="L258">            a = psfunc2(xVar.get(n), xVar.get(0), n, ltype, 1);</span>
+<span class="nc" id="L259">            aa.add(a);</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">          } else if (n % 3 == 1) {</span>
+<span class="nc" id="L261">            b = psfunc2(xVar.get(n), xVar.get(0), n, ltype, 2);</span>
+<span class="nc" id="L262">            bb.add(b);</span>
+          } else {
+<span class="nc" id="L264">            c = psfunc2(xVar.get(n), xVar.get(0), n, ltype, 3);</span>
+<span class="nc bnc" id="L265" title="All 2 branches missed.">            if (n % 2 == 0) {</span>
+<span class="nc" id="L266">              aa.add(c);</span>
+            } else {
+<span class="nc" id="L268">              bb.add(c);</span>
+            }
+          }
+        }
+<span class="nc" id="L272">        g = betaFunction(aa, dtype);</span>
+<span class="nc" id="L273">        h = betaFunction(bb, dtype);</span>
+<span class="nc" id="L274">        double alpha[] = new double[2];</span>
+<span class="nc" id="L275">        alphaFunction(alpha, xVar, 2, ptype);</span>
+<span class="nc" id="L276">        yObj.set(0, alpha[0] + h);</span>
+<span class="nc" id="L277">        yObj.set(1, alpha[1] + g);</span>
+<span class="nc" id="L278">        aa.clear();</span>
+<span class="nc" id="L279">        bb.clear();</span>
+      }
+    }
+
+    // 3-objective case
+<span class="nc bnc" id="L284" title="All 2 branches missed.">    if (nobj == 3) {</span>
+<span class="nc bnc" id="L285" title="All 4 branches missed.">      if (ltype == 31 || ltype == 32) {</span>
+<span class="nc" id="L286">        double g = 0, h = 0, e = 0, a;</span>
+<span class="nc" id="L287">        ArrayList&lt;Double&gt; aa = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L288">        ArrayList&lt;Double&gt; bb = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L289">        ArrayList&lt;Double&gt; cc = new ArrayList&lt;Double&gt;();</span>
+<span class="nc bnc" id="L290" title="All 2 branches missed.">        for (int n = 2; n &lt; nvar; n++) {</span>
+<span class="nc" id="L291">          a = psfunc3(xVar.get(n), xVar.get(0), xVar.get(1), n, ltype);</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">          if (n % 3 == 0) {</span>
+<span class="nc" id="L293">            aa.add(a);</span>
+<span class="nc bnc" id="L294" title="All 2 branches missed.">          } else if (n % 3 == 1) {</span>
+<span class="nc" id="L295">            bb.add(a);</span>
+          } else {
+<span class="nc" id="L297">            cc.add(a);</span>
+          }
+        }
+
+<span class="nc" id="L301">        g = betaFunction(aa, dtype);</span>
+<span class="nc" id="L302">        h = betaFunction(bb, dtype);</span>
+<span class="nc" id="L303">        e = betaFunction(cc, dtype);</span>
+
+<span class="nc" id="L305">        double alpha[] = new double[3];</span>
+<span class="nc" id="L306">        alphaFunction(alpha, xVar, 3, ptype);</span>
+<span class="nc" id="L307">        yObj.set(0, alpha[0] + h);</span>
+<span class="nc" id="L308">        yObj.set(1, alpha[1] + g);</span>
+<span class="nc" id="L309">        yObj.set(2, alpha[2] + e);</span>
+<span class="nc" id="L310">        aa.clear();</span>
+<span class="nc" id="L311">        bb.clear();</span>
+<span class="nc" id="L312">        cc.clear();</span>
+      }
+    }
+<span class="nc" id="L315">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

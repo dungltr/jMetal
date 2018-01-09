@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Epsilon.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl</a> &gt; <span class="el_source">Epsilon.java</span></div><h1>Epsilon.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
+/**
+ * This class implements the unary epsilon additive indicator as proposed in E.
+ * Zitzler, E. Thiele, L. Laummanns, M., Fonseca, C., and Grunert da Fonseca. V
+ * (2003): Performance Assessment of Multiobjective Optimizers: An Analysis and
+ * Review. The code is the a Java version of the original metric implementation
+ * by Eckart Zitzler. It can be used also as a command line program just by
+ * typing $java org.uma.jmetal.qualityindicator.impl.Epsilon &lt;solutionFrontFile&gt;
+ * &lt;trueFrontFile&gt; &lt;getNumberOfObjectives&gt;
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Epsilon&lt;S extends Solution&lt;?&gt;&gt; extends GenericIndicator&lt;S&gt; {
+
+  /**
+   * Default constructor
+   */
+<span class="nc" id="L29">  public Epsilon() {</span>
+<span class="nc" id="L30">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @throws FileNotFoundException
+   */
+  public Epsilon(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L39">    super(referenceParetoFrontFile) ;</span>
+<span class="nc" id="L40">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFront
+   */
+  public Epsilon(Front referenceParetoFront) {
+<span class="fc" id="L48">    super(referenceParetoFront) ;</span>
+<span class="fc" id="L49">  }</span>
+
+  @Override
+  public boolean isTheLowerTheIndicatorValueTheBetter() {
+<span class="nc" id="L53">    return true ;</span>
+  }
+
+  /**
+   * Evaluate() method
+   *
+   * @param solutionList
+   * @return
+   */
+  @Override public Double evaluate(List&lt;S&gt; solutionList) {
+<span class="fc bfc" id="L63" title="All 2 branches covered.">    if (solutionList == null) {</span>
+<span class="fc" id="L64">      throw new JMetalException(&quot;The pareto front approximation list is null&quot;) ;</span>
+    }
+
+<span class="fc" id="L67">    return epsilon(new ArrayFront(solutionList), referenceParetoFront);</span>
+  }
+
+  /**
+   * Returns the value of the epsilon indicator.
+   *
+   * @param front Solution front
+   * @param referenceFront Optimal Pareto front
+   * @return the value of the epsilon indicator
+   * @throws JMetalException
+   */
+  private double epsilon(Front front, Front referenceFront) throws JMetalException {
+
+<span class="fc" id="L80">    double eps, epsJ = 0.0, epsK = 0.0, epsTemp;</span>
+
+<span class="fc" id="L82">    int numberOfObjectives = front.getPointDimensions() ;</span>
+
+<span class="fc" id="L84">    eps = Double.MIN_VALUE;</span>
+
+<span class="fc bfc" id="L86" title="All 2 branches covered.">    for (int i = 0; i &lt; referenceFront.getNumberOfPoints(); i++) {</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">      for (int j = 0; j &lt; front.getNumberOfPoints(); j++) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">        for (int k = 0; k &lt; numberOfObjectives; k++) {</span>
+<span class="fc" id="L89">          epsTemp = front.getPoint(j).getDimensionValue(k)</span>
+<span class="fc" id="L90">              - referenceFront.getPoint(i).getDimensionValue(k);</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">          if (k == 0) {</span>
+<span class="fc" id="L92">            epsK = epsTemp;</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">          } else if (epsK &lt; epsTemp) {</span>
+<span class="fc" id="L94">            epsK = epsTemp;</span>
+          }
+        }
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (j == 0) {</span>
+<span class="fc" id="L98">          epsJ = epsK;</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        } else if (epsJ &gt; epsK) {</span>
+<span class="fc" id="L100">          epsJ = epsK;</span>
+        }
+      }
+<span class="fc bfc" id="L103" title="All 2 branches covered.">      if (i == 0) {</span>
+<span class="fc" id="L104">        eps = epsJ;</span>
+<span class="pc bpc" id="L105" title="1 of 2 branches missed.">      } else if (eps &lt; epsJ) {</span>
+<span class="nc" id="L106">        eps = epsJ;</span>
+      }
+    }
+<span class="fc" id="L109">    return eps;</span>
+  }
+
+  @Override public String getName() {
+<span class="fc" id="L113">    return &quot;EP&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L117">    return &quot;Additive Epsilon quality indicator&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

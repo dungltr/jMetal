@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CoralReefsOptimizationBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.coralreefsoptimization</a> &gt; <span class="el_source">CoralReefsOptimizationBuilder.java</span></div><h1>CoralReefsOptimizationBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.coralreefsoptimization;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.JMetalException;
+
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * 
+ * @author Inacio Medeiros &lt;inaciogmedeiros@gmail.com&gt;
+ *
+ */
+public class CoralReefsOptimizationBuilder&lt;S extends Solution&lt;?&gt;&gt; implements
+		AlgorithmBuilder&lt;CoralReefsOptimization&lt;S&gt;&gt; {
+
+	/**
+	 * CoralReefsOptimizationBuilder class
+	 */
+	private Problem&lt;S&gt; problem;
+
+	private SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator;
+	private CrossoverOperator&lt;S&gt; crossoverOperator;
+	private MutationOperator&lt;S&gt; mutationOperator;
+	private Comparator&lt;S&gt; comparator;
+
+	private int maxEvaluations;
+	private int N, M; // Grid sizes
+	private double rho; // Percentage of occupied reef
+	private double Fbs, Fbr; // Percentage of broadcast spawners and brooders
+	private double Fa, Fd; // Percentage of budders and depredated corals
+	private double Pd; // Probability of depredation
+	private int attemptsToSettle;
+
+	/**
+	 * CoralReefsOptimizationBuilder constructor
+	 */
+	public CoralReefsOptimizationBuilder(Problem&lt;S&gt; problem,
+			SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+			CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="nc" id="L46">			MutationOperator&lt;S&gt; mutationOperator) {</span>
+<span class="nc" id="L47">		this.problem = problem;</span>
+<span class="nc" id="L48">		this.selectionOperator = selectionOperator;</span>
+<span class="nc" id="L49">		this.crossoverOperator = crossoverOperator;</span>
+<span class="nc" id="L50">		this.mutationOperator = mutationOperator;</span>
+<span class="nc" id="L51">	}</span>
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setComparator(
+			Comparator&lt;S&gt; comparator) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		if (comparator == null) {</span>
+<span class="nc" id="L56">			throw new JMetalException(&quot;Comparator is null!&quot;);</span>
+		}
+
+<span class="nc" id="L59">		this.comparator = comparator;</span>
+
+<span class="nc" id="L61">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setMaxEvaluations(int maxEvaluations) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">		if (maxEvaluations &lt; 0) {</span>
+<span class="nc" id="L66">			throw new JMetalException(&quot;maxEvaluations is negative: &quot;</span>
+					+ maxEvaluations);
+		}
+<span class="nc" id="L69">		this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L71">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setN(int n) {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		if (n &lt; 0) {</span>
+<span class="nc" id="L76">			throw new JMetalException(&quot;N is negative: &quot; + n);</span>
+		}
+
+<span class="nc" id="L79">		N = n;</span>
+<span class="nc" id="L80">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setM(int m) {
+<span class="nc bnc" id="L84" title="All 2 branches missed.">		if (m &lt; 0) {</span>
+<span class="nc" id="L85">			throw new JMetalException(&quot;M is negative: &quot; + m);</span>
+		}
+
+<span class="nc" id="L88">		M = m;</span>
+<span class="nc" id="L89">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setRho(double rho) {
+<span class="nc bnc" id="L93" title="All 2 branches missed.">		if (rho &lt; 0) {</span>
+<span class="nc" id="L94">			throw new JMetalException(&quot;Rho is negative: &quot; + rho);</span>
+		}
+
+<span class="nc" id="L97">		this.rho = rho;</span>
+<span class="nc" id="L98">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setFbs(double fbs) {
+<span class="nc bnc" id="L102" title="All 2 branches missed.">		if (fbs &lt; 0) {</span>
+<span class="nc" id="L103">			throw new JMetalException(&quot;Fbs is negative: &quot; + fbs);</span>
+		}
+
+<span class="nc" id="L106">		Fbs = fbs;</span>
+<span class="nc" id="L107">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setFbr(double fbr) {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">		if (fbr &lt; 0) {</span>
+<span class="nc" id="L112">			throw new JMetalException(&quot;Fbr is negative: &quot; + fbr);</span>
+		}
+
+<span class="nc" id="L115">		Fbr = fbr;</span>
+<span class="nc" id="L116">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setFa(double fa) {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		if (fa &lt; 0) {</span>
+<span class="nc" id="L121">			throw new JMetalException(&quot;Fa is negative: &quot; + fa);</span>
+		}
+
+<span class="nc" id="L124">		Fa = fa;</span>
+<span class="nc" id="L125">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setFd(double fd) {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">		if (fd &lt; 0) {</span>
+<span class="nc" id="L130">			throw new JMetalException(&quot;Fd is negative: &quot; + fd);</span>
+		}
+
+<span class="nc" id="L133">		Fd = fd;</span>
+<span class="nc" id="L134">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setPd(double pd) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">		if (pd &lt; 0) {</span>
+<span class="nc" id="L139">			throw new JMetalException(&quot;Pd is negative: &quot; + pd);</span>
+		}
+
+<span class="nc" id="L142">		Pd = pd;</span>
+<span class="nc" id="L143">		return this;</span>
+	}
+
+	public CoralReefsOptimizationBuilder&lt;S&gt; setAttemptsToSettle(
+			int attemptsToSettle) {
+<span class="nc bnc" id="L148" title="All 2 branches missed.">		if (attemptsToSettle &lt; 0) {</span>
+<span class="nc" id="L149">			throw new JMetalException(&quot;attemptsToSettle is negative: &quot;</span>
+					+ attemptsToSettle);
+		}
+
+<span class="nc" id="L153">		this.attemptsToSettle = attemptsToSettle;</span>
+<span class="nc" id="L154">		return this;</span>
+	}
+
+	@Override
+	public CoralReefsOptimization&lt;S&gt; build() {
+<span class="nc" id="L159">		CoralReefsOptimization&lt;S&gt; algorithm = null;</span>
+
+<span class="nc" id="L161">		algorithm = new CoralReefsOptimization&lt;S&gt;(problem, maxEvaluations,</span>
+				comparator, selectionOperator, crossoverOperator,
+				mutationOperator, N, M, rho, Fbs, Fa, Pd, attemptsToSettle);
+
+<span class="nc" id="L165">		return algorithm;</span>
+	}
+
+	public Problem&lt;S&gt; getProblem() {
+<span class="nc" id="L169">		return problem;</span>
+	}
+
+	public int getMaxEvaluations() {
+<span class="nc" id="L173">		return maxEvaluations;</span>
+	}
+
+	public SelectionOperator&lt;List&lt;S&gt;, S&gt; getSelectionOperator() {
+<span class="nc" id="L177">		return selectionOperator;</span>
+	}
+
+	public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="nc" id="L181">		return crossoverOperator;</span>
+	}
+
+	public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L185">		return mutationOperator;</span>
+	}
+
+	public Comparator&lt;S&gt; getComparator() {
+<span class="nc" id="L189">		return comparator;</span>
+	}
+
+	public int getN() {
+<span class="nc" id="L193">		return N;</span>
+	}
+
+	public int getM() {
+<span class="nc" id="L197">		return M;</span>
+	}
+
+	public double getRho() {
+<span class="nc" id="L201">		return rho;</span>
+	}
+
+	public double getFbs() {
+<span class="nc" id="L205">		return Fbs;</span>
+	}
+
+	public double getFbr() {
+<span class="nc" id="L209">		return Fbr;</span>
+	}
+
+	public double getFa() {
+<span class="nc" id="L213">		return Fa;</span>
+	}
+
+	public double getFd() {
+<span class="nc" id="L217">		return Fd;</span>
+	}
+
+	public double getPd() {
+<span class="nc" id="L221">		return Pd;</span>
+	}
+
+	public int getAttemptsToSettle() {
+<span class="nc" id="L225">		return attemptsToSettle;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

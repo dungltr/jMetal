@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GLT6.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.glt</a> &gt; <span class="el_source">GLT6.java</span></div><h1>GLT6.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.glt;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Problem GLT6. Defined in
+ * F. Gu, H.-L. Liu, and K. C. Tan, “A multiobjective evolutionary
+ * algorithm using dynamic weight design method,” International Journal
+ * of Innovative Computing, Information and Control, vol. 8, no. 5B, pp.
+ * 3677–3688, 2012.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class GLT6 extends AbstractDoubleProblem {
+
+  /**
+   * Default constructor
+   */
+  public GLT6() {
+<span class="nc" id="L25">    this(10) ;</span>
+<span class="nc" id="L26">  }</span>
+
+  /**
+   * Constructor
+   * @param numberOfVariables
+   */
+<span class="nc" id="L32">  public GLT6(int numberOfVariables) {</span>
+<span class="nc" id="L33">    setNumberOfVariables(numberOfVariables);</span>
+<span class="nc" id="L34">    setNumberOfObjectives(3);</span>
+<span class="nc" id="L35">    setName(&quot;GLT5&quot;);</span>
+
+<span class="nc" id="L37">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L38">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc" id="L40">    lowerLimit.add(0.0) ;</span>
+<span class="nc" id="L41">    upperLimit.add(1.0) ;</span>
+<span class="nc" id="L42">    lowerLimit.add(0.0) ;</span>
+<span class="nc" id="L43">    upperLimit.add(1.0) ;</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">    for (int i = 2; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L45">      lowerLimit.add(-1.0);</span>
+<span class="nc" id="L46">      upperLimit.add(1.0);</span>
+    }
+
+<span class="nc" id="L49">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L50">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L51">  }</span>
+
+  @Override
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L55">    solution.setObjective(0, (1.0 + g(solution))*</span>
+<span class="nc" id="L56">        (1.0 - Math.cos(solution.getVariableValue(0)*Math.PI/2.0))*</span>
+<span class="nc" id="L57">        (1.0 - Math.cos(solution.getVariableValue(1)*Math.PI/2.0)));</span>
+<span class="nc" id="L58">    solution.setObjective(1, (1.0 + g(solution))*</span>
+<span class="nc" id="L59">        (1.0 - Math.cos(solution.getVariableValue(0)*Math.PI/2.0))*</span>
+<span class="nc" id="L60">        (1.0 - Math.sin(solution.getVariableValue(1)*Math.PI/2.0)));</span>
+<span class="nc" id="L61">    solution.setObjective(2, (1.0 + g(solution))*</span>
+<span class="nc" id="L62">        (2.0 - Math.sin(solution.getVariableValue(0)*Math.PI/2.0)</span>
+<span class="nc" id="L63">        - Math.signum(Math.cos(4*solution.getVariableValue(0)*Math.PI))));</span>
+<span class="nc" id="L64">  }</span>
+
+  private double g(DoubleSolution solution) {
+<span class="nc" id="L67">    double result = 0.0 ;</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    for (int i = 2; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L70">      double value =solution.getVariableValue(i)</span>
+<span class="nc" id="L71">          - Math.sin(2*Math.PI*solution.getVariableValue(0)+i*Math.PI/solution.getNumberOfVariables()) ;</span>
+
+<span class="nc" id="L73">      result += value * value ;</span>
+    }
+
+<span class="nc" id="L76">    return result ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

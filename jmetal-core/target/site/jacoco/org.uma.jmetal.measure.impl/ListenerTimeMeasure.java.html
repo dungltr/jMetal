@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListenerTimeMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">ListenerTimeMeasure.java</span></div><h1>ListenerTimeMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+import org.uma.jmetal.measure.MeasureListener;
+import org.uma.jmetal.measure.MeasureManager;
+import org.uma.jmetal.measure.PullMeasure;
+import org.uma.jmetal.measure.PushMeasure;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.WeakHashMap;
+
+/**
+ * This measure is a facility to evaluate the time spent in
+ * {@link MeasureListener}s registered in {@link PushMeasure}s. In order to
+ * measure the time spent in a {@link MeasureListener}, you should wrap it by
+ * calling {@link #wrapListener(MeasureListener)}. The wrapper returned should
+ * be used instead of the original {@link MeasureListener} to allow the
+ * {@link ListenerTimeMeasure} to account for its execution time. If you want to
+ * wrap automatically all the {@link MeasureListener}s registered to a given
+ * {@link PushMeasure}, you can wrap the {@link PushMeasure} through
+ * {@link #wrapMeasure(PushMeasure)}: all the {@link MeasureListener}s
+ * registered to the wrapper will be wrapped too. You can restart the evaluation
+ * by calling {@link #reset()}.&lt;br/&gt;
+ * &lt;br/&gt;
+ * Notice that the time accounted is not the physical time but the processing
+ * time: if several listeners run in parallel, their execution time is summed as
+ * if they were running sequentially, thus you can have a measured time which is
+ * superior to the physical time spent. If you want to measure the physical time
+ * spent in the execution of parallel runs, you should use another way.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ */
+@SuppressWarnings(&quot;serial&quot;)
+<span class="fc" id="L35">public class ListenerTimeMeasure extends SimplePullMeasure&lt;Long&gt; implements</span>
+		PullMeasure&lt;Long&gt; {
+
+<span class="fc" id="L38">	private Long lastReset = 0L;</span>
+<span class="fc" id="L39">	private Long time = 0L;</span>
+<span class="fc" id="L40">	private final WeakHashMap&lt;PushMeasure&lt;?&gt;, PushMeasure&lt;?&gt;&gt; measureCache = new WeakHashMap&lt;PushMeasure&lt;?&gt;, PushMeasure&lt;?&gt;&gt;();</span>
+<span class="fc" id="L41">	private final WeakHashMap&lt;MeasureListener&lt;?&gt;, MeasureListener&lt;?&gt;&gt; listenerCache = new WeakHashMap&lt;MeasureListener&lt;?&gt;, MeasureListener&lt;?&gt;&gt;();</span>
+
+	/**
+	 * This method wrap a {@link MeasureListener} (the wrapped) into another one
+	 * (the wrapper). Any notification made via the wrapper will allow to
+	 * measure how much time has been spent by the wrapped to treat this
+	 * notification.&lt;br/&gt;
+	 * &lt;br/&gt;
+	 * The wrapped listener is not changed, thus it can be reused in other
+	 * {@link PushMeasure}s that we don't want to consider. If a wrapper has
+	 * already been made for the given wrapped, it will be returned and no new
+	 * one will be instantiated (weak references are used to not keep in memory
+	 * the unused wrappers).
+	 * 
+	 * @param wrapped
+	 *            the {@link MeasureListener} to wrap
+	 * @return the {@link MeasureListener} wrapper
+	 * @throw {@link IllegalArgumentException} if no listener is provided
+	 */
+	public &lt;Value&gt; MeasureListener&lt;Value&gt; wrapListener(
+			final MeasureListener&lt;Value&gt; wrapped) {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">		if (wrapped == null) {</span>
+<span class="fc" id="L63">			throw new IllegalArgumentException(&quot;No listener provided&quot;);</span>
+		} else {
+			@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L66">			MeasureListener&lt;Value&gt; wrapper = (MeasureListener&lt;Value&gt;) listenerCache</span>
+<span class="fc" id="L67">					.get(wrapped);</span>
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">			if (wrapper == null) {</span>
+<span class="fc" id="L70">				wrapper = new MeasureListener&lt;Value&gt;() {</span>
+					@Override
+					public void measureGenerated(Value value) {
+<span class="fc" id="L73">						long start = System.currentTimeMillis();</span>
+<span class="fc" id="L74">						wrapped.measureGenerated(value);</span>
+<span class="fc" id="L75">						long stop = System.currentTimeMillis();</span>
+<span class="fc" id="L76">						time += stop - Math.max(start, lastReset);</span>
+<span class="fc" id="L77">					}</span>
+				};
+<span class="fc" id="L79">				listenerCache.put(wrapped, wrapper);</span>
+			} else {
+				// reuse existing one
+			}
+
+<span class="fc" id="L84">			return wrapper;</span>
+		}
+	}
+
+	/**
+	 * This method wrap a {@link PushMeasure} (the wrapped) into another one
+	 * (the wrapper). Any {@link MeasureListener} registered to the wrapper will
+	 * be automatically wrapped via {@link #wrapListener(MeasureListener)}. This
+	 * allows to ensure that any {@link MeasureListener} registered will be
+	 * considered, independently of who registers it or when it is registered.&lt;br/&gt;
+	 * &lt;br/&gt;
+	 * The wrapped measure is not changed, thus it can be reused to register
+	 * {@link MeasureListener}s that we don't want to consider. If a wrapper has
+	 * already been made for the given wrapped, it will be returned and no new
+	 * one will be instantiated (weak references are used to not keep in memory
+	 * the unused wrappers).
+	 * 
+	 * @param wrapped
+	 *            the {@link PushMeasure} to wrap
+	 * @return the {@link PushMeasure} wrapper
+	 * @throw {@link IllegalArgumentException} if no measure is provided
+	 */
+	public &lt;Value&gt; PushMeasure&lt;Value&gt; wrapMeasure(
+			final PushMeasure&lt;Value&gt; wrapped) {
+<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (wrapped == null) {</span>
+<span class="fc" id="L109">			throw new IllegalArgumentException(&quot;No measure provided&quot;);</span>
+		} else {
+			@SuppressWarnings(&quot;unchecked&quot;)
+<span class="fc" id="L112">			PushMeasure&lt;Value&gt; wrapper = (PushMeasure&lt;Value&gt;) measureCache</span>
+<span class="fc" id="L113">					.get(wrapped);</span>
+
+<span class="fc bfc" id="L115" title="All 2 branches covered.">			if (wrapper == null) {</span>
+<span class="fc" id="L116">				wrapper = new PushMeasure&lt;Value&gt;() {</span>
+
+					@Override
+					public String getName() {
+<span class="fc" id="L120">						return wrapped.getName();</span>
+					}
+
+					@Override
+					public String getDescription() {
+<span class="fc" id="L125">						return wrapped.getDescription();</span>
+					}
+
+					@Override
+					public void register(MeasureListener&lt;Value&gt; listener) {
+<span class="nc" id="L130">						wrapped.register(wrapListener(listener));</span>
+<span class="nc" id="L131">					}</span>
+
+					@Override
+					public void unregister(MeasureListener&lt;Value&gt; listener) {
+<span class="nc" id="L135">						wrapped.unregister(wrapListener(listener));</span>
+<span class="nc" id="L136">					}</span>
+				};
+<span class="fc" id="L138">				measureCache.put(wrapped, wrapper);</span>
+			} else {
+				// reuse existing one
+			}
+
+<span class="fc" id="L143">			return wrapper;</span>
+		}
+	}
+
+	/**
+	 * This method wrap a {@link MeasureManager} (the wrapped) into another one
+	 * (the wrapper) which provides the same measures, excepted that any
+	 * {@link PushMeasure} returned by the wrapper will be automatically wrapped
+	 * via {@link #wrapMeasure(PushMeasure)}. This allows to ensure that any
+	 * {@link MeasureListener} registered to the {@link PushMeasure}s provided
+	 * by the wrapper will be considered, independently of who registers it or
+	 * when it is registered. You can also provide an additional key to add this
+	 * {@link ListenerTimeMeasure} to the wrapper.&lt;br/&gt;
+	 * &lt;br/&gt;
+	 * The wrapped manager is not changed, thus it can be reused to register
+	 * {@link MeasureListener}s that we don't want to consider.
+	 * 
+	 * @param wrapped
+	 *            the {@link MeasureManager} to wrap
+	 * @param measureKey
+	 *            the key that the wrapper should use for this
+	 *            {@link ListenerTimeMeasure}, &lt;code&gt;null&lt;/code&gt; if it should
+	 *            not use it
+	 * @return the {@link MeasureManager} wrapper
+	 * @throw {@link IllegalArgumentException} if no manager is provided or if
+	 *        the additional key is already used
+	 */
+	public &lt;Value&gt; MeasureManager wrapManager(final MeasureManager wrapped,
+			final Object measureKey) {
+<span class="fc bfc" id="L172" title="All 2 branches covered.">		if (wrapped == null) {</span>
+<span class="fc" id="L173">			throw new IllegalArgumentException(&quot;No manager provided&quot;);</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">		} else if (measureKey != null</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">				&amp;&amp; wrapped.getMeasureKeys().contains(measureKey)) {</span>
+<span class="fc" id="L176">			throw new IllegalArgumentException(&quot;The key &quot; + measureKey</span>
+					+ &quot; is already used by the wrapped manager &quot; + wrapped);
+		} else {
+			MeasureManager wrapper;
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">			if (measureKey != null) {</span>
+<span class="fc" id="L181">				wrapper = new MeasureManager() {</span>
+
+					@Override
+					public &lt;T&gt; PushMeasure&lt;T&gt; getPushMeasure(Object key) {
+<span class="nc" id="L185">						return wrapMeasure(wrapped.&lt;T&gt; getPushMeasure(key));</span>
+					}
+
+					@SuppressWarnings(&quot;unchecked&quot;)
+					@Override
+					public &lt;T&gt; PullMeasure&lt;T&gt; getPullMeasure(Object key) {
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">						if (key.equals(measureKey)) {</span>
+<span class="fc" id="L192">							return (PullMeasure&lt;T&gt;) ListenerTimeMeasure.this;</span>
+						} else {
+<span class="nc" id="L194">							return wrapped.&lt;T&gt; getPullMeasure(key);</span>
+						}
+					}
+
+					@Override
+					public Collection&lt;Object&gt; getMeasureKeys() {
+<span class="fc" id="L200">						Collection&lt;Object&gt; keys = new LinkedList&lt;&gt;(</span>
+<span class="fc" id="L201">								wrapped.getMeasureKeys());</span>
+<span class="fc" id="L202">						keys.add(measureKey);</span>
+<span class="fc" id="L203">						return keys;</span>
+					}
+				};
+			} else {
+<span class="nc" id="L207">				wrapper = new MeasureManager() {</span>
+
+					@Override
+					public &lt;T&gt; PushMeasure&lt;T&gt; getPushMeasure(Object key) {
+<span class="nc" id="L211">						return wrapMeasure(wrapped.&lt;T&gt; getPushMeasure(key));</span>
+					}
+
+					@Override
+					public &lt;T&gt; PullMeasure&lt;T&gt; getPullMeasure(Object key) {
+<span class="nc" id="L216">						return wrapped.&lt;T&gt; getPullMeasure(key);</span>
+					}
+
+					@Override
+					public Collection&lt;Object&gt; getMeasureKeys() {
+<span class="nc" id="L221">						return wrapped.getMeasureKeys();</span>
+					}
+				};
+			}
+<span class="fc" id="L225">			return wrapper;</span>
+		}
+	}
+
+	/**
+	 * @return the time spent in the wrapped {@link MeasureListener}s
+	 */
+	@Override
+	public Long get() {
+<span class="fc" id="L234">		return time;</span>
+	}
+
+	/**
+	 * This method reset the time measured to zero. Notice that
+	 * {@link MeasureListener}s which are still running will be affected
+	 * consequently: their execution time will be measured from the reset time,
+	 * not from their own starting time.
+	 */
+	public void reset() {
+<span class="fc" id="L244">		time = 0L;</span>
+<span class="fc" id="L245">		lastReset = System.currentTimeMillis();</span>
+<span class="fc" id="L246">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

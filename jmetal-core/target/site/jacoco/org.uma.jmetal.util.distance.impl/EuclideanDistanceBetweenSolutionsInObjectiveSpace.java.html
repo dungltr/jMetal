@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EuclideanDistanceBetweenSolutionsInObjectiveSpace.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.distance.impl</a> &gt; <span class="el_source">EuclideanDistanceBetweenSolutionsInObjectiveSpace.java</span></div><h1>EuclideanDistanceBetweenSolutionsInObjectiveSpace.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.distance.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.distance.Distance;
+
+/**
+ * Class for calculating the Euclidean distance between two {@link Solution} objects in objective space.
+ *
+ * @author &lt;antonio@lcc.uma.es&gt;
+ */
+<span class="nc" id="L11">public class EuclideanDistanceBetweenSolutionsInObjectiveSpace&lt;S extends Solution&lt;?&gt;&gt;</span>
+    implements Distance&lt;S, S&gt; {
+
+  @Override
+  public double getDistance(S solution1, S solution2) {
+    double diff;
+<span class="nc" id="L17">    double distance = 0.0;</span>
+
+<span class="nc bnc" id="L19" title="All 2 branches missed.">    for (int nObj = 0; nObj &lt; solution1.getNumberOfObjectives();nObj++){</span>
+<span class="nc" id="L20">      diff = solution1.getObjective(nObj) - solution2.getObjective(nObj);</span>
+<span class="nc" id="L21">      distance += Math.pow(diff,2.0);</span>
+    }
+
+<span class="nc" id="L24">    return Math.sqrt(distance);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

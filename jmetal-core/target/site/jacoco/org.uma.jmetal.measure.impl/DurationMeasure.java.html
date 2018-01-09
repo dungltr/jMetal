@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DurationMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">DurationMeasure.java</span></div><h1>DurationMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+/**
+ * This measure allows to have a simple way to compute the time spent in doing
+ * something. For instance, an algorithm can compute the time spent to run. In
+ * such a case, the algorithm would call {@link #start()} at the beginning of
+ * the running and {@link #stop()} at the end. Additional calls to these two
+ * methods can also be made during the running to exclude specific parts from
+ * the counting. At any time during (and after) the running, the {@link #get()}
+ * method can be used to know how much time have been spent so far. If the
+ * algorithm is rerun, it will restart and the additional time will sum up to
+ * the time already spent before, but it can be avoided by resetting the measure
+ * with {@link #reset()}.
+ * 
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DurationMeasure extends SimplePullMeasure&lt;Long&gt; {
+
+	/**
+	 * During a full round (start-stop), some time is spent. When
+	 * {@link #stop()} is called, this time is added to this variable, so that
+	 * it provides the total time spent during all the previous rounds (total
+	 * time minus the time spent in the current round).
+	 */
+<span class="fc" id="L28">	private long previousRoundsDuration = 0;</span>
+	/**
+	 * The timestamp of when the current round started. Its value is
+	 * &lt;code&gt;null&lt;/code&gt; if we are not in a round (if {@link #start()} has not
+	 * been called or if {@link #stop()} has been called).
+	 */
+<span class="fc" id="L34">	private Long roundStart = null;</span>
+
+	public DurationMeasure() {
+<span class="fc" id="L37">		super(&quot;duration&quot;, &quot;Provide the duration of execution of an algorithm.&quot;);</span>
+<span class="fc" id="L38">	}</span>
+
+	/**
+	 * Start a round. If the round is already started, it has no effect.
+	 */
+	public void start() {
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">		if (roundStart == null) {</span>
+<span class="fc" id="L45">			roundStart = System.currentTimeMillis();</span>
+		} else {
+			// already started
+		}
+<span class="fc" id="L49">	}</span>
+
+	/**
+	 * Stop a round. If the round is already stopped, it has no effect.
+	 */
+	public void stop() {
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (roundStart == null) {</span>
+			// already stopped
+		} else {
+<span class="fc" id="L58">			previousRoundsDuration += getCurrentRoundDuration();</span>
+<span class="fc" id="L59">			roundStart = null;</span>
+		}
+<span class="fc" id="L61">	}</span>
+
+	/**
+	 * 
+	 * @return the total time spent so far
+	 */
+	@Override
+	public Long get() {
+<span class="fc" id="L69">		return previousRoundsDuration + getCurrentRoundDuration();</span>
+	}
+
+	private long getCurrentRoundDuration() {
+<span class="fc bfc" id="L73" title="All 2 branches covered.">		if (roundStart == null) {</span>
+			// not in a round
+<span class="fc" id="L75">			return 0;</span>
+		} else {
+<span class="fc" id="L77">			long now = System.currentTimeMillis();</span>
+<span class="fc" id="L78">			return now - roundStart;</span>
+		}
+	}
+
+	/**
+	 * Reset the total time to zero. If a round is currently running, it is
+	 * restarted.
+	 */
+	public void reset() {
+<span class="fc" id="L87">		previousRoundsDuration = 0;</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">		if (roundStart == null) {</span>
+			// no round to restart
+		} else {
+<span class="fc" id="L91">			roundStart = System.currentTimeMillis();</span>
+		}
+<span class="fc" id="L93">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

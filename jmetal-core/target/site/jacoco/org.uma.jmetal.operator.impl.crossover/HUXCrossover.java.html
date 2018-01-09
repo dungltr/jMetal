@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>HUXCrossover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.crossover</a> &gt; <span class="el_source">HUXCrossover.java</span></div><h1>HUXCrossover.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.crossover;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.solution.BinarySolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.binarySet.BinarySet;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class allows to apply a HUX crossover operator using two parent
+ * solutions.
+ * NOTE: the operator is applied to the first encoding.variable of the solutions, and
+ * the type of the solutions must be Binary
+ *
+ * @author Antonio J. Nebro
+ * @author Juan J. Durillo
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class HUXCrossover implements CrossoverOperator&lt;BinarySolution&gt; {
+  private double crossoverProbability ;
+  private RandomGenerator&lt;Double&gt; randomGenerator ;
+
+  /** Constructor */
+  public HUXCrossover(double crossoverProbability) {
+<span class="fc" id="L30">	  this(crossoverProbability, () -&gt; JMetalRandom.getInstance().nextDouble());</span>
+<span class="fc" id="L31">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L34">  public HUXCrossover(double crossoverProbability, RandomGenerator&lt;Double&gt; randomGenerator) {</span>
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">    if (crossoverProbability &lt; 0) {</span>
+<span class="nc" id="L36">      throw new JMetalException(&quot;Crossover probability is negative: &quot; + crossoverProbability) ;</span>
+    }
+<span class="fc" id="L38">    this.crossoverProbability = crossoverProbability ;</span>
+<span class="fc" id="L39">    this.randomGenerator = randomGenerator ;</span>
+<span class="fc" id="L40">  }</span>
+
+  /* Getter */
+  public double getCrossoverProbability() {
+<span class="nc" id="L44">    return this.crossoverProbability;</span>
+  }
+
+  /* Setter */
+  public void setCrossoverProbability(double crossoverProbability) {
+<span class="nc" id="L49">    this.crossoverProbability = crossoverProbability;</span>
+<span class="nc" id="L50">  }</span>
+
+  /** Execute() method */
+  public List&lt;BinarySolution&gt; execute(List&lt;BinarySolution&gt; parents) {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">    if (parents.size() != 2) {</span>
+<span class="nc" id="L55">      throw new JMetalException(&quot;HUXCrossover.execute: operator needs two parents&quot;);</span>
+    }
+
+<span class="fc" id="L58">    return doCrossover(crossoverProbability, parents.get(0), parents.get(1));</span>
+  }
+
+  /**
+   * Perform the crossover operation
+   *
+   * @param probability Crossover setProbability
+   * @param parent1     The first parent
+   * @param parent2     The second parent
+   * @return An array containing the two offspring
+   * @throws org.uma.jmetal.util.JMetalException
+   */
+  public List&lt;BinarySolution&gt; doCrossover(double probability,
+                                          BinarySolution parent1,
+                                          BinarySolution parent2) throws JMetalException {
+<span class="fc" id="L73">    List&lt;BinarySolution&gt; offspring = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L74">    offspring.add((BinarySolution) parent1.copy()) ;</span>
+<span class="fc" id="L75">    offspring.add((BinarySolution) parent2.copy()) ;</span>
+
+<span class="fc bfc" id="L77" title="All 2 branches covered.">    if (randomGenerator.getRandomValue() &lt; probability) {</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">      for (int var = 0; var &lt; parent1.getNumberOfVariables(); var++) {</span>
+<span class="nc" id="L79">        BinarySet p1 = parent1.getVariableValue(var) ;</span>
+<span class="nc" id="L80">        BinarySet p2 = parent2.getVariableValue(var) ;</span>
+
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        for (int bit = 0; bit &lt; p1.size(); bit++) {</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">          if (p1.get(bit) != p2.get(bit)) {</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if  (randomGenerator.getRandomValue() &lt; 0.5) {</span>
+<span class="nc" id="L85">              offspring.get(0).getVariableValue(var).set(bit, p2.get(bit)) ;</span>
+<span class="nc" id="L86">              offspring.get(1).getVariableValue(var).set(bit, p1.get(bit)) ;</span>
+            }
+          }
+        }
+      }
+    }
+
+<span class="fc" id="L93">    return offspring;</span>
+  }
+
+  public int getNumberOfRequiredParents() {
+<span class="nc" id="L97">    return 2 ;</span>
+  }
+
+  public int getNumberOfGeneratedChildren() {
+<span class="nc" id="L101">    return 2 ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

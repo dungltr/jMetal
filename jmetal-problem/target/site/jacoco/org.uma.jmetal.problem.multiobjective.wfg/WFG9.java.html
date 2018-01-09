@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WFG9.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.wfg</a> &gt; <span class="el_source">WFG9.java</span></div><h1>WFG9.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.wfg;
+
+import org.uma.jmetal.solution.DoubleSolution;
+
+/**
+ * Creates a default WFG9 problem with
+ * 2 position-related parameters,
+ * 4 distance-related parameters,
+ * and 2 objectives
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class WFG9 extends WFG {
+  /**
+   * Creates a default WFG9 with
+   * 2 position-related parameters,
+   * 4 distance-related parameters,
+   * and 2 objectives
+   */
+  public WFG9() {
+<span class="nc" id="L20">    this(2, 4, 2);</span>
+<span class="nc" id="L21">  }</span>
+
+  /**
+   * Creates a WFG9 problem instance
+   *
+   * @param k            Number of position variables
+   * @param l            Number of distance variables
+   * @param m            Number of objective functions
+   */
+  public WFG9(Integer k, Integer l, Integer m) {
+<span class="nc" id="L31">    super(k, l, m);</span>
+<span class="nc" id="L32">    setName(&quot;WFG9&quot;);</span>
+
+<span class="nc" id="L34">    s = new int[m];</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">    for (int i = 0; i &lt; m; i++) {</span>
+<span class="nc" id="L36">      s[i] = 2 * (i + 1);</span>
+    }
+
+<span class="nc" id="L39">    a = new int[m - 1];</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">    for (int i = 0; i &lt; m - 1; i++) {</span>
+<span class="nc" id="L41">      a[i] = 1;</span>
+    }
+<span class="nc" id="L43">  }</span>
+
+  /** Evaluate() method */
+  public float[] evaluate(float[] z) {
+    float[] y;
+
+<span class="nc" id="L49">    y = normalise(z);</span>
+<span class="nc" id="L50">    y = t1(y, k);</span>
+<span class="nc" id="L51">    y = t2(y, k);</span>
+<span class="nc" id="L52">    y = t3(y, k, m);</span>
+
+<span class="nc" id="L54">    float[] result = new float[m];</span>
+<span class="nc" id="L55">    float[] x = calculateX(y);</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">    for (int m = 1; m &lt;= this.m; m++) {</span>
+<span class="nc" id="L57">      result[m - 1] = d * x[this.m - 1] + s[m - 1] * (new Shapes()).concave(x, m);</span>
+    }
+<span class="nc" id="L59">    return result;</span>
+  }
+
+  /**
+   * WFG9 t1 transformation
+   */
+  public float[] t1(float[] z, int k) {
+<span class="nc" id="L66">    float[] result = new float[z.length];</span>
+<span class="nc" id="L67">    float[] w = new float[z.length];</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    for (int i = 0; i &lt; w.length; i++) {</span>
+<span class="nc" id="L70">      w[i] = (float) 1.0;</span>
+    }
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    for (int i = 0; i &lt; z.length - 1; i++) {</span>
+<span class="nc" id="L74">      int head = i + 1;</span>
+<span class="nc" id="L75">      int tail = z.length - 1;</span>
+<span class="nc" id="L76">      float[] subZ = subVector(z, head, tail);</span>
+<span class="nc" id="L77">      float[] subW = subVector(w, head, tail);</span>
+<span class="nc" id="L78">      float aux = (new Transformations()).rSum(subZ, subW);</span>
+<span class="nc" id="L79">      result[i] = (new Transformations())</span>
+<span class="nc" id="L80">        .bParam(z[i], aux, (float) 0.98 / (float) 49.98, (float) 0.02, (float) 50);</span>
+    }
+
+<span class="nc" id="L83">    result[z.length - 1] = z[z.length - 1];</span>
+<span class="nc" id="L84">    return result;</span>
+  }
+
+  /**
+   * WFG9 t2 transformation
+   */
+  public float[] t2(float[] z, int k) {
+<span class="nc" id="L91">    float[] result = new float[z.length];</span>
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    for (int i = 0; i &lt; k; i++) {</span>
+<span class="nc" id="L94">      result[i] = (new Transformations()).sDecept(z[i], (float) 0.35, (float) 0.001, (float) 0.05);</span>
+    }
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">    for (int i = k; i &lt; z.length; i++) {</span>
+<span class="nc" id="L98">      result[i] = (new Transformations()).sMulti(z[i], 30, 95, (float) 0.35);</span>
+    }
+
+<span class="nc" id="L101">    return result;</span>
+  }
+
+  /**
+   * WFG9 t3 transformation
+   */
+  public float[] t3(float[] z, int k, int M) {
+<span class="nc" id="L108">    float[] result = new float[M];</span>
+
+<span class="nc bnc" id="L110" title="All 2 branches missed.">    for (int i = 1; i &lt;= M - 1; i++) {</span>
+<span class="nc" id="L111">      int head = (i - 1) * k / (M - 1) + 1;</span>
+<span class="nc" id="L112">      int tail = i * k / (M - 1);</span>
+<span class="nc" id="L113">      float[] subZ = subVector(z, head - 1, tail - 1);</span>
+<span class="nc" id="L114">      result[i - 1] = (new Transformations()).rNonsep(subZ, k / (M - 1));</span>
+    }
+
+<span class="nc" id="L117">    int head = k + 1;</span>
+<span class="nc" id="L118">    int tail = z.length;</span>
+<span class="nc" id="L119">    int l = z.length - k;</span>
+<span class="nc" id="L120">    float[] subZ = subVector(z, head - 1, tail - 1);</span>
+<span class="nc" id="L121">    result[M - 1] = (new Transformations()).rNonsep(subZ, l);</span>
+
+<span class="nc" id="L123">    return result;</span>
+  }
+
+  /**
+   * Evaluates a solution
+   *
+   * @param solution The solution to runAlgorithm
+   * @throws org.uma.jmetal.util.JMetalException
+   */
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L133">    float[] variables = new float[getNumberOfVariables()];</span>
+<span class="nc" id="L134">    double[] x = new double[getNumberOfVariables()];</span>
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L137">      x[i] = solution.getVariableValue(i);</span>
+    }
+
+<span class="nc bnc" id="L140" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L141">      variables[i] = (float) x[i] ;</span>
+    }
+
+<span class="nc" id="L144">    float[] sol2 = evaluate(variables);</span>
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">    for (int i = 0; i &lt; sol2.length; i++) {</span>
+<span class="nc" id="L147">      solution.setObjective(i, sol2[i]);</span>
+    }
+<span class="nc" id="L149">  }</span>
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

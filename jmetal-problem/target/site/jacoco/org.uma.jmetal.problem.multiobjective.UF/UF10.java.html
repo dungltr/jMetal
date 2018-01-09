@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UF10.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.UF</a> &gt; <span class="el_source">UF10.java</span></div><h1>UF10.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.UF;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class representing problem CEC2009_UF10
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class UF10 extends AbstractDoubleProblem {
+  
+ /** 
+  * Constructor.
+  * Creates a default instance of problem CEC2009_UF10 (30 decision variables)
+  */
+  public UF10() {
+<span class="nc" id="L20">    this(30);</span>
+<span class="nc" id="L21">  }</span>
+  
+ /**
+  * Creates a new instance of problem CEC2009_UF10.
+  * @param numberOfVariables Number of variables.
+  */
+<span class="nc" id="L27">  public UF10(int numberOfVariables) {</span>
+<span class="nc" id="L28">    setNumberOfVariables(numberOfVariables) ;</span>
+<span class="nc" id="L29">    setNumberOfObjectives(3) ;</span>
+<span class="nc" id="L30">    setNumberOfConstraints(0) ;</span>
+<span class="nc" id="L31">    setName(&quot;UF10&quot;) ;</span>
+
+<span class="nc" id="L33">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L34">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc" id="L36">    lowerLimit.add(0.0);</span>
+<span class="nc" id="L37">    upperLimit.add(1.0);</span>
+<span class="nc" id="L38">    lowerLimit.add(0.0);</span>
+<span class="nc" id="L39">    upperLimit.add(1.0);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">    for (int i = 2; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L41">      lowerLimit.add(-2.0);</span>
+<span class="nc" id="L42">      upperLimit.add(2.0);</span>
+    }
+
+<span class="nc" id="L45">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L46">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L47">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L52">    double[] x = new double[getNumberOfVariables()];</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L54">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+
+  	int count1, count2, count3;
+		double sum1, sum2, sum3, yj, hj;
+<span class="nc" id="L59">		sum1   = sum2 = sum3 = 0.0;</span>
+<span class="nc" id="L60">		count1 = count2 = count3 = 0;</span>
+    
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    for (int j = 3 ; j &lt;= getNumberOfVariables(); j++) {</span>
+<span class="nc" id="L63">			yj = x[j-1] - 2.0*x[1]*Math.sin(2.0*Math.PI*x[0]+j*Math.PI/getNumberOfVariables());</span>
+<span class="nc" id="L64">			hj = 4.0*yj*yj - Math.cos(8.0*Math.PI*yj) + 1.0;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">			if(j % 3 == 1) {</span>
+<span class="nc" id="L66">				sum1  += hj;</span>
+<span class="nc" id="L67">				count1++;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">			} else if(j % 3 == 2) {</span>
+<span class="nc" id="L69">				sum2  += hj;</span>
+<span class="nc" id="L70">				count2++;</span>
+			} else {
+<span class="nc" id="L72">				sum3  += hj;</span>
+<span class="nc" id="L73">				count3++;</span>
+			}
+    }
+    
+<span class="nc" id="L77">    solution.setObjective(0, Math.cos(0.5*Math.PI*x[0])*Math.cos(0.5*Math.PI*x[1]) + 2.0*sum1 / (double)count1);</span>
+<span class="nc" id="L78">    solution.setObjective(1, Math.cos(0.5*Math.PI*x[0])*Math.sin(0.5*Math.PI*x[1]) + 2.0*sum2 / (double)count2);</span>
+<span class="nc" id="L79">    solution.setObjective(2, Math.sin(0.5*Math.PI*x[0])                       + 2.0*sum3 / (double)count3) ;</span>
+<span class="nc" id="L80">  }</span>
+} 
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

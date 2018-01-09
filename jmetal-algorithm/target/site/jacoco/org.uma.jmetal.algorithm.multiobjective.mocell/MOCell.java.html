@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOCell.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mocell</a> &gt; <span class="el_source">MOCell.java</span></div><h1>MOCell.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mocell;
+
+import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.archive.BoundedArchive;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.neighborhood.Neighborhood;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.CrowdingDistance;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+import org.uma.jmetal.util.solutionattribute.impl.LocationAttribute;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * @author JuanJo Durillo
+ *
+ * @param &lt;S&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MOCell&lt;S extends Solution&lt;?&gt;&gt; extends AbstractGeneticAlgorithm&lt;S, List&lt;S&gt;&gt; {
+  protected int evaluations;
+  protected int maxEvaluations;
+  protected final SolutionListEvaluator&lt;S&gt; evaluator;
+
+  protected Neighborhood&lt;S&gt; neighborhood;
+  protected int currentIndividual;
+  protected List&lt;S&gt; currentNeighbors;
+
+  protected BoundedArchive&lt;S&gt; archive;
+
+  protected Comparator&lt;S&gt; dominanceComparator;
+  protected LocationAttribute&lt;S&gt; location;
+
+  /**
+   * Constructor
+   * @param problem
+   * @param maxEvaluations
+   * @param populationSize
+   * @param neighborhood
+   * @param crossoverOperator
+   * @param mutationOperator
+   * @param selectionOperator
+   * @param evaluator
+   */
+  public MOCell(Problem&lt;S&gt; problem, int maxEvaluations, int populationSize, BoundedArchive&lt;S&gt; archive,
+                Neighborhood&lt;S&gt; neighborhood,
+                CrossoverOperator&lt;S&gt; crossoverOperator, MutationOperator&lt;S&gt; mutationOperator,
+                SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator, SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc" id="L59">    super(problem);</span>
+<span class="nc" id="L60">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L61">    setMaxPopulationSize(populationSize);</span>
+<span class="nc" id="L62">    this.archive = archive ;</span>
+<span class="nc" id="L63">    this.neighborhood = neighborhood ;</span>
+<span class="nc" id="L64">    this.crossoverOperator = crossoverOperator;</span>
+<span class="nc" id="L65">    this.mutationOperator = mutationOperator;</span>
+<span class="nc" id="L66">    this.selectionOperator = selectionOperator;</span>
+<span class="nc" id="L67">    this.dominanceComparator = new DominanceComparator&lt;S&gt;() ;</span>
+
+<span class="nc" id="L69">    this.evaluator = evaluator ;</span>
+<span class="nc" id="L70">  }</span>
+
+  @Override
+  protected void initProgress() {
+<span class="nc" id="L74">    evaluations = 0;</span>
+<span class="nc" id="L75">    currentIndividual=0;</span>
+<span class="nc" id="L76">  }</span>
+
+  @Override
+  protected void updateProgress() {
+<span class="nc" id="L80">    evaluations++;</span>
+<span class="nc" id="L81">    currentIndividual=(currentIndividual+1)%getMaxPopulationSize();</span>
+<span class="nc" id="L82">  }</span>
+
+  @Override
+  protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    return (evaluations==maxEvaluations);</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; createInitialPopulation() {
+<span class="nc" id="L91">    List&lt;S&gt; population = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L93">      S newIndividual = getProblem().createSolution();</span>
+<span class="nc" id="L94">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L96">    location = new LocationAttribute&lt;&gt;(population);</span>
+<span class="nc" id="L97">    return population;</span>
+  }
+
+  @Override
+  @SuppressWarnings(&quot;unchecked&quot;)
+  protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc" id="L103">    population = evaluator.evaluate(population, getProblem());</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L105">      archive.add((S)solution.copy()) ;</span>
+<span class="nc" id="L106">    }</span>
+
+<span class="nc" id="L108">    return population;</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L113">    List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L114">    currentNeighbors = neighborhood.getNeighbors(population, currentIndividual);</span>
+<span class="nc" id="L115">    currentNeighbors.add(population.get(currentIndividual));</span>
+
+<span class="nc" id="L117">    parents.add(selectionOperator.execute(currentNeighbors));</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">    if (archive.size() &gt; 0) {</span>
+<span class="nc" id="L119">      parents.add(selectionOperator.execute(archive.getSolutionList()));</span>
+    } else {
+<span class="nc" id="L121">      parents.add(selectionOperator.execute(currentNeighbors));</span>
+    }
+<span class="nc" id="L123">    return parents;</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
+<span class="nc" id="L128">    List&lt;S&gt; result = new ArrayList&lt;&gt;(1);</span>
+<span class="nc" id="L129">    List&lt;S&gt; offspring = crossoverOperator.execute(population);</span>
+<span class="nc" id="L130">    mutationOperator.execute(offspring.get(0));</span>
+<span class="nc" id="L131">    result.add(offspring.get(0));</span>
+<span class="nc" id="L132">    return result;</span>
+  }
+
+  @Override
+  protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L137">    int flag = dominanceComparator.compare(population.get(currentIndividual),offspringPopulation.get(0));</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    if (flag == 1) { //The new individual dominates</span>
+<span class="nc" id="L140">      insertNewIndividualWhenDominates(population,offspringPopulation);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    } else if (flag == 0) { //The new individual is non-dominated</span>
+<span class="nc" id="L142">      insertNewIndividualWhenNonDominated(population,offspringPopulation);</span>
+    }
+<span class="nc" id="L144">    return population;</span>
+  }
+
+  @Override
+  public List&lt;S&gt; getResult() {
+<span class="nc" id="L149">    return archive.getSolutionList();</span>
+  }
+
+  private void insertNewIndividualWhenDominates(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L153">    location.setAttribute(offspringPopulation.get(0),</span>
+<span class="nc" id="L154">        location.getAttribute(population.get(currentIndividual)));</span>
+
+<span class="nc" id="L156">    population.set(location.getAttribute(offspringPopulation.get(0)),offspringPopulation.get(0));</span>
+<span class="nc" id="L157">    archive.add(offspringPopulation.get(0));</span>
+<span class="nc" id="L158">  }</span>
+
+  private void insertNewIndividualWhenNonDominated(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L161">    currentNeighbors.add(offspringPopulation.get(0));</span>
+<span class="nc" id="L162">    location.setAttribute(offspringPopulation.get(0), -1);</span>
+
+<span class="nc" id="L164">    Ranking&lt;S&gt; rank = new DominanceRanking&lt;S&gt;();</span>
+<span class="nc" id="L165">    rank.computeRanking(currentNeighbors);</span>
+
+<span class="nc" id="L167">    CrowdingDistance&lt;S&gt; crowdingDistance = new CrowdingDistance&lt;S&gt;();</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">    for (int j = 0; j &lt; rank.getNumberOfSubfronts(); j++) {</span>
+<span class="nc" id="L169">      crowdingDistance.computeDensityEstimator(rank.getSubfront(j));</span>
+    }
+
+<span class="nc" id="L172">    Collections.sort(this.currentNeighbors,new RankingAndCrowdingDistanceComparator&lt;S&gt;());</span>
+<span class="nc" id="L173">    S worst = this.currentNeighbors.get(this.currentNeighbors.size()-1);</span>
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">    if (location.getAttribute(worst) == -1) { //The worst is the offspring</span>
+<span class="nc" id="L176">      archive.add(offspringPopulation.get(0));</span>
+    } else {
+<span class="nc" id="L178">      location.setAttribute(offspringPopulation.get(0),</span>
+<span class="nc" id="L179">          location.getAttribute(worst));</span>
+<span class="nc" id="L180">      population.set(location.getAttribute(offspringPopulation.get(0)),offspringPopulation.get(0));</span>
+<span class="nc" id="L181">      archive.add(offspringPopulation.get(0));</span>
+    }
+<span class="nc" id="L183">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L186">    return &quot;MOCell&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L190">    return &quot;Multi-Objective Cellular evolutionry algorithm&quot; ;</span>
+  }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

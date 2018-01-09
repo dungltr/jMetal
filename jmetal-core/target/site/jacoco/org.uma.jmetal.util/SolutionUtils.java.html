@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SolutionUtils.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util</a> &gt; <span class="el_source">SolutionUtils.java</span></div><h1>SolutionUtils.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util;
+
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.BinaryOperator;
+
+/**
+ * Created by Antonio J. Nebro on 6/12/14.
+ */
+<span class="nc" id="L15">public class SolutionUtils {</span>
+
+  /**
+   * Return the best solution between those passed as arguments. If they are equal or incomparable
+   * one of them is chosen randomly.
+   *
+   * @return The best solution
+   */
+  public static &lt;S extends Solution&lt;?&gt;&gt; S getBestSolution(S solution1, S solution2, Comparator&lt;S&gt; comparator) {
+<span class="fc" id="L24">    return getBestSolution(solution1, solution2, comparator, () -&gt; JMetalRandom.getInstance().nextDouble());</span>
+  }
+
+  /**
+   * Return the best solution between those passed as arguments. If they are equal or incomparable
+   * one of them is chosen randomly.
+   *
+   * @param randomGenerator {@link RandomGenerator} for the equality case
+   * @return The best solution
+   */
+  public static &lt;S extends Solution&lt;?&gt;&gt; S getBestSolution(S solution1, S solution2, Comparator&lt;S&gt; comparator, RandomGenerator&lt;Double&gt; randomGenerator) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    return getBestSolution(solution1, solution2, comparator, (a, b) -&gt; randomGenerator.getRandomValue() &lt; 0.5 ? a : b);</span>
+  }
+
+  /**
+   * Return the best solution between those passed as arguments. If they are equal or incomparable
+   * one of them is chosen based on the given policy.
+   *
+   * @return The best solution
+   */
+  public static &lt;S extends Solution&lt;?&gt;&gt; S getBestSolution(S solution1, S solution2, Comparator&lt;S&gt; comparator, BinaryOperator&lt;S&gt; equalityPolicy) {
+    S result;
+<span class="fc" id="L46">    int flag = comparator.compare(solution1, solution2);</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">    if (flag == -1) {</span>
+<span class="nc" id="L48">      result = solution1;</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">    } else if (flag == 1) {</span>
+<span class="nc" id="L50">      result = solution2;</span>
+    } else {
+<span class="fc" id="L52">      result = equalityPolicy.apply(solution1, solution2);</span>
+    }
+
+<span class="fc" id="L55">    return result;</span>
+  }
+
+  /**
+   * Returns the euclidean distance between a pair of solutions in the objective space
+   */
+  public static &lt;S extends Solution&lt;?&gt;&gt; double distanceBetweenObjectives(S firstSolution, S secondSolution) {
+
+    double diff;
+<span class="fc" id="L64">    double distance = 0.0;</span>
+
+    //euclidean distance
+<span class="fc bfc" id="L67" title="All 2 branches covered.">    for (int nObj = 0; nObj &lt; firstSolution.getNumberOfObjectives(); nObj++) {</span>
+<span class="fc" id="L68">      diff = firstSolution.getObjective(nObj) - secondSolution.getObjective(nObj);</span>
+<span class="fc" id="L69">      distance += Math.pow(diff, 2.0);</span>
+    }
+
+<span class="fc" id="L72">    return Math.sqrt(distance);</span>
+  }
+
+  /**
+   * Returns the minimum distance from a &lt;code&gt;Solution&lt;/code&gt; to a &lt;code&gt;SolutionSet according to
+   * the encodings.variable values&lt;/code&gt;.
+   *
+   * @param solution     The &lt;code&gt;Solution&lt;/code&gt;.
+   * @param solutionList The &lt;code&gt;List&lt;Solution&gt;&lt;/&gt;&lt;/code&gt;.
+   * @return The minimum distance between solution and the set.
+   */
+  public static double distanceToSolutionListInSolutionSpace(DoubleSolution solution,
+                                                             List&lt;DoubleSolution&gt; solutionList) {
+<span class="nc" id="L85">    double distance = Double.MAX_VALUE;</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L88">      double aux = distanceBetweenSolutionsInObjectiveSpace(solution, solutionList.get(i));</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">      if (aux &lt; distance)</span>
+<span class="nc" id="L90">        distance = aux;</span>
+    }
+
+<span class="nc" id="L93">    return distance;</span>
+  }
+
+  /**
+   * Returns the distance between two solutions in the search space.
+   *
+   * @param solutionI The first &lt;code&gt;Solution&lt;/code&gt;.
+   * @param solutionJ The second &lt;code&gt;Solution&lt;/code&gt;.
+   * @return the distance between solutions.
+   */
+  public static double distanceBetweenSolutionsInObjectiveSpace(DoubleSolution solutionI, DoubleSolution solutionJ) {
+<span class="nc" id="L104">    double distance = 0.0;</span>
+
+    double diff;
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionI.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L108">      diff = solutionI.getVariableValue(i) - solutionJ.getVariableValue(i);</span>
+<span class="nc" id="L109">      distance += Math.pow(diff, 2.0);</span>
+    }
+
+<span class="nc" id="L112">    return Math.sqrt(distance);</span>
+  }
+
+  /**
+   * Returns the average euclidean distance of a solution to the solutions of a list.
+   */
+  public static &lt;S extends Solution&lt;?&gt;&gt; double averageDistanceToSolutionList(
+          S solution,
+          List&lt;S&gt; solutionList) {
+
+<span class="fc" id="L122">    double sumOfDistances = 0.0;</span>
+<span class="fc bfc" id="L123" title="All 2 branches covered.">    for (S sol : solutionList) {</span>
+<span class="fc" id="L124">      sumOfDistances += distanceBetweenObjectives(</span>
+              solution,
+              sol);
+<span class="fc" id="L127">    }</span>
+
+<span class="fc" id="L129">    return sumOfDistances / solutionList.size();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,13 @@
+org.uma.jmetal.problem.multiobjective
+org.uma.jmetal.problem.multiobjective.UF
+org.uma.jmetal.problem.multiobjective.cdtlz
+org.uma.jmetal.problem.multiobjective.cec2015OptBigDataCompetition
+org.uma.jmetal.problem.multiobjective.dtlz
+org.uma.jmetal.problem.multiobjective.ebes
+org.uma.jmetal.problem.multiobjective.glt
+org.uma.jmetal.problem.multiobjective.lz09
+org.uma.jmetal.problem.multiobjective.mop
+org.uma.jmetal.problem.multiobjective.wfg
+org.uma.jmetal.problem.multiobjective.zdt
+org.uma.jmetal.problem.singleobjective
+org.uma.jmetal.problem.singleobjective.cec2005competitioncode

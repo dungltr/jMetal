@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.pseudorandom</a> &gt; <span class="el_source">RandomGenerator.java</span></div><h1>RandomGenerator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.pseudorandom;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.function.Predicate;
+
+/**
+ * A {@link RandomGenerator} aims to provide a random value of a given type. Any
+ * value of this type can be generated.&lt;br&gt;
+ * &lt;br&gt;
+ * A {@link RandomGenerator} is a {@link FunctionalInterface}. It is not
+ * intended to be directly implemented by a class, but instead to request a
+ * method for generating random values, usually by using lambda expressions.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ *
+ * @param &lt;Value&gt;
+ *            The type of value to generate
+ */
+@FunctionalInterface
+public interface RandomGenerator&lt;Value&gt; {
+	/**
+	 * Generate a random value.
+	 * 
+	 * @return the value generated
+	 */
+	public Value getRandomValue();
+
+	/**
+	 * Create a {@link RandomGenerator} over a {@link Collection} based on a
+	 * random selector.
+	 * 
+	 * @param indexSelector
+	 *            the random selector
+	 * @param values
+	 *            the values to return
+	 * @return a {@link RandomGenerator} on the provided values
+	 */
+	static &lt;T&gt; RandomGenerator&lt;T&gt; forCollection(BoundedRandomGenerator&lt;Integer&gt; indexSelector,
+			Collection&lt;T&gt; values) {
+<span class="fc" id="L42">		ArrayList&lt;T&gt; list = new ArrayList&lt;&gt;(values);</span>
+<span class="fc" id="L43">		return () -&gt; list.get(indexSelector.getRandomValue(0, values.size() - 1));</span>
+	}
+
+	/**
+	 * Create a {@link RandomGenerator} over an array based on a random
+	 * selector.
+	 * 
+	 * @param indexSelector
+	 *            the random selector
+	 * @param values
+	 *            the values to return
+	 * @return a {@link RandomGenerator} on the provided values
+	 */
+	@SafeVarargs
+	static &lt;T&gt; RandomGenerator&lt;T&gt; forArray(BoundedRandomGenerator&lt;Integer&gt; indexSelector, T... values) {
+<span class="fc" id="L58">		return forCollection(indexSelector, Arrays.asList(values));</span>
+	}
+
+	/**
+	 * Create a {@link RandomGenerator} over {@link Enum} values based on a
+	 * random selector.
+	 * 
+	 * @param indexSelector
+	 *            the random selector
+	 * @param enumClass
+	 *            the {@link Enum} to cover
+	 * @return a {@link RandomGenerator} on the {@link Enum} values
+	 */
+	static &lt;T extends Enum&lt;T&gt;&gt; RandomGenerator&lt;T&gt; forEnum(BoundedRandomGenerator&lt;Integer&gt; indexSelector,
+			Class&lt;T&gt; enumClass) {
+<span class="fc" id="L73">		return forArray(indexSelector, enumClass.getEnumConstants());</span>
+	}
+
+	/**
+	 * Reduce a {@link RandomGenerator} range. The returned
+	 * {@link RandomGenerator} uses the provided one to generate random values,
+	 * but regenerate them if they do not pass the filter. Consequently, the
+	 * initial {@link RandomGenerator} may be called several times o generate a
+	 * single value. The impact on performance depends on the part of the
+	 * distribution which is filtered out: if a significant part of the
+	 * distribution is rejected, it might be more interesting to create a
+	 * dedicated {@link RandomGenerator}.
+	 * 
+	 * @param generator
+	 *            the {@link RandomGenerator} to filter
+	 * @param filter
+	 *            the filter to pass to be an acceptable value
+	 * @return a {@link RandomGenerator} which provides only acceptable values
+	 */
+	static &lt;T&gt; RandomGenerator&lt;T&gt; filter(RandomGenerator&lt;T&gt; generator, Predicate&lt;T&gt; filter) {
+<span class="fc" id="L93">		return new RandomGenerator&lt;T&gt;() {</span>
+
+			@Override
+			public T getRandomValue() {
+				T value;
+				do {
+<span class="fc" id="L99">					value = generator.getRandomValue();</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">				} while (!filter.test(value));</span>
+<span class="fc" id="L101">				return value;</span>
+			}
+		};
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

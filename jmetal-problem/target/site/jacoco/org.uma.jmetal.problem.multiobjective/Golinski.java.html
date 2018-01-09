@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Golinski.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">Golinski.java</span></div><h1>Golinski.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.solutionattribute.impl.NumberOfViolatedConstraints;
+import org.uma.jmetal.util.solutionattribute.impl.OverallConstraintViolation;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Class representing problem Golinski.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class Golinski extends AbstractDoubleProblem implements ConstrainedProblem&lt;DoubleSolution&gt; {
+  public OverallConstraintViolation&lt;DoubleSolution&gt; overallConstraintViolationDegree ;
+  public NumberOfViolatedConstraints&lt;DoubleSolution&gt; numberOfViolatedConstraints ;
+
+  /**
+   * Constructor.
+   * Creates a default instance of the Golinski problem.
+   */
+<span class="nc" id="L24">  public Golinski() {</span>
+<span class="nc" id="L25">    setNumberOfVariables(7);</span>
+<span class="nc" id="L26">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L27">    setNumberOfConstraints(11);</span>
+<span class="nc" id="L28">    setName(&quot;Golinski&quot;) ;</span>
+
+<span class="nc" id="L30">    List&lt;Double&gt; lowerLimit = Arrays.asList(2.6, 0.7, 17.0, 7.3, 7.3, 2.9, 5.0) ;</span>
+<span class="nc" id="L31">    List&lt;Double&gt; upperLimit = Arrays.asList(3.6, 0.8, 28.0, 8.3, 8.3, 3.9, 5.5) ;</span>
+
+<span class="nc" id="L33">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L34">    setUpperLimit(upperLimit);</span>
+
+<span class="nc" id="L36">    overallConstraintViolationDegree = new OverallConstraintViolation&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L37">    numberOfViolatedConstraints = new NumberOfViolatedConstraints&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L38">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+    double x1,x2,x3,x4,x5,x6,x7;
+<span class="nc" id="L44">    x1 = solution.getVariableValue(0);</span>
+<span class="nc" id="L45">    x2 = solution.getVariableValue(1);</span>
+<span class="nc" id="L46">    x3 = solution.getVariableValue(2);</span>
+<span class="nc" id="L47">    x4 = solution.getVariableValue(3);</span>
+<span class="nc" id="L48">    x5 = solution.getVariableValue(4);</span>
+<span class="nc" id="L49">    x6 = solution.getVariableValue(5);</span>
+<span class="nc" id="L50">    x7 = solution.getVariableValue(6);</span>
+
+<span class="nc" id="L52">    double f1 = 0.7854 * x1 *x2 *x2 * ((10*x3*x3)/3.0 + 14.933*x3 - 43.0934) -</span>
+        1.508*x1*(x6*x6 + x7*x7)+7.477*(x6*x6*x6 + x7*x7*x7) +
+        0.7854*(x4*x6*x6 + x5*x7*x7);
+
+<span class="nc" id="L56">    double aux = 745.0 * x4 / (x2 * x3);</span>
+<span class="nc" id="L57">    double f2 = Math.sqrt((aux*aux)+1.69e7) / (0.1*x6*x6*x6);</span>
+
+<span class="nc" id="L59">    solution.setObjective(0,f1);</span>
+<span class="nc" id="L60">    solution.setObjective(1,f2);</span>
+<span class="nc" id="L61">  }</span>
+
+  /** EvaluateConstraints() method */
+  @Override
+  public void evaluateConstraints(DoubleSolution solution)  {
+<span class="nc" id="L66">    double[] constraint = new double[this.getNumberOfConstraints()];</span>
+    double x1,x2,x3,x4,x5,x6,x7;
+
+<span class="nc" id="L69">    x1 = solution.getVariableValue(0);</span>
+<span class="nc" id="L70">    x2 = solution.getVariableValue(1);</span>
+<span class="nc" id="L71">    x3 = solution.getVariableValue(2);</span>
+<span class="nc" id="L72">    x4 = solution.getVariableValue(3);</span>
+<span class="nc" id="L73">    x5 = solution.getVariableValue(4);</span>
+<span class="nc" id="L74">    x6 = solution.getVariableValue(5);</span>
+<span class="nc" id="L75">    x7 = solution.getVariableValue(6);</span>
+
+<span class="nc" id="L77">    constraint[0] = -((1.0/(x1*x2*x2*x3)) -(1.0/27.0));</span>
+<span class="nc" id="L78">    constraint[1] = -((1.0/(x1*x2*x2*x3*x3))-(1.0/397.5));</span>
+<span class="nc" id="L79">    constraint[2] = -((x4*x4*x4)/(x2*x3*x3*x6*x6*x6*x6)-(1.0/1.93));</span>
+<span class="nc" id="L80">    constraint[3] = -((x5*x5*x5)/(x2*x3*x7*x7*x7*x7)- (1.0/1.93));</span>
+<span class="nc" id="L81">    constraint[4] = -(x2*x3 - 40.0);</span>
+<span class="nc" id="L82">    constraint[5] = -((x1/x2) - 12.0);</span>
+<span class="nc" id="L83">    constraint[6] = -(5.0 - (x1/x2));</span>
+<span class="nc" id="L84">    constraint[7] = -(1.9 - x4 + 1.5*x6);</span>
+<span class="nc" id="L85">    constraint[8] = -(1.9 - x5 + 1.1*x7);</span>
+
+<span class="nc" id="L87">    double aux = 745.0 * x4 / (x2 * x3);</span>
+<span class="nc" id="L88">    double f2 = java.lang.Math.sqrt((aux*aux)+1.69e7) / (0.1*x6*x6*x6);</span>
+<span class="nc" id="L89">    constraint[9] = -(f2 - 1300);</span>
+<span class="nc" id="L90">    double a = 745.0*x5/(x2*x3);</span>
+<span class="nc" id="L91">    double b = 1.575e8;</span>
+<span class="nc" id="L92">    constraint[10] = -(java.lang.Math.sqrt(a*a+b)/(0.1*x7*x7*x7)-1100.0);</span>
+
+<span class="nc" id="L94">    double overallConstraintViolation = 0.0;</span>
+<span class="nc" id="L95">    int violatedConstraints = 0;</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfConstraints(); i++) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">      if (constraint[i]&lt;0.0){</span>
+<span class="nc" id="L98">        overallConstraintViolation+=constraint[i];</span>
+<span class="nc" id="L99">        violatedConstraints++;</span>
+      }
+    }
+
+<span class="nc" id="L103">    overallConstraintViolationDegree.setAttribute(solution, overallConstraintViolation);</span>
+<span class="nc" id="L104">    numberOfViolatedConstraints.setAttribute(solution, violatedConstraints);</span>
+<span class="nc" id="L105">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

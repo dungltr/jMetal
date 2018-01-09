@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CoralReefsOptimization.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.coralreefsoptimization</a> &gt; <span class="el_source">CoralReefsOptimization.java</span></div><h1>CoralReefsOptimization.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.coralreefsoptimization;
+
+import org.uma.jmetal.algorithm.impl.AbstractCoralReefsOptimization;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.util.pseudorandom.impl.MersenneTwisterGenerator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * 
+ * @author Inacio Medeiros &lt;inaciogmedeiros@gmail.com&gt;
+ * 
+ */
+public class CoralReefsOptimization&lt;S&gt;
+		extends AbstractCoralReefsOptimization&lt;S, List&lt;S&gt;&gt; {
+
+	private Problem&lt;S&gt; problem;
+	private int maxEvaluations;
+	private int evaluations;
+	private MersenneTwisterGenerator random;
+
+	public CoralReefsOptimization(Problem&lt;S&gt; problem,
+			int maxEvaluations, Comparator&lt;S&gt; comparator,
+			SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator,
+			CrossoverOperator&lt;S&gt; crossoverOperator,
+			MutationOperator&lt;S&gt; mutationOperator, int n, int m, double rho,
+			double fbs, double fa, double pd, int attemptsToSettle) {
+
+<span class="nc" id="L35">		super(comparator, selectionOperator, crossoverOperator,</span>
+				mutationOperator, n, m, rho, fbs, fa, pd, attemptsToSettle);
+
+<span class="nc" id="L38">		this.problem = problem;</span>
+<span class="nc" id="L39">		this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L40">		this.random = new MersenneTwisterGenerator();</span>
+
+<span class="nc" id="L42">	}</span>
+
+	private static final long serialVersionUID = 3013223456538143239L;
+
+	@Override
+	protected void initProgress() {
+<span class="nc" id="L48">		evaluations = 0;</span>
+<span class="nc" id="L49">	}</span>
+
+	@Override
+	protected void updateProgress() {
+<span class="nc" id="L53">		evaluations++;</span>
+<span class="nc" id="L54">	}</span>
+
+	@Override
+	protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">		return evaluations == maxEvaluations;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; createInitialPopulation() {
+<span class="nc" id="L63">		List&lt;S&gt; population = new ArrayList&lt;&gt;(getN() * getM());</span>
+
+<span class="nc" id="L65">		int quantity = (int) (getRho() * getN() * getM());</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">		for (int i = 0; i &lt; quantity; i++) {</span>
+<span class="nc" id="L68">			S newIndividual = problem.createSolution();</span>
+<span class="nc" id="L69">			population.add(newIndividual);</span>
+		}
+<span class="nc" id="L71">		return population;</span>
+	}
+
+	@Override
+	protected List&lt;Coordinate&gt; generateCoordinates() {
+<span class="nc" id="L76">		int popSize = getPopulationSize();</span>
+<span class="nc" id="L77">		MersenneTwisterGenerator random = new MersenneTwisterGenerator();</span>
+
+<span class="nc" id="L79">		ArrayList&lt;Coordinate&gt; coordinates = new ArrayList&lt;Coordinate&gt;(popSize);</span>
+
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		for (int i = 0; i &lt; popSize; i++) {</span>
+<span class="nc" id="L82">			coordinates.add(new Coordinate(random.nextInt(0, getN() - 1),</span>
+<span class="nc" id="L83">					random.nextInt(0, getM() - 1)));</span>
+		}
+
+<span class="nc" id="L86">		return coordinates;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc bnc" id="L91" title="All 2 branches missed.">		for (int solution = 0; solution &lt; population.size(); solution++) {</span>
+<span class="nc" id="L92">			this.problem.evaluate(population.get(solution));</span>
+		}
+<span class="nc" id="L94">		return population;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; selectBroadcastSpawners(List&lt;S&gt; population) {
+<span class="nc" id="L99">		int quantity = (int) (getFbs() * population.size());</span>
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		if ((quantity % 2) == 1) {</span>
+<span class="nc" id="L102">			quantity--;</span>
+		}
+
+<span class="nc" id="L105">		List&lt;S&gt; spawners = new ArrayList&lt;S&gt;(quantity);</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		for (int i = 0; i &lt; quantity; i++) {</span>
+<span class="nc" id="L108">			S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L109">			spawners.add(solution);</span>
+		}
+
+<span class="nc" id="L112">		return spawners;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; sexualReproduction(List&lt;S&gt; broadcastSpawners) {
+<span class="nc" id="L117">		List&lt;S&gt; parents = new ArrayList&lt;S&gt;(2);</span>
+<span class="nc" id="L118">		List&lt;S&gt; larvae = new ArrayList&lt;S&gt;(broadcastSpawners.size() / 2);</span>
+
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		while (broadcastSpawners.size() &gt; 0) {</span>
+<span class="nc" id="L121">			parents.add(selectionOperator.execute(broadcastSpawners));</span>
+<span class="nc" id="L122">			parents.add(selectionOperator.execute(broadcastSpawners));</span>
+
+<span class="nc" id="L124">			broadcastSpawners.remove(parents.get(0));</span>
+
+<span class="nc bnc" id="L126" title="All 2 branches missed.">			if (broadcastSpawners.contains(parents.get(1))) {</span>
+<span class="nc" id="L127">				broadcastSpawners.remove(parents.get(1));</span>
+			}
+
+<span class="nc" id="L130">			larvae.add(crossoverOperator.execute(parents).get(0));</span>
+			
+<span class="nc" id="L132">			parents.clear();</span>
+
+		}
+
+<span class="nc" id="L136">		return larvae;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; asexualReproduction(List&lt;S&gt; brooders) {
+<span class="nc" id="L141">		int sz = brooders.size();</span>
+
+<span class="nc" id="L143">		List&lt;S&gt; larvae = new ArrayList&lt;S&gt;(sz);</span>
+
+<span class="nc bnc" id="L145" title="All 2 branches missed.">		for (int i = 0; i &lt; sz; i++) {</span>
+<span class="nc" id="L146">			larvae.add(mutationOperator.execute(brooders.get(i)));</span>
+		}
+
+<span class="nc" id="L149">		return larvae;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; larvaeSettlementPhase(List&lt;S&gt; larvae, List&lt;S&gt; population,
+			List&lt;Coordinate&gt; coordinates) {
+
+<span class="nc" id="L156">		int attempts = getAttemptsToSettle();</span>
+		int index;
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">		for (S larva : larvae) {</span>
+
+<span class="nc bnc" id="L161" title="All 2 branches missed.">			for (int attempt = 0; attempt &lt; attempts; attempt++) {</span>
+<span class="nc" id="L162">				Coordinate C = new Coordinate(random.nextInt(0, getN() - 1),</span>
+<span class="nc" id="L163">						random.nextInt(0, getM() - 1));</span>
+
+<span class="nc bnc" id="L165" title="All 2 branches missed.">				if (!coordinates.contains(C)) {</span>
+<span class="nc" id="L166">					population.add(larva);</span>
+<span class="nc" id="L167">					coordinates.add(C);</span>
+<span class="nc" id="L168">					break;</span>
+				}
+
+<span class="nc" id="L171">				index = coordinates.indexOf(C);</span>
+
+<span class="nc bnc" id="L173" title="All 2 branches missed.">				if (comparator.compare(larva, population.get(index)) &lt; 0) {</span>
+<span class="nc" id="L174">					population.add(index, larva);</span>
+<span class="nc" id="L175">					population.remove(index + 1);</span>
+<span class="nc" id="L176">					break;</span>
+				}
+
+			}
+
+<span class="nc" id="L181">		}</span>
+
+<span class="nc" id="L183">		return population;</span>
+	}
+
+	@Override
+	protected List&lt;S&gt; depredation(List&lt;S&gt; population,
+			List&lt;Coordinate&gt; coordinates) {
+<span class="nc" id="L189">		int popSize = population.size();</span>
+<span class="nc" id="L190">		int quantity = (int) (getFd() * popSize);</span>
+
+<span class="nc" id="L192">		quantity = popSize - quantity;</span>
+
+		double coin;
+<span class="nc bnc" id="L195" title="All 2 branches missed.">		for (int i = popSize-1; i &gt; quantity; i--) {</span>
+<span class="nc" id="L196">			coin = random.nextDouble();</span>
+			
+<span class="nc bnc" id="L198" title="All 2 branches missed.">			if(coin &lt; getPd()){</span>
+<span class="nc" id="L199">				population.remove(population.size()-1);</span>
+<span class="nc" id="L200">				coordinates.remove(population.size()-1);	</span>
+			}
+			
+		}
+				
+<span class="nc" id="L205">		return population;</span>
+	}
+
+	@Override
+	public List&lt;S&gt; getResult() {
+<span class="nc" id="L210">		Collections.sort(getPopulation(), comparator) ;</span>
+<span class="nc" id="L211">		return getPopulation();</span>
+	}
+
+	@Override
+	public String getName() {
+<span class="nc" id="L216">		return &quot;CRO&quot;;</span>
+	}
+
+	@Override
+	public String getDescription() {
+<span class="nc" id="L221">		return &quot;Coral Reefs Optimizatoin&quot;;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

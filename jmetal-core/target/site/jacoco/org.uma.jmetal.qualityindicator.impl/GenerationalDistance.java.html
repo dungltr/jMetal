@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenerationalDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl</a> &gt; <span class="el_source">GenerationalDistance.java</span></div><h1>GenerationalDistance.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.util.FrontUtils;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
+/**
+ * This class implements the generational distance indicator.
+ * Reference: Van Veldhuizen, D.A., Lamont, G.B.: Multiobjective Evolutionary
+ * Algorithm Research: A History and Analysis.
+ * Technical Report TR-98-03, Dept. Elec. Comput. Eng., Air Force
+ * Inst. Technol. (1998)
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class GenerationalDistance&lt;S extends Solution&lt;?&gt;&gt; extends GenericIndicator&lt;S&gt; {
+<span class="pc" id="L24">  private double pow = 2.0;</span>
+
+  /**
+   * Default constructor
+   */
+<span class="nc" id="L29">  public GenerationalDistance() {</span>
+<span class="nc" id="L30">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @param p
+   * @throws FileNotFoundException
+   */
+  public GenerationalDistance(String referenceParetoFrontFile, double p) throws FileNotFoundException {
+<span class="nc" id="L40">    super(referenceParetoFrontFile) ;</span>
+<span class="nc" id="L41">    pow = p ;</span>
+<span class="nc" id="L42">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @throws FileNotFoundException
+   */
+  public GenerationalDistance(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L51">    this(referenceParetoFrontFile, 2.0) ;</span>
+<span class="nc" id="L52">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFront
+   */
+  public GenerationalDistance(Front referenceParetoFront) {
+<span class="fc" id="L60">    super(referenceParetoFront) ;</span>
+<span class="fc" id="L61">  }</span>
+
+  /**
+   * Evaluate() method
+   * @param solutionList
+   * @return
+   */
+  @Override public Double evaluate(List&lt;S&gt; solutionList) {
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">    if (solutionList == null) {</span>
+<span class="fc" id="L70">      throw new JMetalException(&quot;The pareto front approximation is null&quot;) ;</span>
+    }
+
+<span class="nc" id="L73">    return generationalDistance(new ArrayFront(solutionList), referenceParetoFront);</span>
+  }
+
+  /**
+   * Returns the generational distance value for a given front
+   *
+   * @param front           The front
+   * @param referenceFront The reference pareto front
+   */
+  public double generationalDistance(Front front, Front referenceFront) {
+<span class="nc" id="L83">    double sum = 0.0;</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc" id="L85">      sum += Math.pow(FrontUtils.distanceToClosestPoint(front.getPoint(i),</span>
+          referenceFront), pow);
+    }
+
+<span class="nc" id="L89">    sum = Math.pow(sum, 1.0 / pow);</span>
+
+<span class="nc" id="L91">    return sum / front.getNumberOfPoints();</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L95">    return &quot;GD&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L99">    return &quot;Generational distance quality indicator&quot; ;</span>
+  }
+
+  @Override
+  public boolean isTheLowerTheIndicatorValueTheBetter() {
+<span class="nc" id="L104">    return true ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

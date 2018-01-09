@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGeneticAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.impl</a> &gt; <span class="el_source">AbstractGeneticAlgorithm.java</span></div><h1>AbstractGeneticAlgorithm.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.impl;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.util.JMetalException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Abstract class representing a genetic algorithm
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public abstract class AbstractGeneticAlgorithm&lt;S, Result&gt; extends AbstractEvolutionaryAlgorithm&lt;S, Result&gt; {
+  protected int maxPopulationSize ;
+  protected SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator ;
+  protected CrossoverOperator&lt;S&gt; crossoverOperator ;
+  protected MutationOperator&lt;S&gt; mutationOperator ;
+
+  /* Setters and getters */
+  public void setMaxPopulationSize(int maxPopulationSize) {
+<span class="nc" id="L26">    this.maxPopulationSize = maxPopulationSize ;</span>
+<span class="nc" id="L27">  }</span>
+  
+  public int getMaxPopulationSize() {
+<span class="nc" id="L30">    return maxPopulationSize ;</span>
+  }
+  
+  public SelectionOperator&lt;List&lt;S&gt;, S&gt; getSelectionOperator() {
+<span class="nc" id="L34">    return selectionOperator;</span>
+  }
+
+  public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="nc" id="L38">    return crossoverOperator;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L42">    return mutationOperator;</span>
+  }
+
+  /**
+   * Constructor
+   * @param problem The problem to solve
+   */
+<span class="nc" id="L49">  public AbstractGeneticAlgorithm(Problem&lt;S&gt; problem) {</span>
+<span class="nc" id="L50">    setProblem(problem);</span>
+<span class="nc" id="L51">  }</span>
+
+  /**
+   * This method implements a default scheme create the initial population of genetic algorithm
+   * @return
+   */
+  protected List&lt;S&gt; createInitialPopulation() {
+<span class="nc" id="L58">    List&lt;S&gt; population = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L60">      S newIndividual = getProblem().createSolution();</span>
+<span class="nc" id="L61">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L63">    return population;</span>
+  }
+
+  /**
+   * This method iteratively applies a {@link SelectionOperator} to the population to fill the mating pool population.
+   *
+   * @param population
+   * @return The mating pool population
+   */
+  @Override
+  protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L74">    List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(population.size());</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L76">      S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L77">      matingPopulation.add(solution);</span>
+    }
+
+<span class="nc" id="L80">    return matingPopulation;</span>
+  }
+
+  /**
+   * This methods iteratively applies a {@link CrossoverOperator} a  {@link MutationOperator} to the population to
+   * create the offspring population. The population size must be divisible by the number of parents required
+   * by the {@link CrossoverOperator}; this way, the needed parents are taken sequentially from the population.
+   *
+   * No limits are imposed to the number of solutions returned by the {@link CrossoverOperator}.
+   *
+   * @param population
+   * @return The new created offspring population
+   */
+  @Override
+  protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
+<span class="nc" id="L95">    int numberOfParents = crossoverOperator.getNumberOfRequiredParents() ;</span>
+
+<span class="nc" id="L97">    checkNumberOfParents(population, numberOfParents);</span>
+
+<span class="nc" id="L99">    List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L100" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i += numberOfParents) {</span>
+<span class="nc" id="L101">      List&lt;S&gt; parents = new ArrayList&lt;&gt;(numberOfParents);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfParents; j++) {</span>
+<span class="nc" id="L103">        parents.add(population.get(i+j));</span>
+      }
+
+<span class="nc" id="L106">      List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">      for(S s: offspring){</span>
+<span class="nc" id="L109">        mutationOperator.execute(s);</span>
+<span class="nc" id="L110">        offspringPopulation.add(s);</span>
+<span class="nc" id="L111">      }</span>
+    }
+<span class="nc" id="L113">    return offspringPopulation;</span>
+  }
+
+  /**
+   * A crossover operator is applied to a number of parents, and it assumed that the population contains
+   * a valid number of solutions. This method checks that.
+   * @param population
+   * @param numberOfParentsForCrossover
+   */
+  protected void checkNumberOfParents(List&lt;S&gt; population, int numberOfParentsForCrossover) {
+<span class="nc bnc" id="L123" title="All 2 branches missed.">    if ((population.size() % numberOfParentsForCrossover) != 0) {</span>
+<span class="nc" id="L124">      throw new JMetalException(&quot;Wrong number of parents: the remainder if the &quot; +</span>
+<span class="nc" id="L125">              &quot;population size (&quot; + population.size() + &quot;) is not divisible by &quot; +</span>
+              numberOfParentsForCrossover) ;
+    }
+<span class="nc" id="L128">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

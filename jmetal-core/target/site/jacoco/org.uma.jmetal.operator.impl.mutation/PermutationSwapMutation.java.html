@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PermutationSwapMutation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.mutation</a> &gt; <span class="el_source">PermutationSwapMutation.java</span></div><h1>PermutationSwapMutation.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.mutation;
+
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.solution.PermutationSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+/**
+ * This class implements a swap mutation. The solution type of the solution
+ * must be Permutation.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class PermutationSwapMutation&lt;T&gt; implements MutationOperator&lt;PermutationSolution&lt;T&gt;&gt; {
+  private double mutationProbability ;
+  private RandomGenerator&lt;Double&gt; mutationRandomGenerator ;
+  private BoundedRandomGenerator&lt;Integer&gt; positionRandomGenerator ;
+
+  /**
+   * Constructor
+   */
+  public PermutationSwapMutation(double mutationProbability) {
+<span class="fc" id="L27">	  this(mutationProbability, () -&gt; JMetalRandom.getInstance().nextDouble(), (a, b) -&gt; JMetalRandom.getInstance().nextInt(a,  b));</span>
+<span class="fc" id="L28">  }</span>
+
+  /**
+   * Constructor
+   */
+  public PermutationSwapMutation(double mutationProbability, RandomGenerator&lt;Double&gt; randomGenerator) {
+<span class="nc" id="L34">	  this(mutationProbability, randomGenerator, BoundedRandomGenerator.fromDoubleToInteger(randomGenerator));</span>
+<span class="nc" id="L35">  }</span>
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L40">  public PermutationSwapMutation(double mutationProbability, RandomGenerator&lt;Double&gt; mutationRandomGenerator, BoundedRandomGenerator&lt;Integer&gt; positionRandomGenerator) {</span>
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">    if ((mutationProbability &lt; 0) || (mutationProbability &gt; 1)) {</span>
+<span class="nc" id="L42">      throw new JMetalException(&quot;Mutation probability value invalid: &quot; + mutationProbability) ;</span>
+    }
+<span class="fc" id="L44">    this.mutationProbability = mutationProbability;</span>
+<span class="fc" id="L45">    this.mutationRandomGenerator = mutationRandomGenerator ;</span>
+<span class="fc" id="L46">    this.positionRandomGenerator = positionRandomGenerator ;</span>
+<span class="fc" id="L47">  }</span>
+
+  /* Getters */
+  public double getMutationProbability() {
+<span class="nc" id="L51">    return mutationProbability;</span>
+  }
+
+  /* Setters */
+  public void setMutationProbability(double mutationProbability) {
+<span class="nc" id="L56">    this.mutationProbability = mutationProbability;</span>
+<span class="nc" id="L57">  }</span>
+
+  /* Execute() method */
+  @Override
+  public PermutationSolution&lt;T&gt; execute(PermutationSolution&lt;T&gt; solution) {
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">    if (null == solution) {</span>
+<span class="nc" id="L63">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+    }
+
+<span class="fc" id="L66">    doMutation(solution);</span>
+<span class="fc" id="L67">    return solution;</span>
+  }
+
+  /**
+   * Performs the operation
+   */
+  public void doMutation(PermutationSolution&lt;T&gt; solution) {
+    int permutationLength ;
+<span class="fc" id="L75">    permutationLength = solution.getNumberOfVariables() ;</span>
+
+<span class="pc bpc" id="L77" title="2 of 4 branches missed.">    if ((permutationLength != 0) &amp;&amp; (permutationLength != 1)) {</span>
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">      if (mutationRandomGenerator.getRandomValue() &lt; mutationProbability) {</span>
+<span class="fc" id="L79">        int pos1 = positionRandomGenerator.getRandomValue(0, permutationLength - 1);</span>
+<span class="fc" id="L80">        int pos2 = positionRandomGenerator.getRandomValue(0, permutationLength - 1);</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        while (pos1 == pos2) {</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">          if (pos1 == (permutationLength - 1))</span>
+<span class="nc" id="L84">            pos2 = positionRandomGenerator.getRandomValue(0, permutationLength - 2);</span>
+          else
+<span class="fc" id="L86">            pos2 = positionRandomGenerator.getRandomValue(pos1, permutationLength - 1);</span>
+        }
+
+<span class="fc" id="L89">        T temp = solution.getVariableValue(pos1);</span>
+<span class="fc" id="L90">        solution.setVariableValue(pos1, solution.getVariableValue(pos2));</span>
+<span class="fc" id="L91">        solution.setVariableValue(pos2, temp);</span>
+      }
+    }
+<span class="fc" id="L94">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>R2Ranking.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi.util</a> &gt; <span class="el_source">R2Ranking.java</span></div><h1>R2Ranking.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi.util;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttribute;
+
+import java.util.*;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class R2Ranking&lt;S extends Solution&lt;?&gt;&gt; extends GenericSolutionAttribute&lt;S, R2SolutionData&gt; {
+
+  private AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctions;
+  private List&lt;List&lt;S&gt;&gt; rankedSubpopulations;
+<span class="nc" id="L13">  private int numberOfRanks = 0;</span>
+<span class="nc" id="L14">  private R2RankingAttribute&lt;S&gt; attribute = new R2RankingAttribute&lt;&gt;();</span>
+
+
+<span class="nc" id="L17">  public R2Ranking(AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctions) {</span>
+<span class="nc" id="L18">    this.utilityFunctions = utilityFunctions;</span>
+<span class="nc" id="L19">  }</span>
+
+  public R2Ranking&lt;S&gt; computeRanking(List&lt;S&gt; population) {
+
+<span class="nc bnc" id="L23" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L24">      solution.setAttribute(getAttributeIdentifier(), new R2SolutionData());</span>
+<span class="nc" id="L25">    }</span>
+
+<span class="nc bnc" id="L27" title="All 2 branches missed.">    for (int i = 0; i &lt; this.utilityFunctions.getSize(); i++) {</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">      for (S solution : population) {</span>
+<span class="nc" id="L29">        R2SolutionData solutionData = this.getAttribute(solution);</span>
+<span class="nc" id="L30">        solutionData.alpha = this.utilityFunctions.evaluate(solution, i);</span>
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if (solutionData.alpha &lt; solutionData.utility)</span>
+<span class="nc" id="L33">          solutionData.utility = solutionData.alpha;</span>
+<span class="nc" id="L34">      }</span>
+
+<span class="nc" id="L36">      Collections.sort(population, new Comparator&lt;S&gt;() {</span>
+        @Override
+        public int compare(S o1, S o2) {
+<span class="nc" id="L39">          R2RankingAttribute&lt;S&gt; attribute = new R2RankingAttribute&lt;&gt;();</span>
+<span class="nc" id="L40">          R2SolutionData data1 = (R2SolutionData) attribute.getAttribute(o1);</span>
+<span class="nc" id="L41">          R2SolutionData data2 = (R2SolutionData) attribute.getAttribute(o2);</span>
+
+<span class="nc bnc" id="L43" title="All 2 branches missed.">          if (data1.alpha &lt; data2.alpha)</span>
+<span class="nc" id="L44">            return -1;</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">          else if (data1.alpha &gt; data2.alpha)</span>
+<span class="nc" id="L46">            return 1;</span>
+          else
+<span class="nc" id="L48">            return 0;</span>
+        }
+      });
+
+<span class="nc" id="L52">      int rank = 1;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">      for (S p : population) {</span>
+<span class="nc" id="L54">        R2SolutionData r2Data = this.getAttribute(p);</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (rank &lt; r2Data.rank) {</span>
+<span class="nc" id="L56">          r2Data.rank = rank;</span>
+<span class="nc" id="L57">          numberOfRanks = Math.max(numberOfRanks, rank);</span>
+        }
+<span class="nc" id="L59">        rank = rank + 1;</span>
+<span class="nc" id="L60">      }</span>
+    }
+
+<span class="nc" id="L63">    Map&lt;Integer, List&lt;S&gt;&gt; fronts = new TreeMap&lt;&gt;(); // sorted on key</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L65">      R2SolutionData r2Data = this.getAttribute(solution);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">      if (fronts.get(r2Data.rank) == null)</span>
+<span class="nc" id="L67">        fronts.put(r2Data.rank, new LinkedList&lt;S&gt;());</span>
+
+<span class="nc" id="L69">      fronts.get(r2Data.rank).add(solution);</span>
+<span class="nc" id="L70">    }</span>
+
+<span class="nc" id="L72">    this.rankedSubpopulations = new ArrayList&lt;&gt;(fronts.size());</span>
+<span class="nc" id="L73">    Iterator&lt;Integer&gt; iterator = fronts.keySet().iterator();</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    while (iterator.hasNext())</span>
+<span class="nc" id="L75">      this.rankedSubpopulations.add(fronts.get(iterator.next()));</span>
+
+<span class="nc" id="L77">    return this;</span>
+  }
+
+  public List&lt;S&gt; getSubfront(int rank) {
+<span class="nc" id="L81">    return this.rankedSubpopulations.get(rank);</span>
+  }
+
+  public int getNumberOfSubfronts() {
+<span class="nc" id="L85">    return this.rankedSubpopulations.size();</span>
+  }
+
+  @Override
+  public void setAttribute(S solution, R2SolutionData value) {
+<span class="nc" id="L90">    this.attribute.setAttribute(solution, value);</span>
+<span class="nc" id="L91">  }</span>
+
+  @Override
+  public R2SolutionData getAttribute(S solution) {
+<span class="nc" id="L95">    return this.attribute.getAttribute(solution);</span>
+  }
+
+  @Override
+  public Object getAttributeIdentifier() {
+<span class="nc" id="L100">    return this.attribute.getAttributeIdentifier();</span>
+  }
+
+  public AbstractUtilityFunctionsSet&lt;S&gt; getUtilityFunctions() {
+<span class="nc" id="L104">    return this.utilityFunctions;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

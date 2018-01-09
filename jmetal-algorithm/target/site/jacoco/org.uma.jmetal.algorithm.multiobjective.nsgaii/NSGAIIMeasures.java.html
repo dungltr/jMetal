@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NSGAIIMeasures.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.nsgaii</a> &gt; <span class="el_source">NSGAIIMeasures.java</span></div><h1>NSGAIIMeasures.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.nsgaii;
+
+import org.uma.jmetal.measure.Measurable;
+import org.uma.jmetal.measure.MeasureManager;
+import org.uma.jmetal.measure.impl.BasicMeasure;
+import org.uma.jmetal.measure.impl.CountingMeasure;
+import org.uma.jmetal.measure.impl.DurationMeasure;
+import org.uma.jmetal.measure.impl.SimpleMeasureManager;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class NSGAIIMeasures&lt;S extends Solution&lt;?&gt;&gt; extends NSGAII&lt;S&gt; implements Measurable {
+  protected CountingMeasure evaluations ;
+  protected DurationMeasure durationMeasure ;
+  protected SimpleMeasureManager measureManager ;
+
+  protected BasicMeasure&lt;List&lt;S&gt;&gt; solutionListMeasure ;
+  protected BasicMeasure&lt;Integer&gt; numberOfNonDominatedSolutionsInPopulation ;
+  protected BasicMeasure&lt;Double&gt; hypervolumeValue ;
+
+  protected Front referenceFront ;
+
+  /**
+   * Constructor
+   */
+  public NSGAIIMeasures(Problem&lt;S&gt; problem, int maxIterations, int populationSize,
+      CrossoverOperator&lt;S&gt; crossoverOperator, MutationOperator&lt;S&gt; mutationOperator,
+      SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator, SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc" id="L44">    super(problem, maxIterations, populationSize, crossoverOperator, mutationOperator,</span>
+        selectionOperator, evaluator) ;
+
+<span class="nc" id="L47">    referenceFront = new ArrayFront() ;</span>
+
+<span class="nc" id="L49">    initMeasures() ;</span>
+<span class="nc" id="L50">  }</span>
+
+  @Override protected void initProgress() {
+<span class="nc" id="L53">    evaluations.reset(getMaxPopulationSize());</span>
+<span class="nc" id="L54">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L57">    evaluations.increment(getMaxPopulationSize());</span>
+
+<span class="nc" id="L59">    solutionListMeasure.push(getPopulation());</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">    if (referenceFront.getNumberOfPoints() &gt; 0) {</span>
+<span class="nc" id="L62">      hypervolumeValue.push(</span>
+<span class="nc" id="L63">              new PISAHypervolume&lt;S&gt;(referenceFront).evaluate(</span>
+<span class="nc" id="L64">                      getNonDominatedSolutions(getPopulation())));</span>
+    }
+<span class="nc" id="L66">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    return evaluations.get() &gt;= maxEvaluations;</span>
+  }
+
+  @Override
+  public void run() {
+<span class="nc" id="L74">    durationMeasure.reset();</span>
+<span class="nc" id="L75">    durationMeasure.start();</span>
+<span class="nc" id="L76">    super.run();</span>
+<span class="nc" id="L77">    durationMeasure.stop();</span>
+<span class="nc" id="L78">  }</span>
+
+  /* Measures code */
+  private void initMeasures() {
+<span class="nc" id="L82">    durationMeasure = new DurationMeasure() ;</span>
+<span class="nc" id="L83">    evaluations = new CountingMeasure(0) ;</span>
+<span class="nc" id="L84">    numberOfNonDominatedSolutionsInPopulation = new BasicMeasure&lt;&gt;() ;</span>
+<span class="nc" id="L85">    solutionListMeasure = new BasicMeasure&lt;&gt;() ;</span>
+<span class="nc" id="L86">    hypervolumeValue = new BasicMeasure&lt;&gt;() ;</span>
+
+<span class="nc" id="L88">    measureManager = new SimpleMeasureManager() ;</span>
+<span class="nc" id="L89">    measureManager.setPullMeasure(&quot;currentExecutionTime&quot;, durationMeasure);</span>
+<span class="nc" id="L90">    measureManager.setPullMeasure(&quot;currentEvaluation&quot;, evaluations);</span>
+<span class="nc" id="L91">    measureManager.setPullMeasure(&quot;numberOfNonDominatedSolutionsInPopulation&quot;,</span>
+        numberOfNonDominatedSolutionsInPopulation);
+
+<span class="nc" id="L94">    measureManager.setPushMeasure(&quot;currentPopulation&quot;, solutionListMeasure);</span>
+<span class="nc" id="L95">    measureManager.setPushMeasure(&quot;currentEvaluation&quot;, evaluations);</span>
+<span class="nc" id="L96">    measureManager.setPushMeasure(&quot;hypervolume&quot;, hypervolumeValue);</span>
+<span class="nc" id="L97">  }</span>
+
+  @Override
+  public MeasureManager getMeasureManager() {
+<span class="nc" id="L101">    return measureManager ;</span>
+  }
+
+  @Override protected List&lt;S&gt; replacement(List&lt;S&gt; population,
+      List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L106">    List&lt;S&gt; pop = super.replacement(population, offspringPopulation) ;</span>
+
+<span class="nc" id="L108">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;S&gt;();</span>
+<span class="nc" id="L109">    ranking.computeRanking(population);</span>
+
+<span class="nc" id="L111">    numberOfNonDominatedSolutionsInPopulation.set(ranking.getSubfront(0).size());</span>
+
+<span class="nc" id="L113">    return pop;</span>
+  }
+
+  public CountingMeasure getEvaluations() {
+<span class="nc" id="L117">    return evaluations;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L121">    return &quot;NSGAIIM&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L125">    return &quot;Nondominated Sorting Genetic Algorithm version II. Version using measures&quot; ;</span>
+  }
+
+  public void setReferenceFront(Front referenceFront) {
+<span class="nc" id="L129">    this.referenceFront = referenceFront ;</span>
+<span class="nc" id="L130">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

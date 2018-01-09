@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UF6.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.UF</a> &gt; <span class="el_source">UF6.java</span></div><h1>UF6.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.UF;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class representing problem CEC2009_UF5
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class UF6 extends AbstractDoubleProblem {
+  int    n       ;
+  double epsilon ;
+
+ /** 
+  * Constructor.
+  * Creates a default instance of problem CEC2009_UF6 (30 decision variables, N =10, epsilon = 0.1)
+  */
+  public UF6() {
+<span class="nc" id="L22">    this(30, 2, 0.1);</span>
+<span class="nc" id="L23">  }</span>
+  
+ /**
+  * Creates a new instance of problem CEC2009_UF6.
+  * @param numberOfVariables Number of variables.
+  */
+<span class="nc" id="L29">  public UF6(Integer numberOfVariables, int N, double epsilon) {</span>
+<span class="nc" id="L30">    setNumberOfVariables(numberOfVariables) ;</span>
+<span class="nc" id="L31">    setNumberOfObjectives(2) ;</span>
+<span class="nc" id="L32">    setNumberOfConstraints(0) ;</span>
+<span class="nc" id="L33">    setName(&quot;UF6&quot;) ;</span>
+
+<span class="nc" id="L35">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L36">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+    
+<span class="nc" id="L38">    n = N  ;</span>
+<span class="nc" id="L39">    this.epsilon = epsilon ;</span>
+
+<span class="nc" id="L41">    lowerLimit.add(0.0);</span>
+<span class="nc" id="L42">    upperLimit.add(1.0);</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    for (int i = 1; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L44">      lowerLimit.add(-1.0);</span>
+<span class="nc" id="L45">      upperLimit.add(1.0);</span>
+    }
+
+<span class="nc" id="L48">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L49">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L50">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L55">    double[] x = new double[getNumberOfVariables()];</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L57">      x[i] = solution.getVariableValue(i) ;</span>
+    }
+
+  	int count1, count2 ;
+    double prod1, prod2 ;
+    double sum1, sum2, yj, hj, pj ;
+<span class="nc" id="L63">		sum1   = sum2   = 0.0;</span>
+<span class="nc" id="L64">		count1 = count2 = 0;</span>
+<span class="nc" id="L65"> 		prod1  = prod2  = 1.0;</span>
+    
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    for (int j = 2 ; j &lt;= getNumberOfVariables(); j++) {</span>
+<span class="nc" id="L68">			yj = x[j-1]-Math.sin(6.0*Math.PI*x[0]+j*Math.PI/getNumberOfVariables());</span>
+<span class="nc" id="L69">			pj = Math.cos(20.0*yj*Math.PI/Math.sqrt(j));</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">			if (j % 2 == 0) {</span>
+<span class="nc" id="L71">				sum2  += yj*yj;</span>
+<span class="nc" id="L72">				prod2 *= pj;</span>
+<span class="nc" id="L73">				count2++;</span>
+			} else {
+<span class="nc" id="L75">				sum1  += yj*yj;</span>
+<span class="nc" id="L76">				prod1 *= pj;</span>
+<span class="nc" id="L77">				count1++;</span>
+			}
+    }
+<span class="nc" id="L80">		hj = 2.0*(0.5/n + epsilon)*Math.sin(2.0*n*Math.PI*x[0]);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (hj &lt; 0.0) </span>
+<span class="nc" id="L82">      hj = 0.0;</span>
+    
+<span class="nc" id="L84">    solution.setObjective(0, x[0] + hj + 2.0*(4.0*sum1 - 2.0*prod1 + 2.0) / (double)count1);</span>
+<span class="nc" id="L85">    solution.setObjective(1, 1.0 - x[0] + hj + 2.0*(4.0*sum2 - 2.0*prod2 + 2.0) / (double)count2);</span>
+<span class="nc" id="L86">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

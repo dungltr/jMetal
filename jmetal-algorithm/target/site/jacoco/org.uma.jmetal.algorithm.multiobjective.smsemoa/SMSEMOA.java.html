@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SMSEMOA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.smsemoa</a> &gt; <span class="el_source">SMSEMOA.java</span></div><h1>SMSEMOA.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.smsemoa;
+
+import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.qualityindicator.impl.Hypervolume;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SMSEMOA&lt;S extends Solution&lt;?&gt;&gt; extends AbstractGeneticAlgorithm&lt;S, List&lt;S&gt;&gt; {
+  protected final int maxEvaluations;
+  protected final double offset ;
+
+  protected int evaluations;
+
+  private Hypervolume&lt;S&gt; hypervolume;
+
+  /**
+   * Constructor
+   */
+  public SMSEMOA(Problem&lt;S&gt; problem, int maxEvaluations, int populationSize, double offset,
+      CrossoverOperator&lt;S&gt; crossoverOperator, MutationOperator&lt;S&gt; mutationOperator,
+      SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator, Hypervolume&lt;S&gt; hypervolumeImplementation) {
+<span class="nc" id="L34">    super(problem) ;</span>
+<span class="nc" id="L35">    this.maxEvaluations = maxEvaluations;</span>
+<span class="nc" id="L36">    setMaxPopulationSize(populationSize);</span>
+
+<span class="nc" id="L38">    this.offset = offset ;</span>
+
+<span class="nc" id="L40">    this.crossoverOperator = crossoverOperator;</span>
+<span class="nc" id="L41">    this.mutationOperator = mutationOperator;</span>
+<span class="nc" id="L42">    this.selectionOperator = selectionOperator;</span>
+
+<span class="nc" id="L44">    this.hypervolume = hypervolumeImplementation ;</span>
+<span class="nc" id="L45">  }</span>
+
+  @Override protected void initProgress() {
+<span class="nc" id="L48">    evaluations = getMaxPopulationSize() ;</span>
+<span class="nc" id="L49">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L52">    evaluations++ ;</span>
+<span class="nc" id="L53">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">    return evaluations &gt;= maxEvaluations ;</span>
+  }
+
+  @Override protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L61">      getProblem().evaluate(solution);</span>
+<span class="nc" id="L62">    }</span>
+<span class="nc" id="L63">    return population ;</span>
+  }
+
+  @Override protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L67">    List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(2);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">    for (int i = 0; i &lt; 2; i++) {</span>
+<span class="nc" id="L69">      S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L70">      matingPopulation.add(solution);</span>
+    }
+
+<span class="nc" id="L73">    return matingPopulation;</span>
+  }
+
+  @Override protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
+<span class="nc" id="L77">    List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(1);</span>
+
+<span class="nc" id="L79">    List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L80">    parents.add(population.get(0));</span>
+<span class="nc" id="L81">    parents.add(population.get(1));</span>
+
+<span class="nc" id="L83">    List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+
+<span class="nc" id="L85">    mutationOperator.execute(offspring.get(0));</span>
+
+<span class="nc" id="L87">    offspringPopulation.add(offspring.get(0));</span>
+<span class="nc" id="L88">    return offspringPopulation;</span>
+  }
+
+  @Override protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L92">    List&lt;S&gt; jointPopulation = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L93">    jointPopulation.addAll(population);</span>
+<span class="nc" id="L94">    jointPopulation.addAll(offspringPopulation);</span>
+
+<span class="nc" id="L96">    Ranking&lt;S&gt; ranking = computeRanking(jointPopulation);</span>
+<span class="nc" id="L97">    List&lt;S&gt; lastSubfront = ranking.getSubfront(ranking.getNumberOfSubfronts()-1) ;</span>
+
+<span class="nc" id="L99">    lastSubfront = hypervolume.computeHypervolumeContribution(lastSubfront, jointPopulation) ;</span>
+
+<span class="nc" id="L101">    List&lt;S&gt; resultPopulation = new ArrayList&lt;&gt;() ;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">    for (int i = 0; i &lt; ranking.getNumberOfSubfronts()-1; i++) {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">      for (S solution : ranking.getSubfront(i)) {</span>
+<span class="nc" id="L104">        resultPopulation.add(solution);</span>
+<span class="nc" id="L105">      }</span>
+    }
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    for (int i = 0; i &lt; lastSubfront.size()-1; i++) {</span>
+<span class="nc" id="L109">      resultPopulation.add(lastSubfront.get(i)) ;</span>
+    }
+
+<span class="nc" id="L112">    return resultPopulation ;</span>
+  }
+
+  @Override public List&lt;S&gt; getResult() {
+<span class="nc" id="L116">    return getPopulation();</span>
+  }
+
+  protected Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionList) {
+<span class="nc" id="L120">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;S&gt;();</span>
+<span class="nc" id="L121">    ranking.computeRanking(solutionList);</span>
+
+<span class="nc" id="L123">    return ranking;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L127">    return &quot;SMSEMOA&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L131">    return &quot;S metric selection EMOA&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

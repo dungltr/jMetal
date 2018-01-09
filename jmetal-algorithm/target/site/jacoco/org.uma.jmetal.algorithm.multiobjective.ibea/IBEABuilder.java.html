@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IBEABuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.ibea</a> &gt; <span class="el_source">IBEABuilder.java</span></div><h1>IBEABuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.ibea;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
+import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+
+import java.util.List;
+
+/**
+ * This class implements the IBEA algorithm
+ */
+public class IBEABuilder implements AlgorithmBuilder&lt;IBEA&lt;DoubleSolution&gt;&gt; {
+  private Problem&lt;DoubleSolution&gt; problem;
+  private int populationSize;
+  private int archiveSize;
+  private int maxEvaluations;
+
+  private CrossoverOperator&lt;DoubleSolution&gt; crossover;
+  private MutationOperator&lt;DoubleSolution&gt; mutation;
+  private SelectionOperator&lt;List&lt;DoubleSolution&gt;, DoubleSolution&gt; selection;
+
+  /**
+   * Constructor
+   * @param problem
+   */
+<span class="nc" id="L32">  public IBEABuilder(Problem&lt;DoubleSolution&gt; problem) {</span>
+<span class="nc" id="L33">    this.problem = problem;</span>
+<span class="nc" id="L34">    populationSize = 100;</span>
+<span class="nc" id="L35">    archiveSize = 100;</span>
+<span class="nc" id="L36">    maxEvaluations = 25000;</span>
+
+<span class="nc" id="L38">    double crossoverProbability = 0.9;</span>
+<span class="nc" id="L39">    double crossoverDistributionIndex = 20.0;</span>
+<span class="nc" id="L40">    crossover = new SBXCrossover(crossoverProbability, crossoverDistributionIndex);</span>
+
+<span class="nc" id="L42">    double mutationProbability = 1.0 / problem.getNumberOfVariables();</span>
+<span class="nc" id="L43">    double mutationDistributionIndex = 20.0;</span>
+<span class="nc" id="L44">    mutation = new PolynomialMutation(mutationProbability, mutationDistributionIndex);</span>
+
+<span class="nc" id="L46">    selection = new BinaryTournamentSelection&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L47">  }</span>
+
+  /* Getters */
+  public int getPopulationSize() {
+<span class="nc" id="L51">    return populationSize;</span>
+  }
+
+  public int getArchiveSize() {
+<span class="nc" id="L55">    return archiveSize;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="nc" id="L59">    return maxEvaluations;</span>
+  }
+
+  public CrossoverOperator&lt;DoubleSolution&gt; getCrossover() {
+<span class="nc" id="L63">    return crossover;</span>
+  }
+
+  public MutationOperator&lt;DoubleSolution&gt; getMutation() {
+<span class="nc" id="L67">    return mutation;</span>
+  }
+
+  public SelectionOperator&lt;List&lt;DoubleSolution&gt;, DoubleSolution&gt; getSelection() {
+<span class="nc" id="L71">    return selection;</span>
+  }
+
+  /* Setters */
+  public IBEABuilder setPopulationSize(int populationSize) {
+<span class="nc" id="L76">    this.populationSize = populationSize;</span>
+
+<span class="nc" id="L78">    return this;</span>
+  }
+
+  public IBEABuilder setArchiveSize(int archiveSize) {
+<span class="nc" id="L82">    this.archiveSize = archiveSize;</span>
+
+<span class="nc" id="L84">    return this;</span>
+  }
+
+  public IBEABuilder setMaxEvaluations(int maxEvaluations) {
+<span class="nc" id="L88">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L90">    return this;</span>
+  }
+
+  public IBEABuilder setCrossover(CrossoverOperator&lt;DoubleSolution&gt; crossover) {
+<span class="nc" id="L94">    this.crossover = crossover;</span>
+
+<span class="nc" id="L96">    return this;</span>
+  }
+
+  public IBEABuilder setMutation(MutationOperator&lt;DoubleSolution&gt; mutation) {
+<span class="nc" id="L100">    this.mutation = mutation;</span>
+
+<span class="nc" id="L102">    return this;</span>
+  }
+
+  public IBEABuilder setSelection(SelectionOperator&lt;List&lt;DoubleSolution&gt;, DoubleSolution&gt; selection) {
+<span class="nc" id="L106">    this.selection = selection;</span>
+
+<span class="nc" id="L108">    return this;</span>
+  }
+
+  public IBEA&lt;DoubleSolution&gt; build() {
+<span class="nc" id="L112">    return new IBEA&lt;DoubleSolution&gt;(problem, populationSize, archiveSize, maxEvaluations, selection, crossover,</span>
+        mutation);
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

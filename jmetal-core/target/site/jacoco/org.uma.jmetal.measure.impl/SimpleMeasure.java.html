@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpleMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">SimpleMeasure.java</span></div><h1>SimpleMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+import org.uma.jmetal.measure.Measure;
+import org.uma.jmetal.util.naming.impl.SimpleDescribedEntity;
+
+/**
+ * {@link SimpleMeasure} is a basic implementation of {@link Measure}. It
+ * provides a basic support for the most generic properties required by this
+ * interface.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ * 
+ * @param &lt;Value&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SimpleMeasure&lt;Value&gt; extends SimpleDescribedEntity implements
+		Measure&lt;Value&gt; {
+
+	/**
+	 * Create a {@link SimpleMeasure} with a given name and a given description.
+	 * 
+	 * @param name
+	 *            the name of the {@link Measure}
+	 * @param description
+	 *            the description of the {@link Measure}
+	 */
+	public SimpleMeasure(String name, String description) {
+<span class="fc" id="L28">		super(name, description);</span>
+<span class="fc" id="L29">	}</span>
+
+	/**
+	 * Create a {@link SimpleMeasure} with a given name and a &lt;code&gt;null&lt;/code&gt;
+	 * description.
+	 * 
+	 * @param name
+	 *            the name of the {@link Measure}
+	 */
+	public SimpleMeasure(String name) {
+<span class="fc" id="L39">		super(name);</span>
+<span class="fc" id="L40">	}</span>
+
+	/**
+	 * Create a {@link SimpleMeasure} with the class name as its name and a
+	 * &lt;code&gt;null&lt;/code&gt; description.
+	 * 
+	 */
+	public SimpleMeasure() {
+<span class="fc" id="L48">		super();</span>
+<span class="fc" id="L49">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

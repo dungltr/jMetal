@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ChartContainer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.chartcontainer</a> &gt; <span class="el_source">ChartContainer.java</span></div><h1>ChartContainer.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.chartcontainer;
+
+import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.knowm.xchart.BitmapEncoder;
+import org.knowm.xchart.BitmapEncoder.BitmapFormat;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XYChartBuilder;
+import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.XYSeries.XYSeriesRenderStyle;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.util.FrontUtils;
+
+/**
+ * Class for configuring and displaying a XChart.
+ *
+ * @author Jorge Rodriguez Ordonez
+ */
+
+public class ChartContainer {
+    private Map&lt;String, XYChart&gt; charts;
+    private XYChart frontChart;
+    private XYChart varChart;
+    private SwingWrapper&lt;XYChart&gt; sw;
+    private String name;
+    private int delay;
+    private int objective1;
+    private int objective2;
+    private int variable1;
+    private int variable2;
+    private Map&lt;String, List&lt;Integer&gt;&gt; iterations;
+    private Map&lt;String, List&lt;Double&gt;&gt; indicatorValues;
+
+    public ChartContainer(String name) {
+<span class="nc" id="L45">        this(name, 0);</span>
+<span class="nc" id="L46">    }</span>
+
+<span class="nc" id="L48">    public ChartContainer(String name, int delay) {</span>
+<span class="nc" id="L49">        this.name = name;</span>
+<span class="nc" id="L50">        this.delay = delay;</span>
+<span class="nc" id="L51">        this.charts = new LinkedHashMap&lt;String, XYChart&gt;();</span>
+<span class="nc" id="L52">        this.iterations = new HashMap&lt;String, List&lt;Integer&gt;&gt;();</span>
+<span class="nc" id="L53">        this.indicatorValues = new HashMap&lt;String, List&lt;Double&gt;&gt;();</span>
+<span class="nc" id="L54">    }</span>
+
+    public void setFrontChart(int objective1, int objective2) throws FileNotFoundException {
+<span class="nc" id="L57">        this.setFrontChart(objective1, objective2, null);</span>
+<span class="nc" id="L58">    }</span>
+
+    public void setFrontChart(int objective1, int objective2, String referenceFrontFileName) throws FileNotFoundException {
+<span class="nc" id="L61">        this.objective1 = objective1;</span>
+<span class="nc" id="L62">        this.objective2 = objective2;</span>
+<span class="nc" id="L63">        this.frontChart = new XYChartBuilder().xAxisTitle(&quot;Objective &quot; + this.objective1)</span>
+<span class="nc" id="L64">                .yAxisTitle(&quot;Objective &quot; + this.objective2).build();</span>
+<span class="nc" id="L65">        this.frontChart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter).setMarkerSize(5);</span>
+
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (referenceFrontFileName != null) {</span>
+<span class="nc" id="L68">            this.displayReferenceFront(referenceFrontFileName);</span>
+        }
+
+<span class="nc" id="L71">        double[] xData = new double[] { 0 };</span>
+<span class="nc" id="L72">        double[] yData = new double[] { 0 };</span>
+<span class="nc" id="L73">        XYSeries frontChartSeries = this.frontChart.addSeries(this.name, xData, yData);</span>
+<span class="nc" id="L74">        frontChartSeries.setMarkerColor(Color.blue);</span>
+
+<span class="nc" id="L76">        this.charts.put(&quot;Front&quot;, this.frontChart);</span>
+<span class="nc" id="L77">    }</span>
+    
+    public void setReferencePoint(List&lt;Double&gt; referencePoint){
+<span class="nc" id="L80">        double rp1 = referencePoint.get(this.objective1);</span>
+<span class="nc" id="L81">        double rp2 = referencePoint.get(this.objective2);</span>
+<span class="nc" id="L82">        XYSeries referencePointSeries = this.frontChart.addSeries(&quot;Reference Point [&quot;+ rp1 + &quot;, &quot; + rp2 + &quot;]&quot;,</span>
+                                                                  new double[] { rp1 },
+                                                                  new double[] { rp2 });
+<span class="nc" id="L85">        referencePointSeries.setMarkerColor(Color.green);</span>
+<span class="nc" id="L86">    }</span>
+
+    public void setVarChart(int variable1, int variable2) {
+<span class="nc" id="L89">        this.variable1 = variable1;</span>
+<span class="nc" id="L90">        this.variable2 = variable2;</span>
+<span class="nc" id="L91">        this.varChart = new XYChartBuilder().xAxisTitle(&quot;Variable &quot; + this.variable1)</span>
+<span class="nc" id="L92">                .yAxisTitle(&quot;Variable &quot; + this.variable2).build();</span>
+<span class="nc" id="L93">        this.varChart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter).setMarkerSize(5);</span>
+
+<span class="nc" id="L95">        double[] xData = new double[] { 0 };</span>
+<span class="nc" id="L96">        double[] yData = new double[] { 0 };</span>
+
+<span class="nc" id="L98">        XYSeries varChartSeries = this.varChart.addSeries(this.name, xData, yData);</span>
+<span class="nc" id="L99">        varChartSeries.setMarkerColor(Color.blue);</span>
+
+<span class="nc" id="L101">        this.charts.put(&quot;VAR&quot;, this.varChart);</span>
+<span class="nc" id="L102">    }</span>
+
+    public void initChart() {
+<span class="nc" id="L105">        this.sw = new SwingWrapper&lt;XYChart&gt;(new ArrayList&lt;XYChart&gt;(this.charts.values()));</span>
+<span class="nc" id="L106">        this.sw.displayChartMatrix(this.name);</span>
+<span class="nc" id="L107">    }</span>
+
+    public void updateFrontCharts(List&lt;DoubleSolution&gt; solutionList) {
+<span class="nc bnc" id="L110" title="All 2 branches missed.">        if (this.frontChart != null) {</span>
+<span class="nc" id="L111">            this.frontChart.updateXYSeries(this.name,</span>
+<span class="nc" id="L112">                                           this.getSolutionsForObjective(solutionList, this.objective1),</span>
+<span class="nc" id="L113">                                           this.getSolutionsForObjective(solutionList, this.objective2),</span>
+                                           null);
+        }
+
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (this.varChart != null) {</span>
+<span class="nc" id="L118">            this.varChart.updateXYSeries(this.name,</span>
+<span class="nc" id="L119">                                         this.getVariableValues(solutionList, this.variable1),</span>
+<span class="nc" id="L120">                                         this.getVariableValues(solutionList, this.variable2),</span>
+                                         null);
+        }
+<span class="nc" id="L123">    }</span>
+
+    public void refreshCharts() {
+<span class="nc" id="L126">        this.refreshCharts(this.delay);</span>
+<span class="nc" id="L127">    }</span>
+
+    public void refreshCharts(int delay) {
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (delay &gt; 0) {</span>
+            try {
+<span class="nc" id="L132">                TimeUnit.MILLISECONDS.sleep(delay);</span>
+<span class="nc" id="L133">            } catch (InterruptedException e) {</span>
+                // TODO Auto-generated catch block
+<span class="nc" id="L135">                e.printStackTrace();</span>
+<span class="nc" id="L136">            }</span>
+        }
+<span class="nc" id="L138">        this.repaint();</span>
+<span class="nc" id="L139">    }</span>
+
+    public void addIndicatorChart(String indicator) {
+<span class="nc" id="L142">        XYChart indicatorChart = new XYChartBuilder().xAxisTitle(&quot;n&quot;).yAxisTitle(indicator).build();</span>
+<span class="nc" id="L143">        indicatorChart.getStyler().setDefaultSeriesRenderStyle(XYSeriesRenderStyle.Scatter).setMarkerSize(5);</span>
+
+<span class="nc" id="L145">        List&lt;Integer&gt; indicatorIterations = new ArrayList&lt;Integer&gt;();</span>
+<span class="nc" id="L146">        indicatorIterations.add(0);</span>
+<span class="nc" id="L147">        List&lt;Double&gt; indicatorValues = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L148">        indicatorValues.add(0.0);</span>
+
+<span class="nc" id="L150">        XYSeries indicatorSeries = indicatorChart.addSeries(this.name, indicatorIterations, indicatorValues);</span>
+<span class="nc" id="L151">        indicatorSeries.setMarkerColor(Color.blue);</span>
+
+<span class="nc" id="L153">        this.iterations.put(indicator, indicatorIterations);</span>
+<span class="nc" id="L154">        this.indicatorValues.put(indicator, indicatorValues);</span>
+<span class="nc" id="L155">        this.charts.put(indicator, indicatorChart);</span>
+<span class="nc" id="L156">    }</span>
+
+    public void removeIndicator(String indicator) {
+<span class="nc" id="L159">        this.iterations.remove(indicator);</span>
+<span class="nc" id="L160">        this.indicatorValues.remove(indicator);</span>
+<span class="nc" id="L161">        this.charts.remove(indicator);</span>
+<span class="nc" id="L162">    }</span>
+
+    public void updateIndicatorChart(String indicator, Double value) {
+<span class="nc" id="L165">        this.indicatorValues.get(indicator).add(value);</span>
+<span class="nc" id="L166">        this.iterations.get(indicator).add(this.indicatorValues.get(indicator).size());</span>
+
+<span class="nc" id="L168">        this.charts.get(indicator).updateXYSeries(this.name, this.iterations.get(indicator),</span>
+<span class="nc" id="L169">                this.indicatorValues.get(indicator), null);</span>
+<span class="nc" id="L170">    }</span>
+
+    public void repaint() {
+        try {
+<span class="nc bnc" id="L174" title="All 2 branches missed.">            for (int i = 0; i &lt; this.charts.values().size(); i++) {</span>
+<span class="nc" id="L175">                this.sw.repaintChart(i);</span>
+            }
+<span class="nc" id="L177">        } catch (IndexOutOfBoundsException e) {</span>
+            // TODO Auto-generated catch block
+<span class="nc" id="L179">            e.printStackTrace();</span>
+<span class="nc" id="L180">        }</span>
+<span class="nc" id="L181">    }</span>
+
+    private void displayFront(String name, String fileName, int objective1, int objective2)
+            throws FileNotFoundException {
+<span class="nc" id="L185">        ArrayFront front = new ArrayFront(fileName);</span>
+<span class="nc" id="L186">        double[][] data = FrontUtils.convertFrontToArray(front);</span>
+<span class="nc" id="L187">        double[] xData = getObjectiveValues(data, objective1);</span>
+<span class="nc" id="L188">        double[] yData = getObjectiveValues(data, objective2);</span>
+<span class="nc" id="L189">        XYSeries referenceFront = this.frontChart.addSeries(name, xData, yData);</span>
+<span class="nc" id="L190">        referenceFront.setMarkerColor(Color.red);</span>
+<span class="nc" id="L191">    }</span>
+
+    private void displayReferenceFront(String fileName) throws FileNotFoundException {
+<span class="nc" id="L194">        this.displayReferenceFront(fileName, this.objective1, this.objective2);</span>
+<span class="nc" id="L195">    }</span>
+
+    private void displayReferenceFront(String fileName, int objective1, int objective2) throws FileNotFoundException {
+<span class="nc" id="L198">        this.displayFront(&quot;Reference Front&quot;, fileName, objective1, objective2);</span>
+<span class="nc" id="L199">    }</span>
+
+    private double[] getObjectiveValues(double[][] data, int obj) {
+<span class="nc" id="L202">        double[] values = new double[data.length];</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">        for (int i = 0; i &lt; data.length; i++) {</span>
+<span class="nc" id="L204">            values[i] = data[i][obj];</span>
+        }
+<span class="nc" id="L206">        return values;</span>
+    }
+
+    private double[] getSolutionsForObjective(List&lt;DoubleSolution&gt; solutionList, int objective) {
+<span class="nc" id="L210">        double[] result = new double[solutionList.size()];</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">        for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L212">            result[i] = solutionList.get(i).getObjective(objective);</span>
+        }
+<span class="nc" id="L214">        return result;</span>
+    }
+
+    private double[] getVariableValues(List&lt;DoubleSolution&gt; solutionList, int variable) {
+<span class="nc" id="L218">        double[] result = new double[solutionList.size()];</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L220">            result[i] = solutionList.get(i).getVariableValue(variable);</span>
+        }
+<span class="nc" id="L222">        return result;</span>
+    }
+
+    public void saveChart(String fileName, BitmapFormat format) throws IOException {
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        for (String chart : this.charts.keySet()) {</span>
+<span class="nc" id="L227">            BitmapEncoder.saveBitmap(this.charts.get(chart), fileName + &quot;_&quot; + chart, format);</span>
+<span class="nc" id="L228">        }</span>
+<span class="nc" id="L229">    }</span>
+
+    public String getName() {
+<span class="nc" id="L232">        return this.name;</span>
+    }
+
+    public ChartContainer setName(String name) {
+<span class="nc" id="L236">        this.name = name;</span>
+<span class="nc" id="L237">        return this;</span>
+    }
+
+    public int getDelay() {
+<span class="nc" id="L241">        return this.delay;</span>
+    }
+
+    public ChartContainer setDelay(int delay) {
+<span class="nc" id="L245">        this.delay = delay;</span>
+<span class="nc" id="L246">        return this;</span>
+    }
+
+    public XYChart getFrontChart() {
+<span class="nc" id="L250">        return this.frontChart;</span>
+    }
+
+    public XYChart getVarChart() {
+<span class="nc" id="L254">        return this.varChart;</span>
+    }
+
+    public XYChart getChart(String chartName) {
+<span class="nc" id="L258">        return this.charts.get(chartName);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

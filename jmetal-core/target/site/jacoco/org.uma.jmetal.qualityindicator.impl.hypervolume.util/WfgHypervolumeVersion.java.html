@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WfgHypervolumeVersion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl.hypervolume.util</a> &gt; <span class="el_source">WfgHypervolumeVersion.java</span></div><h1>WfgHypervolumeVersion.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl.hypervolume.util;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.point.Point;
+import org.uma.jmetal.util.point.impl.ArrayPoint;
+import org.uma.jmetal.util.point.util.comparator.PointComparator;
+import org.uma.jmetal.util.solutionattribute.impl.HypervolumeContributionAttribute;
+
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * Created by ajnebro on 2/2/15.
+ */
+public class WfgHypervolumeVersion {
+  static final int OPT = 2;
+  WfgHypervolumeFront[] fs;
+  private Point referencePoint;
+  boolean maximizing;
+  private int currentDeep;
+  private int currentDimension;
+  private int maxNumberOfPoints;
+  private Comparator&lt;Point&gt; pointComparator;
+
+  public WfgHypervolumeVersion(int dimension, int maxNumberOfPoints) {
+<span class="nc" id="L30">    this(dimension, maxNumberOfPoints, new ArrayPoint(dimension));</span>
+<span class="nc" id="L31">  }</span>
+
+<span class="nc" id="L33">  public WfgHypervolumeVersion(int dimension, int maxNumberOfPoints, Point referencePoint) {</span>
+<span class="nc" id="L34">    this.referencePoint = new ArrayPoint(referencePoint);</span>
+<span class="nc" id="L35">    maximizing = false;</span>
+<span class="nc" id="L36">    currentDeep = 0;</span>
+<span class="nc" id="L37">    currentDimension = dimension;</span>
+<span class="nc" id="L38">    this.maxNumberOfPoints = maxNumberOfPoints;</span>
+<span class="nc" id="L39">    pointComparator = new PointComparator();</span>
+
+<span class="nc" id="L41">    int maxd = this.maxNumberOfPoints - (OPT / 2 + 1);</span>
+<span class="nc" id="L42">    fs = new WfgHypervolumeFront[maxd];</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    for (int i = 0; i &lt; maxd; i++) {</span>
+<span class="nc" id="L44">      fs[i] = new WfgHypervolumeFront(maxNumberOfPoints, dimension);</span>
+    }
+<span class="nc" id="L46">  }</span>
+
+  public double get2DHV(WfgHypervolumeFront front) {
+<span class="nc" id="L49">    double hv = 0.0;</span>
+
+<span class="nc" id="L51">    hv = Math.abs((front.getPoint(0).getDimensionValue(0) - referencePoint.getDimensionValue(0)) *</span>
+<span class="nc" id="L52">        (front.getPoint(0).getDimensionValue(1) - referencePoint.getDimensionValue(1))) ;</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">    for (int i = 1; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc" id="L55">      hv += Math.abs((front.getPoint(i).getDimensionValue(0) - referencePoint.getDimensionValue(0)) *</span>
+<span class="nc" id="L56">          (front.getPoint(i).getDimensionValue(1) - front.getPoint(i - 1).getDimensionValue(1)));</span>
+
+    }
+
+<span class="nc" id="L60">    return hv;</span>
+  }
+
+  public double getInclusiveHV(Point point) {
+<span class="nc" id="L64">    double volume = 1;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    for (int i = 0; i &lt; currentDimension; i++) {</span>
+<span class="nc" id="L66">      volume *= Math.abs(point.getDimensionValue(i) - referencePoint.getDimensionValue(i));</span>
+    }
+
+<span class="nc" id="L69">    return volume;</span>
+  }
+
+  public double getExclusiveHV(WfgHypervolumeFront front, int point) {
+    double volume;
+
+<span class="nc" id="L75">    volume = getInclusiveHV(front.getPoint(point));</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">    if (front.getNumberOfPoints() &gt; point + 1) {</span>
+<span class="nc" id="L77">      makeDominatedBit(front, point);</span>
+<span class="nc" id="L78">      double v = getHV(fs[currentDeep - 1]);</span>
+<span class="nc" id="L79">      volume -= v;</span>
+<span class="nc" id="L80">      currentDeep--;</span>
+    }
+
+<span class="nc" id="L83">    return volume;</span>
+  }
+
+  public double getHV(WfgHypervolumeFront front) {
+    double volume ;
+<span class="nc" id="L88">    front.sort(pointComparator);</span>
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    if (currentDimension == 2) {</span>
+<span class="nc" id="L91">      volume = get2DHV(front);</span>
+    } else {
+<span class="nc" id="L93">      volume = 0.0;</span>
+
+<span class="nc" id="L95">      currentDimension--;</span>
+<span class="nc" id="L96">      int numberOfPoints = front.getNumberOfPoints() ;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">      for (int i = numberOfPoints - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L98">        volume += Math.abs(front.getPoint(i).getDimensionValue(currentDimension) -</span>
+<span class="nc" id="L99">            referencePoint.getDimensionValue(currentDimension)) *</span>
+<span class="nc" id="L100">            this.getExclusiveHV(front, i);</span>
+      }
+<span class="nc" id="L102">      currentDimension++;</span>
+    }
+
+<span class="nc" id="L105">    return volume;</span>
+  }
+
+
+  public void makeDominatedBit(WfgHypervolumeFront front, int p) {
+<span class="nc" id="L110">    int z = front.getNumberOfPoints() - 1 - p;</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">    for (int i = 0; i &lt; z; i++) {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">      for (int j = 0; j &lt; currentDimension; j++) {</span>
+<span class="nc" id="L114">        Point point1 = front.getPoint(p) ;</span>
+<span class="nc" id="L115">        Point point2 = front.getPoint(p + 1 + i) ;</span>
+<span class="nc" id="L116">        double worseValue = worse(point1.getDimensionValue(j), point2.getDimensionValue(j), false) ;</span>
+<span class="nc" id="L117">        Point point3 = fs[currentDeep].getPoint(i) ;</span>
+<span class="nc" id="L118">        point3.setDimensionValue(j, worseValue);</span>
+      }
+    }
+
+    Point t;
+<span class="nc" id="L123">    fs[currentDeep].setNumberOfPoints(1);</span>
+
+<span class="nc bnc" id="L125" title="All 2 branches missed.">    for (int i = 1; i &lt; z; i++) {</span>
+<span class="nc" id="L126">      int j = 0;</span>
+<span class="nc" id="L127">      boolean keep = true;</span>
+<span class="nc bnc" id="L128" title="All 4 branches missed.">      while (j &lt; fs[currentDeep].getNumberOfPoints() &amp;&amp; keep) {</span>
+<span class="nc bnc" id="L129" title="All 3 branches missed.">        switch (dominates2way(fs[currentDeep].getPoint(i), fs[currentDeep].getPoint(j))) {</span>
+          case -1:
+<span class="nc" id="L131">            t = fs[currentDeep].getPoint(j);</span>
+<span class="nc" id="L132">            fs[currentDeep].setNumberOfPoints(fs[currentDeep].getNumberOfPoints()-1);</span>
+<span class="nc" id="L133">            fs[currentDeep].setPoint(j,</span>
+<span class="nc" id="L134">                fs[currentDeep].getPoint(fs[currentDeep].getNumberOfPoints()));</span>
+<span class="nc" id="L135">            fs[currentDeep].setPoint(fs[currentDeep].getNumberOfPoints(), t);</span>
+<span class="nc" id="L136">            break;</span>
+          case 0:
+<span class="nc" id="L138">            j++;</span>
+<span class="nc" id="L139">            break;</span>
+          default:
+<span class="nc" id="L141">            keep = false;</span>
+<span class="nc" id="L142">            break;</span>
+        }
+      }
+<span class="nc bnc" id="L145" title="All 2 branches missed.">      if (keep) {</span>
+<span class="nc" id="L146">        t = fs[currentDeep].getPoint(fs[currentDeep].getNumberOfPoints());</span>
+<span class="nc" id="L147">        fs[currentDeep].setPoint(fs[currentDeep].getNumberOfPoints(), fs[currentDeep].getPoint(i));</span>
+<span class="nc" id="L148">        fs[currentDeep].setPoint(i, t);</span>
+<span class="nc" id="L149">        fs[currentDeep].setNumberOfPoints(fs[currentDeep].getNumberOfPoints()+1);</span>
+      }
+    }
+
+<span class="nc" id="L153">    currentDeep++;</span>
+<span class="nc" id="L154">  }</span>
+
+  public int getLessContributorHV(List&lt;Solution&lt;?&gt;&gt; solutionList) {
+<span class="nc" id="L157">    WfgHypervolumeFront wholeFront = (WfgHypervolumeFront)loadFront(solutionList, -1) ;</span>
+
+<span class="nc" id="L159">    int index = 0;</span>
+<span class="nc" id="L160">    double contribution = Double.POSITIVE_INFINITY;</span>
+
+<span class="nc bnc" id="L162" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionList.size(); i++) {</span>
+<span class="nc" id="L163">      double[] v = new double[solutionList.get(i).getNumberOfObjectives()];</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">      for (int j = 0; j &lt; v.length; j++) {</span>
+<span class="nc" id="L165">        v[j] = solutionList.get(i).getObjective(j);</span>
+      }
+
+<span class="nc" id="L168">      double aux = this.getExclusiveHV(wholeFront, i);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">      if ((aux) &lt; contribution) {</span>
+<span class="nc" id="L170">        index = i;</span>
+<span class="nc" id="L171">        contribution = aux;</span>
+      }
+
+<span class="nc" id="L174">      HypervolumeContributionAttribute&lt;Solution&lt;?&gt;&gt; hvc = new HypervolumeContributionAttribute&lt;Solution&lt;?&gt;&gt;() ;</span>
+<span class="nc" id="L175">      hvc.setAttribute(solutionList.get(i), aux);</span>
+      //solutionList.get(i).setCrowdingDistance(aux);
+    }
+
+<span class="nc" id="L179">    return index;</span>
+  }
+
+  private Front loadFront(List&lt;Solution&lt;?&gt;&gt; solutionSet, int notLoadingIndex) {
+    int numberOfPoints ;
+<span class="nc bnc" id="L184" title="All 4 branches missed.">    if (notLoadingIndex &gt;= 0 &amp;&amp; notLoadingIndex &lt; solutionSet.size()) {</span>
+<span class="nc" id="L185">      numberOfPoints = solutionSet.size() - 1;</span>
+    } else {
+<span class="nc" id="L187">      numberOfPoints = solutionSet.size();</span>
+    }
+
+<span class="nc" id="L190">    int dimensions = solutionSet.get(0).getNumberOfObjectives();</span>
+
+<span class="nc" id="L192">    Front front = new WfgHypervolumeFront(numberOfPoints, dimensions) ;</span>
+
+<span class="nc" id="L194">    int index = 0;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">    for (int i = 0; i &lt; solutionSet.size(); i++) {</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">      if (i != notLoadingIndex) {</span>
+<span class="nc" id="L197">        Point point = new ArrayPoint(dimensions) ;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        for (int j = 0; j &lt; dimensions; j++) {</span>
+<span class="nc" id="L199">          point.setDimensionValue(j, solutionSet.get(i).getObjective(j));</span>
+        }
+<span class="nc" id="L201">        front.setPoint(index++, point);</span>
+      }
+    }
+
+<span class="nc" id="L205">    return front ;</span>
+  }
+
+  private double worse(double x, double y, boolean maximizing) {
+    double result;
+<span class="nc bnc" id="L210" title="All 2 branches missed.">    if (maximizing) {</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">      if (x &gt; y) {</span>
+<span class="nc" id="L212">        result = y;</span>
+      } else {
+<span class="nc" id="L214">        result = x;</span>
+      }
+    } else {
+<span class="nc bnc" id="L217" title="All 2 branches missed.">      if (x &gt; y) {</span>
+<span class="nc" id="L218">        result = x;</span>
+      } else {
+<span class="nc" id="L220">        result = y;</span>
+      }
+    }
+<span class="nc" id="L223">    return result;</span>
+  }
+
+  int dominates2way(Point p, Point q) {
+    // returns -1 if p dominates q, 1 if q dominates p, 2 if p == q, 0 otherwise
+    // ASSUMING MINIMIZATION
+
+    // domination could be checked in either order
+
+<span class="nc bnc" id="L232" title="All 2 branches missed.">    for (int i = currentDimension - 1; i &gt;= 0; i--) {</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">      if (p.getDimensionValue(i) &lt; q.getDimensionValue(i)) {</span>
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        for (int j = i - 1; j &gt;= 0; j--) {</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">          if (q.getDimensionValue(j) &lt; p.getDimensionValue(j)) {</span>
+<span class="nc" id="L236">            return 0;</span>
+          }
+        }
+<span class="nc" id="L239">        return -1;</span>
+<span class="nc bnc" id="L240" title="All 2 branches missed.">      } else if (q.getDimensionValue(i) &lt; p.getDimensionValue(i)) {</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">        for (int j = i - 1; j &gt;= 0; j--) {</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">          if (p.getDimensionValue(j) &lt; q.getDimensionValue(j)) {</span>
+<span class="nc" id="L243">            return 0;</span>
+          }
+        }
+<span class="nc" id="L246">        return 1;</span>
+      }
+    }
+<span class="nc" id="L249">    return 2;</span>
+  }
+
+  public static void main(String args[]) throws IOException, JMetalException {
+<span class="nc" id="L253">    WfgHypervolumeFront front = new WfgHypervolumeFront();</span>
+
+<span class="nc bnc" id="L255" title="All 2 branches missed.">    if (args.length == 0) {</span>
+<span class="nc" id="L256">      throw new JMetalException(&quot;Usage: WFGHV front [reference point]&quot;);</span>
+    }
+
+    //if (args.length &gt; 0) {
+    // TODO: front.readFrontFromFile(args[0]);
+    //}
+
+<span class="nc" id="L263">    int dimensions = front.getPointDimensions();</span>
+    Point referencePoint;
+<span class="nc" id="L265">    double[] points = new double[dimensions];</span>
+
+<span class="nc bnc" id="L267" title="All 2 branches missed.">    if (args.length == (dimensions + 1)) {</span>
+<span class="nc bnc" id="L268" title="All 2 branches missed.">      for (int i = 1; i &lt;= dimensions; i++) {</span>
+<span class="nc" id="L269">        points[i - 1] = Double.parseDouble(args[i]);</span>
+      }
+    } else {
+<span class="nc bnc" id="L272" title="All 2 branches missed.">      for (int i = 1; i &lt;= dimensions; i++) {</span>
+<span class="nc" id="L273">        points[i - 1] = 0.0;</span>
+      }
+    }
+
+<span class="nc" id="L277">    referencePoint = new ArrayPoint(points);</span>
+<span class="nc" id="L278">    JMetalLogger.logger.info(&quot;Using reference point: &quot; + referencePoint);</span>
+
+<span class="nc" id="L280">    WfgHypervolumeVersion wfghv =</span>
+<span class="nc" id="L281">        new WfgHypervolumeVersion(referencePoint.getNumberOfDimensions(), front.getNumberOfPoints(), referencePoint);</span>
+
+<span class="nc" id="L283">    System.out.println(&quot;HV: &quot; + wfghv.getHV(front)) ;</span>
+<span class="nc" id="L284">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

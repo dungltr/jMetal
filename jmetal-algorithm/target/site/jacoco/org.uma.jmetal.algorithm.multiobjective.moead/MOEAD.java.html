@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOEAD.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.moead</a> &gt; <span class="el_source">MOEAD.java</span></div><h1>MOEAD.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.moead;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+/**
+ * Class implementing the MOEA/D-DE algorithm described in :
+ * Hui Li; Qingfu Zhang, &quot;Multiobjective Optimization Problems With Complicated Pareto Sets,
+ * MOEA/D and NSGA-II,&quot; Evolutionary Computation, IEEE Transactions on , vol.13, no.2, pp.284,302,
+ * April 2009. doi: 10.1109/TEVC.2008.925798
+ *
+ * @author Antonio J. Nebro
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MOEAD extends AbstractMOEAD&lt;DoubleSolution&gt; {
+  protected DifferentialEvolutionCrossover differentialEvolutionCrossover ;
+
+  public MOEAD(Problem&lt;DoubleSolution&gt; problem,
+      int populationSize,
+      int resultPopulationSize,
+      int maxEvaluations,
+      MutationOperator&lt;DoubleSolution&gt; mutation,
+      CrossoverOperator&lt;DoubleSolution&gt; crossover,
+      FunctionType functionType,
+      String dataDirectory,
+      double neighborhoodSelectionProbability,
+      int maximumNumberOfReplacedSolutions,
+      int neighborSize) {
+<span class="nc" id="L37">    super(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation, functionType,</span>
+        dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions,
+        neighborSize);
+
+<span class="nc" id="L41">    differentialEvolutionCrossover = (DifferentialEvolutionCrossover)crossoverOperator ;</span>
+<span class="nc" id="L42">  }</span>
+
+  @Override public void run() {
+<span class="nc" id="L45">    initializePopulation() ;</span>
+<span class="nc" id="L46">    initializeUniformWeight();</span>
+<span class="nc" id="L47">    initializeNeighborhood();</span>
+<span class="nc" id="L48">    initializeIdealPoint() ;</span>
+
+<span class="nc" id="L50">    evaluations = populationSize ;</span>
+    do {
+<span class="nc" id="L52">      int[] permutation = new int[populationSize];</span>
+<span class="nc" id="L53">      MOEADUtils.randomPermutation(permutation, populationSize);</span>
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">      for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L56">        int subProblemId = permutation[i];</span>
+
+<span class="nc" id="L58">        NeighborType neighborType = chooseNeighborType() ;</span>
+<span class="nc" id="L59">        List&lt;DoubleSolution&gt; parents = parentSelection(subProblemId, neighborType) ;</span>
+
+<span class="nc" id="L61">        differentialEvolutionCrossover.setCurrentSolution(population.get(subProblemId));</span>
+<span class="nc" id="L62">        List&lt;DoubleSolution&gt; children = differentialEvolutionCrossover.execute(parents);</span>
+
+<span class="nc" id="L64">        DoubleSolution child = children.get(0) ;</span>
+<span class="nc" id="L65">        mutationOperator.execute(child);</span>
+<span class="nc" id="L66">        problem.evaluate(child);</span>
+
+<span class="nc" id="L68">        evaluations++;</span>
+
+<span class="nc" id="L70">        updateIdealPoint(child);</span>
+<span class="nc" id="L71">        updateNeighborhood(child, subProblemId, neighborType);</span>
+      }
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    } while (evaluations &lt; maxEvaluations);</span>
+
+<span class="nc" id="L75">  }</span>
+
+  protected void initializePopulation() {
+<span class="nc" id="L78">    population = new ArrayList&lt;&gt;(populationSize);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L80">      DoubleSolution newSolution = (DoubleSolution)problem.createSolution();</span>
+
+<span class="nc" id="L82">      problem.evaluate(newSolution);</span>
+<span class="nc" id="L83">      population.add(newSolution);</span>
+    }
+<span class="nc" id="L85">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L88">    return &quot;MOEAD&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L92">    return &quot;Multi-Objective Evolutionary Algorithm based on Decomposition&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

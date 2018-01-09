@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SMPSO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.smpso</a> &gt; <span class="el_source">SMPSO.java</span></div><h1>SMPSO.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.smpso;
+
+import org.uma.jmetal.algorithm.impl.AbstractParticleSwarmOptimization;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.archive.BoundedArchive;
+import org.uma.jmetal.util.comparator.DominanceComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttribute;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * This class implements the SMPSO algorithm described in:
+ * SMPSO: A new PSO-based metaheuristic for multi-objective optimization
+ * MCDM 2009. DOI: http://dx.doi.org/10.1109/MCDM.2009.4938830
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SMPSO extends AbstractParticleSwarmOptimization&lt;DoubleSolution, List&lt;DoubleSolution&gt;&gt; {
+  private DoubleProblem problem;
+
+  private double c1Max;
+  private double c1Min;
+  private double c2Max;
+  private double c2Min;
+  private double r1Max;
+  private double r1Min;
+  private double r2Max;
+  private double r2Min;
+  private double weightMax;
+  private double weightMin;
+  private double changeVelocity1;
+  private double changeVelocity2;
+
+  private int swarmSize;
+  private int maxIterations;
+  private int iterations;
+  
+  private GenericSolutionAttribute&lt;DoubleSolution, DoubleSolution&gt; localBest;
+  private double[][] speed;
+
+  private JMetalRandom randomGenerator;
+
+  private BoundedArchive&lt;DoubleSolution&gt; leaders;
+  private Comparator&lt;DoubleSolution&gt; dominanceComparator;
+
+  private MutationOperator&lt;DoubleSolution&gt; mutation;
+
+  private double deltaMax[];
+  private double deltaMin[];
+
+  private SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+  /**
+   * Constructor
+   */
+  public SMPSO(DoubleProblem problem, int swarmSize, BoundedArchive&lt;DoubleSolution&gt; leaders,
+               MutationOperator&lt;DoubleSolution&gt; mutationOperator, int maxIterations, double r1Min, double r1Max,
+               double r2Min, double r2Max, double c1Min, double c1Max, double c2Min, double c2Max,
+               double weightMin, double weightMax, double changeVelocity1, double changeVelocity2,
+<span class="nc" id="L67">               SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {</span>
+<span class="nc" id="L68">    this.problem = problem;</span>
+<span class="nc" id="L69">    this.swarmSize = swarmSize;</span>
+<span class="nc" id="L70">    this.leaders = leaders;</span>
+<span class="nc" id="L71">    this.mutation = mutationOperator;</span>
+<span class="nc" id="L72">    this.maxIterations = maxIterations;</span>
+
+<span class="nc" id="L74">    this.r1Max = r1Max;</span>
+<span class="nc" id="L75">    this.r1Min = r1Min;</span>
+<span class="nc" id="L76">    this.r2Max = r2Max;</span>
+<span class="nc" id="L77">    this.r2Min = r2Min;</span>
+<span class="nc" id="L78">    this.c1Max = c1Max;</span>
+<span class="nc" id="L79">    this.c1Min = c1Min;</span>
+<span class="nc" id="L80">    this.c2Max = c2Max;</span>
+<span class="nc" id="L81">    this.c2Min = c2Min;</span>
+<span class="nc" id="L82">    this.weightMax = weightMax;</span>
+<span class="nc" id="L83">    this.weightMin = weightMin;</span>
+<span class="nc" id="L84">    this.changeVelocity1 = changeVelocity1;</span>
+<span class="nc" id="L85">    this.changeVelocity2 = changeVelocity2;</span>
+
+<span class="nc" id="L87">    randomGenerator = JMetalRandom.getInstance();</span>
+<span class="nc" id="L88">    this.evaluator = evaluator;</span>
+
+<span class="nc" id="L90">    dominanceComparator = new DominanceComparator&lt;DoubleSolution&gt;();</span>
+<span class="nc" id="L91">    localBest = new GenericSolutionAttribute&lt;DoubleSolution, DoubleSolution&gt;();</span>
+<span class="nc" id="L92">    speed = new double[swarmSize][problem.getNumberOfVariables()];</span>
+
+<span class="nc" id="L94">    deltaMax = new double[problem.getNumberOfVariables()];</span>
+<span class="nc" id="L95">    deltaMin = new double[problem.getNumberOfVariables()];</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L97">      deltaMax[i] = (problem.getUpperBound(i) - problem.getLowerBound(i)) / 2.0;</span>
+<span class="nc" id="L98">      deltaMin[i] = -deltaMax[i];</span>
+    }
+<span class="nc" id="L100">  }</span>
+
+  protected void updateLeadersDensityEstimator() {
+<span class="nc" id="L103">    leaders.computeDensityEstimator();</span>
+<span class="nc" id="L104">  }</span>
+
+  @Override protected void initProgress() {
+<span class="nc" id="L107">    iterations = 1;</span>
+<span class="nc" id="L108">    updateLeadersDensityEstimator();</span>
+<span class="nc" id="L109">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L112">    iterations += 1;</span>
+<span class="nc" id="L113">    updateLeadersDensityEstimator();</span>
+<span class="nc" id="L114">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L117" title="All 2 branches missed.">    return iterations &gt;= maxIterations;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; createInitialSwarm() {
+<span class="nc" id="L121">    List&lt;DoubleSolution&gt; swarm = new ArrayList&lt;&gt;(swarmSize);</span>
+
+    DoubleSolution newSolution;
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc" id="L125">      newSolution = problem.createSolution();</span>
+<span class="nc" id="L126">      swarm.add(newSolution);</span>
+    }
+
+<span class="nc" id="L129">    return swarm;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; evaluateSwarm(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc" id="L133">    swarm = evaluator.evaluate(swarm, problem);</span>
+
+<span class="nc" id="L135">    return swarm;</span>
+  }
+
+  @Override protected void initializeLeader(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    for (DoubleSolution particle : swarm) {</span>
+<span class="nc" id="L140">      leaders.add(particle);</span>
+<span class="nc" id="L141">    }</span>
+<span class="nc" id="L142">  }</span>
+
+  @Override protected void initializeVelocity(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L145" title="All 2 branches missed.">    for (int i = 0; i &lt; swarm.size(); i++) {</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">      for (int j = 0; j &lt; problem.getNumberOfVariables(); j++) {</span>
+<span class="nc" id="L147">        speed[i][j] = 0.0;</span>
+      }
+    }
+<span class="nc" id="L150">  }</span>
+
+  @Override protected void initializeParticlesMemory(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L153" title="All 2 branches missed.">    for (DoubleSolution particle : swarm) {</span>
+<span class="nc" id="L154">      localBest.setAttribute(particle, (DoubleSolution) particle.copy());</span>
+<span class="nc" id="L155">    }</span>
+<span class="nc" id="L156">  }</span>
+
+  @Override protected void updateVelocity(List&lt;DoubleSolution&gt; swarm) {
+    double r1, r2, c1, c2;
+    double wmax, wmin;
+    DoubleSolution bestGlobal;
+
+<span class="nc bnc" id="L163" title="All 2 branches missed.">    for (int i = 0; i &lt; swarm.size(); i++) {</span>
+<span class="nc" id="L164">      DoubleSolution particle = (DoubleSolution) swarm.get(i).copy();</span>
+<span class="nc" id="L165">      DoubleSolution bestParticle = (DoubleSolution) localBest.getAttribute(swarm.get(i)).copy();</span>
+
+<span class="nc" id="L167">      bestGlobal = selectGlobalBest();</span>
+
+<span class="nc" id="L169">      r1 = randomGenerator.nextDouble(r1Min, r1Max);</span>
+<span class="nc" id="L170">      r2 = randomGenerator.nextDouble(r2Min, r2Max);</span>
+<span class="nc" id="L171">      c1 = randomGenerator.nextDouble(c1Min, c1Max);</span>
+<span class="nc" id="L172">      c2 = randomGenerator.nextDouble(c2Min, c2Max);</span>
+<span class="nc" id="L173">      wmax = weightMax;</span>
+<span class="nc" id="L174">      wmin = weightMin;</span>
+
+<span class="nc bnc" id="L176" title="All 2 branches missed.">      for (int var = 0; var &lt; particle.getNumberOfVariables(); var++) {</span>
+<span class="nc" id="L177">        speed[i][var] = velocityConstriction(constrictionCoefficient(c1, c2) * (</span>
+<span class="nc" id="L178">                inertiaWeight(iterations, maxIterations, wmax, wmin) * speed[i][var] +</span>
+<span class="nc" id="L179">                    c1 * r1 * (bestParticle.getVariableValue(var) - particle.getVariableValue(var)) +</span>
+<span class="nc" id="L180">                    c2 * r2 * (bestGlobal.getVariableValue(var) - particle.getVariableValue(var))),</span>
+            deltaMax, deltaMin, var);
+      }
+    }
+<span class="nc" id="L184">  }</span>
+
+  @Override protected void updatePosition(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L187" title="All 2 branches missed.">    for (int i = 0; i &lt; swarmSize; i++) {</span>
+<span class="nc" id="L188">      DoubleSolution particle = swarm.get(i);</span>
+<span class="nc bnc" id="L189" title="All 2 branches missed.">      for (int j = 0; j &lt; particle.getNumberOfVariables(); j++) {</span>
+<span class="nc" id="L190">        particle.setVariableValue(j, particle.getVariableValue(j) + speed[i][j]);</span>
+
+<span class="nc bnc" id="L192" title="All 2 branches missed.">        if (particle.getVariableValue(j) &lt; problem.getLowerBound(j)) {</span>
+<span class="nc" id="L193">          particle.setVariableValue(j, problem.getLowerBound(j));</span>
+<span class="nc" id="L194">          speed[i][j] = speed[i][j] * changeVelocity1;</span>
+        }
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        if (particle.getVariableValue(j) &gt; problem.getUpperBound(j)) {</span>
+<span class="nc" id="L197">          particle.setVariableValue(j, problem.getUpperBound(j));</span>
+<span class="nc" id="L198">          speed[i][j] = speed[i][j] * changeVelocity2;</span>
+        }
+      }
+    }
+<span class="nc" id="L202">  }</span>
+
+  @Override protected void perturbation(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L205" title="All 2 branches missed.">    for (int i = 0; i &lt; swarm.size(); i++) {</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">      if ((i % 6) == 0) {</span>
+<span class="nc" id="L207">        mutation.execute(swarm.get(i));</span>
+      }
+    }
+<span class="nc" id="L210">  }</span>
+
+  @Override protected void updateLeaders(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L213" title="All 2 branches missed.">    for (DoubleSolution particle : swarm) {</span>
+<span class="nc" id="L214">      leaders.add((DoubleSolution)particle.copy());</span>
+<span class="nc" id="L215">    }</span>
+<span class="nc" id="L216">  }</span>
+
+  @Override protected void updateParticlesMemory(List&lt;DoubleSolution&gt; swarm) {
+<span class="nc bnc" id="L219" title="All 2 branches missed.">    for (int i = 0; i &lt; swarm.size(); i++) {</span>
+<span class="nc" id="L220">      int flag = dominanceComparator.compare(swarm.get(i), localBest.getAttribute(swarm.get(i)));</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">      if (flag != 1) {</span>
+<span class="nc" id="L222">        DoubleSolution particle = (DoubleSolution) swarm.get(i).copy();</span>
+<span class="nc" id="L223">        localBest.setAttribute(swarm.get(i), particle);</span>
+      }
+    }
+<span class="nc" id="L226">  }</span>
+
+  @Override public List&lt;DoubleSolution&gt; getResult() {
+<span class="nc" id="L229">    return leaders.getSolutionList();</span>
+  }
+
+  protected DoubleSolution selectGlobalBest() {
+    DoubleSolution one, two;
+    DoubleSolution bestGlobal;
+<span class="nc" id="L235">    int pos1 = randomGenerator.nextInt(0, leaders.getSolutionList().size() - 1);</span>
+<span class="nc" id="L236">    int pos2 = randomGenerator.nextInt(0, leaders.getSolutionList().size() - 1);</span>
+<span class="nc" id="L237">    one = leaders.getSolutionList().get(pos1);</span>
+<span class="nc" id="L238">    two = leaders.getSolutionList().get(pos2);</span>
+
+<span class="nc bnc" id="L240" title="All 2 branches missed.">    if (leaders.getComparator().compare(one, two) &lt; 1) {</span>
+<span class="nc" id="L241">      bestGlobal = (DoubleSolution) one.copy();</span>
+    } else {
+<span class="nc" id="L243">      bestGlobal = (DoubleSolution) two.copy();</span>
+    }
+
+<span class="nc" id="L246">    return bestGlobal;</span>
+  }
+
+  private double velocityConstriction(double v, double[] deltaMax, double[] deltaMin,
+                                      int variableIndex) {
+    double result;
+
+<span class="nc" id="L253">    double dmax = deltaMax[variableIndex];</span>
+<span class="nc" id="L254">    double dmin = deltaMin[variableIndex];</span>
+
+<span class="nc" id="L256">    result = v;</span>
+
+<span class="nc bnc" id="L258" title="All 2 branches missed.">    if (v &gt; dmax) {</span>
+<span class="nc" id="L259">      result = dmax;</span>
+    }
+
+<span class="nc bnc" id="L262" title="All 2 branches missed.">    if (v &lt; dmin) {</span>
+<span class="nc" id="L263">      result = dmin;</span>
+    }
+
+<span class="nc" id="L266">    return result;</span>
+  }
+
+  private double constrictionCoefficient(double c1, double c2) {
+<span class="nc" id="L270">    double rho = c1 + c2;</span>
+<span class="nc bnc" id="L271" title="All 2 branches missed.">    if (rho &lt;= 4) {</span>
+<span class="nc" id="L272">      return 1.0;</span>
+    } else {
+<span class="nc" id="L274">      return 2 / (2 - rho - Math.sqrt(Math.pow(rho, 2.0) - 4.0 * rho));</span>
+    }
+  }
+
+  private double inertiaWeight(int iter, int miter, double wma, double wmin) {
+<span class="nc" id="L279">    return wma;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L283">    return &quot;SMPSO&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L287">    return &quot;Speed contrained Multiobjective PSO&quot; ;</span>
+  }
+  
+  /* Getters */
+  public int getSwarmSize() {
+<span class="nc" id="L292">    return swarmSize;</span>
+  }
+  
+  public int getMaxIterations() {
+<span class="nc" id="L296">    return maxIterations;</span>
+  }
+  
+  public int getIterations() {
+<span class="nc" id="L300">    return iterations;</span>
+  }
+  
+  /* Setters */
+  public void setIterations(int iterations) {
+<span class="nc" id="L305">    this.iterations = iterations;</span>
+<span class="nc" id="L306">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

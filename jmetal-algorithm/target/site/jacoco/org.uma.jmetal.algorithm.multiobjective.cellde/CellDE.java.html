@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CellDE.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.cellde</a> &gt; <span class="el_source">CellDE.java</span></div><h1>CellDE.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.cellde;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ *
+ */
+<span class="nc" id="L7">public class CellDE {</span>
+
+/*
+  public class CellDE extends AbstractDifferentialEvolution&lt;List&lt;DoubleSolution&gt;&gt;  {
+  protected int evaluations;
+  protected int maxEvaluations;
+  protected final SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+  private Neighborhood&lt;DoubleSolution&gt; neighborhood;
+  private int currentIndividual;
+  private List&lt;DoubleSolution&gt; currentNeighbors;
+
+  private DifferentialEvolutionSelection selection ;
+  private DifferentialEvolutionCrossover crossover ;
+
+  private BoundedArchive&lt;DoubleSolution&gt; archive;
+
+  private Comparator&lt;DoubleSolution&gt; dominanceComparator;
+  private LocationAttribute&lt;DoubleSolution&gt; location;
+*/
+  /**
+   * Constructor
+   * @param problem
+   * @param maxEvaluations
+   * @param populationSize
+   * @param neighborhood
+   * @param evaluator
+   */
+  /*
+  public CellDE(Problem&lt;DoubleSolution&gt; problem,
+                int maxEvaluations,
+                int populationSize,
+                BoundedArchive&lt;DoubleSolution&gt; archive,
+                Neighborhood&lt;DoubleSolution&gt; neighborhood,
+                DifferentialEvolutionSelection selection,
+                DifferentialEvolutionCrossover crossover,
+                double cr,
+                double f,
+                SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {
+    setProblem(problem);
+    setMaxPopulationSize(populationSize);
+    this.maxEvaluations = maxEvaluations;
+    this.archive = archive ;
+    this.neighborhood = neighborhood ;
+    this.selection = selection;
+    this.crossover = crossover;
+    this.dominanceComparator = new DominanceComparator&lt;DoubleSolution&gt;() ;
+
+    this.evaluator = evaluator ;
+  }
+
+  @Override
+  protected void initProgress() {
+    evaluations = 0;
+    currentIndividual=0;
+  }
+
+  @Override
+  protected void updateProgress() {
+    evaluations++;
+    currentIndividual=(currentIndividual+1)%getMaxPopulationSize();
+  }
+
+  @Override
+  protected boolean isStoppingConditionReached() {
+    return (evaluations==maxEvaluations);
+  }
+
+  @Override
+  protected List&lt;DoubleSolution&gt; createInitialPopulation() {
+    List&lt;DoubleSolution&gt; population = new ArrayList&lt;&gt;(getMaxPopulationSize());
+    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {
+      DoubleSolution newIndividual = getProblem().createSolution();
+      population.add(newIndividual);
+    }
+    location = new LocationAttribute&lt;&gt;(population);
+    return population;
+  }
+
+  @Override
+  protected List&lt;DoubleSolution&gt; evaluatePopulation(List&lt;DoubleSolution&gt; population) {
+    return evaluator.evaluate(population, getProblem());
+  }
+/*
+  @Override
+  protected List&lt;DoubleSolution&gt; selection(List&lt;DoubleSolution&gt; population) {
+    List&lt;DoubleSolution&gt; parents = new ArrayList&lt;&gt;(2);
+    currentNeighbors = neighborhood.getNeighbors(population, currentIndividual);
+    currentNeighbors.add(population.get(currentIndividual));
+
+    parents.add(selectionOperator.execute(currentNeighbors));
+    if (archive.size() &gt; 0) {
+      parents.add(selectionOperator.execute(archive.getSolutionList()));
+    } else {
+      parents.add(selectionOperator.execute(currentNeighbors));
+    }
+    return parents;
+  }
+
+  @Override
+  protected List&lt;DoubleSolution&gt; reproduction(List&lt;S&gt; population) {
+    List&lt;DoubleSolution&gt; result = new ArrayList&lt;&gt;(1);
+    List&lt;&gt; offspring = crossoverOperator.execute(population);
+    mutationOperator.execute(offspring.get(0));
+    result.add(offspring.get(0));
+    return result;
+  }
+
+  @Override
+  protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+    int flag = dominanceComparator.compare(population.get(currentIndividual),offspringPopulation.get(0));
+
+    if (flag == 1) { //The new individual dominates
+      insertNewIndividualWhenDominates(population,offspringPopulation);
+    } else if (flag == 0) { //The new individual is non-dominated
+      insertNewIndividualWhenNonDominated(population,offspringPopulation);
+    }
+    return population;
+  }
+
+  @Override
+  public List&lt;    List&lt;DoubleSolution&gt; matingPopulation = new LinkedList&lt;&gt;();
+  for (int i = 0; i &lt; getMaxPopulationSize(); i++) {
+    // Obtain parents. Two parameters are required: the population and the
+    //                 index of the current individual
+    selectionOperator.setIndex(i);
+    List&lt;DoubleSolution&gt; parents = selectionOperator.execute(population);
+
+    matingPopulation.addAll(parents);
+  }
+
+  return matingPopulation;&gt; getResult() {
+    return archive.getSolutionList();
+  }
+
+  private void insertNewIndividualWhenDominates(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+    location.setAttribute(offspringPopulation.get(0),
+        location.getAttribute(population.get(currentIndividual)));
+
+    population.set(location.getAttribute(offspringPopulation.get(0)),offspringPopulation.get(0));
+    archive.add(offspringPopulation.get(0));
+  }
+
+
+  private void insertNewIndividualWhenNonDominated(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+    currentNeighbors.add(offspringPopulation.get(0));
+    location.setAttribute(offspringPopulation.get(0), -1);
+
+    Ranking&lt;S&gt; rank = new DominanceRanking&lt;S&gt;();
+    rank.computeRanking(currentNeighbors);
+
+    CrowdingDistance&lt;S&gt; crowdingDistance = new CrowdingDistance&lt;S&gt;();
+    for (int j = 0; j &lt; rank.getNumberOfSubfronts(); j++) {
+      crowdingDistance.computeDensityEstimator(rank.getSubfront(j));
+    }
+
+    Collections.sort(this.currentNeighbors,new RankingAndCrowdingDistanceComparator&lt;S&gt;());
+    S worst = this.currentNeighbors.get(this.currentNeighbors.size()-1);
+
+    if (location.getAttribute(worst) == -1) { //The worst is the offspring
+      archive.add(offspringPopulation.get(0));
+    } else {
+      location.setAttribute(offspringPopulation.get(0),
+          location.getAttribute(worst));
+      population.set(location.getAttribute(offspringPopulation.get(0)),offspringPopulation.get(0));
+      archive.add(offspringPopulation.get(0));
+    }
+  }
+
+  @Override public String getName() {
+    return &quot;MOCell&quot; ;
+  }
+
+  @Override public String getDescription() {
+    return &quot;Multi-Objective Cellular evolutionry algorithm&quot; ;
+  }
+*/
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PMXCrossover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.crossover</a> &gt; <span class="el_source">PMXCrossover.java</span></div><h1>PMXCrossover.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.crossover;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.solution.PermutationSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class allows to apply a PMX crossover operator using two parent solutions.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class PMXCrossover implements
+    CrossoverOperator&lt;PermutationSolution&lt;Integer&gt;&gt; {
+<span class="fc" id="L22">  private double crossoverProbability = 1.0;</span>
+  private BoundedRandomGenerator&lt;Integer&gt; cuttingPointRandomGenerator ;
+  private RandomGenerator&lt;Double&gt; crossoverRandomGenerator ;
+
+  /**
+   * Constructor
+   */
+  public PMXCrossover(double crossoverProbability) {
+<span class="fc" id="L30">	  this(crossoverProbability, () -&gt; JMetalRandom.getInstance().nextDouble(), (a, b) -&gt; JMetalRandom.getInstance().nextInt(a, b));</span>
+<span class="fc" id="L31">  }</span>
+
+  /**
+   * Constructor
+   */
+  public PMXCrossover(double crossoverProbability, RandomGenerator&lt;Double&gt; randomGenerator) {
+<span class="nc" id="L37">	  this(crossoverProbability, randomGenerator, BoundedRandomGenerator.fromDoubleToInteger(randomGenerator));</span>
+<span class="nc" id="L38">  }</span>
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L43">  public PMXCrossover(double crossoverProbability, RandomGenerator&lt;Double&gt; crossoverRandomGenerator, BoundedRandomGenerator&lt;Integer&gt; cuttingPointRandomGenerator) {</span>
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">    if ((crossoverProbability &lt; 0) || (crossoverProbability &gt; 1)) {</span>
+<span class="nc" id="L45">      throw new JMetalException(&quot;Crossover probability value invalid: &quot; + crossoverProbability) ;</span>
+    }
+<span class="fc" id="L47">    this.crossoverProbability = crossoverProbability;</span>
+<span class="fc" id="L48">    this.crossoverRandomGenerator = crossoverRandomGenerator ;</span>
+<span class="fc" id="L49">    this.cuttingPointRandomGenerator = cuttingPointRandomGenerator ;</span>
+<span class="fc" id="L50">  }</span>
+
+  /* Getters */
+  public double getCrossoverProbability() {
+<span class="nc" id="L54">    return crossoverProbability;</span>
+  }
+
+  /* Setters */
+  public void setCrossoverProbability(double crossoverProbability) {
+<span class="nc" id="L59">    this.crossoverProbability = crossoverProbability;</span>
+<span class="nc" id="L60">  }</span>
+
+  /**
+   * Executes the operation
+   *
+   * @param parents An object containing an array of two solutions
+   */
+  public List&lt;PermutationSolution&lt;Integer&gt;&gt; execute(List&lt;PermutationSolution&lt;Integer&gt;&gt; parents) {
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">    if (null == parents) {</span>
+<span class="nc" id="L69">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">    } else if (parents.size() != 2) {</span>
+<span class="nc" id="L71">      throw new JMetalException(&quot;There must be two parents instead of &quot; + parents.size()) ;</span>
+    }
+
+<span class="fc" id="L74">    return doCrossover(crossoverProbability, parents) ;</span>
+  }
+
+  /**
+   * Perform the crossover operation
+   *
+   * @param probability Crossover probability
+   * @param parents     Parents
+   * @return An array containing the two offspring
+   */
+  public List&lt;PermutationSolution&lt;Integer&gt;&gt; doCrossover(double probability, List&lt;PermutationSolution&lt;Integer&gt;&gt; parents) {
+<span class="fc" id="L85">    List&lt;PermutationSolution&lt;Integer&gt;&gt; offspring = new ArrayList&lt;&gt;(2);</span>
+
+<span class="fc" id="L87">    offspring.add((PermutationSolution&lt;Integer&gt;) parents.get(0).copy()) ;</span>
+<span class="fc" id="L88">    offspring.add((PermutationSolution&lt;Integer&gt;) parents.get(1).copy()) ;</span>
+
+<span class="fc" id="L90">    int permutationLength = parents.get(0).getNumberOfVariables() ;</span>
+
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">    if (crossoverRandomGenerator.getRandomValue() &lt; probability) {</span>
+      int cuttingPoint1;
+      int cuttingPoint2;
+
+      // STEP 1: Get two cutting points
+<span class="fc" id="L97">      cuttingPoint1 = cuttingPointRandomGenerator.getRandomValue(0, permutationLength - 1);</span>
+<span class="fc" id="L98">      cuttingPoint2 = cuttingPointRandomGenerator.getRandomValue(0, permutationLength - 1);</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">      while (cuttingPoint2 == cuttingPoint1)</span>
+<span class="fc" id="L100">        cuttingPoint2 = cuttingPointRandomGenerator.getRandomValue(0, permutationLength - 1);</span>
+
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">      if (cuttingPoint1 &gt; cuttingPoint2) {</span>
+        int swap;
+<span class="fc" id="L104">        swap = cuttingPoint1;</span>
+<span class="fc" id="L105">        cuttingPoint1 = cuttingPoint2;</span>
+<span class="fc" id="L106">        cuttingPoint2 = swap;</span>
+      }
+
+      // STEP 2: Get the subchains to interchange
+<span class="fc" id="L110">      int replacement1[] = new int[permutationLength];</span>
+<span class="fc" id="L111">      int replacement2[] = new int[permutationLength];</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">      for (int i = 0; i &lt; permutationLength; i++)</span>
+<span class="fc" id="L113">        replacement1[i] = replacement2[i] = -1;</span>
+
+      // STEP 3: Interchange
+<span class="fc bfc" id="L116" title="All 2 branches covered.">      for (int i = cuttingPoint1; i &lt;= cuttingPoint2; i++) {</span>
+<span class="fc" id="L117">        offspring.get(0).setVariableValue(i, parents.get(1).getVariableValue(i));</span>
+<span class="fc" id="L118">        offspring.get(1).setVariableValue(i, parents.get(0).getVariableValue(i));</span>
+
+<span class="fc" id="L120">        replacement1[parents.get(1).getVariableValue(i)] = parents.get(0).getVariableValue(i) ;</span>
+<span class="fc" id="L121">        replacement2[parents.get(0).getVariableValue(i)] = parents.get(1).getVariableValue(i) ;</span>
+      }
+
+      // STEP 4: Repair offspring
+<span class="fc bfc" id="L125" title="All 2 branches covered.">      for (int i = 0; i &lt; permutationLength; i++) {</span>
+<span class="fc bfc" id="L126" title="All 4 branches covered.">        if ((i &gt;= cuttingPoint1) &amp;&amp; (i &lt;= cuttingPoint2))</span>
+<span class="fc" id="L127">          continue;</span>
+
+<span class="fc" id="L129">        int n1 = parents.get(0).getVariableValue(i);</span>
+<span class="fc" id="L130">        int m1 = replacement1[n1];</span>
+
+<span class="fc" id="L132">        int n2 = parents.get(1).getVariableValue(i);</span>
+<span class="fc" id="L133">        int m2 = replacement2[n2];</span>
+
+<span class="fc bfc" id="L135" title="All 2 branches covered.">        while (m1 != -1) {</span>
+<span class="fc" id="L136">          n1 = m1;</span>
+<span class="fc" id="L137">          m1 = replacement1[m1];</span>
+        }
+
+<span class="fc bfc" id="L140" title="All 2 branches covered.">        while (m2 != -1) {</span>
+<span class="fc" id="L141">          n2 = m2;</span>
+<span class="fc" id="L142">          m2 = replacement2[m2];</span>
+        }
+
+<span class="fc" id="L145">        offspring.get(0).setVariableValue(i, n1);</span>
+<span class="fc" id="L146">        offspring.get(1).setVariableValue(i, n2);</span>
+      }
+    }
+
+<span class="fc" id="L150">    return offspring;</span>
+  }
+
+  @Override
+  public int getNumberOfRequiredParents() {
+<span class="nc" id="L155">    return 2 ;</span>
+  }
+
+  @Override
+  public int getNumberOfGeneratedChildren() {
+<span class="nc" id="L160">    return 2;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

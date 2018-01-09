@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RankingAndPreferenceSelection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.selection</a> &gt; <span class="el_source">RankingAndPreferenceSelection.java</span></div><h1>RankingAndPreferenceSelection.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.selection;
+
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
+import org.uma.jmetal.util.solutionattribute.impl.PreferenceDistance;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class RankingAndPreferenceSelection&lt;S extends Solution&lt;?&gt;&gt;
+        implements SelectionOperator&lt;List&lt;S&gt;,List&lt;S&gt;&gt; {
+    private final int solutionsToSelect ;
+    private List&lt;Double&gt; interestPoint;
+    private double epsilon;
+    /** Constructor */
+<span class="nc" id="L21">    public RankingAndPreferenceSelection(int solutionsToSelect,List&lt;Double&gt; interestPoint,double epsilon) {</span>
+<span class="nc" id="L22">        this.solutionsToSelect = solutionsToSelect ;</span>
+<span class="nc" id="L23">        this.interestPoint = interestPoint;</span>
+<span class="nc" id="L24">        this.epsilon =epsilon;</span>
+<span class="nc" id="L25">    }</span>
+
+    /* Getter */
+    public int getNumberOfSolutionsToSelect() {
+<span class="nc" id="L29">        return solutionsToSelect;</span>
+    }
+
+    @Override
+    public List&lt;S&gt; execute(List&lt;S&gt; solutionList) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (null == solutionList) {</span>
+<span class="nc" id="L35">            throw new JMetalException(&quot;The solution list is null&quot;);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        } else if (solutionList.isEmpty()) {</span>
+<span class="nc" id="L37">            throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        }  else if (solutionList.size() &lt; solutionsToSelect) {</span>
+<span class="nc" id="L39">            throw new JMetalException(&quot;The population size (&quot;+solutionList.size()+&quot;) is smaller than&quot; +</span>
+                    &quot;the solutions to selected (&quot;+solutionsToSelect+&quot;)&quot;)  ;
+        }
+
+<span class="nc" id="L43">        Ranking&lt;S&gt; ranking = new DominanceRanking&lt;S&gt;();</span>
+<span class="nc" id="L44">        ranking.computeRanking(solutionList) ;</span>
+
+<span class="nc" id="L46">        return preferenceDistanceSelection(ranking,solutionList.get(0).getNumberOfObjectives());</span>
+    }
+    protected List&lt;S&gt; preferenceDistanceSelection(Ranking&lt;S&gt; ranking,int numberOfObjectives) {
+<span class="nc" id="L49">        int nInteresPoint=this.interestPoint.size()/numberOfObjectives;</span>
+
+<span class="nc" id="L51">            List&lt;S&gt; population = new ArrayList&lt;&gt;(solutionsToSelect);</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">            while (population.size() &lt; solutionsToSelect) {</span>
+<span class="nc" id="L54">                int indexPoint=0;</span>
+<span class="nc bnc" id="L55" title="All 4 branches missed.">                for(int n = 0;(n&lt;nInteresPoint)&amp;&amp; (population.size() &lt; solutionsToSelect);n++) {</span>
+<span class="nc" id="L56">                    List&lt;S&gt; auxPopulation = new ArrayList&lt;&gt;(solutionsToSelect/nInteresPoint);</span>
+<span class="nc" id="L57">                    List&lt;Double&gt; auxInterestPoint = nextInterestPoint(indexPoint,numberOfObjectives);</span>
+<span class="nc" id="L58">                    indexPoint+=numberOfObjectives;</span>
+<span class="nc" id="L59">                    PreferenceDistance&lt;S&gt; preferenceDistance = new PreferenceDistance&lt;&gt;(auxInterestPoint, epsilon);</span>
+<span class="nc" id="L60">                    int rankingIndex = 0;</span>
+<span class="nc bnc" id="L61" title="All 4 branches missed.">                    while ((auxPopulation.size() &lt; (solutionsToSelect/nInteresPoint))&amp;&amp; (population.size() &lt; solutionsToSelect)) {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                        if (subfrontFillsIntoThePopulation(ranking, rankingIndex, auxPopulation)) {</span>
+<span class="nc" id="L63">                            addRankedSolutionsToPopulation(ranking, rankingIndex, auxPopulation);</span>
+<span class="nc" id="L64">                            rankingIndex++;</span>
+                        } else {
+<span class="nc" id="L66">                            preferenceDistance.computeDensityEstimator(ranking.getSubfront(rankingIndex));</span>
+<span class="nc" id="L67">                            addLastRankedSolutionsToPopulation(ranking, rankingIndex, auxPopulation);</span>
+                        }
+                    }
+<span class="nc" id="L70">                    population.addAll(auxPopulation);</span>
+            }
+<span class="nc" id="L72">        }</span>
+<span class="nc" id="L73">        PreferenceDistance&lt;S&gt; preferenceDistance  = new PreferenceDistance&lt;&gt;(interestPoint, epsilon);</span>
+<span class="nc" id="L74">        population=preferenceDistance.epsilonClean(population);</span>
+<span class="nc" id="L75">        return population ;</span>
+    }
+
+    protected boolean subfrontFillsIntoThePopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt; population) {
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        return ranking.getSubfront(rank).size() &lt; (solutionsToSelect - population.size()) ;</span>
+    }
+
+    protected void addRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt; population) {
+        List&lt;S&gt; front ;
+
+<span class="nc" id="L85">        front = ranking.getSubfront(rank);</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        for (int i = 0 ; i &lt; front.size(); i++) {</span>
+<span class="nc" id="L88">            population.add(front.get(i));</span>
+        }
+<span class="nc" id="L90">    }</span>
+
+    protected void addLastRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt;population) {
+<span class="nc" id="L93">        List&lt;S&gt; currentRankedFront = ranking.getSubfront(rank) ;</span>
+
+<span class="nc" id="L95">        Collections.sort(currentRankedFront, new CrowdingDistanceComparator&lt;S&gt;()) ;</span>
+
+<span class="nc" id="L97">        int i = 0 ;</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        while (population.size() &lt; solutionsToSelect) {</span>
+<span class="nc" id="L99">            population.add(currentRankedFront.get(i)) ;</span>
+<span class="nc" id="L100">            i++ ;</span>
+        }
+<span class="nc" id="L102">    }</span>
+    private List&lt;Double&gt; nextInterestPoint(int index, int size){
+<span class="nc" id="L104">        List&lt;Double&gt; result= null;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if(index&lt;this.interestPoint.size()){</span>
+<span class="nc" id="L106">            result = new ArrayList&lt;&gt;(size);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            for(int i=0;i&lt;size;i++){</span>
+<span class="nc" id="L108">                result.add(this.interestPoint.get(index));</span>
+<span class="nc" id="L109">                index++;</span>
+            }
+        }
+<span class="nc" id="L112">        return  result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExperimentAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment.util</a> &gt; <span class="el_source">ExperimentAlgorithm.java</span></div><h1>ExperimentAlgorithm.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment.util;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.experiment.Experiment;
+import org.uma.jmetal.util.fileoutput.SolutionListOutput;
+import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
+
+import java.io.File;
+import java.util.List;
+
+/**
+ * Class defining tasks for the execution of algorithms in parallel.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class ExperimentAlgorithm&lt;S extends Solution&lt;?&gt;, Result&gt;  {
+  private Algorithm&lt;Result&gt; algorithm;
+  private String algorithmTag;
+  private String problemTag;
+
+  /**
+   * Constructor
+   */
+  public ExperimentAlgorithm(
+          Algorithm&lt;Result&gt; algorithm,
+          String algorithmTag,
+<span class="nc" id="L29">          String problemTag) {</span>
+<span class="nc" id="L30">    this.algorithm = algorithm;</span>
+<span class="nc" id="L31">    this.algorithmTag = algorithmTag;</span>
+<span class="nc" id="L32">    this.problemTag = problemTag;</span>
+<span class="nc" id="L33">  }</span>
+
+  public ExperimentAlgorithm(
+          Algorithm&lt;Result&gt; algorithm,
+          String problemTag) {
+<span class="nc" id="L38">    this(algorithm, algorithm.getName(), problemTag) ;</span>
+<span class="nc" id="L39">  }</span>
+
+  public void runAlgorithm(int id, Experiment&lt;?, ?&gt; experimentData) {
+<span class="nc" id="L42">    String outputDirectoryName = experimentData.getExperimentBaseDirectory()</span>
+            + &quot;/data/&quot;
+            + algorithmTag
+            + &quot;/&quot;
+            + problemTag;
+
+<span class="nc" id="L48">    File outputDirectory = new File(outputDirectoryName);</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    if (!outputDirectory.exists()) {</span>
+<span class="nc" id="L50">      boolean result = new File(outputDirectoryName).mkdirs();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">      if (result) {</span>
+<span class="nc" id="L52">        JMetalLogger.logger.info(&quot;Creating &quot; + outputDirectoryName);</span>
+      } else {
+<span class="nc" id="L54">        JMetalLogger.logger.severe(&quot;Creating &quot; + outputDirectoryName + &quot; failed&quot;);</span>
+      }
+    }
+
+<span class="nc" id="L58">    String funFile = outputDirectoryName + &quot;/FUN&quot; + id + &quot;.tsv&quot;;</span>
+<span class="nc" id="L59">    String varFile = outputDirectoryName + &quot;/VAR&quot; + id + &quot;.tsv&quot;;</span>
+<span class="nc" id="L60">    JMetalLogger.logger.info(</span>
+            &quot; Running algorithm: &quot; + algorithmTag +
+                    &quot;, problem: &quot; + problemTag +
+                    &quot;, run: &quot; + id +
+                    &quot;, funFile: &quot; + funFile);
+
+
+<span class="nc" id="L67">    algorithm.run();</span>
+<span class="nc" id="L68">    Result population = algorithm.getResult();</span>
+
+<span class="nc" id="L70">    new SolutionListOutput((List&lt;S&gt;) population)</span>
+<span class="nc" id="L71">            .setSeparator(&quot;\t&quot;)</span>
+<span class="nc" id="L72">            .setVarFileOutputContext(new DefaultFileOutputContext(varFile))</span>
+<span class="nc" id="L73">            .setFunFileOutputContext(new DefaultFileOutputContext(funFile))</span>
+<span class="nc" id="L74">            .print();</span>
+<span class="nc" id="L75">  }</span>
+
+  public Algorithm&lt;Result&gt; getAlgorithm() {
+<span class="nc" id="L78">    return algorithm;</span>
+  }
+
+  public String getAlgorithmTag() {
+<span class="nc" id="L82">    return algorithmTag;</span>
+  }
+
+  public String getProblemTag() {
+<span class="nc" id="L86">    return problemTag;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

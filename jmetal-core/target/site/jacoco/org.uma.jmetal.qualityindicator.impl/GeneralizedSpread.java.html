@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeneralizedSpread.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.qualityindicator.impl</a> &gt; <span class="el_source">GeneralizedSpread.java</span></div><h1>GeneralizedSpread.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.qualityindicator.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.util.FrontUtils;
+import org.uma.jmetal.util.point.Point;
+import org.uma.jmetal.util.point.impl.ArrayPoint;
+import org.uma.jmetal.util.point.util.comparator.LexicographicalPointComparator;
+import org.uma.jmetal.util.point.util.comparator.PointDimensionComparator;
+import org.uma.jmetal.util.point.util.distance.EuclideanDistance;
+
+import java.io.FileNotFoundException;
+import java.util.List;
+
+/**
+ * This class implements the generalized spread metric for two or more dimensions.
+ * Reference: A. Zhou, Y. Jin, Q. Zhang, B. Sendhoff, and E. Tsang
+ * Combining model-based and genetics-based offspring generation for
+ * multi-objective optimization using a convergence criterion,
+ * 2006 IEEE Congress on Evolutionary Computation, 2006, pp. 3234-3241.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class GeneralizedSpread&lt;S extends Solution&lt;?&gt;&gt; extends GenericIndicator&lt;S&gt; {
+
+  /**
+   * Default constructor
+   */
+<span class="nc" id="L32">  public GeneralizedSpread() {</span>
+<span class="nc" id="L33">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFrontFile
+   * @throws FileNotFoundException
+   */
+  public GeneralizedSpread(String referenceParetoFrontFile) throws FileNotFoundException {
+<span class="nc" id="L42">    super(referenceParetoFrontFile) ;</span>
+<span class="nc" id="L43">  }</span>
+
+  /**
+   * Constructor
+   *
+   * @param referenceParetoFront
+   * @throws FileNotFoundException
+   */
+  public GeneralizedSpread(Front referenceParetoFront) {
+<span class="nc" id="L52">    super(referenceParetoFront) ;</span>
+<span class="nc" id="L53">  }</span>
+
+  /**
+   * Evaluate() method
+   * @param solutionList
+   * @return
+   */
+  @Override public Double evaluate(List&lt;S&gt; solutionList) {
+<span class="nc" id="L61">    return generalizedSpread(new ArrayFront(solutionList), referenceParetoFront);</span>
+  }
+
+  /**
+   *  Calculates the generalized spread metric. Given the 
+   *  pareto front, the true pareto front as &lt;code&gt;double []&lt;/code&gt;
+   *  and the number of objectives, the method return the value for the
+   *  metric.
+   *  @param front The front.
+   *  @param referenceFront The reference pareto front.
+   *  @return the value of the generalized spread metric
+   **/
+  public double generalizedSpread(Front front, Front referenceFront) {
+<span class="nc" id="L74">    int numberOfObjectives = front.getPoint(0).getNumberOfDimensions() ;</span>
+
+<span class="nc" id="L76">    Point[] extremeValues = new Point[numberOfObjectives] ;</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="nc" id="L78">      referenceFront.sort(new PointDimensionComparator(i));</span>
+<span class="nc" id="L79">      Point newPoint = new ArrayPoint(numberOfObjectives) ;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">      for (int j = 0 ; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc" id="L81">        newPoint.setDimensionValue(j,</span>
+<span class="nc" id="L82">            referenceFront.getPoint(referenceFront.getNumberOfPoints()-1).getDimensionValue(j));</span>
+      }
+<span class="nc" id="L84">      extremeValues[i] = newPoint ;</span>
+    }
+
+<span class="nc" id="L87">    int numberOfPoints = front.getNumberOfPoints();</span>
+
+<span class="nc" id="L89">    front.sort(new LexicographicalPointComparator());</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">    if (new EuclideanDistance().compute(front.getPoint(0),</span>
+<span class="nc" id="L92">        front.getPoint(front.getNumberOfPoints() - 1)) == 0.0) {</span>
+<span class="nc" id="L93">      return 1.0;</span>
+    } else {
+<span class="nc" id="L95">      double dmean = 0.0;</span>
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">      for (int i = 0 ; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc" id="L98">        dmean += FrontUtils.distanceToNearestPoint(front.getPoint(i), front);</span>
+      }
+
+<span class="nc" id="L101">      dmean = dmean / (numberOfPoints);</span>
+
+<span class="nc" id="L103">      double dExtrems = 0.0;</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">      for (int i = 0 ; i &lt; extremeValues.length; i++) {</span>
+<span class="nc" id="L105">        dExtrems += FrontUtils.distanceToClosestPoint(extremeValues[i], front);</span>
+      }
+
+<span class="nc" id="L108">      double mean = 0.0;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">      for (int i = 0; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc" id="L110">        mean += Math.abs(FrontUtils.distanceToNearestPoint(front.getPoint(i), front) -</span>
+            dmean);
+      }
+
+<span class="nc" id="L114">      return (dExtrems + mean) / (dExtrems + (numberOfPoints*dmean));</span>
+    }
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L119">    return &quot;GSPREAD&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L123">    return &quot;Generalized Spread quality indicator&quot; ;</span>
+  }
+
+  @Override
+  public boolean isTheLowerTheIndicatorValueTheBetter() {
+<span class="nc" id="L128">    return true ;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

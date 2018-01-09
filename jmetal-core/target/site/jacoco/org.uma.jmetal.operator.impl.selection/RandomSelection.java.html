@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RandomSelection.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.selection</a> &gt; <span class="el_source">RandomSelection.java</span></div><h1>RandomSelection.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.selection;
+
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.SolutionListUtils;
+
+import java.util.List;
+
+/**
+ * This class implements a random selection operator used for selecting a N number of solutions from
+ * a list
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+<span class="nc" id="L16">public class RandomSelection&lt;S&gt; implements SelectionOperator&lt;List&lt;S&gt;, S&gt; {</span>
+
+  /** Execute() method */
+  public S execute(List&lt;S&gt; solutionList) {
+<span class="nc bnc" id="L20" title="All 2 branches missed.">    if (null == solutionList) {</span>
+<span class="nc" id="L21">      throw new JMetalException(&quot;The solution list is null&quot;) ;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">    } else if (solutionList.isEmpty()) {</span>
+<span class="nc" id="L23">      throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+    }
+
+<span class="nc" id="L26">    List&lt;S&gt; list = SolutionListUtils.selectNRandomDifferentSolutions(1, solutionList);</span>
+
+<span class="nc" id="L28">    return list.get(0) ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BigOpt2015.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.cec2015OptBigDataCompetition</a> &gt; <span class="el_source">BigOpt2015.java</span></div><h1>BigOpt2015.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.cec2015OptBigDataCompetition;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+/**
+ * Created by ajnebro on 14/1/15.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class BigOpt2015 extends AbstractDoubleProblem {
+  private List&lt;List&lt;Double&gt;&gt; mixed ;
+  private List&lt;List&lt;Double&gt;&gt; matrixA ;
+  private List&lt;List&lt;Double&gt;&gt; icaComponent ;
+
+<span class="nc" id="L24">  double f1max = -1000000;</span>
+<span class="nc" id="L25">  double f2max = -1000000;</span>
+<span class="nc" id="L26">  double f1min = 10000000;</span>
+<span class="nc" id="L27">  double f2min = 10000000;</span>
+  int dTypeG;
+  boolean scaling;
+
+  /** Constructor */
+<span class="nc" id="L32">  public BigOpt2015(String instanceName)  {</span>
+<span class="nc" id="L33">    loadData(instanceName);</span>
+
+<span class="nc" id="L35">    scaling = false ;</span>
+
+<span class="nc" id="L37">    setNumberOfVariables(dTypeG*256);</span>
+<span class="nc" id="L38">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L39">    setNumberOfConstraints(0);</span>
+<span class="nc" id="L40">    setName(&quot;BigOpt2015&quot;);</span>
+
+<span class="nc" id="L42">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L43">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L45" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L46">      lowerLimit.add(-8.0);</span>
+<span class="nc" id="L47">      upperLimit.add(8.0);</span>
+    }
+
+<span class="nc" id="L50">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L51">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L52">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(DoubleSolution solution) {
+    List&lt;List&lt;Double&gt;&gt; s1 ;
+    List&lt;Double&gt; s1Temp ;
+
+<span class="nc" id="L60">    s1 = new ArrayList&lt;&gt;() ;</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    for (int i = 0 ; i &lt; dTypeG; i++) {</span>
+<span class="nc" id="L63">      s1Temp = new ArrayList&lt;&gt;() ;</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">      for (int j = 0 ; j &lt; icaComponent.get(0).size(); j++) {</span>
+<span class="nc" id="L65">        s1Temp.add(solution.getVariableValue(i*(icaComponent.get(0).size())+j)) ;</span>
+      }
+<span class="nc" id="L67">      s1.add(s1Temp) ;</span>
+    }
+
+<span class="nc" id="L70">    List&lt;List&lt;Double&gt;&gt; x1 = multiplyWithOutAMP(matrixA, s1) ;</span>
+<span class="nc" id="L71">    List&lt;List&lt;Double&gt;&gt; cor1 = correlation(x1, mixed) ;</span>
+
+<span class="nc" id="L73">    double sum = 0.0 ;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    for (int i = 0 ; i &lt; icaComponent.size(); i++) {</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">      for (int j = 0 ; j &lt; icaComponent.get(i).size(); j++) {</span>
+<span class="nc" id="L76">        sum += Math.pow(icaComponent.get(i).get(j) - s1.get(i).get(j), 2) ;</span>
+      }
+    }
+
+<span class="nc" id="L80">    double obj1 = diagonal1(cor1)+diagonal2(cor1) ;</span>
+<span class="nc" id="L81">    double obj2 = sum/(icaComponent.size() * icaComponent.get(0).size()) ;</span>
+
+<span class="nc bnc" id="L83" title="All 2 branches missed.">    if (obj1 &gt; f1max) {</span>
+<span class="nc" id="L84">      f1max = obj1 ;</span>
+    }
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    if (obj1 &lt; f1min) {</span>
+<span class="nc" id="L87">      f1min = obj1 ;</span>
+    }
+<span class="nc bnc" id="L89" title="All 2 branches missed.">    if (obj2 &gt; f1max) {</span>
+<span class="nc" id="L90">      f1max = obj2 ;</span>
+    }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    if (obj2 &lt; f1min) {</span>
+<span class="nc" id="L93">      f1min = obj2 ;</span>
+    }
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    if (scaling) {</span>
+<span class="nc" id="L97">      obj2 = (obj2 - f2min)*(f1max - f1min)/(f2max - f2min)+f1min ;</span>
+    }
+
+<span class="nc" id="L100">    solution.setObjective(0, obj1);</span>
+<span class="nc" id="L101">    solution.setObjective(1, obj2);</span>
+<span class="nc" id="L102">  }</span>
+
+  private void loadData(String problemId, String fName, int dType, int dLength) {
+    List&lt;List&lt;Double&gt;&gt; list ;
+<span class="nc" id="L106">    String fileName = &quot;/cec2015Comp/&quot;+problemId+fName ;</span>
+
+<span class="nc" id="L108">    InputStream inputStream = createInputStream(fileName) ;</span>
+
+<span class="nc" id="L110">    InputStreamReader isr = new InputStreamReader(inputStream);</span>
+<span class="nc" id="L111">    BufferedReader br = new BufferedReader(isr);</span>
+
+<span class="nc" id="L113">    list = new ArrayList&lt;&gt;() ;</span>
+    String aux ;
+    try {
+<span class="nc" id="L116">      aux = br.readLine();</span>
+
+<span class="nc bnc" id="L118" title="All 2 branches missed.">      while (aux != null) {</span>
+<span class="nc" id="L119">        StringTokenizer tokenizer = new StringTokenizer(aux);</span>
+<span class="nc" id="L120">        List&lt;Double&gt; doubleList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        while (tokenizer.hasMoreTokens()) {</span>
+<span class="nc" id="L122">          double value = new Double(tokenizer.nextToken());</span>
+<span class="nc" id="L123">          doubleList.add(value) ;</span>
+<span class="nc" id="L124">        }</span>
+<span class="nc" id="L125">        list.add(doubleList);</span>
+<span class="nc" id="L126">        aux = br.readLine();</span>
+<span class="nc" id="L127">      }</span>
+<span class="nc" id="L128">      br.close();</span>
+<span class="nc" id="L129">    } catch (IOException e) {</span>
+<span class="nc" id="L130">      throw new JMetalException(&quot;Error reading file&quot;, e);</span>
+<span class="nc" id="L131">    } catch (NumberFormatException e) {</span>
+<span class="nc" id="L132">      throw new JMetalException(&quot;Format number exception when reading file&quot;, e);</span>
+<span class="nc" id="L133">    }</span>
+
+<span class="nc bnc" id="L135" title="All 2 branches missed.">    if (fName.equals(&quot;X.txt&quot;)) {</span>
+<span class="nc" id="L136">      mixed = list ;</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    } else if (fName.equals(&quot;S.txt&quot;)) {</span>
+<span class="nc" id="L138">      icaComponent = list ;</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">    } else if (fName.equals(&quot;A.txt&quot;)) {</span>
+<span class="nc" id="L140">      matrixA = list ;</span>
+    } else {
+<span class="nc" id="L142">      throw new JMetalException(&quot;Wrong name: &quot; + fName) ;</span>
+    }
+<span class="nc" id="L144">  }</span>
+
+  private void loadData(String problemId){
+<span class="nc" id="L147">    int dType = 4 ;</span>
+
+<span class="nc bnc" id="L149" title="All 2 branches missed.">    if(problemId.equals(&quot;D4&quot;)){</span>
+<span class="nc" id="L150">      dType=4;</span>
+    }
+<span class="nc bnc" id="L152" title="All 2 branches missed.">    else if(problemId.equals(&quot;D4N&quot;)){</span>
+<span class="nc" id="L153">      dType=4;</span>
+    }
+<span class="nc bnc" id="L155" title="All 2 branches missed.">    else if(problemId.equals(&quot;D12&quot;)){</span>
+<span class="nc" id="L156">      dType=12;</span>
+    }
+<span class="nc bnc" id="L158" title="All 2 branches missed.">    else if(problemId.equals(&quot;D12N&quot;)){</span>
+<span class="nc" id="L159">      dType=12;</span>
+    }
+<span class="nc bnc" id="L161" title="All 2 branches missed.">    else if(problemId.equals(&quot;D19&quot;)){</span>
+<span class="nc" id="L162">      dType=19;</span>
+    }
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    else if(problemId.equals(&quot;D19N&quot;)){</span>
+<span class="nc" id="L165">      dType=19;</span>
+    }
+<span class="nc" id="L167">    dTypeG = dType;</span>
+
+<span class="nc" id="L169">    loadData(problemId, &quot;X.txt&quot;, dType, 256);</span>
+<span class="nc" id="L170">    loadData(problemId, &quot;S.txt&quot;, dType, 256);</span>
+<span class="nc" id="L171">    loadData(problemId, &quot;A.txt&quot;, dType, dType);</span>
+<span class="nc" id="L172">  }</span>
+
+  private InputStream createInputStream(String fileName) {
+<span class="nc" id="L175">    InputStream inputStream = getClass().getResourceAsStream(fileName);</span>
+
+<span class="nc" id="L177">    return inputStream ;</span>
+  }
+
+  List&lt;Double&gt; newMeanStandardDeviation(List&lt;Double&gt; list) {
+<span class="nc" id="L181">    List&lt;Double&gt; result = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L183">    double sum = 0 ;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">    for (double value : list) {</span>
+<span class="nc" id="L185">      sum += value ;</span>
+<span class="nc" id="L186">    }</span>
+
+<span class="nc" id="L188">    double mean = sum / list.size() ;</span>
+
+<span class="nc" id="L190">    double accum = 0 ;</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">    for (double value : list) {</span>
+<span class="nc" id="L192">      accum += (value - mean) * (value - mean) ;</span>
+<span class="nc" id="L193">    }</span>
+
+<span class="nc" id="L195">    double stdev = Math.sqrt(accum/(list.size()-1)) ;</span>
+<span class="nc" id="L196">    result.add(mean) ;</span>
+<span class="nc" id="L197">    result.add(stdev) ;</span>
+
+<span class="nc" id="L199">    return result ;</span>
+  }
+
+  double vectorCorrelation(List&lt;Double&gt; list1, List&lt;Double&gt; list2) {
+<span class="nc" id="L203">    List&lt;Double&gt; a1 = newMeanStandardDeviation(list1) ;</span>
+<span class="nc" id="L204">    List&lt;Double&gt; b1 = newMeanStandardDeviation(list2) ;</span>
+
+<span class="nc" id="L206">    double c1 = 0;</span>
+    double temp1, temp2;
+
+<span class="nc" id="L209">    double a = a1.get(1) * b1.get(1) ;</span>
+<span class="nc bnc" id="L210" title="All 2 branches missed.">    if (Math.abs(a) &gt; 0.00001){</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">      for (int i = 0; i &lt; list1.size(); i++){</span>
+<span class="nc" id="L212">        temp1 = ((list1.get(i) - list1.get(0)) );</span>
+<span class="nc" id="L213">        temp2 = ((list2.get(i) - list2.get(0)) );</span>
+
+<span class="nc" id="L215">        c1 += temp1*temp2;</span>
+
+      }
+<span class="nc" id="L218">      c1 /= (list1.size()*a);</span>
+<span class="nc" id="L219">      return c1;</span>
+    }
+    else
+<span class="nc" id="L222">      return 0;</span>
+  }
+
+  List&lt;List&lt;Double&gt;&gt; correlation(List&lt;List&lt;Double&gt;&gt; list1, List&lt;List&lt;Double&gt;&gt; list2) {
+    List&lt;List&lt;Double&gt;&gt; m ;
+    List&lt;Double&gt; temp ;
+
+<span class="nc" id="L229">    m = new ArrayList&lt;&gt;() ;</span>
+
+<span class="nc bnc" id="L231" title="All 2 branches missed.">    for (List&lt;Double&gt; i : list1) {</span>
+<span class="nc" id="L232">      temp = new ArrayList&lt;&gt;() ;</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">      for (List&lt;Double&gt; j : list2) {</span>
+<span class="nc" id="L234">        temp.add(vectorCorrelation(i, j)) ;</span>
+<span class="nc" id="L235">      }</span>
+
+<span class="nc" id="L237">      m.add(temp) ;</span>
+<span class="nc" id="L238">    }</span>
+
+<span class="nc" id="L240">    return m ;</span>
+  }
+
+  double diagonal1(List&lt;List&lt;Double&gt;&gt; list){
+<span class="nc" id="L244">    double sum = 0;</span>
+
+<span class="nc bnc" id="L246" title="All 2 branches missed.">    for (int i = 0; i &lt; list.size(); i++){</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">      for (int j = 0; j &lt; list.size(); j++){</span>
+<span class="nc bnc" id="L248" title="All 2 branches missed.">        if (i == j){</span>
+<span class="nc" id="L249">          sum += Math.pow(1 - list.get(i).get(j), 2);</span>
+        }
+      }
+    }
+<span class="nc" id="L253">    return sum/list.size();</span>
+  }
+
+  double diagonal2(List&lt;List&lt;Double&gt;&gt; list){
+<span class="nc" id="L257">    double sum = 0;</span>
+
+<span class="nc bnc" id="L259" title="All 2 branches missed.">    for (int i = 0; i &lt; list.size(); i++){</span>
+<span class="nc bnc" id="L260" title="All 2 branches missed.">      for (int j = 0; j &lt; list.size(); j++){</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">        if (i == j){</span>
+
+        }
+        else{
+<span class="nc" id="L265">          sum += Math.pow(list.get(i).get(j), 2);</span>
+
+        }
+      }
+    }
+<span class="nc" id="L270">    return sum/list.size()/(list.size()-1);</span>
+  }
+
+  List&lt;List&lt;Double&gt;&gt; multiplyWithOutAMP(List&lt;List&lt;Double&gt;&gt; list1, List&lt;List&lt;Double&gt;&gt; list2) {
+    List&lt;List&lt;Double&gt;&gt; c ;
+    List&lt;Double&gt; cTemp;
+
+<span class="nc" id="L277">    c = new ArrayList&lt;&gt;() ;</span>
+<span class="nc bnc" id="L278" title="All 2 branches missed.">    for (int row = 0; row &lt; list1.size(); row++) {</span>
+<span class="nc" id="L279">      cTemp = new ArrayList&lt;&gt;() ;</span>
+<span class="nc bnc" id="L280" title="All 2 branches missed.">      for (int col = 0; col &lt; list2.get(0).size(); col++) {</span>
+<span class="nc" id="L281">        cTemp.add(0.0);</span>
+      }
+<span class="nc" id="L283">      c.add(cTemp);</span>
+    }
+
+<span class="nc bnc" id="L286" title="All 2 branches missed.">    for (int row = 0; row &lt; list1.size(); row++) {</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">      for (int col = 0; col &lt; list2.get(row).size(); col++) {</span>
+<span class="nc bnc" id="L288" title="All 2 branches missed.">        for (int inner = 0; inner &lt; list1.get(0).size(); inner++) {</span>
+<span class="nc" id="L289">          double val = c.get(row).get(col) ;</span>
+<span class="nc" id="L290">          c.get(row).set(col, val + list1.get(row).get(inner) * list2.get(inner).get(col));</span>
+        }
+      }
+    }
+<span class="nc" id="L294">    return c;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

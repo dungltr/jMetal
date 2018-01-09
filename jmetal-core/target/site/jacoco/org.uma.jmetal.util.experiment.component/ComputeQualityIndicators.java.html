@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComputeQualityIndicators.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment.component</a> &gt; <span class="el_source">ComputeQualityIndicators.java</span></div><h1>ComputeQualityIndicators.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment.component;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.uma.jmetal.qualityindicator.QualityIndicator;
+import org.uma.jmetal.qualityindicator.impl.GenericIndicator;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.experiment.ExperimentComponent;
+import org.uma.jmetal.util.experiment.Experiment;
+import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
+import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+import org.uma.jmetal.util.front.Front;
+import org.uma.jmetal.util.front.imp.ArrayFront;
+import org.uma.jmetal.util.front.util.FrontNormalizer;
+import org.uma.jmetal.util.front.util.FrontUtils;
+import org.uma.jmetal.util.point.util.PointSolution;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING ;
+import java.util.*;
+
+/**
+ * This class computes the {@link QualityIndicator}s of an experiment. Once the algorithms of an
+ * experiment have been executed through running an instance of class {@link ExecuteAlgorithms},
+ * the list of indicators in obtained from the {@link ExperimentComponent #getIndicatorsList()} method.
+ * Then, for every combination algorithm + problem, the indicators are applied to all the FUN files and
+ * the resulting values are store in a file called as {@link QualityIndicator #getName()}, which is located
+ * in the same directory of the FUN files.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class ComputeQualityIndicators&lt;S extends Solution&lt;?&gt;, Result&gt; implements ExperimentComponent {
+
+  private final Experiment&lt;S, Result&gt; experiment;
+
+<span class="nc" id="L43">  public ComputeQualityIndicators(Experiment&lt;S, Result&gt; experiment) {</span>
+<span class="nc" id="L44">    this.experiment = experiment ;</span>
+<span class="nc" id="L45">  }</span>
+
+  @Override
+  public void run() throws IOException {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    for (GenericIndicator&lt;S&gt; indicator : experiment.getIndicatorList()) {</span>
+<span class="nc" id="L50">      JMetalLogger.logger.info(&quot;Computing indicator: &quot; + indicator.getName()); ;</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">      for (ExperimentAlgorithm&lt;?,Result&gt; algorithm : experiment.getAlgorithmList()) {</span>
+        String algorithmDirectory ;
+<span class="nc" id="L54">        algorithmDirectory = experiment.getExperimentBaseDirectory() + &quot;/data/&quot; +</span>
+<span class="nc" id="L55">            algorithm.getAlgorithmTag() ;</span>
+
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (int problemId = 0; problemId &lt; experiment.getProblemList().size(); problemId++) {</span>
+<span class="nc" id="L58">          String problemDirectory = algorithmDirectory + &quot;/&quot; + experiment.getProblemList().get(problemId).getTag() ;</span>
+
+<span class="nc" id="L60">          String referenceFrontDirectory = experiment.getReferenceFrontDirectory() ;</span>
+<span class="nc" id="L61">          String referenceFrontName = referenceFrontDirectory +</span>
+<span class="nc" id="L62">              &quot;/&quot; + experiment.getReferenceFrontFileNames().get(problemId) ;</span>
+
+<span class="nc" id="L64">          JMetalLogger.logger.info(&quot;RF: &quot; + referenceFrontName); ;</span>
+<span class="nc" id="L65">          Front referenceFront = new ArrayFront(referenceFrontName) ;</span>
+
+<span class="nc" id="L67">          FrontNormalizer frontNormalizer = new FrontNormalizer(referenceFront) ;</span>
+<span class="nc" id="L68">          Front normalizedReferenceFront = frontNormalizer.normalize(referenceFront) ;</span>
+
+<span class="nc" id="L70">          String qualityIndicatorFile = problemDirectory + &quot;/&quot; + indicator.getName();</span>
+<span class="nc" id="L71">          resetFile(qualityIndicatorFile);</span>
+
+<span class="nc" id="L73">          indicator.setReferenceParetoFront(normalizedReferenceFront);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">          for (int i = 0; i &lt; experiment.getIndependentRuns(); i++) {</span>
+<span class="nc" id="L75">            String frontFileName = problemDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L76">                experiment.getOutputParetoFrontFileName() + i + &quot;.tsv&quot;;</span>
+
+<span class="nc" id="L78">            Front front = new ArrayFront(frontFileName) ;</span>
+<span class="nc" id="L79">            Front normalizedFront = frontNormalizer.normalize(front) ;</span>
+<span class="nc" id="L80">            List&lt;PointSolution&gt; normalizedPopulation = FrontUtils.convertFrontToSolutionList(normalizedFront) ;</span>
+<span class="nc" id="L81">            Double indicatorValue = (Double)indicator.evaluate((List&lt;S&gt;) normalizedPopulation) ;</span>
+<span class="nc" id="L82">            JMetalLogger.logger.info(indicator.getName() + &quot;: &quot; + indicatorValue) ;</span>
+
+<span class="nc" id="L84">            writeQualityIndicatorValueToFile(indicatorValue, qualityIndicatorFile) ;</span>
+          }
+        }
+<span class="nc" id="L87">      }</span>
+<span class="nc" id="L88">    }</span>
+<span class="nc" id="L89">    findBestIndicatorFronts(experiment) ;</span>
+<span class="nc" id="L90">  }</span>
+
+  private void writeQualityIndicatorValueToFile(Double indicatorValue, String qualityIndicatorFile) {
+    FileWriter os;
+    try {
+<span class="nc" id="L95">      os = new FileWriter(qualityIndicatorFile, true);</span>
+<span class="nc" id="L96">      os.write(&quot;&quot; + indicatorValue + &quot;\n&quot;);</span>
+<span class="nc" id="L97">      os.close();</span>
+<span class="nc" id="L98">    } catch (IOException ex) {</span>
+<span class="nc" id="L99">      throw new JMetalException(&quot;Error writing indicator file&quot; + ex) ;</span>
+<span class="nc" id="L100">    }</span>
+<span class="nc" id="L101">  }</span>
+
+  /**
+   * Deletes a file or directory if it does exist
+   * @param file
+   */
+  private void resetFile(String file) {
+<span class="nc" id="L108">    File f = new File(file);</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    if (f.exists()) {</span>
+<span class="nc" id="L110">      JMetalLogger.logger.info(&quot;File &quot; + file + &quot; exist.&quot;);</span>
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">      if (f.isDirectory()) {</span>
+<span class="nc" id="L113">        JMetalLogger.logger.info(&quot;File &quot; + file + &quot; is a directory. Deleting directory.&quot;);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (f.delete()) {</span>
+<span class="nc" id="L115">          JMetalLogger.logger.info(&quot;Directory successfully deleted.&quot;);</span>
+        } else {
+<span class="nc" id="L117">          JMetalLogger.logger.info(&quot;Error deleting directory.&quot;);</span>
+        }
+      } else {
+<span class="nc" id="L120">        JMetalLogger.logger.info(&quot;File &quot; + file + &quot; is a file. Deleting file.&quot;);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (f.delete()) {</span>
+<span class="nc" id="L122">          JMetalLogger.logger.info(&quot;File succesfully deleted.&quot;);</span>
+        } else {
+<span class="nc" id="L124">          JMetalLogger.logger.info(&quot;Error deleting file.&quot;);</span>
+        }
+      }
+    } else {
+<span class="nc" id="L128">      JMetalLogger.logger.info(&quot;File &quot; + file + &quot; does NOT exist.&quot;);</span>
+    }
+<span class="nc" id="L130">  }</span>
+
+  public void findBestIndicatorFronts(Experiment&lt;?, Result&gt; experiment) throws IOException {
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    for (GenericIndicator&lt;?&gt; indicator : experiment.getIndicatorList()) {</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">      for (ExperimentAlgorithm&lt;?, Result&gt; algorithm : experiment.getAlgorithmList()) {</span>
+        String algorithmDirectory;
+<span class="nc" id="L136">        algorithmDirectory = experiment.getExperimentBaseDirectory() + &quot;/data/&quot; +</span>
+<span class="nc" id="L137">            algorithm.getAlgorithmTag();</span>
+
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        for (ExperimentProblem&lt;?&gt; problem :experiment.getProblemList()) {</span>
+<span class="nc" id="L140">          String indicatorFileName =</span>
+<span class="nc" id="L141">              algorithmDirectory + &quot;/&quot; + problem.getTag() + &quot;/&quot; + indicator.getName();</span>
+<span class="nc" id="L142">          Path indicatorFile = Paths.get(indicatorFileName) ;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">          if (indicatorFile == null) {</span>
+<span class="nc" id="L144">            throw new JMetalException(&quot;Indicator file &quot; + indicator.getName() + &quot; doesn't exist&quot;) ;</span>
+          }
+
+          List&lt;String&gt; fileArray;
+<span class="nc" id="L148">          fileArray = Files.readAllLines(indicatorFile, StandardCharsets.UTF_8);</span>
+
+<span class="nc" id="L150">          List&lt;Pair&lt;Double, Integer&gt;&gt; list = new ArrayList&lt;&gt;() ;</span>
+
+
+<span class="nc bnc" id="L153" title="All 2 branches missed.">          for (int i = 0; i &lt; fileArray.size(); i++) {</span>
+<span class="nc" id="L154">            Pair&lt;Double, Integer&gt; pair = new ImmutablePair&lt;&gt;(Double.parseDouble(fileArray.get(i)), i) ;</span>
+<span class="nc" id="L155">            list.add(pair) ;</span>
+          }
+
+<span class="nc" id="L158">          Collections.sort(list, new Comparator&lt;Pair&lt;Double, Integer&gt;&gt;() {</span>
+            @Override
+            public int compare(Pair&lt;Double, Integer&gt; pair1, Pair&lt;Double, Integer&gt; pair2) {
+<span class="nc bnc" id="L161" title="All 2 branches missed.">              if (Math.abs(pair1.getLeft()) &gt; Math.abs(pair2.getLeft())){</span>
+<span class="nc" id="L162">                return 1;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">              } else if (Math.abs(pair1.getLeft()) &lt; Math.abs(pair2.getLeft())) {</span>
+<span class="nc" id="L164">                return -1;</span>
+              } else {
+<span class="nc" id="L166">                return 0;</span>
+              }
+            }
+          });
+          String bestFunFileName ;
+          String bestVarFileName ;
+          String medianFunFileName ;
+          String medianVarFileName ;
+
+<span class="nc" id="L175">          String outputDirectory = algorithmDirectory + &quot;/&quot; + problem.getTag() ;</span>
+
+<span class="nc" id="L177">          bestFunFileName = outputDirectory + &quot;/BEST_&quot; + indicator.getName() + &quot;_FUN.tsv&quot; ;</span>
+<span class="nc" id="L178">          bestVarFileName = outputDirectory + &quot;/BEST_&quot; + indicator.getName() + &quot;_VAR.tsv&quot; ;</span>
+<span class="nc" id="L179">          medianFunFileName = outputDirectory + &quot;/MEDIAN_&quot; + indicator.getName() + &quot;_FUN.tsv&quot; ;</span>
+<span class="nc" id="L180">          medianVarFileName = outputDirectory + &quot;/MEDIAN_&quot; + indicator.getName() + &quot;_VAR.tsv&quot; ;</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">          if (indicator.isTheLowerTheIndicatorValueTheBetter()) {</span>
+<span class="nc" id="L182">            String bestFunFile = outputDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L183">                experiment.getOutputParetoFrontFileName() + list.get(0).getRight() + &quot;.tsv&quot;;</span>
+<span class="nc" id="L184">            String bestVarFile = outputDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L185">                experiment.getOutputParetoSetFileName() + list.get(0).getRight() + &quot;.tsv&quot;;</span>
+
+<span class="nc" id="L187">            Files.copy(Paths.get(bestFunFile), Paths.get(bestFunFileName), REPLACE_EXISTING) ;</span>
+<span class="nc" id="L188">            Files.copy(Paths.get(bestVarFile), Paths.get(bestVarFileName), REPLACE_EXISTING) ;</span>
+<span class="nc" id="L189">          } else {</span>
+<span class="nc" id="L190">            String bestFunFile = outputDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L191">                experiment.getOutputParetoFrontFileName() + list.get(list.size()-1).getRight() + &quot;.tsv&quot;;</span>
+<span class="nc" id="L192">            String bestVarFile = outputDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L193">                experiment.getOutputParetoSetFileName() + list.get(list.size()-1).getRight() + &quot;.tsv&quot;;</span>
+
+<span class="nc" id="L195">            Files.copy(Paths.get(bestFunFile), Paths.get(bestFunFileName), REPLACE_EXISTING) ;</span>
+<span class="nc" id="L196">            Files.copy(Paths.get(bestVarFile), Paths.get(bestVarFileName), REPLACE_EXISTING) ;</span>
+          }
+
+<span class="nc" id="L199">          int medianIndex = list.size() / 2 ;</span>
+<span class="nc" id="L200">          String medianFunFile = outputDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L201">              experiment.getOutputParetoFrontFileName() + list.get(medianIndex).getRight() + &quot;.tsv&quot;;</span>
+<span class="nc" id="L202">          String medianVarFile = outputDirectory + &quot;/&quot; +</span>
+<span class="nc" id="L203">              experiment.getOutputParetoSetFileName() + list.get(medianIndex).getRight() + &quot;.tsv&quot;;</span>
+
+<span class="nc" id="L205">          Files.copy(Paths.get(medianFunFile), Paths.get(medianFunFileName), REPLACE_EXISTING) ;</span>
+<span class="nc" id="L206">          Files.copy(Paths.get(medianVarFile), Paths.get(medianVarFileName), REPLACE_EXISTING) ;</span>
+<span class="nc" id="L207">        }</span>
+<span class="nc" id="L208">      }</span>
+<span class="nc" id="L209">    }</span>
+<span class="nc" id="L210">  }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

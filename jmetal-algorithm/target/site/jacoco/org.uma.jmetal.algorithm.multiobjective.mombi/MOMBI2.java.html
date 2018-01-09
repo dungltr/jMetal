@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOMBI2.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi</a> &gt; <span class="el_source">MOMBI2.java</span></div><h1>MOMBI2.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi;
+
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.*;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 
+ * @author Juan J. Durillo
+ * @version 1.0
+ * This class implements the MOMBI2 algorithm (a.k.a. MOMBI-II)
+ *
+ * Reference: Improved Metaheuristic Based on the R2 Indicator for Many-Objective Optimization.
+ * R. Hernández Gómez, C.A. Coello Coello. Proceeding GECCO '15 Proceedings of the 2015 on Genetic
+ * and Evolutionary Computation Conference. Pages 679-686
+ * DOI: 10.1145/2739480.2754776
+ */
+@SuppressWarnings(&quot;serial&quot;) // remove warning for serialization
+public class MOMBI2&lt;S extends Solution&lt;?&gt;&gt; extends MOMBI&lt;S&gt; {
+	
+	protected final MOMBI2History&lt;S&gt; history;
+<span class="nc" id="L29">	protected final Double alpha		= 0.5;</span>
+<span class="nc" id="L30">	protected final Double epsilon 		= 1.0e-3;</span>
+	protected  List&lt;Double&gt; maxs;
+	protected Normalizer normalizer;
+
+	/**
+	 * Creates a new instance of the MOMBI algorithm
+	 * @param problem
+	 * @param maxIterations
+	 * @param crossover
+	 * @param mutation
+	 * @param selection
+	 * @param evaluator
+	 * @param pathWeights
+	 */
+	public MOMBI2(Problem&lt;S&gt; problem, int maxIterations, CrossoverOperator&lt;S&gt; crossover, MutationOperator&lt;S&gt; mutation,
+			SelectionOperator&lt;List&lt;S&gt;, S&gt; selection, SolutionListEvaluator&lt;S&gt; evaluator, String pathWeights) {
+<span class="nc" id="L46">		super(problem, maxIterations, crossover, mutation, selection, evaluator, pathWeights);</span>
+<span class="nc" id="L47">		this.history = new MOMBI2History&lt;&gt;(problem.getNumberOfObjectives());</span>
+<span class="nc" id="L48">	}</span>
+	
+	protected void updateMax(List&lt;S&gt; population) {
+<span class="nc bnc" id="L51" title="All 2 branches missed.">		if (this.maxs.isEmpty())</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">			for (int i = 0; i &lt; this.getProblem().getNumberOfObjectives(); i++)</span>
+<span class="nc" id="L53">				this.maxs.add(Double.NEGATIVE_INFINITY);</span>
+		
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		for (S solution : population)</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">			for (int i = 0; i &lt; this.maxs.size(); i++)</span>
+<span class="nc" id="L57">				this.maxs.set(i,Math.max(this.maxs.get(i),solution.getObjective(i)));</span>
+			
+<span class="nc" id="L59">		this.history.add(maxs);</span>
+<span class="nc" id="L60">	}</span>
+
+	@Override
+	protected void initProgress() {
+<span class="nc" id="L64">		super.initProgress();</span>
+<span class="nc" id="L65">		this.updateMax(this.getPopulation());</span>
+<span class="nc" id="L66">	}</span>
+	
+	public AbstractUtilityFunctionsSet&lt;S&gt; createUtilityFunction(String pathWeights) {
+<span class="nc" id="L69">		System.out.println(&quot;MOMBI 2&quot;);</span>
+<span class="nc" id="L70">		this.maxs    = new ArrayList&lt;&gt;(getProblem().getNumberOfObjectives());</span>
+<span class="nc" id="L71">		this.normalizer = new Normalizer(this.getReferencePoint(), maxs);</span>
+<span class="nc" id="L72">		ASFUtilityFunctionSet&lt;S&gt; aux = new ASFUtilityFunctionSet&lt;&gt;(pathWeights);</span>
+<span class="nc" id="L73">		aux.setNormalizer(this.normalizer);</span>
+<span class="nc" id="L74">		return aux;</span>
+	}
+	
+	
+	// ToDo: refactor this method (first implementation just try to mimic c implementation)
+	@Override
+	public void updateReferencePoint(List&lt;S&gt; population) {
+<span class="nc" id="L81">		List&lt;Double&gt; iterationMaxs = new ArrayList&lt;&gt;(maxs.size());</span>
+		
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		for (int i = 0; i &lt; this.getProblem().getNumberOfObjectives(); i++) {		</span>
+<span class="nc" id="L84">			iterationMaxs.add(Double.NEGATIVE_INFINITY);</span>
+		}
+		
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		for (S solution : population) {</span>
+<span class="nc" id="L88">			updateReferencePoint(solution);</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">			for (int i = 0; i &lt; solution.getNumberOfObjectives(); i++) {				</span>
+<span class="nc" id="L90">				iterationMaxs.set(i, Math.max(iterationMaxs.get(i), solution.getObjective(i)));				</span>
+			}
+<span class="nc" id="L92">		}</span>
+		
+<span class="nc" id="L94">		history.add(iterationMaxs);</span>
+		
+<span class="nc" id="L96">		List&lt;Double&gt; mean = history.mean();</span>
+<span class="nc" id="L97">		List&lt;Double&gt; var  = history.variance(mean);</span>
+			
+<span class="nc" id="L99">		Double maxVariance = this.getMax(var);						</span>
+			
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		if (maxVariance &gt; alpha) {</span>
+<span class="nc" id="L102">			Double maxInNadir = this.getMax(this.maxs);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">			for (int i = 0; i &lt; this.getProblem().getNumberOfObjectives(); i++) </span>
+<span class="nc" id="L104">				this.maxs.set(i, maxInNadir);						</span>
+<span class="nc" id="L105">		} else {						</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">			for (int i = 0; i &lt; this.getProblem().getNumberOfObjectives(); i++) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">				if (Math.abs(maxs.get(i) - this.getReferencePoint().get(i)) &lt; this.epsilon) {</span>
+<span class="nc" id="L108">					Double maxInMaxs = this.getMax(this.maxs);</span>
+<span class="nc" id="L109">					this.maxs.set(i,maxInMaxs);</span>
+<span class="nc" id="L110">					history.mark(i);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">				} else if (iterationMaxs.get(i) &gt; this.maxs.get(i)) {</span>
+<span class="nc" id="L112">					this.maxs.set(i, iterationMaxs.get(i) + Math.abs(iterationMaxs.get(i)-this.maxs.get(i)));</span>
+<span class="nc" id="L113">					history.mark(i);</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">				} else if ((var.get(i)==0.0) &amp;&amp; history.isUnMarked(i)) {</span>
+<span class="nc" id="L115">					double v = history.getMaxObjective(i);</span>
+<span class="nc" id="L116">					this.maxs.set(i, (maxs.get(i)+v)/2.0);</span>
+<span class="nc" id="L117">					history.mark(i);</span>
+				}
+<span class="nc" id="L119">				history.decreaseMark(i);</span>
+			}						
+		}
+<span class="nc" id="L122">	}</span>
+	
+	protected R2Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionList) {
+<span class="nc" id="L125">		R2Ranking&lt;S&gt; ranking = new R2RankingNormalized&lt;&gt;(this.getUtilityFunctions(),this.normalizer);</span>
+<span class="nc" id="L126">		ranking.computeRanking(solutionList);</span>
+		
+<span class="nc" id="L128">		return ranking;</span>
+	}
+	
+	public Double getMax(List&lt;Double&gt; list) {
+<span class="nc" id="L132">		Double result = Double.NEGATIVE_INFINITY;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		for (Double d : list) </span>
+<span class="nc" id="L134">			result = Math.max(result, d);</span>
+		
+<span class="nc" id="L136">		return result;</span>
+	}
+
+	@Override public String getName() {
+<span class="nc" id="L140">		return &quot;MOMBI&quot; ;</span>
+	}
+
+	@Override public String getDescription() {
+<span class="nc" id="L144">		return &quot;Many-Objective Metaheuristic Based on the R2 Indicator, version 2&quot; ;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

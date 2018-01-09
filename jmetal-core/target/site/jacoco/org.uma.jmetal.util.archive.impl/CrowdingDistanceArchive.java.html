@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CrowdingDistanceArchive.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.archive.impl</a> &gt; <span class="el_source">CrowdingDistanceArchive.java</span></div><h1>CrowdingDistanceArchive.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.archive.impl;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.SolutionListUtils;
+import org.uma.jmetal.util.comparator.CrowdingDistanceComparator;
+import org.uma.jmetal.util.solutionattribute.DensityEstimator;
+import org.uma.jmetal.util.solutionattribute.impl.CrowdingDistance;
+
+import java.util.Collections;
+import java.util.Comparator;
+
+/**
+ * Created by Antonio J. Nebro on 24/09/14.
+ * Modified by Juanjo on 07/04/2015
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class CrowdingDistanceArchive&lt;S extends Solution&lt;?&gt;&gt; extends AbstractBoundedArchive&lt;S&gt; {
+  private Comparator&lt;S&gt; crowdingDistanceComparator;
+  private DensityEstimator&lt;S&gt; crowdingDistance ;
+
+  public CrowdingDistanceArchive(int maxSize) {
+<span class="nc" id="L22">    super(maxSize);</span>
+<span class="nc" id="L23">    crowdingDistanceComparator = new CrowdingDistanceComparator&lt;S&gt;() ;</span>
+<span class="nc" id="L24">    crowdingDistance = new CrowdingDistance&lt;S&gt;() ;</span>
+<span class="nc" id="L25">  }</span>
+
+  @Override
+  public void prune() {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">    if (getSolutionList().size() &gt; getMaxSize()) {</span>
+<span class="nc" id="L30">      computeDensityEstimator();</span>
+<span class="nc" id="L31">      S worst = new SolutionListUtils().findWorstSolution(getSolutionList(), crowdingDistanceComparator) ;</span>
+<span class="nc" id="L32">      getSolutionList().remove(worst);</span>
+    }
+<span class="nc" id="L34">  }</span>
+
+  @Override
+  public Comparator&lt;S&gt; getComparator() {
+<span class="nc" id="L38">    return crowdingDistanceComparator ;</span>
+  }
+  @Override
+  public void computeDensityEstimator() {
+<span class="nc" id="L42">    crowdingDistance.computeDensityEstimator(getSolutionList());</span>
+<span class="nc" id="L43">  }</span>
+
+  @Override
+  public void sortByDensityEstimator() {
+<span class="nc" id="L47">    Collections.sort(getSolutionList(), new CrowdingDistanceComparator&lt;S&gt;());</span>
+<span class="nc" id="L48">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

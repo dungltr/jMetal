@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TwoDimensionalMesh.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.neighborhood.util</a> &gt; <span class="el_source">TwoDimensionalMesh.java</span></div><h1>TwoDimensionalMesh.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.neighborhood.util;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.neighborhood.Neighborhood;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class defining a bi-dimensional mesh.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class TwoDimensionalMesh&lt;S&gt; implements Neighborhood&lt;S&gt; {
+  private int rows ;
+  private int columns ;
+  private int[][] neighborhood ;
+  private int [][] mesh;
+
+  /**
+   * Constructor.
+   * Defines a neighborhood for list of solutions
+   */
+<span class="fc" id="L23">  public TwoDimensionalMesh(int rows, int columns, int[][]neighborhood) {</span>
+<span class="fc" id="L24">    this.rows = rows ;</span>
+<span class="fc" id="L25">    this.columns = columns ;</span>
+
+<span class="fc" id="L27">    this.neighborhood = neighborhood ;</span>
+
+<span class="fc" id="L29">    createMesh();</span>
+<span class="fc" id="L30">  }</span>
+
+  private void createMesh() {
+    // idea: if rows = 5, and columns=3, we need to fill the mesh
+    // as follows
+    // --------
+    //|00-01-02|
+    //|03-04-05|
+    //|06-07-08|
+    //|09-10-11|
+    //|12-13-14|
+    // --------
+
+<span class="fc" id="L43">    mesh = new int[rows][columns];</span>
+<span class="fc" id="L44">    int solution = 0;</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">    for (int row = 0; row &lt; rows; row++) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">      for (int column = 0; column &lt; columns; column++) {</span>
+<span class="fc" id="L47">        mesh[row][column] = solution++;</span>
+      }
+    }
+<span class="fc" id="L50">  }</span>
+
+  /**
+   * Returns the row on the mesh where solution is located
+   * @param solution Represents the location of the solution
+   * @return
+   */
+  private int getRow(int solution) {
+<span class="fc" id="L58">    return solution / columns;</span>
+  }
+
+  /**
+   * Returns the column on the mesh where solution is located
+   * @param solution Represents the location of the solution
+   * @return
+   */
+  private int getColumn(int solution) {
+<span class="fc" id="L67">    return solution % columns;</span>
+  }
+
+  /**
+   * Returns the neighbor of solution
+   * @param solution Represents the location of the solution
+   * @param neighbor Represents the neighbor we want to get as a shift of solution. The first component
+   * represents the shift on rows, and the second the shift on column
+   * @return
+   */
+  private int getNeighbor(int solution, int [] neighbor) {
+<span class="fc" id="L78">    int row = getRow(solution) ;</span>
+<span class="fc" id="L79">    int col = getColumn((solution)) ;</span>
+
+    int r ;
+    int c ;
+
+<span class="fc" id="L84">    r = (row + neighbor[0]) % this.rows ;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">    if (r &lt; 0)</span>
+<span class="fc" id="L86">      r = rows - 1;</span>
+
+<span class="fc" id="L88">    c = (col + neighbor[1]) % this.columns ;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">    if (c &lt; 0)</span>
+<span class="fc" id="L90">      c = columns - 1 ;</span>
+
+<span class="fc" id="L92">    return this.mesh[r][c];</span>
+  }
+
+  /**
+   * Returns a solutionSet containing the neighbors of a given solution
+   * @param solutionSet From where neighbors will be obtained
+   * @param solution The solution for which the neighbors will be computed
+   * @param neighborhood The list of neighbors we want to obtain as shift regarding to solution
+   * @return
+   */
+  private List&lt;S&gt; findNeighbors(List&lt;S&gt; solutionSet, int solution, int [][] neighborhood) {
+<span class="fc" id="L103">    List&lt;S&gt; neighbors = new ArrayList&lt;&gt;(neighborhood.length+1);</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">    for (int [] neighbor : neighborhood) {</span>
+<span class="fc" id="L106">      int index = getNeighbor(solution, neighbor) ;</span>
+<span class="fc" id="L107">      neighbors.add(solutionSet.get(index));</span>
+    }
+
+<span class="fc" id="L110">    return neighbors;</span>
+  }
+
+  /**
+   * Returns the north,south, east, and west solutions of a given solution
+   * @param solutionList the solution set from where the neighbors are taken
+   * @param solutionPosition Represents the position of the solution
+   *
+   */
+  public List&lt;S&gt; getNeighbors(List&lt;S&gt; solutionList, int solutionPosition) {
+<span class="fc bfc" id="L120" title="All 2 branches covered.">    if (solutionList == null) {</span>
+<span class="fc" id="L121">      throw new JMetalException(&quot;The solution list is null&quot;) ;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">    } else if (solutionList.size() == 0) {</span>
+<span class="fc" id="L123">      throw new JMetalException(&quot;The solution list is empty&quot;) ;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">    } else if (solutionPosition &lt; 0) {</span>
+<span class="fc" id="L125">      throw new JMetalException(&quot;The solution position value is negative: &quot; + solutionPosition) ;</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    } else if (solutionList.size() != rows * columns) {</span>
+<span class="nc" id="L127">      throw new JMetalException(&quot;The solution list size &quot; + solutionList.size() + &quot; is not&quot;</span>
+          + &quot;equal to the grid size: &quot; + rows + &quot; * &quot; + columns) ;
+    }
+<span class="fc bfc" id="L130" title="All 2 branches covered.">    else if (solutionPosition &gt;= solutionList.size()) {</span>
+<span class="fc" id="L131">      throw new JMetalException(&quot;The solution position value &quot; + solutionPosition +</span>
+          &quot; is equal or greater than the solution list size &quot;
+<span class="fc" id="L133">          + solutionList.size()) ;</span>
+    }
+
+<span class="fc" id="L136">    return findNeighbors(solutionList, solutionPosition, neighborhood);</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

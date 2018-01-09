@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DifferentialEvolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.differentialevolution</a> &gt; <span class="el_source">DifferentialEvolution.java</span></div><h1>DifferentialEvolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.differentialevolution;
+
+import org.uma.jmetal.algorithm.impl.AbstractDifferentialEvolution;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelection;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.comparator.ObjectiveComparator;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * This class implements a differential evolution algorithm.
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DifferentialEvolution extends AbstractDifferentialEvolution&lt;DoubleSolution&gt; {
+  private int populationSize;
+  private int maxEvaluations;
+  private SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+  private Comparator&lt;DoubleSolution&gt; comparator;
+
+  private int evaluations;
+
+  /**
+   * Constructor
+   *
+   * @param problem Problem to solve
+   * @param maxEvaluations Maximum number of evaluations to perform
+   * @param populationSize
+   * @param crossoverOperator
+   * @param selectionOperator
+   * @param evaluator
+   */
+  public DifferentialEvolution(DoubleProblem problem, int maxEvaluations, int populationSize,
+      DifferentialEvolutionCrossover crossoverOperator,
+<span class="fc" id="L41">      DifferentialEvolutionSelection selectionOperator, SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {</span>
+<span class="fc" id="L42">    setProblem(problem); ;</span>
+<span class="fc" id="L43">    this.maxEvaluations = maxEvaluations;</span>
+<span class="fc" id="L44">    this.populationSize = populationSize;</span>
+<span class="fc" id="L45">    this.crossoverOperator = crossoverOperator;</span>
+<span class="fc" id="L46">    this.selectionOperator = selectionOperator;</span>
+<span class="fc" id="L47">    this.evaluator = evaluator;</span>
+
+<span class="fc" id="L49">    comparator = new ObjectiveComparator&lt;DoubleSolution&gt;(0);</span>
+<span class="fc" id="L50">  }</span>
+  
+  public int getEvaluations() {
+<span class="nc" id="L53">    return evaluations;</span>
+  }
+
+  public void setEvaluations(int evaluations) {
+<span class="nc" id="L57">    this.evaluations = evaluations;</span>
+<span class="nc" id="L58">  }</span>
+
+  @Override protected void initProgress() {
+<span class="nc" id="L61">    evaluations = populationSize;</span>
+<span class="nc" id="L62">  }</span>
+
+  @Override protected void updateProgress() {
+<span class="nc" id="L65">    evaluations += populationSize;</span>
+<span class="nc" id="L66">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    return evaluations &gt;= maxEvaluations;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; createInitialPopulation() {
+<span class="nc" id="L73">    List&lt;DoubleSolution&gt; population = new ArrayList&lt;&gt;(populationSize);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L75">      DoubleSolution newIndividual = getProblem().createSolution();</span>
+<span class="nc" id="L76">      population.add(newIndividual);</span>
+    }
+<span class="nc" id="L78">    return population;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; evaluatePopulation(List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L82">    return evaluator.evaluate(population, getProblem());</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; selection(List&lt;DoubleSolution&gt; population) {
+<span class="nc" id="L86">    return population;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; reproduction(List&lt;DoubleSolution&gt; matingPopulation) {
+<span class="nc" id="L90">    List&lt;DoubleSolution&gt; offspringPopulation = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L92" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L93">      selectionOperator.setIndex(i);</span>
+<span class="nc" id="L94">      List&lt;DoubleSolution&gt; parents = selectionOperator.execute(matingPopulation);</span>
+
+<span class="nc" id="L96">      crossoverOperator.setCurrentSolution(matingPopulation.get(i));</span>
+<span class="nc" id="L97">      List&lt;DoubleSolution&gt; children = crossoverOperator.execute(parents);</span>
+
+<span class="nc" id="L99">      offspringPopulation.add(children.get(0));</span>
+    }
+
+<span class="nc" id="L102">    return offspringPopulation;</span>
+  }
+
+  @Override protected List&lt;DoubleSolution&gt; replacement(List&lt;DoubleSolution&gt; population,
+      List&lt;DoubleSolution&gt; offspringPopulation) {
+<span class="nc" id="L107">    List&lt;DoubleSolution&gt; pop = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">      if (comparator.compare(population.get(i), offspringPopulation.get(i)) &lt; 0) {</span>
+<span class="nc" id="L111">        pop.add(population.get(i));</span>
+      } else {
+<span class="nc" id="L113">        pop.add(offspringPopulation.get(i));</span>
+      }
+    }
+
+<span class="nc" id="L117">    Collections.sort(pop, comparator) ;</span>
+<span class="nc" id="L118">    return pop;</span>
+  }
+
+  /**
+   * Returns the best individual
+   */
+  @Override public DoubleSolution getResult() {
+<span class="nc" id="L125">    Collections.sort(getPopulation(), comparator) ;</span>
+
+<span class="nc" id="L127">    return getPopulation().get(0);</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L131">    return &quot;DE&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L135">    return &quot;Differential Evolution Algorithm&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

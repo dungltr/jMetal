@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GWASFGARanking.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.gwasfga.util</a> &gt; <span class="el_source">GWASFGARanking.java</span></div><h1>GWASFGARanking.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.gwasfga.util;
+
+import org.uma.jmetal.algorithm.multiobjective.mombi.util.AbstractUtilityFunctionsSet;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.solutionattribute.Ranking;
+import org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttribute;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+@SuppressWarnings(&quot;serial&quot;)
+public class GWASFGARanking&lt;S extends Solution&lt;?&gt;&gt; extends GenericSolutionAttribute&lt;S, Integer&gt;
+		implements Ranking&lt;S&gt; {
+
+  private AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctionsUtopia;
+  private AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctionsNadir;
+  private List&lt;List&lt;S&gt;&gt; rankedSubpopulations;
+<span class="nc" id="L19">  private int numberOfRanks = 0;</span>
+
+<span class="nc" id="L21">  public GWASFGARanking(AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctionsUtopia, AbstractUtilityFunctionsSet&lt;S&gt; utilityFunctionsNadir) {</span>
+<span class="nc" id="L22">    this.utilityFunctionsUtopia = utilityFunctionsUtopia;</span>
+<span class="nc" id="L23">    this.utilityFunctionsNadir  = utilityFunctionsNadir;</span>
+<span class="nc" id="L24">  }</span>
+
+  @Override
+  public Ranking&lt;S&gt; computeRanking(List&lt;S&gt; population) {
+
+<span class="nc" id="L29">	this.numberOfRanks 		= (population.size() + 1) / (this.utilityFunctionsUtopia.getSize() + this.utilityFunctionsNadir.getSize());	</span>
+	
+<span class="nc" id="L31">	this.rankedSubpopulations = new ArrayList&lt;&gt;(this.numberOfRanks);</span>
+	
+<span class="nc bnc" id="L33" title="All 2 branches missed.">	for (int i = 0; i &lt; this.numberOfRanks; i++) {</span>
+<span class="nc" id="L34">		this.rankedSubpopulations.add(new ArrayList&lt;S&gt;());</span>
+	}
+<span class="nc" id="L36">	List&lt;S&gt; temporalList 	= new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L37">	temporalList.addAll(population);</span>
+	  
+	
+<span class="nc bnc" id="L40" title="All 2 branches missed.">	for (int idx = 0; idx &lt; this.numberOfRanks; idx++) {</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">		for (int weigth = 0; weigth &lt; this.utilityFunctionsUtopia.getSize(); weigth++) {</span>
+<span class="nc" id="L42">			int toRemoveIdx = 0;</span>
+<span class="nc" id="L43">			double minimumValue = this.utilityFunctionsUtopia.evaluate(temporalList.get(0), weigth);			</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">			for (int solutionIdx = 1; solutionIdx &lt; temporalList.size(); solutionIdx++) {</span>
+<span class="nc" id="L45">				double value = this.utilityFunctionsUtopia.evaluate(temporalList.get(solutionIdx), weigth);</span>
+				
+<span class="nc bnc" id="L47" title="All 2 branches missed.">				if (value &lt; minimumValue) {</span>
+<span class="nc" id="L48">					minimumValue = value;</span>
+<span class="nc" id="L49">					toRemoveIdx = solutionIdx;</span>
+				}
+			}
+		
+<span class="nc" id="L53">			S solutionToInsert = temporalList.remove(toRemoveIdx);</span>
+<span class="nc" id="L54">			setAttribute(solutionToInsert, idx);</span>
+<span class="nc" id="L55">			this.rankedSubpopulations.get(idx).add(solutionToInsert);</span>
+		}
+<span class="nc bnc" id="L57" title="All 2 branches missed.">		for (int weigth = 0; weigth &lt; this.utilityFunctionsNadir.getSize(); weigth++) {</span>
+<span class="nc" id="L58">			int toRemoveIdx = 0;</span>
+<span class="nc" id="L59">			double minimumValue = this.utilityFunctionsNadir.evaluate(temporalList.get(0), weigth);			</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">			for (int solutionIdx = 1; solutionIdx &lt; temporalList.size(); solutionIdx++) {</span>
+<span class="nc" id="L61">				double value = this.utilityFunctionsNadir.evaluate(temporalList.get(solutionIdx), weigth);</span>
+				
+<span class="nc bnc" id="L63" title="All 2 branches missed.">				if (value &lt; minimumValue) {</span>
+<span class="nc" id="L64">					minimumValue = value;</span>
+<span class="nc" id="L65">					toRemoveIdx = solutionIdx;</span>
+				}
+			}
+		
+<span class="nc" id="L69">			S solutionToInsert = temporalList.remove(toRemoveIdx);</span>
+<span class="nc" id="L70">			setAttribute(solutionToInsert, idx);</span>
+<span class="nc" id="L71">			this.rankedSubpopulations.get(idx).add(solutionToInsert);</span>
+		}
+		
+	}
+<span class="nc" id="L75">	return this;</span>
+  }
+
+  @Override
+  public List&lt;S&gt; getSubfront(int rank) {
+<span class="nc" id="L80">    return this.rankedSubpopulations.get(rank);</span>
+  }
+
+  @Override
+  public int getNumberOfSubfronts() {
+<span class="nc" id="L85">    return this.rankedSubpopulations.size();</span>
+  }
+  
+  /*public AbstractUtilityFunctionsSet&lt;S&gt; getUtilityFunctions() {
+    return this.utilityFunctions;
+  }*/
+  
+  
+  
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

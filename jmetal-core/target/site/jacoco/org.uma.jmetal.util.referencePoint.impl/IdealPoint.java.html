@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IdealPoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.referencePoint.impl</a> &gt; <span class="el_source">IdealPoint.java</span></div><h1>IdealPoint.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.referencePoint.impl;
+
+import org.uma.jmetal.util.referencePoint.ReferencePoint;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+
+/**
+ * Class representing an ideal point (minimization is assumed)
+ *
+ * @author Antonio J.Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class IdealPoint extends ReferencePoint {
+  private static final double DEFAULT_INITIAL_VALUE = Double.POSITIVE_INFINITY ;
+
+  public IdealPoint(int numberOfPoints) {
+<span class="fc" id="L17">    super(numberOfPoints) ;</span>
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">    for (int i = 0; i &lt; numberOfPoints; i++) {</span>
+<span class="fc" id="L20">      this.setObjective(i, DEFAULT_INITIAL_VALUE);</span>
+    }
+<span class="fc" id="L22">  }</span>
+
+  @Override
+  public void update(Solution&lt;?&gt; solution) {
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">    if (solution == null) {</span>
+<span class="nc" id="L27">      throw new JMetalException(&quot;The solution is null&quot;) ;</span>
+<span class="pc bpc" id="L28" title="1 of 2 branches missed.">    } else if (solution.getNumberOfObjectives() != this.getNumberOfObjectives()) {</span>
+<span class="nc" id="L29">      throw new JMetalException(&quot;The number of objectives of the solution (&quot;</span>
+<span class="nc" id="L30">          + solution.getNumberOfObjectives()</span>
+          + &quot;) &quot;
+          + &quot;is different to the size of the reference point(&quot;
+<span class="nc" id="L33">          + this.getNumberOfObjectives()</span>
+          + &quot;)&quot;
+      );
+    }
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">    for (int i = 0; i &lt; this.getNumberOfObjectives(); i++) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">      if (this.getObjective(i) &gt; solution.getObjective(i)) {</span>
+<span class="fc" id="L40">        this.setObjective(i, solution.getObjective(i));</span>
+      }
+    }
+<span class="fc" id="L43">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

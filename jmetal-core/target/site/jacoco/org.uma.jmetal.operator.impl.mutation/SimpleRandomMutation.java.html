@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SimpleRandomMutation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.mutation</a> &gt; <span class="el_source">SimpleRandomMutation.java</span></div><h1>SimpleRandomMutation.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.mutation;
+
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+/**
+ * This class implements a random mutation operator for double solutions
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SimpleRandomMutation implements MutationOperator&lt;DoubleSolution&gt; {
+  private double mutationProbability ;
+  private RandomGenerator&lt;Double&gt; randomGenerator ;
+
+  /**  Constructor */
+  public SimpleRandomMutation(double probability) {
+<span class="fc" id="L21">	  this(probability, () -&gt; JMetalRandom.getInstance().nextDouble());</span>
+<span class="fc" id="L22">  }</span>
+
+  /**  Constructor */
+<span class="fc" id="L25">  public SimpleRandomMutation(double probability, RandomGenerator&lt;Double&gt; randomGenerator) {</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">    if (probability &lt; 0) {</span>
+<span class="nc" id="L27">      throw new JMetalException(&quot;Mutation probability is negative: &quot; + mutationProbability) ;</span>
+    }
+
+<span class="fc" id="L30">  	this.mutationProbability = probability ;</span>
+<span class="fc" id="L31">    this.randomGenerator = randomGenerator ;</span>
+<span class="fc" id="L32">  }</span>
+
+  /* Getters */
+  public double getMutationProbability() {
+<span class="nc" id="L36">    return mutationProbability;</span>
+  }
+
+  /* Setters */
+  public void setMutationProbability(double mutationProbability) {
+<span class="nc" id="L41">    this.mutationProbability = mutationProbability;</span>
+<span class="nc" id="L42">  }</span>
+
+  /** Execute() method */
+	@Override
+  public DoubleSolution execute(DoubleSolution solution) throws JMetalException {
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">    if (null == solution) {</span>
+<span class="nc" id="L48">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+    }
+
+<span class="fc" id="L51">    doMutation(mutationProbability, solution) ;</span>
+    
+<span class="fc" id="L53">    return solution;</span>
+  }
+
+  /** Implements the mutation operation */
+	private void doMutation(double probability, DoubleSolution solution) {
+<span class="fc bfc" id="L58" title="All 2 branches covered.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">      if (randomGenerator.getRandomValue() &lt;= probability) {</span>
+<span class="fc" id="L60">      	Double value = solution.getLowerBound(i) +</span>
+<span class="fc" id="L61">      			((solution.getUpperBound(i) - solution.getLowerBound(i)) * randomGenerator.getRandomValue()) ;</span>
+      	
+<span class="fc" id="L63">      	solution.setVariableValue(i, value) ;</span>
+      }
+    }
+<span class="fc" id="L66">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

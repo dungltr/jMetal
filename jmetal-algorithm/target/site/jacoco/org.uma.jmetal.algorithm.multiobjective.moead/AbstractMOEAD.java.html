@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractMOEAD.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.moead</a> &gt; <span class="el_source">AbstractMOEAD.java</span></div><h1>AbstractMOEAD.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.moead;
+
+import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+/**
+ * Abstract class for implementing versions of the MOEA/D algorithm.
+ *
+ * @author Antonio J. Nebro
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public abstract class AbstractMOEAD&lt;S extends Solution&lt;?&gt;&gt; implements Algorithm&lt;List&lt;S&gt;&gt; {
+<span class="nc" id="L27">  protected enum NeighborType {NEIGHBOR, POPULATION}</span>
+<span class="nc" id="L28">  public enum FunctionType {TCHE, PBI, AGG}</span>
+
+  protected Problem&lt;S&gt; problem ;
+
+  /** Z vector in Zhang &amp; Li paper */
+  protected double[] idealPoint;
+  // nadir point
+  protected double[] nadirPoint;
+  /** Lambda vectors */
+  protected double[][] lambda;
+  /** T in Zhang &amp; Li paper */
+  protected int neighborSize;
+  protected int[][] neighborhood;
+  /** Delta in Zhang &amp; Li paper */
+  protected double neighborhoodSelectionProbability;
+  /** nr in Zhang &amp; Li paper */
+  protected int maximumNumberOfReplacedSolutions;
+
+  protected Solution&lt;?&gt;[] indArray;
+  protected FunctionType functionType;
+
+  protected String dataDirectory;
+
+  protected List&lt;S&gt; population;
+  protected List&lt;S&gt; offspringPopulation;
+  protected List&lt;S&gt; jointPopulation;
+  
+  protected int populationSize;
+  protected int resultPopulationSize ;
+
+  protected int evaluations;
+  protected int maxEvaluations;
+
+  protected JMetalRandom randomGenerator ;
+
+  protected CrossoverOperator&lt;S&gt; crossoverOperator ;
+  protected MutationOperator&lt;S&gt; mutationOperator ;
+
+  public AbstractMOEAD(Problem&lt;S&gt; problem, int populationSize, int resultPopulationSize,
+      int maxEvaluations, CrossoverOperator&lt;S&gt; crossoverOperator, MutationOperator&lt;S&gt; mutation,
+      FunctionType functionType, String dataDirectory, double neighborhoodSelectionProbability,
+<span class="nc" id="L69">      int maximumNumberOfReplacedSolutions, int neighborSize) {</span>
+<span class="nc" id="L70">    this.problem = problem ;</span>
+<span class="nc" id="L71">    this.populationSize = populationSize ;</span>
+<span class="nc" id="L72">    this.resultPopulationSize = resultPopulationSize ;</span>
+<span class="nc" id="L73">    this.maxEvaluations = maxEvaluations ;</span>
+<span class="nc" id="L74">    this.mutationOperator = mutation ;</span>
+<span class="nc" id="L75">    this.crossoverOperator = crossoverOperator ;</span>
+<span class="nc" id="L76">    this.functionType = functionType ;</span>
+<span class="nc" id="L77">    this.dataDirectory = dataDirectory ;</span>
+<span class="nc" id="L78">    this.neighborhoodSelectionProbability = neighborhoodSelectionProbability ;</span>
+<span class="nc" id="L79">    this.maximumNumberOfReplacedSolutions = maximumNumberOfReplacedSolutions ;</span>
+<span class="nc" id="L80">    this.neighborSize = neighborSize ;</span>
+
+<span class="nc" id="L82">    randomGenerator = JMetalRandom.getInstance() ;</span>
+
+<span class="nc" id="L84">    population = new ArrayList&lt;&gt;(populationSize);</span>
+<span class="nc" id="L85">    indArray = new Solution[problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L86">    neighborhood = new int[populationSize][neighborSize];</span>
+<span class="nc" id="L87">    idealPoint = new double[problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L88">    nadirPoint = new double[problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L89">    lambda = new double[populationSize][problem.getNumberOfObjectives()];</span>
+<span class="nc" id="L90">  }</span>
+
+  /**
+   * Initialize weight vectors
+   */
+  protected void initializeUniformWeight() {
+<span class="nc bnc" id="L96" title="All 4 branches missed.">    if ((problem.getNumberOfObjectives() == 2) &amp;&amp; (populationSize &lt;= 300)) {</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">      for (int n = 0; n &lt; populationSize; n++) {</span>
+<span class="nc" id="L98">        double a = 1.0 * n / (populationSize - 1);</span>
+<span class="nc" id="L99">        lambda[n][0] = a;</span>
+<span class="nc" id="L100">        lambda[n][1] = 1 - a;</span>
+      }
+    } else {
+      String dataFileName;
+<span class="nc" id="L104">      dataFileName = &quot;W&quot; + problem.getNumberOfObjectives() + &quot;D_&quot; +</span>
+          populationSize + &quot;.dat&quot;;
+
+      try {
+<span class="nc" id="L108">        InputStream in = getClass().getResourceAsStream(&quot;/&quot; + dataDirectory + &quot;/&quot; + dataFileName);</span>
+<span class="nc" id="L109">        InputStreamReader isr = new InputStreamReader(in);</span>
+<span class="nc" id="L110">        BufferedReader br = new BufferedReader(isr);</span>
+
+<span class="nc" id="L112">        int i = 0;</span>
+<span class="nc" id="L113">        int j = 0;</span>
+<span class="nc" id="L114">        String aux = br.readLine();</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        while (aux != null) {</span>
+<span class="nc" id="L116">          StringTokenizer st = new StringTokenizer(aux);</span>
+<span class="nc" id="L117">          j = 0;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">          while (st.hasMoreTokens()) {</span>
+<span class="nc" id="L119">            double value = new Double(st.nextToken());</span>
+<span class="nc" id="L120">            lambda[i][j] = value;</span>
+<span class="nc" id="L121">            j++;</span>
+<span class="nc" id="L122">          }</span>
+<span class="nc" id="L123">          aux = br.readLine();</span>
+<span class="nc" id="L124">          i++;</span>
+<span class="nc" id="L125">        }</span>
+<span class="nc" id="L126">        br.close();</span>
+<span class="nc" id="L127">      } catch (Exception e) {</span>
+<span class="nc" id="L128">        throw new JMetalException(&quot;initializeUniformWeight: failed when reading for file: &quot;</span>
+            + dataDirectory + &quot;/&quot; + dataFileName, e) ;
+<span class="nc" id="L130">      }</span>
+    }
+<span class="nc" id="L132">  }</span>
+
+  /**
+   * Initialize neighborhoods
+   */
+  protected void initializeNeighborhood() {
+<span class="nc" id="L138">    double[] x = new double[populationSize];</span>
+<span class="nc" id="L139">    int[] idx = new int[populationSize];</span>
+
+<span class="nc bnc" id="L141" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+      // calculate the distances based on weight vectors
+<span class="nc bnc" id="L143" title="All 2 branches missed.">      for (int j = 0; j &lt; populationSize; j++) {</span>
+<span class="nc" id="L144">        x[j] = MOEADUtils.distVector(lambda[i], lambda[j]);</span>
+<span class="nc" id="L145">        idx[j] = j;</span>
+      }
+
+      // find 'niche' nearest neighboring subproblems
+<span class="nc" id="L149">      MOEADUtils.minFastSort(x, idx, populationSize, neighborSize);</span>
+
+<span class="nc" id="L151">      System.arraycopy(idx, 0, neighborhood[i], 0, neighborSize);</span>
+    }
+<span class="nc" id="L153">  }</span>
+
+  protected void initializeIdealPoint() {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L157">      idealPoint[i] = 1.0e+30;</span>
+    }
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L161">      updateIdealPoint(population.get(i));</span>
+    }
+<span class="nc" id="L163">  }</span>
+  
+//initialize the nadir point
+	protected void initializeNadirPoint() {
+<span class="nc bnc" id="L167" title="All 2 branches missed.">		for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++)</span>
+<span class="nc" id="L168">			nadirPoint[i] = -1.0e+30;</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">		for (int i = 0; i &lt; populationSize; i++)</span>
+<span class="nc" id="L170">			updateNadirPoint(population.get(i));</span>
+<span class="nc" id="L171">	}</span>
+	
+	// update the current nadir point
+	protected void updateNadirPoint(S individual) {
+<span class="nc bnc" id="L175" title="All 2 branches missed.">		for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">			if (individual.getObjective(i) &gt; nadirPoint[i]) {</span>
+<span class="nc" id="L177">				nadirPoint[i] = individual.getObjective(i);</span>
+			}
+		}
+<span class="nc" id="L180">	}</span>
+
+  protected void updateIdealPoint(S individual) {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">    for (int n = 0; n &lt; problem.getNumberOfObjectives(); n++) {</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">      if (individual.getObjective(n) &lt; idealPoint[n]) {</span>
+<span class="nc" id="L185">        idealPoint[n] = individual.getObjective(n);</span>
+      }
+    }
+<span class="nc" id="L188">  }</span>
+
+  protected NeighborType chooseNeighborType() {
+<span class="nc" id="L191">    double rnd = randomGenerator.nextDouble();</span>
+    NeighborType neighborType ;
+
+<span class="nc bnc" id="L194" title="All 2 branches missed.">    if (rnd &lt; neighborhoodSelectionProbability) {</span>
+<span class="nc" id="L195">      neighborType = NeighborType.NEIGHBOR;</span>
+    } else {
+<span class="nc" id="L197">      neighborType = NeighborType.POPULATION;</span>
+    }
+<span class="nc" id="L199">    return neighborType ;</span>
+  }
+
+  protected List&lt;S&gt; parentSelection(int subProblemId, NeighborType neighborType) {
+<span class="nc" id="L203">    List&lt;Integer&gt; matingPool = matingSelection(subProblemId, 2, neighborType);</span>
+
+<span class="nc" id="L205">    List&lt;S&gt; parents = new ArrayList&lt;&gt;(3);</span>
+
+<span class="nc" id="L207">    parents.add(population.get(matingPool.get(0)));</span>
+<span class="nc" id="L208">    parents.add(population.get(matingPool.get(1)));</span>
+<span class="nc" id="L209">    parents.add(population.get(subProblemId));</span>
+
+<span class="nc" id="L211">    return parents ;</span>
+  }
+
+  /**
+   *
+   * @param subproblemId the id of current subproblem
+   * @param neighbourType neighbour type
+   */
+  protected List&lt;Integer&gt; matingSelection(int subproblemId, int numberOfSolutionsToSelect, NeighborType neighbourType) {
+    int neighbourSize;
+    int selectedSolution;
+
+<span class="nc" id="L223">    List&lt;Integer&gt; listOfSolutions = new ArrayList&lt;&gt;(numberOfSolutionsToSelect) ;</span>
+
+<span class="nc" id="L225">    neighbourSize = neighborhood[subproblemId].length;</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">    while (listOfSolutions.size() &lt; numberOfSolutionsToSelect) {</span>
+      int random;
+<span class="nc bnc" id="L228" title="All 2 branches missed.">      if (neighbourType == NeighborType.NEIGHBOR) {</span>
+<span class="nc" id="L229">        random = randomGenerator.nextInt(0, neighbourSize - 1);</span>
+<span class="nc" id="L230">        selectedSolution = neighborhood[subproblemId][random];</span>
+      } else {
+<span class="nc" id="L232">        selectedSolution = randomGenerator.nextInt(0, populationSize - 1);</span>
+      }
+<span class="nc" id="L234">      boolean flag = true;</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">      for (Integer individualId : listOfSolutions) {</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        if (individualId == selectedSolution) {</span>
+<span class="nc" id="L237">          flag = false;</span>
+<span class="nc" id="L238">          break;</span>
+        }
+<span class="nc" id="L240">      }</span>
+
+<span class="nc bnc" id="L242" title="All 2 branches missed.">      if (flag) {</span>
+<span class="nc" id="L243">        listOfSolutions.add(selectedSolution);</span>
+      }
+<span class="nc" id="L245">    }</span>
+
+<span class="nc" id="L247">    return listOfSolutions ;</span>
+  }
+
+  /**
+   * Update neighborhood method
+   * @param individual
+   * @param subProblemId
+   * @param neighborType
+   * @throws JMetalException
+   */
+  @SuppressWarnings(&quot;unchecked&quot;)
+  protected  void updateNeighborhood(S individual, int subProblemId, NeighborType neighborType) throws JMetalException {
+    int size;
+    int time;
+
+<span class="nc" id="L262">    time = 0;</span>
+
+<span class="nc bnc" id="L264" title="All 2 branches missed.">    if (neighborType == NeighborType.NEIGHBOR) {</span>
+<span class="nc" id="L265">      size = neighborhood[subProblemId].length;</span>
+    } else {
+<span class="nc" id="L267">      size = population.size();</span>
+    }
+<span class="nc" id="L269">    int[] perm = new int[size];</span>
+
+<span class="nc" id="L271">    MOEADUtils.randomPermutation(perm, size);</span>
+
+<span class="nc bnc" id="L273" title="All 2 branches missed.">    for (int i = 0; i &lt; size; i++) {</span>
+      int k;
+<span class="nc bnc" id="L275" title="All 2 branches missed.">      if (neighborType == NeighborType.NEIGHBOR) {</span>
+<span class="nc" id="L276">        k = neighborhood[subProblemId][perm[i]];</span>
+      } else {
+<span class="nc" id="L278">        k = perm[i];</span>
+      }
+      double f1, f2;
+
+<span class="nc" id="L282">      f1 = fitnessFunction(population.get(k), lambda[k]);</span>
+<span class="nc" id="L283">      f2 = fitnessFunction(individual, lambda[k]);</span>
+
+<span class="nc bnc" id="L285" title="All 2 branches missed.">      if (f2 &lt; f1) {</span>
+<span class="nc" id="L286">        population.set(k, (S)individual.copy());</span>
+<span class="nc" id="L287">        time++;</span>
+      }
+
+<span class="nc bnc" id="L290" title="All 2 branches missed.">      if (time &gt;= maximumNumberOfReplacedSolutions) {</span>
+<span class="nc" id="L291">        return;</span>
+      }
+    }
+<span class="nc" id="L294">  }</span>
+
+  double fitnessFunction(S individual, double[] lambda) throws JMetalException {
+    double fitness;
+
+<span class="nc bnc" id="L299" title="All 2 branches missed.">    if (MOEAD.FunctionType.TCHE.equals(functionType)) {</span>
+<span class="nc" id="L300">      double maxFun = -1.0e+30;</span>
+
+<span class="nc bnc" id="L302" title="All 2 branches missed.">      for (int n = 0; n &lt; problem.getNumberOfObjectives(); n++) {</span>
+<span class="nc" id="L303">        double diff = Math.abs(individual.getObjective(n) - idealPoint[n]);</span>
+
+        double feval;
+<span class="nc bnc" id="L306" title="All 2 branches missed.">        if (lambda[n] == 0) {</span>
+<span class="nc" id="L307">          feval = 0.0001 * diff;</span>
+        } else {
+<span class="nc" id="L309">          feval = diff * lambda[n];</span>
+        }
+<span class="nc bnc" id="L311" title="All 2 branches missed.">        if (feval &gt; maxFun) {</span>
+<span class="nc" id="L312">          maxFun = feval;</span>
+        }
+      }
+
+<span class="nc" id="L316">      fitness = maxFun;</span>
+<span class="nc bnc" id="L317" title="All 2 branches missed.">    } else if (MOEAD.FunctionType.AGG.equals(functionType)) {</span>
+<span class="nc" id="L318">      double sum = 0.0;</span>
+<span class="nc bnc" id="L319" title="All 2 branches missed.">      for (int n = 0; n &lt; problem.getNumberOfObjectives(); n++) {</span>
+<span class="nc" id="L320">        sum += (lambda[n]) * individual.getObjective(n);</span>
+      }
+
+<span class="nc" id="L323">      fitness = sum;</span>
+
+<span class="nc bnc" id="L325" title="All 2 branches missed.">    } else if (MOEAD.FunctionType.PBI.equals(functionType)) {</span>
+      double d1, d2, nl;
+<span class="nc" id="L327">      double theta = 5.0;</span>
+
+<span class="nc" id="L329">      d1 = d2 = nl = 0.0;</span>
+
+<span class="nc bnc" id="L331" title="All 2 branches missed.">      for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L332">        d1 += (individual.getObjective(i) - idealPoint[i]) * lambda[i];</span>
+<span class="nc" id="L333">        nl += Math.pow(lambda[i], 2.0);</span>
+      }
+<span class="nc" id="L335">      nl = Math.sqrt(nl);</span>
+<span class="nc" id="L336">      d1 = Math.abs(d1) / nl;</span>
+
+<span class="nc bnc" id="L338" title="All 2 branches missed.">      for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="nc" id="L339">        d2 += Math.pow((individual.getObjective(i) - idealPoint[i]) - d1 * (lambda[i] / nl), 2.0);</span>
+      }
+<span class="nc" id="L341">      d2 = Math.sqrt(d2);</span>
+
+<span class="nc" id="L343">      fitness = (d1 + theta * d2);</span>
+<span class="nc" id="L344">    } else {</span>
+<span class="nc" id="L345">      throw new JMetalException(&quot; MOEAD.fitnessFunction: unknown type &quot; + functionType);</span>
+    }
+<span class="nc" id="L347">    return fitness;</span>
+  }
+
+  @Override public List&lt;S&gt; getResult() {
+<span class="nc" id="L351">    return population ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ASFWASFGA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi.util</a> &gt; <span class="el_source">ASFWASFGA.java</span></div><h1>ASFWASFGA.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi.util;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Juan J. Durillo
+ * Modified by Antonio J. Nebro
+ *
+ * @param &lt;S&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ASFWASFGA&lt;S extends Solution&lt;?&gt;&gt; extends AbstractUtilityFunctionsSet&lt;S&gt; {
+
+	private final List&lt;Double&gt; interestPoint;
+<span class="nc" id="L19">	private double augmentationCoefficient = 0.001;</span>
+<span class="nc" id="L20">	private List&lt;Double&gt; utopia = null;</span>
+<span class="nc" id="L21">	private List&lt;Double&gt; nadir  = null;</span>
+	
+	
+	public ASFWASFGA(double [][] weights, List&lt;Double&gt; interestPoint) {
+<span class="nc" id="L25">		super(weights);</span>
+<span class="nc" id="L26">		this.interestPoint = interestPoint;</span>
+<span class="nc" id="L27">	}</span>
+	
+	public ASFWASFGA(double [][] weights) {
+<span class="nc" id="L30">		super(weights);</span>
+<span class="nc" id="L31">		this.interestPoint = new ArrayList&lt;&gt;(this.getVectorSize());</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">		for (int i = 0; i &lt; this.getVectorSize(); i++)</span>
+<span class="nc" id="L33">			this.interestPoint.add(0.0);</span>
+<span class="nc" id="L34">	}</span>
+	
+	public ASFWASFGA(String file_path, List&lt;Double&gt; interestPoint) {
+<span class="nc" id="L37">		super(file_path);</span>
+<span class="nc" id="L38">		this.interestPoint = interestPoint;</span>
+<span class="nc" id="L39">	}</span>
+	
+	public ASFWASFGA(String file_path) {
+<span class="nc" id="L42">		super(file_path);</span>
+<span class="nc" id="L43">		this.interestPoint = new ArrayList&lt;&gt;(this.getVectorSize());</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		for (int i = 0; i &lt; this.getVectorSize(); i++)</span>
+<span class="nc" id="L45">			this.interestPoint.add(0.0);</span>
+<span class="nc" id="L46">	}</span>
+
+	public void updatePointOfInterest(List&lt;Double&gt; newInterestPoint ) {
+<span class="nc bnc" id="L49" title="All 2 branches missed.">		if (this.interestPoint.size()!=newInterestPoint.size())</span>
+<span class="nc" id="L50">			throw new JMetalException(&quot;Wrong dimension of the interest point vector&quot;);</span>
+
+<span class="nc bnc" id="L52" title="All 2 branches missed.">		for (int i = 0; i &lt; newInterestPoint.size(); i++) {</span>
+<span class="nc" id="L53">            this.interestPoint.set(i,newInterestPoint.get(i));</span>
+		}
+<span class="nc" id="L55">	}</span>
+
+
+	@Override
+	public Double evaluate(S solution, int vector) {
+<span class="nc bnc" id="L60" title="All 4 branches missed.">		if ((vector &lt; 0) || (vector &gt;= this.getSize())) {</span>
+<span class="nc" id="L61">			throw new JMetalException(&quot;Vector value &quot; + vector + &quot; invalid&quot;) ;</span>
+		}
+		
+
+		
+<span class="nc" id="L66">		List&lt;Double&gt; weightVector 	 =  this.getWeightVector(vector);</span>
+<span class="nc" id="L67">		List&lt;Double&gt; objectiveValues =  new ArrayList&lt;&gt;(solution.getNumberOfObjectives());</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">		for (int i = 0; i &lt; solution.getNumberOfObjectives();i++) 			</span>
+<span class="nc" id="L69">				objectiveValues.add(solution.getObjective(i));</span>
+		
+<span class="nc" id="L71">		double result = -1e10;</span>
+<span class="nc" id="L72">		double secondSum = 0.0;</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">		for (int i = 0; i &lt; weightVector.size(); i++) {</span>
+									
+<span class="nc" id="L75">			double temp = objectiveValues.get(i) - this.interestPoint.get(i);</span>
+						 
+			
+<span class="nc bnc" id="L78" title="All 4 branches missed.">			if (nadir!=null &amp;&amp; utopia!=null) {</span>
+<span class="nc" id="L79">				temp = temp / (this.nadir.get(i) - this.utopia.get(i));				</span>
+			}
+			
+<span class="nc" id="L82">			double temp_product = temp * weightVector.get(i);</span>
+			
+<span class="nc bnc" id="L84" title="All 2 branches missed.">			if (temp_product &gt; result)</span>
+<span class="nc" id="L85">				result = temp_product;</span>
+			
+<span class="nc" id="L87">			secondSum += temp_product;</span>
+		}
+
+<span class="nc" id="L90">		return result + (secondSum * this.augmentationCoefficient);		</span>
+	}
+
+
+
+	
+	public void setNadir(List&lt;Double&gt; nadir) {
+<span class="nc" id="L97">		this.nadir = nadir;</span>
+		
+<span class="nc" id="L99">	}</span>
+	public void setUtopia(List&lt;Double&gt; utopia) {
+<span class="nc" id="L101">		this.utopia = utopia;</span>
+<span class="nc" id="L102">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

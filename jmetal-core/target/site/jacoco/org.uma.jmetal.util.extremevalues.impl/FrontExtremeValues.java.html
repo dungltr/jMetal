@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FrontExtremeValues.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.extremevalues.impl</a> &gt; <span class="el_source">FrontExtremeValues.java</span></div><h1>FrontExtremeValues.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.extremevalues.impl;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.extremevalues.ExtremeValuesFinder;
+import org.uma.jmetal.util.front.Front;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class for finding the extreme values of front objects
+ *
+ * @author Antonio J. Nebro
+ */
+<span class="nc" id="L15">public class FrontExtremeValues implements ExtremeValuesFinder &lt;Front, List&lt;Double&gt;&gt; {</span>
+
+  @Override public List&lt;Double&gt; findLowestValues(Front front) {
+<span class="nc" id="L18">    List&lt;Double&gt; minimumValue = new ArrayList&lt;&gt;() ;</span>
+
+<span class="nc bnc" id="L20" title="All 2 branches missed.">    if (front == null) {</span>
+<span class="nc" id="L21">      throw new JMetalException(&quot;The front is null&quot;) ;</span>
+<span class="nc bnc" id="L22" title="All 2 branches missed.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="nc" id="L23">      throw new JMetalException(&quot;The front is empty&quot;) ;</span>
+    }
+
+<span class="nc" id="L26">    int numberOfObjectives = front.getPointDimensions() ;</span>
+
+<span class="nc bnc" id="L28" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="nc" id="L29">      minimumValue.add(Double.POSITIVE_INFINITY);</span>
+    }
+
+<span class="nc bnc" id="L32" title="All 2 branches missed.">    for (int i = 0 ; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (front.getPoint(i).getDimensionValue(j) &lt; minimumValue.get(j)) {</span>
+<span class="nc" id="L35">          minimumValue.set(j, front.getPoint(i).getDimensionValue(j));</span>
+        }
+      }
+    }
+
+<span class="nc" id="L40">    return minimumValue;</span>
+  }
+
+  @Override public List&lt;Double&gt; findHighestValues(Front front) {
+<span class="nc" id="L44">    List&lt;Double&gt; maximumValue = new ArrayList&lt;&gt;() ;</span>
+
+<span class="nc bnc" id="L46" title="All 2 branches missed.">    if (front == null) {</span>
+<span class="nc" id="L47">      throw new JMetalException(&quot;The front is null&quot;) ;</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    } else if (front.getNumberOfPoints() == 0) {</span>
+<span class="nc" id="L49">      throw new JMetalException(&quot;The front is empty&quot;) ;</span>
+    }
+
+<span class="nc" id="L52">    int numberOfObjectives = front.getPointDimensions() ;</span>
+
+<span class="nc bnc" id="L54" title="All 2 branches missed.">    for (int i = 0; i &lt; numberOfObjectives; i++) {</span>
+<span class="nc" id="L55">      maximumValue.add(Double.NEGATIVE_INFINITY);</span>
+    }
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">    for (int i = 0 ; i &lt; front.getNumberOfPoints(); i++) {</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfObjectives; j++) {</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (front.getPoint(i).getDimensionValue(j) &gt; maximumValue.get(j)) {</span>
+<span class="nc" id="L61">          maximumValue.set(j, front.getPoint(i).getDimensionValue(j));</span>
+        }
+      }
+    }
+
+<span class="nc" id="L66">    return maximumValue;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

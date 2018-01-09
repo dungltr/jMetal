@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DifferentialEvolutionCrossover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.crossover</a> &gt; <span class="el_source">DifferentialEvolutionCrossover.java</span></div><h1>DifferentialEvolutionCrossover.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.crossover;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.JMetalLogger;
+import org.uma.jmetal.util.pseudorandom.BoundedRandomGenerator;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Differential evolution crossover operator
+ *
+ * @author Antonio J. Nebro
+ *
+ * Comments:
+ * - The operator receives two parameters: the current individual and an array
+ * of three parent individuals
+ * - The best and rand variants depends on the third parent, according whether
+ * it represents the current of the &quot;best&quot; individual or a random one.
+ * The implementation of both variants are the same, due to that the parent
+ * selection is external to the crossover operator.
+ * - Implemented variants:
+ * - rand/1/bin (best/1/bin)
+ * - rand/1/exp (best/1/exp)
+ * - current-to-rand/1 (current-to-best/1)
+ * - current-to-rand/1/bin (current-to-best/1/bin)
+ * - current-to-rand/1/exp (current-to-best/1/exp)
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DifferentialEvolutionCrossover implements CrossoverOperator&lt;DoubleSolution&gt; {
+  private static final double DEFAULT_CR = 0.5;
+  private static final double DEFAULT_F = 0.5;
+  private static final double DEFAULT_K = 0.5;
+  private static final String DEFAULT_DE_VARIANT = &quot;rand/1/bin&quot;;
+
+  private double cr;
+  private double f;
+  private double k;
+  // DE variant (rand/1/bin, rand/1/exp, etc.)
+  private String variant;
+
+  private DoubleSolution currentSolution ;
+
+  private BoundedRandomGenerator&lt;Integer&gt; jRandomGenerator ;
+  private BoundedRandomGenerator&lt;Double&gt; crRandomGenerator ;
+
+  /** Constructor */
+  public DifferentialEvolutionCrossover() {
+<span class="nc" id="L53">    this(DEFAULT_CR, DEFAULT_F, DEFAULT_K, DEFAULT_DE_VARIANT) ;</span>
+<span class="nc" id="L54">  }</span>
+
+  /**
+   * Constructor
+   * @param cr
+   * @param f
+   * @param variant
+   */
+  public DifferentialEvolutionCrossover(double cr, double f, String variant) {
+<span class="fc" id="L63">	  this(cr, f, variant, (a, b) -&gt; JMetalRandom.getInstance().nextInt(a, b), (a, b) -&gt; JMetalRandom.getInstance().nextDouble(a, b));</span>
+<span class="fc" id="L64">  }</span>
+
+  /**
+   * Constructor
+   * @param cr
+   * @param f
+   * @param variant
+   * @param jRandomGenerator
+   * @param crRandomGenerator
+   */
+  public DifferentialEvolutionCrossover(double cr, double f, String variant, RandomGenerator&lt;Double&gt; randomGenerator) {
+<span class="nc" id="L75">	  this(cr, f, variant, BoundedRandomGenerator.fromDoubleToInteger(randomGenerator), BoundedRandomGenerator.bound(randomGenerator));</span>
+<span class="nc" id="L76">  }</span>
+
+  /**
+   * Constructor
+   * @param cr
+   * @param f
+   * @param variant
+   * @param jRandomGenerator
+   * @param crRandomGenerator
+   */
+<span class="fc" id="L86">  public DifferentialEvolutionCrossover(double cr, double f, String variant, BoundedRandomGenerator&lt;Integer&gt; jRandomGenerator, BoundedRandomGenerator&lt;Double&gt; crRandomGenerator) {</span>
+<span class="fc" id="L87">    this.cr = cr;</span>
+<span class="fc" id="L88">    this.f = f;</span>
+<span class="fc" id="L89">    this.k = DEFAULT_K ;</span>
+<span class="fc" id="L90">    this.variant = variant ;</span>
+
+<span class="fc" id="L92">    this.jRandomGenerator = jRandomGenerator;</span>
+<span class="fc" id="L93">    this.crRandomGenerator = crRandomGenerator ;</span>
+<span class="fc" id="L94">  }</span>
+
+  /** Constructor */
+  public DifferentialEvolutionCrossover(double cr, double f, double k, String variant) {
+<span class="nc" id="L98">    this(cr, f, variant) ;</span>
+<span class="nc" id="L99">    this.k = k ;</span>
+<span class="nc" id="L100">  }</span>
+
+  /* Getters */
+  public double getCr() {
+<span class="nc" id="L104">    return cr;</span>
+  }
+
+  public double getF() {
+<span class="nc" id="L108">    return f;</span>
+  }
+
+  public double getK() {
+<span class="nc" id="L112">    return k;</span>
+  }
+
+  public String getVariant() {
+<span class="nc" id="L116">    return variant;</span>
+  }
+
+  /* Setters */
+  public void setCurrentSolution(DoubleSolution current) {
+<span class="fc" id="L121">    this.currentSolution = current ;</span>
+<span class="fc" id="L122">  }</span>
+
+  public void setCr(double cr) {
+<span class="nc" id="L125">    this.cr = cr;</span>
+<span class="nc" id="L126">  }</span>
+
+  public void setF(double f) {
+<span class="nc" id="L129">    this.f = f;</span>
+<span class="nc" id="L130">  }</span>
+
+  public void setK(double k) {
+<span class="nc" id="L133">    this.k = k;</span>
+<span class="nc" id="L134">  }</span>
+
+  /** Execute() method */
+  @Override
+  public List&lt;DoubleSolution&gt; execute(List&lt;DoubleSolution&gt; parentSolutions) {
+    DoubleSolution child;
+
+    int jrand;
+
+<span class="fc" id="L143">    child = (DoubleSolution)currentSolution.copy() ;</span>
+
+<span class="fc" id="L145">    int numberOfVariables = parentSolutions.get(0).getNumberOfVariables();</span>
+<span class="fc" id="L146">    jrand = jRandomGenerator.getRandomValue(0, numberOfVariables - 1);</span>
+
+    // STEP 4. Checking the DE variant
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">    if ((&quot;rand/1/bin&quot;.equals(variant)) ||</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            &quot;best/1/bin&quot;.equals(variant)) {</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="fc bfc" id="L152" title="All 4 branches covered.">        if (crRandomGenerator.getRandomValue(0.0, 1.0) &lt; cr || j == jrand) {</span>
+          double value;
+<span class="fc" id="L154">          value = parentSolutions.get(2).getVariableValue(j) + f * (parentSolutions.get(0).getVariableValue(</span>
+            j) -
+<span class="fc" id="L156">            parentSolutions.get(1).getVariableValue(j));</span>
+
+<span class="fc bfc" id="L158" title="All 2 branches covered.">          if (value &lt; child.getLowerBound(j)) {</span>
+<span class="fc" id="L159">            value = child.getLowerBound(j);</span>
+          }
+<span class="fc bfc" id="L161" title="All 2 branches covered.">          if (value &gt; child.getUpperBound(j)) {</span>
+<span class="fc" id="L162">            value = child.getUpperBound(j);</span>
+          }
+<span class="fc" id="L164">          child.setVariableValue(j, value);</span>
+<span class="fc" id="L165">        } else {</span>
+          double value;
+<span class="fc" id="L167">          value = currentSolution.getVariableValue(j);</span>
+<span class="fc" id="L168">          child.setVariableValue(j, value);</span>
+        }
+      }
+<span class="nc bnc" id="L171" title="All 2 branches missed.">    } else if (&quot;rand/1/exp&quot;.equals(variant) ||</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">            &quot;best/1/exp&quot;.equals(variant)) {</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc bnc" id="L174" title="All 4 branches missed.">        if (crRandomGenerator.getRandomValue(0.0, 1.0) &lt; cr || j == jrand) {</span>
+          double value;
+<span class="nc" id="L176">          value = parentSolutions.get(2).getVariableValue(j) + f * (parentSolutions.get(0).getVariableValue(j) -</span>
+<span class="nc" id="L177">                  parentSolutions.get(1).getVariableValue(j));</span>
+
+<span class="nc bnc" id="L179" title="All 2 branches missed.">          if (value &lt; child.getLowerBound(j)) {</span>
+<span class="nc" id="L180">            value = child.getLowerBound(j);</span>
+          }
+<span class="nc bnc" id="L182" title="All 2 branches missed.">          if (value &gt; child.getUpperBound(j)) {</span>
+<span class="nc" id="L183">            value = child.getUpperBound(j);</span>
+          }
+
+<span class="nc" id="L186">          child.setVariableValue(j, value);</span>
+<span class="nc" id="L187">        } else {</span>
+<span class="nc" id="L188">          cr = 0.0;</span>
+          double value;
+<span class="nc" id="L190">          value = currentSolution.getVariableValue(j);</span>
+<span class="nc" id="L191">          child.setVariableValue(j, value);</span>
+        }
+      }
+<span class="nc bnc" id="L194" title="All 2 branches missed.">    } else if (&quot;current-to-rand/1&quot;.equals(variant) ||</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">            &quot;current-to-best/1&quot;.equals(variant)) {</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+        double value;
+<span class="nc" id="L198">        value = currentSolution.getVariableValue(j) + k * (parentSolutions.get(2).getVariableValue(j) -</span>
+<span class="nc" id="L199">                currentSolution.getVariableValue(j)) +</span>
+<span class="nc" id="L200">                f * (parentSolutions.get(0).getVariableValue(j) - parentSolutions.get(1).getVariableValue(j));</span>
+
+<span class="nc bnc" id="L202" title="All 2 branches missed.">        if (value &lt; child.getLowerBound(j)) {</span>
+<span class="nc" id="L203">          value = child.getLowerBound(j);</span>
+        }
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        if (value &gt; child.getUpperBound(j)) {</span>
+<span class="nc" id="L206">          value = child.getUpperBound(j);</span>
+        }
+
+<span class="nc" id="L209">        child.setVariableValue(j, value);</span>
+      }
+<span class="nc bnc" id="L211" title="All 2 branches missed.">    } else if (&quot;current-to-rand/1/bin&quot;.equals(variant) ||</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">            &quot;current-to-best/1/bin&quot;.equals(variant)) {</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc bnc" id="L214" title="All 4 branches missed.">        if (crRandomGenerator.getRandomValue(0.0, 1.0) &lt; cr || j == jrand) {</span>
+          double value;
+<span class="nc" id="L216">          value = currentSolution.getVariableValue(j) + k * (parentSolutions.get(2).getVariableValue(j) -</span>
+<span class="nc" id="L217">                  currentSolution.getVariableValue(j)) +</span>
+<span class="nc" id="L218">                  f * (parentSolutions.get(0).getVariableValue(j) - parentSolutions.get(1).getVariableValue(j));</span>
+
+<span class="nc bnc" id="L220" title="All 2 branches missed.">          if (value &lt; child.getLowerBound(j)) {</span>
+<span class="nc" id="L221">            value = child.getLowerBound(j);</span>
+          }
+<span class="nc bnc" id="L223" title="All 2 branches missed.">          if (value &gt; child.getUpperBound(j)) {</span>
+<span class="nc" id="L224">            value = child.getUpperBound(j);</span>
+          }
+
+<span class="nc" id="L227">          child.setVariableValue(j, value);</span>
+<span class="nc" id="L228">        } else {</span>
+          double value;
+<span class="nc" id="L230">          value = currentSolution.getVariableValue(j);</span>
+<span class="nc" id="L231">          child.setVariableValue(j, value);</span>
+        }
+      }
+<span class="nc bnc" id="L234" title="All 2 branches missed.">    } else if (&quot;current-to-rand/1/exp&quot;.equals(variant) ||</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">            &quot;current-to-best/1/exp&quot;.equals(variant)) {</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">      for (int j = 0; j &lt; numberOfVariables; j++) {</span>
+<span class="nc bnc" id="L237" title="All 4 branches missed.">        if (crRandomGenerator.getRandomValue(0.0, 1.0) &lt; cr || j == jrand) {</span>
+          double value;
+<span class="nc" id="L239">          value = currentSolution.getVariableValue(j) + k * (parentSolutions.get(2).getVariableValue(j) -</span>
+<span class="nc" id="L240">                  currentSolution.getVariableValue(j)) +</span>
+<span class="nc" id="L241">                  f * (parentSolutions.get(0).getVariableValue(j) - parentSolutions.get(1).getVariableValue(j));</span>
+
+<span class="nc bnc" id="L243" title="All 2 branches missed.">          if (value &lt; child.getLowerBound(j)) {</span>
+<span class="nc" id="L244">            value = child.getLowerBound(j);</span>
+          }
+<span class="nc bnc" id="L246" title="All 2 branches missed.">          if (value &gt; child.getUpperBound(j)) {</span>
+<span class="nc" id="L247">            value = child.getUpperBound(j);</span>
+          }
+
+<span class="nc" id="L250">          child.setVariableValue(j, value);</span>
+<span class="nc" id="L251">        } else {</span>
+<span class="nc" id="L252">          cr = 0.0;</span>
+          double value;
+<span class="nc" id="L254">          value = currentSolution.getVariableValue(j);</span>
+<span class="nc" id="L255">          child.setVariableValue(j, value);</span>
+        }
+      }
+    } else {
+<span class="nc" id="L259">      JMetalLogger.logger.severe(&quot;DifferentialEvolutionCrossover.execute: &quot; +</span>
+              &quot; unknown DE variant (&quot; + variant + &quot;)&quot;);
+<span class="nc" id="L261">      Class&lt;String&gt; cls = String.class;</span>
+<span class="nc" id="L262">      String name = cls.getName();</span>
+<span class="nc" id="L263">      throw new JMetalException(&quot;Exception in &quot; + name + &quot;.execute()&quot;);</span>
+    }
+
+<span class="fc" id="L266">    List&lt;DoubleSolution&gt; result = new ArrayList&lt;&gt;(1) ;</span>
+<span class="fc" id="L267">    result.add(child) ;</span>
+<span class="fc" id="L268">    return result;</span>
+  }
+
+  public int getNumberOfRequiredParents() {
+<span class="nc" id="L272">    return 3 ;</span>
+  }
+
+  public int getNumberOfGeneratedChildren() {
+<span class="nc" id="L276">    return 1 ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

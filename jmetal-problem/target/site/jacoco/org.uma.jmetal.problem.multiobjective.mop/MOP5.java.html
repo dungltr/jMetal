@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOP5.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective.mop</a> &gt; <span class="el_source">MOP5.java</span></div><h1>MOP5.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective.mop;
+
+import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Problem MOP5. Defined in
+ * H. L. Liu, F. Gu and Q. Zhang, &quot;Decomposition of a Multiobjective 
+ * Optimization Problem Into a Number of Simple Multiobjective Subproblems,&quot;
+ * in IEEE Transactions on Evolutionary Computation, vol. 18, no. 3, pp. 
+ * 450-455, June 2014.
+ *
+ * @author Mastermay &lt;javismay@gmail.com&gt; 	
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MOP5 extends AbstractDoubleProblem {
+
+  /** Constructor. Creates default instance of problem MOP5 (10 decision variables) */
+  public MOP5() {
+<span class="nc" id="L23">    this(10);</span>
+<span class="nc" id="L24">  }</span>
+
+  /**
+   * Creates a new instance of problem MOP5.
+   *
+   * @param numberOfVariables Number of variables.
+   */
+<span class="nc" id="L31">  public MOP5(Integer numberOfVariables) {</span>
+<span class="nc" id="L32">    setNumberOfVariables(numberOfVariables);</span>
+<span class="nc" id="L33">    setNumberOfObjectives(2);</span>
+<span class="nc" id="L34">    setName(&quot;MOP5&quot;);</span>
+
+<span class="nc" id="L36">    List&lt;Double&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="nc" id="L37">    List&lt;Double&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="nc bnc" id="L39" title="All 2 branches missed.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L40">      lowerLimit.add(0.0);</span>
+<span class="nc" id="L41">      upperLimit.add(1.0);</span>
+    }
+
+<span class="nc" id="L44">    setLowerLimit(lowerLimit);</span>
+<span class="nc" id="L45">    setUpperLimit(upperLimit);</span>
+<span class="nc" id="L46">  }</span>
+
+  /** Evaluate() method */
+  public void evaluate(DoubleSolution solution) {
+<span class="nc" id="L50">    double[] f = new double[getNumberOfObjectives()];</span>
+
+<span class="nc" id="L52">    double g = this.evalG(solution);</span>
+<span class="nc" id="L53">    f[0] = (1 + g) * solution.getVariableValue(0);</span>
+<span class="nc" id="L54">    f[1] = (1 + g) * (1 - Math.sqrt(solution.getVariableValue(0)));</span>
+
+<span class="nc" id="L56">    solution.setObjective(0, f[0]);</span>
+<span class="nc" id="L57">    solution.setObjective(1, f[1]);</span>
+<span class="nc" id="L58">  }</span>
+
+  /**
+   * Returns the value of the MOP5 function G.
+   *
+   * @param solution Solution
+   */
+  private double evalG(DoubleSolution solution) {
+<span class="nc" id="L66">    double g = 0.0;</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">    for (int i = 1; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="nc" id="L68">      double t = solution.getVariableValue(i) - Math.sin(0.5 * Math.PI * solution.getVariableValue(0));</span>
+<span class="nc" id="L69">      g += -0.9 * t * t + Math.pow(Math.abs(t), 0.6);</span>
+    }
+<span class="nc" id="L71">    g = 2 * Math.abs(Math.cos(Math.PI * solution.getVariableValue(0))) * g;</span>
+<span class="nc" id="L72">    return g;</span>
+  }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

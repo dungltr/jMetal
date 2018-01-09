@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConstraintMOEAD.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.moead</a> &gt; <span class="el_source">ConstraintMOEAD.java</span></div><h1>ConstraintMOEAD.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.moead;
+
+import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.problem.ConstrainedProblem;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.comparator.impl.ViolationThresholdComparator;
+
+import java.util.List;
+
+/**
+ * This class implements a constrained version of the MOEAD algorithm based on the one presented in
+  the paper: &quot;An adaptive constraint handling approach embedded MOEA/D&quot;. DOI: 10.1109/CEC.2012.6252868
+
+ * @author Antonio J. Nebro
+ * @author Juan J. Durillo
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ConstraintMOEAD extends AbstractMOEAD&lt;DoubleSolution&gt;  {
+
+  private DifferentialEvolutionCrossover differentialEvolutionCrossover ;
+  private ViolationThresholdComparator&lt;DoubleSolution&gt; violationThresholdComparator ;
+
+  public ConstraintMOEAD(Problem&lt;DoubleSolution&gt; problem,
+      int populationSize,
+      int resultPopulationSize,
+      int maxEvaluations,
+      MutationOperator&lt;DoubleSolution&gt; mutation,
+      CrossoverOperator&lt;DoubleSolution&gt; crossover,
+      FunctionType functionType,
+      String dataDirectory,
+      double neighborhoodSelectionProbability,
+      int maximumNumberOfReplacedSolutions,
+      int neighborSize) {
+<span class="nc" id="L39">    super(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation, functionType,</span>
+        dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions,
+        neighborSize);
+
+<span class="nc" id="L43">    differentialEvolutionCrossover = (DifferentialEvolutionCrossover)crossoverOperator ;</span>
+<span class="nc" id="L44">    violationThresholdComparator = new ViolationThresholdComparator&lt;DoubleSolution&gt;() ;</span>
+<span class="nc" id="L45">  }</span>
+
+  @Override public void run() {
+<span class="nc" id="L48">    initializeUniformWeight();</span>
+<span class="nc" id="L49">    initializeNeighborhood();</span>
+<span class="nc" id="L50">    initializePopulation();</span>
+<span class="nc" id="L51">    initializeIdealPoint();</span>
+
+<span class="nc" id="L53">    violationThresholdComparator.updateThreshold(population);</span>
+
+<span class="nc" id="L55">    evaluations = populationSize ;</span>
+
+    do {
+<span class="nc" id="L58">      int[] permutation = new int[populationSize];</span>
+<span class="nc" id="L59">      MOEADUtils.randomPermutation(permutation, populationSize);</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">      for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L62">        int subProblemId = permutation[i];</span>
+
+<span class="nc" id="L64">        NeighborType neighborType = chooseNeighborType() ;</span>
+<span class="nc" id="L65">        List&lt;DoubleSolution&gt; parents = parentSelection(subProblemId, neighborType) ;</span>
+
+<span class="nc" id="L67">        differentialEvolutionCrossover.setCurrentSolution(population.get(subProblemId));</span>
+<span class="nc" id="L68">        List&lt;DoubleSolution&gt; children = differentialEvolutionCrossover.execute(parents);</span>
+
+<span class="nc" id="L70">        DoubleSolution child = children.get(0) ;</span>
+<span class="nc" id="L71">        mutationOperator.execute(child);</span>
+<span class="nc" id="L72">        problem.evaluate(child);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (problem instanceof ConstrainedProblem) {</span>
+<span class="nc" id="L74">          ((ConstrainedProblem&lt;DoubleSolution&gt;) problem).evaluateConstraints(child);</span>
+        }
+<span class="nc" id="L76">        evaluations++;</span>
+
+<span class="nc" id="L78">        updateIdealPoint(child);</span>
+<span class="nc" id="L79">        updateNeighborhood(child, subProblemId, neighborType);</span>
+      }
+
+<span class="nc" id="L82">      violationThresholdComparator.updateThreshold(population);</span>
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">    } while (evaluations &lt; maxEvaluations);</span>
+<span class="nc" id="L85">  }</span>
+
+  public void initializePopulation() {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L89">      DoubleSolution newSolution = (DoubleSolution)problem.createSolution() ;</span>
+
+<span class="nc" id="L91">      problem.evaluate(newSolution);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">      if (problem instanceof ConstrainedProblem) {</span>
+<span class="nc" id="L93">        ((ConstrainedProblem&lt;DoubleSolution&gt;) problem).evaluateConstraints(newSolution);</span>
+      }
+<span class="nc" id="L95">      population.add(newSolution);</span>
+    }
+<span class="nc" id="L97">  }</span>
+
+  @Override
+  protected void updateNeighborhood(DoubleSolution individual, int subproblemId, NeighborType neighborType) {
+    int size;
+    int time;
+
+<span class="nc" id="L104">    time = 0;</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">    if (neighborType == NeighborType.NEIGHBOR) {</span>
+<span class="nc" id="L107">      size = neighborhood[subproblemId].length;</span>
+    } else {
+<span class="nc" id="L109">      size = population.size();</span>
+    }
+<span class="nc" id="L111">    int[] perm = new int[size];</span>
+
+<span class="nc" id="L113">    MOEADUtils.randomPermutation(perm, size);</span>
+
+<span class="nc bnc" id="L115" title="All 2 branches missed.">    for (int i = 0; i &lt; size; i++) {</span>
+      int k;
+<span class="nc bnc" id="L117" title="All 2 branches missed.">      if (neighborType == NeighborType.NEIGHBOR) {</span>
+<span class="nc" id="L118">        k = neighborhood[subproblemId][perm[i]];</span>
+      } else {
+<span class="nc" id="L120">        k = perm[i];</span>
+      }
+      double f1, f2;
+
+<span class="nc" id="L124">      f1 = fitnessFunction(population.get(k), lambda[k]);</span>
+<span class="nc" id="L125">      f2 = fitnessFunction(individual, lambda[k]);</span>
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">      if (violationThresholdComparator.needToCompare(population.get(k), individual)) {</span>
+<span class="nc" id="L128">        int flag = violationThresholdComparator.compare(population.get(k), individual);</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (flag == 1) {</span>
+<span class="nc" id="L130">          population.set(k, (DoubleSolution) individual.copy());</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        } else if (flag == 0) {</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">          if (f2 &lt; f1) {</span>
+<span class="nc" id="L133">            population.set(k, (DoubleSolution) individual.copy());</span>
+<span class="nc" id="L134">            time++;</span>
+          }
+        }
+<span class="nc" id="L137">      } else {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (f2 &lt; f1) {</span>
+<span class="nc" id="L139">          population.set(k, (DoubleSolution) individual.copy());</span>
+<span class="nc" id="L140">          time++;</span>
+        }
+      }
+
+<span class="nc bnc" id="L144" title="All 2 branches missed.">      if (time &gt;= maximumNumberOfReplacedSolutions) {</span>
+<span class="nc" id="L145">        return;</span>
+      }
+    }
+<span class="nc" id="L148">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L151">    return &quot;cMOEAD&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L155">    return &quot;Multi-Objective Evolutionary Algorithm based on Decomposition with constraints support&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

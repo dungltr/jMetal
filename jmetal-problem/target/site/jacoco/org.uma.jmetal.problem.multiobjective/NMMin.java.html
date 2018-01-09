@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NMMin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.multiobjective</a> &gt; <span class="el_source">NMMin.java</span></div><h1>NMMin.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.problem.multiobjective;
+
+import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
+import org.uma.jmetal.solution.IntegerSolution;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Antonio J. Nebro on 03/07/14.
+ * Bi-objective problem for testing integer encoding.
+ * Objective 1: minimizing the distance to value N
+ * Objective 2: minimizing the distance to value M
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class NMMin extends AbstractIntegerProblem {
+  private int valueN ;
+  private int valueM ;
+
+  public NMMin() {
+<span class="nc" id="L21">    this(10, 100, -100, -1000, +1000);</span>
+<span class="nc" id="L22">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L25">  public NMMin(int numberOfVariables, int n, int m, int lowerBound, int upperBound)  {</span>
+<span class="fc" id="L26">    valueN = n ;</span>
+<span class="fc" id="L27">    valueM = m ;</span>
+<span class="fc" id="L28">    setNumberOfVariables(numberOfVariables);</span>
+<span class="fc" id="L29">    setNumberOfObjectives(2);</span>
+<span class="fc" id="L30">    setName(&quot;NMMin&quot;);</span>
+
+<span class="fc" id="L32">    List&lt;Integer&gt; lowerLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+<span class="fc" id="L33">    List&lt;Integer&gt; upperLimit = new ArrayList&lt;&gt;(getNumberOfVariables()) ;</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    for (int i = 0; i &lt; getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L36">      lowerLimit.add(lowerBound);</span>
+<span class="fc" id="L37">      upperLimit.add(upperBound);</span>
+    }
+
+<span class="fc" id="L40">    setLowerLimit(lowerLimit);</span>
+<span class="fc" id="L41">    setUpperLimit(upperLimit);</span>
+<span class="fc" id="L42">  }</span>
+
+  /** Evaluate() method */
+  @Override
+  public void evaluate(IntegerSolution solution) {
+    int approximationToN;
+    int approximationToM ;
+
+<span class="fc" id="L50">    approximationToN = 0;</span>
+<span class="fc" id="L51">    approximationToM = 0;</span>
+
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L54">      int value = solution.getVariableValue(i) ;</span>
+<span class="fc" id="L55">      approximationToN += Math.abs(valueN - value) ;</span>
+<span class="fc" id="L56">      approximationToM += Math.abs(valueM - value) ;</span>
+    }
+
+<span class="fc" id="L59">    solution.setObjective(0, approximationToN);</span>
+<span class="fc" id="L60">    solution.setObjective(1, approximationToM);</span>
+<span class="fc" id="L61">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

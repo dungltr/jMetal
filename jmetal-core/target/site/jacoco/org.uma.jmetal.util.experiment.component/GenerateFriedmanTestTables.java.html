@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GenerateFriedmanTestTables.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.experiment.component</a> &gt; <span class="el_source">GenerateFriedmanTestTables.java</span></div><h1>GenerateFriedmanTestTables.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.experiment.component;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.uma.jmetal.qualityindicator.impl.GenericIndicator;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.experiment.Experiment;
+import org.uma.jmetal.util.experiment.ExperimentComponent;
+
+import java.io.*;
+import java.util.*;
+
+/**
+ * This class computes the Friedman test ranking and generates a Latex script that produces a table per
+ * quality indicator containing the ranking
+ *
+ * The results are a set of Latex files that are written in the directory
+ * {@link Experiment #getExperimentBaseDirectory()}/latex. Each file is called as
+ * FriedmanTest[indicatorName].tex
+ *
+ * The implementation is based on the one included in Keel:
+ * J. Alcalá-Fdez, L. Sánchez, S. García, M.J. del Jesus, S. Ventura, J.M. Garrell, J. Otero, C. Romero, J. Bacardit,
+ * V.M. Rivas, J.C. Fernández, F. Herrera.
+ * KEEL: A Software Tool to Assess Evolutionary Algorithms to Data Mining Problems. Soft Computing 13:3 (2009) 307-318
+ * Doi: 10.1007/s00500-008-0323-y
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+
+public class GenerateFriedmanTestTables&lt;Result&gt; implements ExperimentComponent {
+  private static final String DEFAULT_LATEX_DIRECTORY = &quot;latex&quot;;
+
+  private final Experiment&lt;?, Result&gt; experiment;
+
+  private String latexDirectoryName ;
+  private int numberOfAlgorithms ;
+  private int numberOfProblems ;
+
+<span class="nc" id="L40">  public GenerateFriedmanTestTables(Experiment&lt;?, Result&gt; experimentConfiguration) {</span>
+<span class="nc" id="L41">    this.experiment = experimentConfiguration ;</span>
+
+<span class="nc" id="L43">    numberOfAlgorithms = experiment.getAlgorithmList().size() ;</span>
+<span class="nc" id="L44">    numberOfProblems = experiment.getProblemList().size() ;</span>
+
+<span class="nc" id="L46">    experiment.removeDuplicatedAlgorithms();</span>
+<span class="nc" id="L47">  }</span>
+
+  @Override
+  public void run() throws IOException {
+<span class="nc" id="L51">    latexDirectoryName = experiment.getExperimentBaseDirectory() + &quot;/&quot; + DEFAULT_LATEX_DIRECTORY;</span>
+
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    for (GenericIndicator&lt;?&gt; indicator : experiment.getIndicatorList()) {</span>
+<span class="nc" id="L54">      Vector&lt;Vector&lt;Double&gt;&gt; data = readData(indicator);</span>
+<span class="nc" id="L55">      double []averageRanking = computeAverageRanking(data) ;</span>
+<span class="nc" id="L56">      String fileContents = prepareFileOutputContents(averageRanking) ;</span>
+<span class="nc" id="L57">      writeLatexFile(indicator, fileContents);</span>
+<span class="nc" id="L58">    }</span>
+<span class="nc" id="L59">  }</span>
+
+  private Vector&lt;Vector&lt;Double&gt;&gt; readData(GenericIndicator&lt;?&gt; indicator) {
+<span class="nc" id="L62">    Vector&lt;Vector&lt;Double&gt;&gt; data = new Vector&lt;Vector&lt;Double&gt;&gt;() ;</span>
+
+<span class="nc bnc" id="L64" title="All 2 branches missed.">    for (int algorithm = 0; algorithm &lt; experiment.getAlgorithmList().size(); algorithm++) {</span>
+<span class="nc" id="L65">      String algorithmName = experiment.getAlgorithmList().get(algorithm).getAlgorithmTag();</span>
+
+<span class="nc" id="L67">      data.add(new Vector&lt;Double&gt;());</span>
+<span class="nc" id="L68">      String algorithmPath = experiment.getExperimentBaseDirectory() + &quot;/data/&quot;</span>
+          + algorithmName + &quot;/&quot;;
+
+<span class="nc bnc" id="L71" title="All 2 branches missed.">      for (int problem = 0; problem &lt; experiment.getProblemList().size(); problem++) {</span>
+<span class="nc" id="L72">        String path = algorithmPath + experiment.getProblemList().get(problem).getTag() +</span>
+<span class="nc" id="L73">            &quot;/&quot; + indicator.getName();</span>
+
+<span class="nc" id="L75">        readDataFromFile(path, data, algorithm) ;</span>
+      }
+    }
+
+<span class="nc" id="L79">    return data ;</span>
+  }
+
+  private void readDataFromFile(String path, Vector&lt;Vector&lt;Double&gt;&gt; data, int algorithmIndex) {
+<span class="nc" id="L83">    String string = &quot;&quot;;</span>
+
+    try {
+<span class="nc" id="L86">      FileInputStream fis = new FileInputStream(path);</span>
+
+<span class="nc" id="L88">      byte[] bytes = new byte[4096];</span>
+<span class="nc" id="L89">      int readBytes = 0;</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">      while (readBytes != -1) {</span>
+<span class="nc" id="L92">        readBytes = fis.read(bytes);</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (readBytes != -1) {</span>
+<span class="nc" id="L95">          string += new String(bytes, 0, readBytes);</span>
+        }
+      }
+
+<span class="nc" id="L99">      fis.close();</span>
+<span class="nc" id="L100">    } catch (IOException e) {</span>
+<span class="nc" id="L101">      throw new JMetalException(&quot;Error reading data &quot;, e) ;</span>
+<span class="nc" id="L102">    }</span>
+
+<span class="nc" id="L104">    StringTokenizer lines = new StringTokenizer(string, &quot;\n\r&quot;);</span>
+
+<span class="nc" id="L106">    double valor = 0.0;</span>
+<span class="nc" id="L107">    int n = 0;</span>
+
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    while (lines.hasMoreTokens()) {</span>
+<span class="nc" id="L110">      valor = valor + Double.parseDouble(lines.nextToken());</span>
+<span class="nc" id="L111">      n++;</span>
+    }
+<span class="nc bnc" id="L113" title="All 2 branches missed.">    if (n != 0) {</span>
+<span class="nc" id="L114">      (data.elementAt(algorithmIndex)).add(valor / n);</span>
+    } else {
+<span class="nc" id="L116">      (data.elementAt(algorithmIndex)).add(valor);</span>
+    }
+<span class="nc" id="L118">  }</span>
+
+  private double[] computeAverageRanking(Vector&lt;Vector&lt;Double&gt;&gt; data) {
+    /*Compute the average performance per algorithm for each data set*/
+<span class="nc" id="L122">    double[][] mean = new double[numberOfProblems][numberOfAlgorithms];</span>
+
+<span class="nc bnc" id="L124" title="All 2 branches missed.">    for (int j = 0; j &lt; numberOfAlgorithms; j++) {</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">      for (int i = 0; i &lt; numberOfProblems; i++) {</span>
+<span class="nc" id="L126">        mean[i][j] = data.elementAt(j).elementAt(i);</span>
+      }
+    }
+
+    /*We use the Pair class to compute and order rankings*/
+<span class="nc" id="L131">    List&lt;List&lt;Pair&lt;Integer, Double&gt;&gt;&gt; order = new ArrayList&lt;List&lt;Pair&lt;Integer, Double&gt;&gt;&gt;(numberOfProblems);</span>
+
+<span class="nc bnc" id="L133" title="All 2 branches missed.">    for (int i=0; i&lt;numberOfProblems; i++) {</span>
+<span class="nc" id="L134">      order.add(new ArrayList&lt;Pair&lt;Integer, Double&gt;&gt;(numberOfAlgorithms)) ;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">      for (int j=0; j&lt;numberOfAlgorithms; j++){</span>
+<span class="nc" id="L136">        order.get(i).add(new ImmutablePair&lt;Integer, Double&gt;(j, mean[i][j]));</span>
+      }
+<span class="nc" id="L138">      Collections.sort(order.get(i), new Comparator&lt;Pair&lt;Integer, Double&gt;&gt;() {</span>
+        @Override
+        public int compare(Pair&lt;Integer, Double&gt; pair1, Pair&lt;Integer, Double&gt; pair2) {
+<span class="nc bnc" id="L141" title="All 2 branches missed.">          if (Math.abs(pair1.getValue()) &gt; Math.abs(pair2.getValue())){</span>
+<span class="nc" id="L142">            return 1;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">          } else if (Math.abs(pair1.getValue()) &lt; Math.abs(pair2.getValue())) {</span>
+<span class="nc" id="L144">            return -1;</span>
+          } else {
+<span class="nc" id="L146">            return 0;</span>
+          }
+        }
+      });
+    }
+
+    /*building of the rankings table per algorithms and data sets*/
+   // Pair[][] rank = new Pair[numberOfProblems][numberOfAlgorithms];
+<span class="nc" id="L154">    List&lt;List&lt;MutablePair&lt;Double, Double&gt;&gt;&gt; rank = new ArrayList&lt;List&lt;MutablePair&lt;Double, Double&gt;&gt;&gt;(numberOfProblems);</span>
+
+<span class="nc" id="L156">    int position = 0;</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">    for (int i=0; i&lt;numberOfProblems; i++) {</span>
+<span class="nc" id="L158">      rank.add(new ArrayList&lt;MutablePair&lt;Double, Double&gt;&gt;(numberOfAlgorithms)) ;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">      for (int j=0; j&lt;numberOfAlgorithms; j++){</span>
+<span class="nc" id="L160">        boolean found  = false;</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">        for (int k=0; k&lt;numberOfAlgorithms &amp;&amp; !found; k++) {</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">          if (order.get(i).get(k).getKey() == j) {</span>
+<span class="nc" id="L163">            found = true;</span>
+<span class="nc" id="L164">            position = k+1;</span>
+          }
+        }
+        //rank[i][j] = new Pair(position,order[i][position-1].value);
+<span class="nc" id="L168">        rank.get(i).add(new MutablePair&lt;Double, Double&gt;((double)position, order.get(i).get(position-1).getValue())) ;</span>
+      }
+    }
+
+    /*In the case of having the same performance, the rankings are equal*/
+<span class="nc bnc" id="L173" title="All 2 branches missed.">    for (int i=0; i&lt;numberOfProblems; i++) {</span>
+<span class="nc" id="L174">      boolean[] hasBeenVisited = new boolean[numberOfAlgorithms];</span>
+<span class="nc" id="L175">      Vector&lt;Integer&gt; pendingToVisit= new Vector&lt;Integer&gt;();</span>
+
+<span class="nc" id="L177">      Arrays.fill(hasBeenVisited,false);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">      for (int j=0; j&lt;numberOfAlgorithms; j++) {</span>
+<span class="nc" id="L179">        pendingToVisit.removeAllElements();</span>
+<span class="nc" id="L180">        double sum = rank.get(i).get(j).getKey();</span>
+<span class="nc" id="L181">        hasBeenVisited[j] = true;</span>
+<span class="nc" id="L182">        int ig = 1;</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        for (int k=j+1;k&lt;numberOfAlgorithms;k++) {</span>
+<span class="nc bnc" id="L184" title="All 4 branches missed.">          if (rank.get(i).get(j).getValue() == rank.get(i).get(k).getValue() &amp;&amp; !hasBeenVisited[k]) {</span>
+<span class="nc" id="L185">            sum += rank.get(i).get(k).getKey();</span>
+<span class="nc" id="L186">            ig++;</span>
+<span class="nc" id="L187">            pendingToVisit.add(k);</span>
+<span class="nc" id="L188">            hasBeenVisited[k] = true;</span>
+          }
+        }
+<span class="nc" id="L191">        sum /= (double)ig;</span>
+<span class="nc" id="L192">        rank.get(i).get(j).setLeft(sum);</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        for (int k=0; k&lt;pendingToVisit.size(); k++) {</span>
+<span class="nc" id="L194">          rank.get(i).get(pendingToVisit.elementAt(k)).setLeft(sum) ;</span>
+        }
+      }
+    }
+
+    /*compute the average ranking for each algorithm*/
+<span class="nc" id="L200">    double []averageRanking = new double[numberOfAlgorithms];</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">    for (int i=0; i&lt;numberOfAlgorithms; i++){</span>
+<span class="nc" id="L202">      averageRanking[i] = 0;</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">      for (int j=0; j&lt;numberOfProblems; j++) {</span>
+<span class="nc" id="L204">        averageRanking[i] += rank.get(j).get(i).getKey() / ((double)numberOfProblems);</span>
+      }
+    }
+
+<span class="nc" id="L208">    return averageRanking ;</span>
+  }
+
+  public String prepareFileOutputContents(double[] averageRanking) {
+<span class="nc" id="L212">    String fileContents = writeLatexHeader();</span>
+<span class="nc" id="L213">    fileContents = printTableHeader(fileContents) ;</span>
+<span class="nc" id="L214">    fileContents = printTableLines(fileContents, averageRanking) ;</span>
+<span class="nc" id="L215">    fileContents = printTableTail(fileContents) ;</span>
+<span class="nc" id="L216">    fileContents = printDocumentFooter(fileContents, averageRanking) ;</span>
+
+<span class="nc" id="L218">    return fileContents ;</span>
+  }
+
+  /**
+   * Write the file contents in the output file
+   * @param indicator
+   * @param fileContents
+   */
+  private void writeLatexFile(GenericIndicator&lt;?&gt; indicator, String fileContents) {
+<span class="nc" id="L227">    String outputFile = latexDirectoryName +&quot;/FriedmanTest&quot;+indicator.getName()+&quot;.tex&quot;;</span>
+
+    try {
+      File latexOutput;
+<span class="nc" id="L231">      latexOutput = new File(latexDirectoryName);</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">      if(!latexOutput.exists()){</span>
+<span class="nc" id="L233">        latexOutput.mkdirs();</span>
+      }
+<span class="nc" id="L235">      FileOutputStream fileOutputStream = new FileOutputStream(outputFile);</span>
+<span class="nc" id="L236">      DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);</span>
+
+<span class="nc" id="L238">      dataOutputStream.writeBytes(fileContents);</span>
+
+<span class="nc" id="L240">      dataOutputStream.close();</span>
+<span class="nc" id="L241">      fileOutputStream.close();</span>
+    }
+<span class="nc" id="L243">    catch (IOException e) {</span>
+<span class="nc" id="L244">      throw new JMetalException(&quot;Error writing data &quot;, e) ;</span>
+<span class="nc" id="L245">    }</span>
+<span class="nc" id="L246">  }</span>
+
+  private String writeLatexHeader() {
+
+<span class="nc" id="L250">    return (&quot;\\documentclass{article}\n&quot; +</span>
+        &quot;\\usepackage{graphicx}\n&quot; +
+        &quot;\\title{Results}\n&quot; +
+        &quot;\\author{}\n&quot; +
+        &quot;\\date{\\today}\n&quot; +
+        &quot;\\begin{document}\n&quot; +
+        &quot;\\oddsidemargin 0in \\topmargin 0in&quot; +
+        &quot;\\maketitle\n&quot; +
+        &quot;\\\n&quot; +
+        &quot;\\section{Tables}&quot;);
+  }
+
+  private String printTableLines(String fileContents, double[] averageRanking) {
+<span class="nc" id="L263">    String output = fileContents ;</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">    for (int i = 0; i&lt; experiment.getAlgorithmList().size(); i++) {</span>
+<span class="nc" id="L265">      output += &quot;\n&quot; + experiment.getAlgorithmList().get(i).getAlgorithmTag()+&quot;&amp;&quot;+averageRanking[i]+&quot;\\\\&quot;;</span>
+    }
+
+<span class="nc" id="L268">    return output ;</span>
+  }
+
+  private String printTableTail(String fileContents) {
+<span class="nc" id="L272">    return fileContents + &quot;\n&quot; +</span>
+        &quot;\\end{tabular}\n&quot; +
+        &quot;\\end{table}&quot;;
+  }
+
+  private String printTableHeader(String fileContents) {
+<span class="nc" id="L278">    return fileContents + &quot;\n&quot;+(&quot;\\begin{table}[!htp]\n&quot; +</span>
+        &quot;\\centering\n&quot; +
+        &quot;\\caption{Average ranking of the algorithms}\n&quot;+
+        &quot;\\begin{tabular}{c|c}\n&quot; +
+        &quot;Algorithm&amp;Ranking\\\\\n\\hline&quot;);
+  }
+
+  private String printDocumentFooter(String fileContents, double[] averageRanking) {
+<span class="nc" id="L286">    double term1 = (12*(double)numberOfProblems)/(numberOfAlgorithms*(numberOfAlgorithms+1));</span>
+<span class="nc" id="L287">    double term2 = numberOfAlgorithms*(numberOfAlgorithms+1)*(numberOfAlgorithms+1)/(4.0);</span>
+<span class="nc" id="L288">    double sum = 0;</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">    for (int i=0; i&lt;numberOfAlgorithms;i++) {</span>
+<span class="nc" id="L290">      sum += averageRanking[i] * averageRanking[i];</span>
+    }
+<span class="nc" id="L292">    double friedman = (sum - term2) * term1;</span>
+
+<span class="nc" id="L294">    String output = fileContents + &quot;\n&quot; + &quot;\n\nFriedman statistic considering reduction performance (distributed according to &quot; +</span>
+        &quot;chi-square with &quot;+(numberOfAlgorithms-1)+&quot; degrees of freedom: &quot;+friedman+&quot;).\n\n&quot;;
+<span class="nc" id="L296">    output = output + &quot;\n&quot; + &quot;\\end{document}&quot;;</span>
+
+<span class="nc" id="L298">    return output ;</span>
+  }
+}
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

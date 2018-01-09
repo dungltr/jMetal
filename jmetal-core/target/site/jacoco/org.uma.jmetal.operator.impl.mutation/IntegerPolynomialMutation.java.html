@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IntegerPolynomialMutation.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.mutation</a> &gt; <span class="el_source">IntegerPolynomialMutation.java</span></div><h1>IntegerPolynomialMutation.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.mutation;
+
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.problem.IntegerProblem;
+import org.uma.jmetal.solution.IntegerSolution;
+import org.uma.jmetal.solution.util.RepairDoubleSolution;
+import org.uma.jmetal.solution.util.RepairDoubleSolutionAtBounds;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+/**
+ * This class implements a polynomial mutation operator to be applied to Integer solutions
+ *
+ * If the lower and upper bounds of a variable are the same, no mutation is carried out and the
+ * bound value is returned.
+ *
+ * A {@link RepairDoubleSolution} object is used to decide the strategy to apply when a value is out
+ * of range.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class IntegerPolynomialMutation implements MutationOperator&lt;IntegerSolution&gt; {
+  private static final double DEFAULT_PROBABILITY = 0.01 ;
+  private static final double DEFAULT_DISTRIBUTION_INDEX = 20.0 ;
+
+  private double distributionIndex ;
+  private double mutationProbability ;
+  private RepairDoubleSolution solutionRepair ;
+
+  private RandomGenerator&lt;Double&gt; randomGenerator ;
+
+  /** Constructor */
+  public IntegerPolynomialMutation() {
+<span class="fc" id="L36">    this(DEFAULT_PROBABILITY, DEFAULT_DISTRIBUTION_INDEX) ;</span>
+<span class="fc" id="L37">  }</span>
+
+  /** Constructor */
+  public IntegerPolynomialMutation(IntegerProblem problem, double distributionIndex) {
+<span class="fc" id="L41">    this(1.0/problem.getNumberOfVariables(), distributionIndex) ;</span>
+<span class="fc" id="L42">  }</span>
+
+  /** Constructor */
+  public IntegerPolynomialMutation(double mutationProbability, double distributionIndex) {
+<span class="fc" id="L46">    this(mutationProbability, distributionIndex, new RepairDoubleSolutionAtBounds()) ;</span>
+<span class="fc" id="L47">  }</span>
+
+  /** Constructor */
+  public IntegerPolynomialMutation(double mutationProbability, double distributionIndex,
+      RepairDoubleSolution solutionRepair) {
+<span class="fc" id="L52">	  this(mutationProbability, distributionIndex, solutionRepair, () -&gt; JMetalRandom.getInstance().nextDouble());</span>
+<span class="fc" id="L53">  }</span>
+
+  /** Constructor */
+  public IntegerPolynomialMutation(double mutationProbability, double distributionIndex,
+<span class="fc" id="L57">      RepairDoubleSolution solutionRepair, RandomGenerator&lt;Double&gt; randomGenerator) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">    if (mutationProbability &lt; 0) {</span>
+<span class="fc" id="L59">      throw new JMetalException(&quot;Mutation probability is negative: &quot; + mutationProbability) ;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    } else if (distributionIndex &lt; 0) {</span>
+<span class="fc" id="L61">      throw new JMetalException(&quot;Distribution index is negative: &quot; + distributionIndex);</span>
+    }
+<span class="fc" id="L63">    this.mutationProbability = mutationProbability;</span>
+<span class="fc" id="L64">    this.distributionIndex = distributionIndex;</span>
+<span class="fc" id="L65">    this.solutionRepair  = solutionRepair ;</span>
+
+<span class="fc" id="L67">    this.randomGenerator = randomGenerator ;</span>
+<span class="fc" id="L68">  }</span>
+
+  /* Getters */
+  public double getMutationProbability() {
+<span class="fc" id="L72">    return mutationProbability;</span>
+  }
+
+  public double getDistributionIndex() {
+<span class="fc" id="L76">    return distributionIndex;</span>
+  }
+
+  /* Setters */
+  public void setDistributionIndex(double distributionIndex) {
+<span class="nc" id="L81">    this.distributionIndex = distributionIndex;</span>
+<span class="nc" id="L82">  }</span>
+
+  public void setMutationProbability(double mutationProbability) {
+<span class="nc" id="L85">    this.mutationProbability = mutationProbability;</span>
+<span class="nc" id="L86">  }</span>
+
+  /** Execute() method */
+  public IntegerSolution execute(IntegerSolution solution) throws JMetalException {
+<span class="fc bfc" id="L90" title="All 2 branches covered.">    if (null == solution) {</span>
+<span class="fc" id="L91">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+    }
+
+<span class="fc" id="L94">    doMutation(mutationProbability, solution);</span>
+<span class="fc" id="L95">    return solution;</span>
+  }
+
+  /** Perform the mutation operation */
+  private void doMutation(double probability, IntegerSolution solution) {
+    Double rnd, delta1, delta2, mutPow, deltaq;
+    double y, yl, yu, val, xy;
+
+<span class="fc bfc" id="L103" title="All 2 branches covered.">    for (int i = 0; i &lt; solution.getNumberOfVariables(); i++) {</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">      if (randomGenerator.getRandomValue() &lt;= probability) {</span>
+<span class="fc" id="L105">        y = (double)solution.getVariableValue(i);</span>
+<span class="fc" id="L106">        yl = (double)solution.getLowerBound(i) ;</span>
+<span class="fc" id="L107">        yu = (double)solution.getUpperBound(i) ;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        if (yl == yu) {</span>
+<span class="fc" id="L109">          y = yl ;</span>
+        } else {
+<span class="fc" id="L111">          delta1 = (y - yl) / (yu - yl);</span>
+<span class="fc" id="L112">          delta2 = (yu - y) / (yu - yl);</span>
+<span class="fc" id="L113">          rnd = randomGenerator.getRandomValue();</span>
+<span class="fc" id="L114">          mutPow = 1.0 / (distributionIndex + 1.0);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">          if (rnd &lt;= 0.5) {</span>
+<span class="fc" id="L116">            xy = 1.0 - delta1;</span>
+<span class="fc" id="L117">            val = 2.0 * rnd + (1.0 - 2.0 * rnd) * (Math.pow(xy, distributionIndex + 1.0));</span>
+<span class="fc" id="L118">            deltaq = Math.pow(val, mutPow) - 1.0;</span>
+          } else {
+<span class="fc" id="L120">            xy = 1.0 - delta2;</span>
+<span class="fc" id="L121">            val = 2.0 * (1.0 - rnd) + 2.0 * (rnd - 0.5) * (Math.pow(xy, distributionIndex + 1.0));</span>
+<span class="fc" id="L122">            deltaq = 1.0 - Math.pow(val, mutPow);</span>
+          }
+<span class="fc" id="L124">          y = y + deltaq * (yu - yl);</span>
+<span class="fc" id="L125">          y = solutionRepair.repairSolutionVariableValue(y, yl, yu);</span>
+        }
+<span class="fc" id="L127">        solution.setVariableValue(i, (int) y);</span>
+      }
+    }
+<span class="fc" id="L130">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

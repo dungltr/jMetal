@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>F05SchwefelGlobalOptBound.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.singleobjective.cec2005competitioncode</a> &gt; <span class="el_source">F05SchwefelGlobalOptBound.java</span></div><h1>F05SchwefelGlobalOptBound.java</h1><pre class="source lang-java linenums">//
+// Special Session on Real-Parameter Optimization at CEC-05
+// Edinburgh, UK, 2-5 Sept. 2005
+//
+// Organizers:
+//	Prof. Kalyanmoy Deb
+//		deb@iitk.ac.in
+//		http://www.iitk.ac.in/kangal/deb.htm
+//	A/Prof. P. N. Suganthan
+//		epnsugan@ntu.edu.sg
+//		http://www.ntu.edu.sg/home/EPNSugan
+//
+// Java version of the org.uma.test functions
+//
+// Matlab reference code
+//	http://www.ntu.edu.sg/home/EPNSugan
+//
+// Java version developer:
+//	Assistant Prof. Ying-ping Chen
+//		Department of Computer Science
+//		National Chiao Tung University
+//		HsinChu City, Taiwan
+//		ypchen@csie.nctu.edu.tw
+//		http://www.csie.nctu.edu.tw/~ypchen/
+//
+// Typical use of the org.uma.test functions in the Benchmark:
+//
+//		// Create a Benchmark object
+// 		Benchmark theBenchmark = new Benchmark();
+//		// Use the factory function call to create a org.uma.test function object
+//		//		org.uma.test function 3 with 50 dimension
+//		//		the object class is &quot;TestFunc&quot;
+//		TestFunc aTestFunc = theBenchmark.testFunctionFactory(3, 50);
+//		// Invoke the function with x
+//		double experimentoutput = aTestFunc.f(x);
+//
+// Version 0.90
+//		Currently, this version cannot handle any numbers of dimensions.
+//		It cannot generate the shifted global optima and rotation matrices
+//		that are not provided with the Matlab reference code.
+//		It can handle all cases whose data files are provided with
+//		the Matlab reference code.
+// Version 0.91
+//		Revised according to the Matlab reference code and the PDF document
+//		dated March 8, 2005.
+//
+package org.uma.jmetal.problem.singleobjective.cec2005competitioncode;
+
+import org.uma.jmetal.util.JMetalException;
+
+public class F05SchwefelGlobalOptBound extends TestFunc {
+
+  // Fixed (class) parameters
+  static final public String FUNCTION_NAME = &quot;Schwefel's Problem 2.6 with Global Optimum on Bounds&quot;;
+  static final public String DEFAULT_FILE_DATA = Benchmark.CEC2005SUPPORTDATADIRECTORY + &quot;/schwefel_206_data.txt&quot;;
+
+  // Shifted global optimum
+  private final double[] m_o;
+  private final double[][] m_A;
+
+  // In order to avoid excessive memory allocation,
+  // a fixed memory buffer is allocated for each function object.
+  private double[] m_B;
+  private double[] m_z;
+
+  // Constructors
+  public F05SchwefelGlobalOptBound(int dimension, double bias) throws JMetalException {
+<span class="nc" id="L68">    this(dimension, bias, DEFAULT_FILE_DATA);</span>
+<span class="nc" id="L69">  }</span>
+
+  public F05SchwefelGlobalOptBound(int dimension, double bias, String file_data)
+    throws JMetalException {
+<span class="nc" id="L73">    super(dimension, bias, FUNCTION_NAME);</span>
+
+    // Note: dimension starts from 0
+<span class="nc" id="L76">    m_o = new double[mDimension];</span>
+<span class="nc" id="L77">    m_A = new double[mDimension][mDimension];</span>
+
+<span class="nc" id="L79">    m_B = new double[mDimension];</span>
+<span class="nc" id="L80">    m_z = new double[mDimension];</span>
+
+<span class="nc" id="L82">    double[][] m_data = new double[mDimension + 1][mDimension];</span>
+
+    // Load the shifted global optimum
+<span class="nc" id="L85">    Benchmark.loadMatrixFromFile(file_data, mDimension + 1, mDimension, m_data);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    for (int i = 0; i &lt; mDimension; i++) {</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">      if ((i + 1) &lt;= Math.ceil(mDimension / 4.0)) {</span>
+<span class="nc" id="L88">        m_o[i] = -100.0;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">      } else if ((i + 1) &gt;= Math.floor((3.0 * mDimension) / 4.0)) {</span>
+<span class="nc" id="L90">        m_o[i] = 100.0;</span>
+      } else {
+<span class="nc" id="L92">        m_o[i] = m_data[0][i];</span>
+      }
+    }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">    for (int i = 0; i &lt; mDimension; i++) {</span>
+<span class="nc" id="L96">      System.arraycopy(m_data[i + 1], 0, m_A[i], 0, mDimension);</span>
+    }
+<span class="nc" id="L98">    Benchmark.Ax(m_B, m_A, m_o);</span>
+<span class="nc" id="L99">  }</span>
+
+  // Function body
+  public double f(double[] x) {
+
+<span class="nc" id="L104">    double max = Double.NEGATIVE_INFINITY;</span>
+
+<span class="nc" id="L106">    Benchmark.Ax(m_z, m_A, x);</span>
+
+<span class="nc bnc" id="L108" title="All 2 branches missed.">    for (int i = 0; i &lt; mDimension; i++) {</span>
+<span class="nc" id="L109">      double temp = Math.abs(m_z[i] - m_B[i]);</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">      if (max &lt; temp) {</span>
+<span class="nc" id="L111">        max = temp;</span>
+      }
+    }
+
+<span class="nc" id="L115">    return (max + mBias);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

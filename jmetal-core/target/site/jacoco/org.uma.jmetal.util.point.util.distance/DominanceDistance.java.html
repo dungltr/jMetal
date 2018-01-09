@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DominanceDistance.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.point.util.distance</a> &gt; <span class="el_source">DominanceDistance.java</span></div><h1>DominanceDistance.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.point.util.distance;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.point.Point;
+
+/**
+ * Computes the distance between two points a y b according to the dominance relationship. Point a
+ * is supposed to be point of the Pareto front
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+<span class="fc" id="L12">public class DominanceDistance implements PointDistance {</span>
+
+  @Override
+  public double compute(Point a, Point b) {
+<span class="fc bfc" id="L16" title="All 2 branches covered.">    if (a == null) {</span>
+<span class="fc" id="L17">      throw new JMetalException(&quot;The first point is null&quot;) ;</span>
+<span class="fc bfc" id="L18" title="All 2 branches covered.">    } else if (b == null) {</span>
+<span class="fc" id="L19">      throw new JMetalException(&quot;The second point is null&quot;) ;</span>
+<span class="fc bfc" id="L20" title="All 2 branches covered.">    } else if (a.getNumberOfDimensions() != b.getNumberOfDimensions()) {</span>
+<span class="fc" id="L21">      throw new JMetalException(&quot;The dimensions of the points are different: &quot;</span>
+<span class="fc" id="L22">          + a.getNumberOfDimensions() + &quot;, &quot; + b.getNumberOfDimensions()) ;</span>
+    }
+
+<span class="fc" id="L25">    double distance = 0.0;</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">    for (int i = 0; i &lt; a.getNumberOfDimensions(); i++) {</span>
+<span class="fc" id="L28">      double max = Math.max(b.getDimensionValue(i) - a.getDimensionValue(i), 0.0) ;</span>
+<span class="fc" id="L29">      distance += Math.pow(max, 2);</span>
+    }
+<span class="fc" id="L31">    return Math.sqrt(distance);</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

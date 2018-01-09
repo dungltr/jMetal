@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LexicographicalPointComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.point.util.comparator</a> &gt; <span class="el_source">LexicographicalPointComparator.java</span></div><h1>LexicographicalPointComparator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.point.util.comparator;
+
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.point.Point;
+
+import java.util.Comparator;
+
+/**
+ * This class implements the Comparator interface for comparing tow points.
+ * The order used is lexicographical order.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+
+ */
+<span class="fc" id="L16">public class LexicographicalPointComparator implements Comparator&lt;Point&gt; {</span>
+
+  /**
+   * The compare method compare the objects o1 and o2.
+   *
+   * @param pointOne An object that reference a double[]
+   * @param pointTwo An object that reference a double[]
+   * @return The following value: -1 if point1 &lt; point2, 1 if point1 &gt; point2 or 0 in other case.
+   */
+  @Override
+  public int compare(Point pointOne, Point pointTwo) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">    if (pointOne ==  null) {</span>
+<span class="fc" id="L28">      throw new JMetalException(&quot;PointOne is null&quot;) ;</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">    } else if (pointTwo == null) {</span>
+<span class="fc" id="L30">      throw new JMetalException(&quot;PointTwo is null&quot;);</span>
+    }
+
+    // Determine the first i such as pointOne[i] != pointTwo[i];
+<span class="fc" id="L34">    int index = 0;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    while ((index &lt; pointOne.getNumberOfDimensions())</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        &amp;&amp; (index &lt; pointTwo.getNumberOfDimensions())</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        &amp;&amp; pointOne.getDimensionValue(index) == pointTwo.getDimensionValue(index)) {</span>
+<span class="fc" id="L38">      index++;</span>
+    }
+
+<span class="fc" id="L41">    int result = 0 ;</span>
+<span class="fc bfc" id="L42" title="All 4 branches covered.">    if ((index &gt;= pointOne.getNumberOfDimensions()) || (index &gt;= pointTwo.getNumberOfDimensions())) {</span>
+<span class="fc" id="L43">      result = 0;</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">    } else if (pointOne.getDimensionValue(index) &lt; pointTwo.getDimensionValue(index)) {</span>
+<span class="fc" id="L45">      result = -1;</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">    } else if (pointOne.getDimensionValue(index) &gt; pointTwo.getDimensionValue(index)) {</span>
+<span class="fc" id="L47">      result = 1;</span>
+    }
+<span class="fc" id="L49">    return result ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ArrayDoubleSolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">ArrayDoubleSolution.java</span></div><h1>ArrayDoubleSolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Implementation of {@link DoubleSolution} using arrays.
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class ArrayDoubleSolution implements DoubleSolution {
+  private double[] objectives;
+  private double[] variables;
+  protected DoubleProblem problem ;
+  protected Map&lt;Object, Object&gt; attributes ;
+  protected final JMetalRandom randomGenerator ;
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L28">  public ArrayDoubleSolution(DoubleProblem problem) {</span>
+<span class="fc" id="L29">    this.problem = problem ;</span>
+<span class="fc" id="L30">    attributes = new HashMap&lt;&gt;() ;</span>
+<span class="fc" id="L31">    randomGenerator = JMetalRandom.getInstance() ;</span>
+
+<span class="fc" id="L33">    objectives = new double[problem.getNumberOfObjectives()] ;</span>
+<span class="fc" id="L34">    variables = new double[problem.getNumberOfVariables()] ;</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L36">      variables[i] = randomGenerator.nextDouble(getLowerBound(i), getUpperBound(i)) ;</span>
+    }
+<span class="fc" id="L38">  }</span>
+
+  /**
+   * Copy constructor
+   * @param solution to copy
+   */
+  public ArrayDoubleSolution(ArrayDoubleSolution solution) {
+<span class="fc" id="L45">    this(solution.problem) ;</span>
+
+<span class="fc bfc" id="L47" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L48">      variables[i] = solution.getVariableValue(i) ;</span>
+    }
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="fc" id="L52">      objectives[i] = solution.getObjective(i) ;</span>
+    }
+
+<span class="fc" id="L55">    attributes = new HashMap&lt;Object, Object&gt;(solution.attributes) ;</span>
+<span class="fc" id="L56">  }</span>
+
+  @Override
+  public void setObjective(int index, double value) {
+<span class="nc" id="L60">    objectives[index] = value ;</span>
+<span class="nc" id="L61">  }</span>
+
+  @Override
+  public double getObjective(int index) {
+<span class="fc" id="L65">    return objectives[index];</span>
+  }
+
+  @Override
+  public Double getVariableValue(int index) {
+<span class="fc" id="L70">    return variables[index];</span>
+  }
+
+  @Override
+  public void setVariableValue(int index, Double value) {
+<span class="nc" id="L75">    variables[index] = value ;</span>
+<span class="nc" id="L76">  }</span>
+
+  @Override
+  public String getVariableValueString(int index) {
+<span class="nc" id="L80">    return getVariableValue(index).toString() ;</span>
+  }
+
+  @Override
+  public int getNumberOfVariables() {
+<span class="nc" id="L85">    return problem.getNumberOfVariables();</span>
+  }
+
+  @Override
+  public int getNumberOfObjectives() {
+<span class="nc" id="L90">    return problem.getNumberOfObjectives();</span>
+  }
+
+  @Override
+  public Double getUpperBound(int index) {
+<span class="fc" id="L95">    return problem.getUpperBound(index);</span>
+  }
+
+  @Override
+  public Double getLowerBound(int index) {
+<span class="fc" id="L100">    return problem.getLowerBound(index) ;</span>
+  }
+
+  @Override
+  public Solution&lt;Double&gt; copy() {
+<span class="fc" id="L105">    return new ArrayDoubleSolution(this);</span>
+  }
+
+  @Override
+  public void setAttribute(Object id, Object value) {
+<span class="nc" id="L110">    attributes.put(id, value) ;</span>
+<span class="nc" id="L111">  }</span>
+
+  @Override
+  public Object getAttribute(Object id) {
+<span class="nc" id="L115">    return attributes.get(id) ;</span>
+  }
+
+  @Override
+  public boolean equals(Object o) {
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">    if (this == o) return true;</span>
+<span class="pc bpc" id="L121" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass()) return false;</span>
+
+<span class="fc" id="L123">    ArrayDoubleSolution that = (ArrayDoubleSolution) o;</span>
+
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">    if (!Arrays.equals(objectives, that.objectives)) return false;</span>
+<span class="pc bpc" id="L126" title="1 of 2 branches missed.">    if (!Arrays.equals(variables, that.variables)) return false;</span>
+<span class="pc bpc" id="L127" title="3 of 4 branches missed.">    return problem != null ? problem.equals(that.problem) : that.problem == null;</span>
+
+  }
+
+  @Override
+  public int hashCode() {
+<span class="nc" id="L133">    int result = Arrays.hashCode(objectives);</span>
+<span class="nc" id="L134">    result = 31 * result + Arrays.hashCode(variables);</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">    result = 31 * result + (problem != null ? problem.hashCode() : 0);</span>
+<span class="nc" id="L136">    return result;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

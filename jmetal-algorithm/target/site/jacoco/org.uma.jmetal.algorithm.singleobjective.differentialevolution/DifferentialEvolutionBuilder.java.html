@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DifferentialEvolutionBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.differentialevolution</a> &gt; <span class="el_source">DifferentialEvolutionBuilder.java</span></div><h1>DifferentialEvolutionBuilder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.differentialevolution;
+
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelection;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+
+/**
+ * DifferentialEvolutionBuilder class
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+public class DifferentialEvolutionBuilder {
+  private DoubleProblem problem;
+  private int populationSize;
+  private int maxEvaluations;
+  private DifferentialEvolutionCrossover crossoverOperator;
+  private DifferentialEvolutionSelection selectionOperator;
+  private SolutionListEvaluator&lt;DoubleSolution&gt; evaluator;
+
+<span class="fc" id="L23">  public DifferentialEvolutionBuilder(DoubleProblem problem) {</span>
+<span class="fc" id="L24">    this.problem = problem;</span>
+<span class="fc" id="L25">    this.populationSize = 100;</span>
+<span class="fc" id="L26">    this.maxEvaluations = 25000;</span>
+<span class="fc" id="L27">    this.crossoverOperator = new DifferentialEvolutionCrossover(0.5, 0.5, &quot;rand/1/bin&quot;);</span>
+<span class="fc" id="L28">    this.selectionOperator = new DifferentialEvolutionSelection();</span>
+<span class="fc" id="L29">    this.evaluator = new SequentialSolutionListEvaluator&lt;DoubleSolution&gt;();</span>
+<span class="fc" id="L30">  }</span>
+
+  public DifferentialEvolutionBuilder setPopulationSize(int populationSize) {
+<span class="fc bfc" id="L33" title="All 2 branches covered.">    if (populationSize &lt; 0) {</span>
+<span class="fc" id="L34">      throw new JMetalException(&quot;Population size is negative: &quot; + populationSize);</span>
+    }
+
+<span class="fc" id="L37">    this.populationSize = populationSize;</span>
+
+<span class="fc" id="L39">    return this;</span>
+  }
+
+  public DifferentialEvolutionBuilder setMaxEvaluations(int maxEvaluations) {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">    if (maxEvaluations &lt; 0) {</span>
+<span class="fc" id="L44">      throw new JMetalException(&quot;MaxEvaluations is negative: &quot; + maxEvaluations);</span>
+    }
+
+<span class="fc" id="L47">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="fc" id="L49">    return this;</span>
+  }
+
+  public DifferentialEvolutionBuilder setCrossover(DifferentialEvolutionCrossover crossover) {
+<span class="fc" id="L53">    this.crossoverOperator = crossover;</span>
+
+<span class="fc" id="L55">    return this;</span>
+  }
+
+  public DifferentialEvolutionBuilder setSelection(DifferentialEvolutionSelection selection) {
+<span class="fc" id="L59">    this.selectionOperator = selection;</span>
+
+<span class="fc" id="L61">    return this;</span>
+  }
+
+  public DifferentialEvolutionBuilder setSolutionListEvaluator(SolutionListEvaluator&lt;DoubleSolution&gt; evaluator) {
+<span class="fc" id="L65">    this.evaluator = evaluator;</span>
+
+<span class="fc" id="L67">    return this;</span>
+  }
+
+  public DifferentialEvolution build() {
+<span class="fc" id="L71">    return new DifferentialEvolution(problem, maxEvaluations, populationSize, crossoverOperator,</span>
+        selectionOperator, evaluator);
+  }
+
+  /* Getters */
+  public DoubleProblem getProblem() {
+<span class="fc" id="L77">    return problem;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="fc" id="L81">    return populationSize;</span>
+  }
+
+  public int getMaxEvaluations() {
+<span class="fc" id="L85">    return maxEvaluations;</span>
+  }
+
+  public DifferentialEvolutionCrossover getCrossoverOperator() {
+<span class="fc" id="L89">    return crossoverOperator;</span>
+  }
+
+  public DifferentialEvolutionSelection getSelectionOperator() {
+<span class="fc" id="L93">    return selectionOperator;</span>
+  }
+
+  public SolutionListEvaluator&lt;DoubleSolution&gt; getSolutionListEvaluator() {
+<span class="fc" id="L97">    return evaluator;</span>
+  }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

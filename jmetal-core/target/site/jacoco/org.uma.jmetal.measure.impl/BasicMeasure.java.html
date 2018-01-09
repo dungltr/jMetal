@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BasicMeasure.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.measure.impl</a> &gt; <span class="el_source">BasicMeasure.java</span></div><h1>BasicMeasure.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.measure.impl;
+
+import org.uma.jmetal.measure.PullMeasure;
+import org.uma.jmetal.measure.PushMeasure;
+
+/**
+ * A {@link BasicMeasure} provides a simple way to define a
+ * measure that merely stores a single value
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class BasicMeasure&lt;T&gt; extends SimplePushMeasure&lt;T&gt; implements
+    PullMeasure&lt;T&gt;, PushMeasure&lt;T&gt; {
+
+  private T value ;
+
+  /**
+   * Create a {@link BasicMeasure}
+   */
+  public BasicMeasure() {
+<span class="nc" id="L22">    super(</span>
+        &quot;SingleValue&quot;,
+        &quot;Generic measure which stores a single value.&quot;);
+<span class="nc" id="L25">  }</span>
+
+  /**
+   * @param value The value to be stored
+   */
+  public synchronized void set(T value) {
+<span class="nc" id="L31">    this.value = value ;</span>
+<span class="nc" id="L32">  }</span>
+
+  /**
+   * @return the current value
+   */
+  @Override
+  public synchronized T get() {
+<span class="nc" id="L39">    return value;</span>
+  }
+
+  //TODO: invoke push in set()???
+  @Override public void push (T value) {
+<span class="nc" id="L44">    super.push(value) ;</span>
+<span class="nc" id="L45">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

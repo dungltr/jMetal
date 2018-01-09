@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SBXCrossover.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.operator.impl.crossover</a> &gt; <span class="el_source">SBXCrossover.java</span></div><h1>SBXCrossover.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.operator.impl.crossover;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.util.RepairDoubleSolution;
+import org.uma.jmetal.solution.util.RepairDoubleSolutionAtBounds;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+import org.uma.jmetal.util.pseudorandom.RandomGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * This class allows to apply a SBX crossover operator using two parent solutions (Double encoding).
+ * A {@link RepairDoubleSolution} object is used to decide the strategy to apply when a value is out
+ * of range.
+ *
+ * The implementation is based on the NSGA-II code available in
+ * &lt;a href=&quot;http://www.iitk.ac.in/kangal/codes.shtml&quot;&gt;http://www.iitk.ac.in/kangal/codes.shtml&lt;/a&gt;
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ * @author Juan J. Durillo
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SBXCrossover implements CrossoverOperator&lt;DoubleSolution&gt; {
+  /** EPS defines the minimum difference allowed between real values */
+  private static final double EPS = 1.0e-14;
+
+  private double distributionIndex ;
+  private double crossoverProbability  ;
+  private RepairDoubleSolution solutionRepair ;
+
+  private RandomGenerator&lt;Double&gt; randomGenerator ;
+
+  /** Constructor */
+  public SBXCrossover(double crossoverProbability, double distributionIndex) {
+<span class="fc" id="L38">    this (crossoverProbability, distributionIndex, new RepairDoubleSolutionAtBounds()) ;</span>
+<span class="fc" id="L39">  }</span>
+
+  /** Constructor */
+  public SBXCrossover(double crossoverProbability, double distributionIndex, RandomGenerator&lt;Double&gt; randomGenerator) {
+<span class="nc" id="L43">    this (crossoverProbability, distributionIndex, new RepairDoubleSolutionAtBounds(), randomGenerator) ;</span>
+<span class="nc" id="L44">  }</span>
+
+  /** Constructor */
+  public SBXCrossover(double crossoverProbability, double distributionIndex, RepairDoubleSolution solutionRepair) {
+<span class="fc" id="L48">	  this(crossoverProbability, distributionIndex, solutionRepair, () -&gt; JMetalRandom.getInstance().nextDouble());</span>
+<span class="fc" id="L49">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L52">  public SBXCrossover(double crossoverProbability, double distributionIndex, RepairDoubleSolution solutionRepair, RandomGenerator&lt;Double&gt; randomGenerator) {</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    if (crossoverProbability &lt; 0) {</span>
+<span class="fc" id="L54">      throw new JMetalException(&quot;Crossover probability is negative: &quot; + crossoverProbability) ;</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">    } else if (distributionIndex &lt; 0) {</span>
+<span class="fc" id="L56">      throw new JMetalException(&quot;Distribution index is negative: &quot; + distributionIndex);</span>
+    }
+
+<span class="fc" id="L59">    this.crossoverProbability = crossoverProbability ;</span>
+<span class="fc" id="L60">    this.distributionIndex = distributionIndex ;</span>
+<span class="fc" id="L61">    this.solutionRepair = solutionRepair ;</span>
+
+<span class="fc" id="L63">    this.randomGenerator = randomGenerator ;</span>
+<span class="fc" id="L64">  }</span>
+
+  /* Getters */
+  public double getCrossoverProbability() {
+<span class="fc" id="L68">    return crossoverProbability;</span>
+  }
+
+  public double getDistributionIndex() {
+<span class="fc" id="L72">    return distributionIndex;</span>
+  }
+
+  /* Setters */
+  public void setCrossoverProbability(double probability) {
+<span class="nc" id="L77">    this.crossoverProbability = probability ;</span>
+<span class="nc" id="L78">  }</span>
+
+  public void setDistributionIndex(double distributionIndex) {
+<span class="nc" id="L81">    this.distributionIndex = distributionIndex ;</span>
+<span class="nc" id="L82">  }</span>
+
+  /** Execute() method */
+  @Override
+  public List&lt;DoubleSolution&gt; execute(List&lt;DoubleSolution&gt; solutions) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">    if (null == solutions) {</span>
+<span class="fc" id="L88">      throw new JMetalException(&quot;Null parameter&quot;) ;</span>
+<span class="fc bfc" id="L89" title="All 2 branches covered.">    } else if (solutions.size() != 2) {</span>
+<span class="fc" id="L90">      throw new JMetalException(&quot;There must be two parents instead of &quot; + solutions.size()) ;</span>
+    }
+
+<span class="fc" id="L93">    return doCrossover(crossoverProbability, solutions.get(0), solutions.get(1)) ;</span>
+  }
+
+  /** doCrossover method */
+  public List&lt;DoubleSolution&gt; doCrossover(
+      double probability, DoubleSolution parent1, DoubleSolution parent2) {
+<span class="fc" id="L99">    List&lt;DoubleSolution&gt; offspring = new ArrayList&lt;DoubleSolution&gt;(2);</span>
+
+<span class="fc" id="L101">    offspring.add((DoubleSolution) parent1.copy()) ;</span>
+<span class="fc" id="L102">    offspring.add((DoubleSolution) parent2.copy()) ;</span>
+
+    int i;
+    double rand;
+    double y1, y2, lowerBound, upperBound;
+    double c1, c2;
+    double alpha, beta, betaq;
+    double valueX1, valueX2;
+
+<span class="fc bfc" id="L111" title="All 2 branches covered.">    if (randomGenerator.getRandomValue() &lt;= probability) {</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">      for (i = 0; i &lt; parent1.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L113">        valueX1 = parent1.getVariableValue(i);</span>
+<span class="fc" id="L114">        valueX2 = parent2.getVariableValue(i);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (randomGenerator.getRandomValue() &lt;= 0.5) {</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">          if (Math.abs(valueX1 - valueX2) &gt; EPS) {</span>
+
+<span class="fc bfc" id="L118" title="All 2 branches covered.">            if (valueX1 &lt; valueX2) {</span>
+<span class="fc" id="L119">              y1 = valueX1;</span>
+<span class="fc" id="L120">              y2 = valueX2;</span>
+            } else {
+<span class="fc" id="L122">              y1 = valueX2;</span>
+<span class="fc" id="L123">              y2 = valueX1;</span>
+            }
+
+<span class="fc" id="L126">            lowerBound = parent1.getLowerBound(i);</span>
+<span class="fc" id="L127">            upperBound = parent1.getUpperBound(i);</span>
+
+<span class="fc" id="L129">            rand = randomGenerator.getRandomValue();</span>
+<span class="fc" id="L130">            beta = 1.0 + (2.0 * (y1 - lowerBound) / (y2 - y1));</span>
+<span class="fc" id="L131">            alpha = 2.0 - Math.pow(beta, -(distributionIndex + 1.0));</span>
+
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            if (rand &lt;= (1.0 / alpha)) {</span>
+<span class="fc" id="L134">              betaq = Math.pow(rand * alpha, (1.0 / (distributionIndex + 1.0)));</span>
+            } else {
+<span class="fc" id="L136">              betaq = Math</span>
+<span class="fc" id="L137">                  .pow(1.0 / (2.0 - rand * alpha), 1.0 / (distributionIndex + 1.0));</span>
+            }
+<span class="fc" id="L139">            c1 = 0.5 * (y1 + y2 - betaq * (y2 - y1));</span>
+
+<span class="fc" id="L141">            beta = 1.0 + (2.0 * (upperBound - y2) / (y2 - y1));</span>
+<span class="fc" id="L142">            alpha = 2.0 - Math.pow(beta, -(distributionIndex + 1.0));</span>
+
+<span class="fc bfc" id="L144" title="All 2 branches covered.">            if (rand &lt;= (1.0 / alpha)) {</span>
+<span class="fc" id="L145">              betaq = Math.pow((rand * alpha), (1.0 / (distributionIndex + 1.0)));</span>
+            } else {
+<span class="fc" id="L147">              betaq = Math</span>
+<span class="fc" id="L148">                  .pow(1.0 / (2.0 - rand * alpha), 1.0 / (distributionIndex + 1.0));</span>
+            }
+<span class="fc" id="L150">            c2 = 0.5 * (y1 + y2 + betaq * (y2 - y1));</span>
+
+<span class="fc" id="L152">            c1 = solutionRepair.repairSolutionVariableValue(c1, lowerBound, upperBound) ;</span>
+<span class="fc" id="L153">            c2 = solutionRepair.repairSolutionVariableValue(c2, lowerBound, upperBound) ;</span>
+
+<span class="fc bfc" id="L155" title="All 2 branches covered.">            if (randomGenerator.getRandomValue() &lt;= 0.5) {</span>
+<span class="fc" id="L156">              offspring.get(0).setVariableValue(i, c2);</span>
+<span class="fc" id="L157">              offspring.get(1).setVariableValue(i, c1);</span>
+            } else {
+<span class="fc" id="L159">              offspring.get(0).setVariableValue(i, c1);</span>
+<span class="fc" id="L160">              offspring.get(1).setVariableValue(i, c2);</span>
+            }
+          } else {
+<span class="fc" id="L163">            offspring.get(0).setVariableValue(i, valueX1);</span>
+<span class="fc" id="L164">            offspring.get(1).setVariableValue(i, valueX2);</span>
+          }
+        } else {
+<span class="fc" id="L167">          offspring.get(0).setVariableValue(i, valueX1);</span>
+<span class="fc" id="L168">          offspring.get(1).setVariableValue(i, valueX2);</span>
+        }
+      }
+    }
+
+<span class="fc" id="L173">    return offspring;</span>
+  }
+
+  @Override
+  public int getNumberOfRequiredParents() {
+<span class="nc" id="L178">    return 2 ;</span>
+  }
+
+  @Override
+  public int getNumberOfGeneratedChildren() {
+<span class="nc" id="L183">    return 2;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

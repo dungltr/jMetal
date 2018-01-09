@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractGenericSolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">AbstractGenericSolution.java</span></div><h1>AbstractGenericSolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+import java.util.*;
+
+/**
+ * Abstract class representing a generic solution
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public abstract class AbstractGenericSolution&lt;T, P extends Problem&lt;?&gt;&gt; implements Solution&lt;T&gt; {
+  private double[] objectives;
+  private List&lt;T&gt; variables;
+  protected P problem ;
+  protected Map&lt;Object, Object&gt; attributes ;
+  protected final JMetalRandom randomGenerator ;
+
+  /**
+   * Constructor
+   */
+<span class="fc" id="L25">  protected AbstractGenericSolution(P problem) {</span>
+<span class="fc" id="L26">    this.problem = problem ;</span>
+<span class="fc" id="L27">    attributes = new HashMap&lt;&gt;() ;</span>
+<span class="fc" id="L28">    randomGenerator = JMetalRandom.getInstance() ;</span>
+
+<span class="fc" id="L30">    objectives = new double[problem.getNumberOfObjectives()] ;</span>
+<span class="fc" id="L31">    variables = new ArrayList&lt;&gt;(problem.getNumberOfVariables()) ;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L33">      variables.add(i, null) ;</span>
+    }
+<span class="fc" id="L35">  }</span>
+
+  @Override
+  public void setAttribute(Object id, Object value) {
+<span class="fc" id="L39">    attributes.put(id, value) ;</span>
+<span class="fc" id="L40">  }</span>
+
+  @Override
+  public Object getAttribute(Object id) {
+<span class="fc" id="L44">    return attributes.get(id) ;</span>
+  }
+
+  @Override
+  public void setObjective(int index, double value) {
+<span class="fc" id="L49">    objectives[index] = value ;</span>
+<span class="fc" id="L50">  }</span>
+
+  @Override
+  public double getObjective(int index) {
+<span class="fc" id="L54">    return objectives[index];</span>
+  }
+
+  @Override
+  public T getVariableValue(int index) {
+<span class="fc" id="L59">    return variables.get(index);</span>
+  }
+
+  @Override
+  public void setVariableValue(int index, T value) {
+<span class="fc" id="L64">    variables.set(index, value);</span>
+<span class="fc" id="L65">  }</span>
+
+  @Override
+  public int getNumberOfVariables() {
+<span class="fc" id="L69">    return variables.size();</span>
+  }
+
+  @Override
+  public int getNumberOfObjectives() {
+<span class="fc" id="L74">    return objectives.length;</span>
+  }
+
+  protected void initializeObjectiveValues() {
+<span class="fc bfc" id="L78" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="fc" id="L79">      objectives[i] = 0.0 ;</span>
+    }
+<span class="fc" id="L81">  }</span>
+
+  @Override
+  public String toString() {
+<span class="nc" id="L85">    String result = &quot;Variables: &quot; ;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">    for (T var : variables) {</span>
+<span class="nc" id="L87">      result += &quot;&quot; + var + &quot; &quot; ;</span>
+<span class="nc" id="L88">    }</span>
+<span class="nc" id="L89">    result += &quot;Objectives: &quot; ;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">    for (Double obj : objectives) {</span>
+<span class="nc" id="L91">      result += &quot;&quot; + obj + &quot; &quot; ;</span>
+    }
+<span class="nc" id="L93">    result += &quot;\t&quot; ;</span>
+<span class="nc" id="L94">    result += &quot;AlgorithmAttributes: &quot; + attributes + &quot;\n&quot; ;</span>
+
+<span class="nc" id="L96">    return result ;</span>
+  }
+
+  @Override public boolean equals(Object o) {
+<span class="pc bpc" id="L100" title="1 of 2 branches missed.">    if (this == o)</span>
+<span class="nc" id="L101">      return true;</span>
+<span class="pc bpc" id="L102" title="2 of 4 branches missed.">    if (o == null || getClass() != o.getClass())</span>
+<span class="nc" id="L103">      return false;</span>
+
+<span class="fc" id="L105">    AbstractGenericSolution&lt;?, ?&gt; that = (AbstractGenericSolution&lt;?, ?&gt;) o;</span>
+
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">    if (!attributes.equals(that.attributes))</span>
+<span class="nc" id="L108">      return false;</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">    if (!Arrays.equals(objectives, that.objectives))</span>
+<span class="nc" id="L110">      return false;</span>
+<span class="pc bpc" id="L111" title="1 of 2 branches missed.">    if (!variables.equals(that.variables))</span>
+<span class="nc" id="L112">      return false;</span>
+
+<span class="fc" id="L114">    return true;</span>
+  }
+
+  @Override public int hashCode() {
+<span class="fc" id="L118">    int result = Arrays.hashCode(objectives);</span>
+<span class="fc" id="L119">    result = 31 * result + variables.hashCode();</span>
+<span class="fc" id="L120">    result = 31 * result + attributes.hashCode();</span>
+<span class="fc" id="L121">    return result;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

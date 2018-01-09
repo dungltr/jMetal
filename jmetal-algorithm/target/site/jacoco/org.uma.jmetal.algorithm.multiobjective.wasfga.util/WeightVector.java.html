@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WeightVector.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.wasfga.util</a> &gt; <span class="el_source">WeightVector.java</span></div><h1>WeightVector.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.wasfga.util;
+
+import org.uma.jmetal.util.JMetalException;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+/**
+ * @author Rubén Saborido Infantes
+ * This class offers different methods to manipulate weight vectors.
+ */
+<span class="nc" id="L16">public class WeightVector {</span>
+<span class="nc" id="L17">	public enum NORMALIZE {TRUE, FALSE}</span>
+	
+	;
+	
+	/**
+	 * Generate uniform weight vectors in two dimension
+	 *
+	 * @param epsilon         Distance between each component of the weight vector
+	 * @param numberOfWeights Number of weight vectors to generate
+	 * @return A set of weight vectors
+	 */
+	public double[][] initUniformWeights2D(double epsilon, int numberOfWeights) {
+<span class="nc" id="L29">		double[][] weights = new double[numberOfWeights][2];</span>
+		
+		int indexOfWeight;
+		double w, jump;
+		
+<span class="nc" id="L34">		jump = (1 - (2 * epsilon)) / (numberOfWeights - 1);</span>
+<span class="nc" id="L35">		indexOfWeight = 0;</span>
+		
+<span class="nc" id="L37">		w = epsilon;</span>
+		
+		//while(w &lt;= (1-epsilon))
+<span class="nc bnc" id="L40" title="All 2 branches missed.">		while (indexOfWeight &lt; numberOfWeights) {</span>
+<span class="nc" id="L41">			weights[indexOfWeight][0] = w;</span>
+<span class="nc" id="L42">			weights[indexOfWeight][1] = 1 - w;</span>
+			
+<span class="nc" id="L44">			w = w + jump;</span>
+			
+<span class="nc" id="L46">			indexOfWeight = indexOfWeight + 1;</span>
+		}
+		
+<span class="nc" id="L49">		return weights;</span>
+	}
+	
+	/**
+	 * Read a set of weight vector from a file
+	 *
+	 * @param filePath A file containing the weight vectors
+	 * @return A set of weight vectors
+	 */
+	public double[][] getWeightsFromFile(String filePath) {
+<span class="nc" id="L59">		double[][] weights = new double[0][0];</span>
+		
+<span class="nc" id="L61">		Vector&lt;double[]&gt; listOfWeights = new Vector&lt;double[]&gt;();</span>
+		
+		try {
+<span class="nc" id="L64">			InputStream in = getClass().getResourceAsStream(&quot;/&quot; + filePath);</span>
+<span class="nc" id="L65">			InputStreamReader isr = new InputStreamReader(in);</span>
+<span class="nc" id="L66">			BufferedReader br = new BufferedReader(isr);</span>
+			
+    	/*
+      // Open the file
+      FileInputStream fis = new FileInputStream(filePath);
+      InputStreamReader isr = new InputStreamReader(fis);
+      BufferedReader br = new BufferedReader(isr);
+      */
+			
+<span class="nc" id="L75">			int numberOfObjectives = 0;</span>
+<span class="nc" id="L76">			int j = 0;</span>
+<span class="nc" id="L77">			String aux = br.readLine();</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">			while (aux != null) {</span>
+<span class="nc" id="L79">				StringTokenizer st = new StringTokenizer(aux);</span>
+<span class="nc" id="L80">				j = 0;</span>
+<span class="nc" id="L81">				numberOfObjectives = st.countTokens();</span>
+<span class="nc" id="L82">				double[] weight = new double[numberOfObjectives];</span>
+				
+<span class="nc bnc" id="L84" title="All 2 branches missed.">				while (st.hasMoreTokens()) {</span>
+<span class="nc" id="L85">					weight[j] = (new Double(st.nextToken())).doubleValue();</span>
+<span class="nc" id="L86">					j++;</span>
+				}
+				
+<span class="nc" id="L89">				listOfWeights.add(weight);</span>
+<span class="nc" id="L90">				aux = br.readLine();</span>
+<span class="nc" id="L91">			}</span>
+<span class="nc" id="L92">			br.close();</span>
+			
+<span class="nc" id="L94">			weights = new double[listOfWeights.size()][numberOfObjectives];</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">			for (int indexWeight = 0; indexWeight &lt; listOfWeights.size(); indexWeight++) {</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">				for (int indexOfObjective = 0; indexOfObjective &lt; numberOfObjectives; indexOfObjective++) {</span>
+<span class="nc" id="L97">					weights[indexWeight][indexOfObjective] = listOfWeights.get(indexWeight)[indexOfObjective];</span>
+				}
+			}
+<span class="nc" id="L100">		} catch (Exception e) {</span>
+<span class="nc" id="L101">			throw new JMetalException(&quot;getWeightsFromFile: failed when reading for file: &quot; + filePath + &quot;&quot;, e);</span>
+<span class="nc" id="L102">		}</span>
+		
+<span class="nc" id="L104">		return weights;</span>
+	}
+	
+	/**
+	 * Calculate the inverse of a set of weight vectors
+	 *
+	 * @param weights A set of weight vectors
+	 * @param b       True if the weights should be normalize by the sum of the components
+	 * @return A set of weight vectors
+	 */
+	public static double[][] invertWeights(double[][] weights, boolean b) {
+<span class="nc" id="L115">		double[][] result = new double[weights.length][weights[0].length];</span>
+		
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		for (int indexOfWeight = 0; indexOfWeight &lt; weights.length; indexOfWeight++) {</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">			if (b) {</span>
+<span class="nc" id="L119">				double sum = 0;</span>
+				
+<span class="nc bnc" id="L121" title="All 2 branches missed.">				for (int indexOfComponent = 0; indexOfComponent &lt; weights[indexOfWeight].length; indexOfComponent++) {</span>
+<span class="nc" id="L122">					sum = sum + (1.0 / weights[indexOfWeight][indexOfComponent]);</span>
+				}
+				
+<span class="nc bnc" id="L125" title="All 2 branches missed.">				for (int indexOfComponent = 0; indexOfComponent &lt; weights[indexOfWeight].length; indexOfComponent++) {</span>
+<span class="nc" id="L126">					result[indexOfWeight][indexOfComponent] = (1.0 / weights[indexOfWeight][indexOfComponent]) / sum;</span>
+				}
+<span class="nc" id="L128">			} else {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">				for (int indexOfComponent = 0; indexOfComponent &lt; weights[indexOfWeight].length; indexOfComponent++)</span>
+<span class="nc" id="L130">					result[indexOfWeight][indexOfComponent] = 1.0 / weights[indexOfWeight][indexOfComponent];</span>
+			}
+		}
+		
+<span class="nc" id="L134">		return result;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

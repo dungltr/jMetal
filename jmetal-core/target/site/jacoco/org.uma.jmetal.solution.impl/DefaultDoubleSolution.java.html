@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DefaultDoubleSolution.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.solution.impl</a> &gt; <span class="el_source">DefaultDoubleSolution.java</span></div><h1>DefaultDoubleSolution.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.solution.impl;
+
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
+
+import java.util.HashMap;
+
+/**
+ * Defines an implementation of a double solution
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DefaultDoubleSolution 
+    extends AbstractGenericSolution&lt;Double, DoubleProblem&gt;
+    implements DoubleSolution {
+
+  /** Constructor */
+  public DefaultDoubleSolution(DoubleProblem problem) {
+<span class="fc" id="L20">    super(problem) ;</span>
+
+<span class="fc" id="L22">    initializeDoubleVariables();</span>
+<span class="fc" id="L23">    initializeObjectiveValues();</span>
+<span class="fc" id="L24">  }</span>
+
+  /** Copy constructor */
+  public DefaultDoubleSolution(DefaultDoubleSolution solution) {
+<span class="fc" id="L28">    super(solution.problem) ;</span>
+
+<span class="fc bfc" id="L30" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L31">      setVariableValue(i, solution.getVariableValue(i));</span>
+    }
+
+<span class="fc bfc" id="L34" title="All 2 branches covered.">    for (int i = 0; i &lt; problem.getNumberOfObjectives(); i++) {</span>
+<span class="fc" id="L35">      setObjective(i, solution.getObjective(i)) ;</span>
+    }
+
+<span class="fc" id="L38">    attributes = new HashMap&lt;Object, Object&gt;(solution.attributes) ;</span>
+<span class="fc" id="L39">  }</span>
+
+  @Override
+  public Double getUpperBound(int index) {
+<span class="fc" id="L43">    return problem.getUpperBound(index);</span>
+  }
+
+  @Override
+  public Double getLowerBound(int index) {
+<span class="fc" id="L48">    return problem.getLowerBound(index) ;</span>
+  }
+
+  @Override
+  public DefaultDoubleSolution copy() {
+<span class="fc" id="L53">    return new DefaultDoubleSolution(this);</span>
+  }
+
+  @Override
+  public String getVariableValueString(int index) {
+<span class="nc" id="L58">    return getVariableValue(index).toString() ;</span>
+  }
+  
+  private void initializeDoubleVariables() {
+<span class="fc bfc" id="L62" title="All 2 branches covered.">    for (int i = 0 ; i &lt; problem.getNumberOfVariables(); i++) {</span>
+<span class="fc" id="L63">      Double value = randomGenerator.nextDouble(getLowerBound(i), getUpperBound(i)) ;</span>
+<span class="fc" id="L64">      setVariableValue(i, value) ;</span>
+    }
+<span class="fc" id="L66">  }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

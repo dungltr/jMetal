@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOMBI2History.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.mombi.util</a> &gt; <span class="el_source">MOMBI2History.java</span></div><h1>MOMBI2History.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.mombi.util;
+
+import org.uma.jmetal.solution.Solution;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * Created by ajnebro on 10/9/15.
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MOMBI2History&lt;T extends Solution&lt;?&gt;&gt; implements Serializable {
+  public static final int MAX_LENGHT 			= 5;
+  private 	  final int numberOfObjectives;
+  private       final List&lt;List&lt;Double&gt;&gt; history;
+  private 	  final List&lt;Integer&gt;      marks;
+
+<span class="nc" id="L20">  public MOMBI2History(int numberOfObjectives) {</span>
+<span class="nc" id="L21">    this.numberOfObjectives = numberOfObjectives;</span>
+<span class="nc" id="L22">    this.history            = new LinkedList&lt;&gt;();</span>
+<span class="nc" id="L23">    this.marks				= new ArrayList&lt;&gt;(this.numberOfObjectives);</span>
+<span class="nc bnc" id="L24" title="All 2 branches missed.">    for (int i = 0; i &lt; this.numberOfObjectives;i++) {</span>
+<span class="nc" id="L25">      this.marks.add(MAX_LENGHT);</span>
+    }
+<span class="nc" id="L27">  }</span>
+
+  /**
+   * Adds a new vector of maxs values to the history. The method ensures that only the
+   * newest MAX_LENGTH vectors will be kept in the history
+   * @param maxs
+   */
+  public void add(List&lt;Double&gt; maxs) {
+<span class="nc" id="L35">    List&lt;Double&gt; aux = new ArrayList&lt;&gt;(this.numberOfObjectives);</span>
+<span class="nc" id="L36">    aux.addAll(maxs);</span>
+<span class="nc" id="L37">    this.history.add(aux);</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">    if (history.size() &gt; MAX_LENGHT)</span>
+<span class="nc" id="L39">      history.remove(0);</span>
+<span class="nc" id="L40">  }</span>
+
+  /**
+   * Returns the mean of the values contained in the history
+   */
+  public List&lt;Double&gt; mean() {
+<span class="nc" id="L46">    List&lt;Double&gt; result = new ArrayList&lt;&gt;(this.numberOfObjectives);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">    for (int i = 0; i &lt; this.numberOfObjectives; i++)</span>
+<span class="nc" id="L48">      result.add(0.0);</span>
+
+<span class="nc bnc" id="L50" title="All 2 branches missed.">    for (List&lt;Double&gt; historyMember : this.history)</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">      for (int i = 0; i &lt; this.numberOfObjectives;i++)</span>
+<span class="nc" id="L52">        result.set(i, result.get(i) + historyMember.get(i));</span>
+
+
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    for (int i = 0; i &lt; this.numberOfObjectives; i++)</span>
+<span class="nc" id="L56">      result.set(i, result.get(i)/(double)this.history.size());</span>
+
+<span class="nc" id="L58">    return result;</span>
+  }
+
+  /**
+   * Returns the variance of the values contained in the history
+   */
+  public List&lt;Double&gt; variance(List&lt;Double&gt; mean) {
+<span class="nc" id="L65">    List&lt;Double&gt; result = new ArrayList&lt;&gt;(this.numberOfObjectives);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">    for (int i = 0; i &lt; this.numberOfObjectives; i++)</span>
+<span class="nc" id="L67">      result.add(0.0);</span>
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">    for (List&lt;Double&gt; historyMember : this.history)</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">      for (int i = 0; i &lt; this.numberOfObjectives; i++)</span>
+<span class="nc" id="L71">        result.set(i, result.get(i) + Math.pow(historyMember.get(i)-mean.get(i), 2.0));</span>
+
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    for (int i = 0; i &lt; this.numberOfObjectives; i++)</span>
+<span class="nc" id="L74">      result.set(i, result.get(i) / (double)this.history.size());</span>
+
+<span class="nc" id="L76">    return result;</span>
+  }
+
+  /**
+   * Return the std of  the values contained in the history
+   */
+  public List&lt;Double&gt; std(List&lt;Double&gt; mean) {
+<span class="nc" id="L83">    List&lt;Double&gt; result = new ArrayList&lt;&gt;(mean.size());</span>
+<span class="nc" id="L84">    result.addAll(this.variance(mean));</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">    for (int i = 0; i &lt; result.size(); i++)</span>
+<span class="nc" id="L86">      result.set(i,Math.sqrt(result.get(i)));</span>
+
+<span class="nc" id="L88">    return result;</span>
+  }
+
+  public void mark(int index) {
+<span class="nc" id="L92">    this.marks.set(index, MAX_LENGHT);</span>
+<span class="nc" id="L93">  }</span>
+
+  public boolean isUnMarked(int index) {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">    return this.marks.get(index) == 0;</span>
+  }
+
+  public void decreaseMark(int index) {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">    if (this.marks.get(index) &gt; 0)</span>
+<span class="nc" id="L101">      this.marks.set(index,this.marks.get(index)-1);</span>
+<span class="nc" id="L102">  }</span>
+
+  public Double getMaxObjective(int index) {
+<span class="nc" id="L105">    Double result = Double.NEGATIVE_INFINITY;</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">    for (List&lt;Double&gt; list : this.history)</span>
+<span class="nc" id="L108">      result = Math.max(result, list.get(index));</span>
+
+<span class="nc" id="L110">    return result;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

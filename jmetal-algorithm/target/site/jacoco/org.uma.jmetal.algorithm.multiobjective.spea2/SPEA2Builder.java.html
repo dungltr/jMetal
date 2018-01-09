@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SPEA2Builder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.spea2</a> &gt; <span class="el_source">SPEA2Builder.java</span></div><h1>SPEA2Builder.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.spea2;
+
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
+
+import java.util.List;
+
+/**
+ * @author Juan J. Durillo
+ */
+public class SPEA2Builder&lt;S extends Solution&lt;?&gt;&gt; implements AlgorithmBuilder&lt;SPEA2&lt;S&gt;&gt; {
+  /**
+   * SPEA2Builder class
+   */
+  protected final Problem&lt;S&gt; problem;
+  protected int maxIterations;
+  protected int populationSize;
+  protected CrossoverOperator&lt;S&gt; crossoverOperator;
+  protected MutationOperator&lt;S&gt; mutationOperator;
+  protected SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator;
+  protected SolutionListEvaluator&lt;S&gt; evaluator;
+
+  /**
+   * SPEA2Builder constructor
+   */
+  public SPEA2Builder(Problem&lt;S&gt; problem, CrossoverOperator&lt;S&gt; crossoverOperator,
+<span class="nc" id="L35">      MutationOperator&lt;S&gt; mutationOperator) {</span>
+<span class="nc" id="L36">    this.problem = problem;</span>
+<span class="nc" id="L37">    maxIterations = 250;</span>
+<span class="nc" id="L38">    populationSize = 100;</span>
+<span class="nc" id="L39">    this.crossoverOperator = crossoverOperator ;</span>
+<span class="nc" id="L40">    this.mutationOperator = mutationOperator ;</span>
+<span class="nc" id="L41">    selectionOperator = new BinaryTournamentSelection&lt;S&gt;();</span>
+<span class="nc" id="L42">    evaluator = new SequentialSolutionListEvaluator&lt;S&gt;();</span>
+<span class="nc" id="L43">  }</span>
+
+  public SPEA2Builder&lt;S&gt; setMaxIterations(int maxIterations) {
+<span class="nc bnc" id="L46" title="All 2 branches missed.">    if (maxIterations &lt; 0) {</span>
+<span class="nc" id="L47">      throw new JMetalException(&quot;maxIterations is negative: &quot; + maxIterations);</span>
+    }
+<span class="nc" id="L49">    this.maxIterations = maxIterations;</span>
+
+<span class="nc" id="L51">    return this;</span>
+  }
+
+  public SPEA2Builder&lt;S&gt; setPopulationSize(int populationSize) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    if (populationSize &lt; 0) {</span>
+<span class="nc" id="L56">      throw new JMetalException(&quot;Population size is negative: &quot; + populationSize);</span>
+    }
+
+<span class="nc" id="L59">    this.populationSize = populationSize;</span>
+
+<span class="nc" id="L61">    return this;</span>
+  }
+
+  public SPEA2Builder&lt;S&gt; setSelectionOperator(SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator) {
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    if (selectionOperator == null) {</span>
+<span class="nc" id="L66">      throw new JMetalException(&quot;selectionOperator is null&quot;);</span>
+    }
+<span class="nc" id="L68">    this.selectionOperator = selectionOperator;</span>
+
+<span class="nc" id="L70">    return this;</span>
+  }
+
+  public SPEA2Builder&lt;S&gt; setSolutionListEvaluator(SolutionListEvaluator&lt;S&gt; evaluator) {
+<span class="nc bnc" id="L74" title="All 2 branches missed.">    if (evaluator == null) {</span>
+<span class="nc" id="L75">      throw new JMetalException(&quot;evaluator is null&quot;);</span>
+    }
+<span class="nc" id="L77">    this.evaluator = evaluator;</span>
+
+<span class="nc" id="L79">    return this;</span>
+  }
+
+  public SPEA2&lt;S&gt; build() {
+<span class="nc" id="L83">    SPEA2&lt;S&gt; algorithm = null ;</span>
+<span class="nc" id="L84">    algorithm = new SPEA2&lt;S&gt;(problem, maxIterations, populationSize, crossoverOperator,</span>
+          mutationOperator, selectionOperator, evaluator);
+    
+<span class="nc" id="L87">    return algorithm ;</span>
+  }
+
+  /* Getters */
+  public Problem&lt;S&gt; getProblem() {
+<span class="nc" id="L92">    return problem;</span>
+  }
+
+  public int getMaxIterations() {
+<span class="nc" id="L96">    return maxIterations;</span>
+  }
+
+  public int getPopulationSize() {
+<span class="nc" id="L100">    return populationSize;</span>
+  }
+
+  public CrossoverOperator&lt;S&gt; getCrossoverOperator() {
+<span class="nc" id="L104">    return crossoverOperator;</span>
+  }
+
+  public MutationOperator&lt;S&gt; getMutationOperator() {
+<span class="nc" id="L108">    return mutationOperator;</span>
+  }
+
+  public SelectionOperator&lt;List&lt;S&gt;, S&gt; getSelectionOperator() {
+<span class="nc" id="L112">    return selectionOperator;</span>
+  }
+
+  public SolutionListEvaluator&lt;S&gt; getSolutionListEvaluator() {
+<span class="nc" id="L116">    return evaluator;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

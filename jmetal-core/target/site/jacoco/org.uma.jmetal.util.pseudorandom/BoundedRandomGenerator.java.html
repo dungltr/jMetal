@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BoundedRandomGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.pseudorandom</a> &gt; <span class="el_source">BoundedRandomGenerator.java</span></div><h1>BoundedRandomGenerator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.pseudorandom;
+
+/**
+ * A {@link BoundedRandomGenerator} aims to provide a random value within a
+ * specific range. The range is inclusive, such that the lower bound and upper
+ * bound can be generated. Because lower and upper bounds make no sense if
+ * values cannot be compared, only {@link Comparable} values can be generated
+ * through this kind of generator.&lt;br&gt;
+ * &lt;br&gt;
+ * A {@link BoundedRandomGenerator} is a {@link FunctionalInterface}. It is not
+ * intended to be directly implemented by a class, but instead to request a
+ * method for generating random values, usually by using lambda expressions.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ *
+ * @param &lt;Value&gt;
+ *            The type of value to generate
+ */
+@FunctionalInterface
+public interface BoundedRandomGenerator&lt;Value extends Comparable&lt;Value&gt;&gt; {
+	/**
+	 * Generate a random value within the provided range.
+	 * 
+	 * @param lowerBound
+	 *            the minimal value which can be generated
+	 * @param upperBound
+	 *            the maximal value which can be generated
+	 * @return the value generated
+	 */
+	Value getRandomValue(Value lowerBound, Value upperBound);
+
+	/**
+	 * Create a {@link BoundedRandomGenerator} which generates {@link Integer}
+	 * values from a {@link BoundedRandomGenerator} which generate
+	 * {@link Double} values. The distribution is preserved.
+	 * 
+	 * @param doubleGenerator
+	 *            {@link BoundedRandomGenerator} which generates {@link Double}
+	 *            values
+	 * @return {@link BoundedRandomGenerator} which generates {@link Integer}
+	 *         values based on the provided generator
+	 */
+	static BoundedRandomGenerator&lt;Integer&gt; fromDoubleToInteger(BoundedRandomGenerator&lt;Double&gt; doubleGenerator) {
+<span class="fc" id="L44">		return (min, max) -&gt; (int) Math.floor(doubleGenerator.getRandomValue(min.doubleValue(), max.doubleValue() + 1));</span>
+	}
+
+	/**
+	 * Create a {@link BoundedRandomGenerator} which generates {@link Integer}
+	 * values from a {@link BoundedRandomGenerator} which generate
+	 * {@link Double} values between 0 and 1 (inclusive or exclusive). The
+	 * distribution is preserved.
+	 * 
+	 * @param doubleGenerator
+	 *            {@link RandomGenerator} which generates {@link Double} values
+	 * @return {@link BoundedRandomGenerator} which generates {@link Integer}
+	 *         values based on the provided generator
+	 */
+	static BoundedRandomGenerator&lt;Integer&gt; fromDoubleToInteger(RandomGenerator&lt;Double&gt; doubleGenerator) {
+<span class="fc" id="L59">		return fromDoubleToInteger(bound(doubleGenerator));</span>
+	}
+
+	/**
+	 * Create a {@link BoundedRandomGenerator} from a {@link RandomGenerator}
+	 * which generate {@link Double} values between 0 and 1 (inclusive or
+	 * exclusive). The distribution is preserved.
+	 * 
+	 * @param unboundedGenerator
+	 *            {@link RandomGenerator} which generates values between 0 and 1
+	 * @return {@link BoundedRandomGenerator} which generates {@link Double}
+	 *         values based on the provided generator
+	 */
+	static BoundedRandomGenerator&lt;Double&gt; bound(RandomGenerator&lt;Double&gt; unboundedGenerator) {
+<span class="fc" id="L73">		return (min, max) -&gt; {</span>
+			/*
+			 * The modulo replaces the value 1 by 0. Because it is a generator
+			 * of values between 0 and 1, whether this case does not happen
+			 * because the values are in [0;1[, whether it happens because the
+			 * values are in [0;1]. Then, because it is a generator of double
+			 * values, the case equal to 1 should have a negligible probability
+			 * to occur, such that replacing it by any other value should not
+			 * significantly impact the distribution, thus making it equivalent
+			 * to [0;1[ in any case.
+			 */
+<span class="fc" id="L84">			Double doubleValue = unboundedGenerator.getRandomValue() % 1;</span>
+
+<span class="fc" id="L86">			return doubleValue * (max - min) + min;</span>
+		};
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

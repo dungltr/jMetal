@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SteadyStateGeneticAlgorithm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.singleobjective.geneticalgorithm</a> &gt; <span class="el_source">SteadyStateGeneticAlgorithm.java</span></div><h1>SteadyStateGeneticAlgorithm.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.singleobjective.geneticalgorithm;
+
+import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.comparator.ObjectiveComparator;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+/**
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class SteadyStateGeneticAlgorithm&lt;S extends Solution&lt;?&gt;&gt; extends AbstractGeneticAlgorithm&lt;S, S&gt; {
+  private Comparator&lt;S&gt; comparator;
+  private int maxEvaluations;
+  private int evaluations;
+
+  /**
+   * Constructor
+   */
+  public SteadyStateGeneticAlgorithm(Problem&lt;S&gt; problem, int maxEvaluations, int populationSize,
+      CrossoverOperator&lt;S&gt; crossoverOperator, MutationOperator&lt;S&gt; mutationOperator,
+      SelectionOperator&lt;List&lt;S&gt;, S&gt; selectionOperator) {
+<span class="nc" id="L31">    super(problem);</span>
+<span class="nc" id="L32">    setMaxPopulationSize(populationSize);</span>
+<span class="nc" id="L33">    this.maxEvaluations = maxEvaluations;</span>
+
+<span class="nc" id="L35">    this.crossoverOperator = crossoverOperator;</span>
+<span class="nc" id="L36">    this.mutationOperator = mutationOperator;</span>
+<span class="nc" id="L37">    this.selectionOperator = selectionOperator;</span>
+
+<span class="nc" id="L39">    comparator = new ObjectiveComparator&lt;S&gt;(0);</span>
+<span class="nc" id="L40">  }</span>
+
+  @Override protected boolean isStoppingConditionReached() {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">    return (evaluations &gt;= maxEvaluations);</span>
+  }
+
+  @Override protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
+<span class="nc" id="L47">    Collections.sort(population, comparator) ;</span>
+<span class="nc" id="L48">    int worstSolutionIndex = population.size() - 1;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    if (comparator.compare(population.get(worstSolutionIndex), offspringPopulation.get(0)) &gt; 0) {</span>
+<span class="nc" id="L50">      population.remove(worstSolutionIndex);</span>
+<span class="nc" id="L51">      population.add(offspringPopulation.get(0));</span>
+    }
+
+<span class="nc" id="L54">    return population;</span>
+  }
+
+  @Override protected List&lt;S&gt; reproduction(List&lt;S&gt; matingPopulation) {
+<span class="nc" id="L58">    List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(1);</span>
+
+<span class="nc" id="L60">    List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L61">    parents.add(matingPopulation.get(0));</span>
+<span class="nc" id="L62">    parents.add(matingPopulation.get(1));</span>
+
+<span class="nc" id="L64">    List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+<span class="nc" id="L65">    mutationOperator.execute(offspring.get(0));</span>
+
+<span class="nc" id="L67">    offspringPopulation.add(offspring.get(0));</span>
+<span class="nc" id="L68">    return offspringPopulation;</span>
+  }
+
+  @Override protected List&lt;S&gt; selection(List&lt;S&gt; population) {
+<span class="nc" id="L72">    List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(2);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">    for (int i = 0; i &lt; 2; i++) {</span>
+<span class="nc" id="L74">      S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L75">      matingPopulation.add(solution);</span>
+    }
+
+<span class="nc" id="L78">    return matingPopulation;</span>
+  }
+
+  @Override protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
+<span class="nc bnc" id="L82" title="All 2 branches missed.">    for (S solution : population) {</span>
+<span class="nc" id="L83">      getProblem().evaluate(solution);</span>
+<span class="nc" id="L84">    }</span>
+
+<span class="nc" id="L86">    return population;</span>
+  }
+
+  @Override public S getResult() {
+<span class="nc" id="L90">    Collections.sort(getPopulation(), comparator) ;</span>
+<span class="nc" id="L91">    return getPopulation().get(0);</span>
+  }
+
+  @Override public void initProgress() {
+<span class="nc" id="L95">    evaluations = 1;</span>
+<span class="nc" id="L96">  }</span>
+
+  @Override public void updateProgress() {
+<span class="nc" id="L99">    evaluations++;</span>
+<span class="nc" id="L100">  }</span>
+
+  @Override public String getName() {
+<span class="nc" id="L103">    return &quot;ssGA&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L107">    return &quot;Steady-State Genetic Algorithm&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DominanceComparator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.comparator</a> &gt; <span class="el_source">DominanceComparator.java</span></div><h1>DominanceComparator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.comparator;
+
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.impl.OverallConstraintViolationComparator;
+
+import java.io.Serializable;
+import java.util.Comparator;
+
+/**
+ * This class implements a solution comparator taking into account the violation constraints
+ *
+ * @author Antonio J. Nebro &lt;antonio@lcc.uma.es&gt;
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class DominanceComparator&lt;S extends Solution&lt;?&gt;&gt; implements Comparator&lt;S&gt;, Serializable {
+  private ConstraintViolationComparator&lt;S&gt; constraintViolationComparator;
+
+  /** Constructor */
+  public DominanceComparator() {
+<span class="fc" id="L21">    this(new OverallConstraintViolationComparator&lt;S&gt;(), 0.0) ;</span>
+<span class="fc" id="L22">  }</span>
+
+  /** Constructor */
+  public DominanceComparator(double epsilon) {
+<span class="fc" id="L26">    this(new OverallConstraintViolationComparator&lt;S&gt;(), epsilon) ;</span>
+<span class="fc" id="L27">  }</span>
+
+  /** Constructor */
+  public DominanceComparator(ConstraintViolationComparator&lt;S&gt; constraintComparator) {
+<span class="fc" id="L31">    this(constraintComparator, 0.0) ;</span>
+<span class="fc" id="L32">  }</span>
+
+  /** Constructor */
+<span class="fc" id="L35">  public DominanceComparator(ConstraintViolationComparator&lt;S&gt; constraintComparator, double epsilon) {</span>
+<span class="fc" id="L36">    constraintViolationComparator = constraintComparator ;</span>
+<span class="fc" id="L37">  }</span>
+
+  /**
+   * Compares two solutions.
+   *
+   * @param solution1 Object representing the first &lt;code&gt;Solution&lt;/code&gt;.
+   * @param solution2 Object representing the second &lt;code&gt;Solution&lt;/code&gt;.
+   * @return -1, or 0, or 1 if solution1 dominates solution2, both are
+   * non-dominated, or solution1  is dominated by solution2, respectively.
+   */
+  @Override
+  public int compare(S solution1, S solution2) {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">    if (solution1 == null) {</span>
+<span class="fc" id="L50">      throw new JMetalException(&quot;Solution1 is null&quot;) ;</span>
+<span class="fc bfc" id="L51" title="All 2 branches covered.">    } else if (solution2 == null) {</span>
+<span class="fc" id="L52">      throw new JMetalException(&quot;Solution2 is null&quot;) ;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">    } else if (solution1.getNumberOfObjectives() != solution2.getNumberOfObjectives()) {</span>
+<span class="fc" id="L54">      throw new JMetalException(&quot;Cannot compare because solution1 has &quot; +</span>
+<span class="fc" id="L55">          solution1.getNumberOfObjectives()+ &quot; objectives and solution2 has &quot; +</span>
+<span class="fc" id="L56">          solution2.getNumberOfObjectives()) ;</span>
+    }
+    int result ;
+<span class="fc" id="L59">    result = constraintViolationComparator.compare(solution1, solution2) ;</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">    if (result == 0) {</span>
+<span class="fc" id="L61">      result = dominanceTest(solution1, solution2) ;</span>
+    }
+
+<span class="fc" id="L64">    return result ;</span>
+  }
+
+  private int dominanceTest(S solution1, S solution2) {
+<span class="fc" id="L68">    int bestIsOne = 0 ;</span>
+<span class="fc" id="L69">    int bestIsTwo = 0 ;</span>
+    int result ;
+<span class="fc bfc" id="L71" title="All 2 branches covered.">    for (int i = 0; i &lt; solution1.getNumberOfObjectives(); i++) {</span>
+<span class="fc" id="L72">      double value1 = solution1.getObjective(i);</span>
+<span class="fc" id="L73">      double value2 = solution2.getObjective(i);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">      if (value1 != value2) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (value1 &lt; value2) {</span>
+<span class="fc" id="L76">          bestIsOne = 1;</span>
+        }
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (value2 &lt; value1) {</span>
+<span class="fc" id="L79">          bestIsTwo = 1;</span>
+        }
+      }
+    }
+<span class="fc bfc" id="L83" title="All 2 branches covered.">    if (bestIsOne &gt; bestIsTwo) {</span>
+<span class="fc" id="L84">      result = -1;</span>
+<span class="fc bfc" id="L85" title="All 2 branches covered.">    } else if (bestIsTwo &gt; bestIsOne) {</span>
+<span class="fc" id="L86">      result = 1;</span>
+    } else {
+<span class="fc" id="L88">      result = 0;</span>
+    }
+<span class="fc" id="L90">    return result ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

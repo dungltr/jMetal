@@ -1,0 +1,7 @@
+org.uma.jmetal.experiment
+org.uma.jmetal.qualityIndicator
+org.uma.jmetal.runner
+org.uma.jmetal.runner.multiobjective
+org.uma.jmetal.runner.singleobjective
+org.uma.jmetal.utility
+org.uma.jmetal.workingTest

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>F15HybridComposition1.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-problem</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.problem.singleobjective.cec2005competitioncode</a> &gt; <span class="el_source">F15HybridComposition1.java</span></div><h1>F15HybridComposition1.java</h1><pre class="source lang-java linenums">//
+// Special Session on Real-Parameter Optimization at CEC-05
+// Edinburgh, UK, 2-5 Sept. 2005
+//
+// Organizers:
+//	Prof. Kalyanmoy Deb
+//		deb@iitk.ac.in
+//		http://www.iitk.ac.in/kangal/deb.htm
+//	A/Prof. P. N. Suganthan
+//		epnsugan@ntu.edu.sg
+//		http://www.ntu.edu.sg/home/EPNSugan
+//
+// Java version of the org.uma.test functions
+//
+// Matlab reference code
+//	http://www.ntu.edu.sg/home/EPNSugan
+//
+// Java version developer:
+//	Assistant Prof. Ying-ping Chen
+//		Department of Computer Science
+//		National Chiao Tung University
+//		HsinChu City, Taiwan
+//		ypchen@csie.nctu.edu.tw
+//		http://www.csie.nctu.edu.tw/~ypchen/
+//
+// Typical use of the org.uma.test functions in the Benchmark:
+//
+//		// Create a Benchmark object
+// 		Benchmark theBenchmark = new Benchmark();
+//		// Use the factory function call to create a org.uma.test function object
+//		//		org.uma.test function 3 with 50 dimension
+//		//		the object class is &quot;TestFunc&quot;
+//		TestFunc aTestFunc = theBenchmark.testFunctionFactory(3, 50);
+//		// Invoke the function with x
+//		double experimentoutput = aTestFunc.f(x);
+//
+// Version 0.90
+//		Currently, this version cannot handle any numbers of dimensions.
+//		It cannot generate the shifted global optima and rotation matrices
+//		that are not provided with the Matlab reference code.
+//		It can handle all cases whose data files are provided with
+//		the Matlab reference code.
+// Version 0.91
+//		Revised according to the Matlab reference code and the PDF document
+//		dated March 8, 2005.
+//
+package org.uma.jmetal.problem.singleobjective.cec2005competitioncode;
+
+import org.uma.jmetal.util.JMetalException;
+
+public class F15HybridComposition1 extends TestFunc {
+
+  // Fixed (class) parameters
+  static final public String FUNCTION_NAME = &quot;Hybrid Composition Function 1&quot;;
+  static final public String DEFAULT_FILE_DATA = Benchmark.CEC2005SUPPORTDATADIRECTORY + &quot;/hybrid_func1_data.txt&quot;;
+
+  // Number of functions
+  static final public int NUM_FUNC = 10;
+
+<span class="nc" id="L60">  private final MyHCJob theJob = new MyHCJob();</span>
+
+  // Shifted global optimum
+  private final double[][] m_o;
+  private final double[][][] m_M;
+<span class="nc" id="L65">  private final double[] m_sigma = {</span>
+    1.0, 1.0, 1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0, 1.0, 1.0
+  };
+<span class="nc" id="L69">  private final double[] m_lambda = {</span>
+    1.0, 1.0, 10.0, 10.0,
+    5.0 / 60.0, 5.0 / 60.0, 5.0 / 32.0, 5.0 / 32.0,
+    5.0 / 100.0, 5.0 / 100.0
+  };
+<span class="nc" id="L74">  private final double[] m_func_biases = {</span>
+    0.0, 100.0, 200.0, 300.0, 400.0,
+    500.0, 600.0, 700.0, 800.0, 900.0
+  };
+  private final double[] m_testPoint;
+  private final double[] m_testPointM;
+  private final double[] m_fmax;
+
+  // In order to avoid excessive memory allocation,
+  // a fixed memory buffer is allocated for each function object.
+  private double[] m_w;
+  private double[][] m_z;
+  private double[][] m_zM;
+
+  // Constructors
+  public F15HybridComposition1(int dimension, double bias) throws JMetalException {
+<span class="nc" id="L90">    this(dimension, bias, DEFAULT_FILE_DATA);</span>
+<span class="nc" id="L91">  }</span>
+
+  public F15HybridComposition1(int dimension, double bias, String file_data) throws
+      JMetalException {
+<span class="nc" id="L95">    super(dimension, bias, FUNCTION_NAME);</span>
+
+    // Note: dimension starts from 0
+<span class="nc" id="L98">    m_o = new double[NUM_FUNC][mDimension];</span>
+<span class="nc" id="L99">    m_M = new double[NUM_FUNC][mDimension][mDimension];</span>
+
+<span class="nc" id="L101">    m_testPoint = new double[mDimension];</span>
+<span class="nc" id="L102">    m_testPointM = new double[mDimension];</span>
+<span class="nc" id="L103">    m_fmax = new double[NUM_FUNC];</span>
+
+<span class="nc" id="L105">    m_w = new double[NUM_FUNC];</span>
+<span class="nc" id="L106">    m_z = new double[NUM_FUNC][mDimension];</span>
+<span class="nc" id="L107">    m_zM = new double[NUM_FUNC][mDimension];</span>
+
+    // Load the shifted global optimum
+<span class="nc" id="L110">    Benchmark.loadMatrixFromFile(file_data, NUM_FUNC, mDimension, m_o);</span>
+    // Generate identity matrices
+<span class="nc bnc" id="L112" title="All 2 branches missed.">    for (int i = 0; i &lt; NUM_FUNC; i++) {</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">      for (int j = 0; j &lt; mDimension; j++) {</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (int k = 0; k &lt; mDimension; k++) {</span>
+<span class="nc" id="L115">          m_M[i][j][k] = 0.0;</span>
+        }
+      }
+<span class="nc bnc" id="L118" title="All 2 branches missed.">      for (int j = 0; j &lt; mDimension; j++) {</span>
+<span class="nc" id="L119">        m_M[i][j][j] = 1.0;</span>
+      }
+    }
+
+    // Initialize the hybrid composition job object
+<span class="nc" id="L124">    theJob.numberOfBasicFunctions = NUM_FUNC;</span>
+<span class="nc" id="L125">    theJob.numberOfDimensions = mDimension;</span>
+<span class="nc" id="L126">    theJob.C = 2000.0;</span>
+<span class="nc" id="L127">    theJob.sigma = m_sigma;</span>
+<span class="nc" id="L128">    theJob.biases = m_func_biases;</span>
+<span class="nc" id="L129">    theJob.lambda = m_lambda;</span>
+<span class="nc" id="L130">    theJob.shiftGlobalOptimum = m_o;</span>
+<span class="nc" id="L131">    theJob.linearTransformationMatrix = m_M;</span>
+<span class="nc" id="L132">    theJob.w = m_w;</span>
+<span class="nc" id="L133">    theJob.z = m_z;</span>
+<span class="nc" id="L134">    theJob.zM = m_zM;</span>
+    // Calculate/estimate the fmax for all the functions involved
+<span class="nc bnc" id="L136" title="All 2 branches missed.">    for (int i = 0; i &lt; NUM_FUNC; i++) {</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">      for (int j = 0; j &lt; mDimension; j++) {</span>
+<span class="nc" id="L138">        m_testPoint[j] = (5.0 / m_lambda[i]);</span>
+      }
+<span class="nc" id="L140">      Benchmark.rotate(m_testPointM, m_testPoint, m_M[i]);</span>
+<span class="nc" id="L141">      m_fmax[i] = Math.abs(theJob.basicFunc(i, m_testPointM));</span>
+    }
+<span class="nc" id="L143">    theJob.fmax = m_fmax;</span>
+<span class="nc" id="L144">  }</span>
+
+  // Function body
+  public double f(double[] x) throws JMetalException {
+
+<span class="nc" id="L149">    double result = 0.0;</span>
+
+<span class="nc" id="L151">    result = Benchmark.hybrid_composition(x, theJob);</span>
+
+<span class="nc" id="L153">    result += mBias;</span>
+
+<span class="nc" id="L155">    return (result);</span>
+  }
+
+
+<span class="nc" id="L159">  private class MyHCJob extends HCJob {</span>
+    public double basicFunc(int func_no, double[] x) throws JMetalException {
+<span class="nc" id="L161">      double result = 0.0;</span>
+<span class="nc bnc" id="L162" title="All 6 branches missed.">      switch (func_no) {</span>
+        case 0:
+        case 1:
+<span class="nc" id="L165">          result = Benchmark.rastrigin(x);</span>
+<span class="nc" id="L166">          break;</span>
+        case 2:
+        case 3:
+<span class="nc" id="L169">          result = Benchmark.weierstrass(x);</span>
+<span class="nc" id="L170">          break;</span>
+        case 4:
+        case 5:
+<span class="nc" id="L173">          result = Benchmark.griewank(x);</span>
+<span class="nc" id="L174">          break;</span>
+        case 6:
+        case 7:
+<span class="nc" id="L177">          result = Benchmark.ackley(x);</span>
+<span class="nc" id="L178">          break;</span>
+        case 8:
+        case 9:
+<span class="nc" id="L181">          result = Benchmark.sphere(x);</span>
+<span class="nc" id="L182">          break;</span>
+        default:
+<span class="nc" id="L184">          throw new JMetalException(&quot;func_no is out of range.&quot;);</span>
+      }
+<span class="nc" id="L186">      return (result);</span>
+    }
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

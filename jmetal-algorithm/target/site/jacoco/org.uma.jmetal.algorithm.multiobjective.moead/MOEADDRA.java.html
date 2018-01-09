@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MOEADDRA.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-algorithm</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.algorithm.multiobjective.moead</a> &gt; <span class="el_source">MOEADDRA.java</span></div><h1>MOEADDRA.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.algorithm.multiobjective.moead;
+
+import org.uma.jmetal.algorithm.multiobjective.moead.util.MOEADUtils;
+import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
+import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.pseudorandom.JMetalRandom;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class implementing the MOEA/D-DRA algorithm described in :
+ * Q. Zhang,  W. Liu,  and H Li, The Performance of a New Version of
+ * MOEA/D on CEC09 Unconstrained MOP Test Instances, Working Report CES-491,
+ * School of CS &amp; EE, University of Essex, 02/2009
+ *
+ * @author Juan J. Durillo
+ * @author Antonio J. Nebro
+ * @version 1.0
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class MOEADDRA extends AbstractMOEAD&lt;DoubleSolution&gt; {
+  protected DifferentialEvolutionCrossover differentialEvolutionCrossover ;
+
+  protected DoubleSolution[] savedValues;
+  protected double[] utility;
+  protected int[] frequency;
+
+  JMetalRandom randomGenerator ;
+
+  public MOEADDRA(Problem&lt;DoubleSolution&gt; problem, int populationSize, int resultPopulationSize, int maxEvaluations,
+      MutationOperator&lt;DoubleSolution&gt; mutation, CrossoverOperator&lt;DoubleSolution&gt; crossover, FunctionType functionType,
+      String dataDirectory, double neighborhoodSelectionProbability,
+      int maximumNumberOfReplacedSolutions, int neighborSize) {
+<span class="nc" id="L39">    super(problem, populationSize, resultPopulationSize, maxEvaluations, crossover, mutation, functionType,</span>
+        dataDirectory, neighborhoodSelectionProbability, maximumNumberOfReplacedSolutions,
+        neighborSize);
+
+<span class="nc" id="L43">    differentialEvolutionCrossover = (DifferentialEvolutionCrossover)crossoverOperator ;</span>
+
+<span class="nc" id="L45">    savedValues = new DoubleSolution[populationSize];</span>
+<span class="nc" id="L46">    utility = new double[populationSize];</span>
+<span class="nc" id="L47">    frequency = new int[populationSize];</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">    for (int i = 0; i &lt; utility.length; i++) {</span>
+<span class="nc" id="L49">      utility[i] = 1.0;</span>
+<span class="nc" id="L50">      frequency[i] = 0;</span>
+    }
+
+<span class="nc" id="L53">    randomGenerator = JMetalRandom.getInstance() ;</span>
+<span class="nc" id="L54">  }</span>
+
+  @Override public void run() {
+<span class="nc" id="L57">    initializePopulation() ;</span>
+<span class="nc" id="L58">    initializeUniformWeight();</span>
+<span class="nc" id="L59">    initializeNeighborhood();</span>
+<span class="nc" id="L60">    initializeIdealPoint() ;</span>
+
+<span class="nc" id="L62">    int generation = 0 ;</span>
+<span class="nc" id="L63">    evaluations = populationSize ;</span>
+    do {
+<span class="nc" id="L65">      int[] permutation = new int[populationSize];</span>
+<span class="nc" id="L66">      MOEADUtils.randomPermutation(permutation, populationSize);</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">      for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L69">        int subProblemId = permutation[i];</span>
+<span class="nc" id="L70">        frequency[subProblemId]++;</span>
+
+<span class="nc" id="L72">        NeighborType neighborType = chooseNeighborType() ;</span>
+<span class="nc" id="L73">        List&lt;DoubleSolution&gt; parents = parentSelection(subProblemId, neighborType) ;</span>
+
+<span class="nc" id="L75">        differentialEvolutionCrossover.setCurrentSolution(population.get(subProblemId));</span>
+<span class="nc" id="L76">        List&lt;DoubleSolution&gt; children = differentialEvolutionCrossover.execute(parents);</span>
+
+<span class="nc" id="L78">        DoubleSolution child = children.get(0) ;</span>
+<span class="nc" id="L79">        mutationOperator.execute(child);</span>
+<span class="nc" id="L80">        problem.evaluate(child);</span>
+
+<span class="nc" id="L82">        evaluations++;</span>
+
+<span class="nc" id="L84">        updateIdealPoint(child);</span>
+<span class="nc" id="L85">        updateNeighborhood(child, subProblemId, neighborType);</span>
+      }
+
+<span class="nc" id="L88">      generation++;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">      if (generation % 30 == 0) {</span>
+<span class="nc" id="L90">        utilityFunction();</span>
+      }
+
+<span class="nc bnc" id="L93" title="All 2 branches missed.">    } while (evaluations &lt; maxEvaluations);</span>
+
+<span class="nc" id="L95">  }</span>
+
+  protected void initializePopulation() {
+<span class="nc bnc" id="L98" title="All 2 branches missed.">    for (int i = 0; i &lt; populationSize; i++) {</span>
+<span class="nc" id="L99">      DoubleSolution newSolution = (DoubleSolution)problem.createSolution();</span>
+
+<span class="nc" id="L101">      problem.evaluate(newSolution);</span>
+<span class="nc" id="L102">      population.add(newSolution);</span>
+<span class="nc" id="L103">      savedValues[i] = (DoubleSolution) newSolution.copy();</span>
+    }
+<span class="nc" id="L105">  }</span>
+
+  public void utilityFunction() throws JMetalException {
+    double f1, f2, uti, delta;
+<span class="nc bnc" id="L109" title="All 2 branches missed.">    for (int n = 0; n &lt; populationSize; n++) {</span>
+<span class="nc" id="L110">      f1 = fitnessFunction(population.get(n), lambda[n]);</span>
+<span class="nc" id="L111">      f2 = fitnessFunction(savedValues[n], lambda[n]);</span>
+<span class="nc" id="L112">      delta = f2 - f1;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">      if (delta &gt; 0.001) {</span>
+<span class="nc" id="L114">        utility[n] = 1.0;</span>
+      } else {
+<span class="nc" id="L116">        uti = (0.95 + (0.05 * delta / 0.001)) * utility[n];</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        utility[n] = uti &lt; 1.0 ? uti : 1.0;</span>
+      }
+<span class="nc" id="L119">      savedValues[n] = (DoubleSolution) population.get(n).copy();</span>
+    }
+<span class="nc" id="L121">  }</span>
+
+  public List&lt;Integer&gt; tourSelection(int depth) {
+<span class="nc" id="L124">    List&lt;Integer&gt; selected = new ArrayList&lt;Integer&gt;();</span>
+<span class="nc" id="L125">    List&lt;Integer&gt; candidate = new ArrayList&lt;Integer&gt;();</span>
+
+<span class="nc bnc" id="L127" title="All 2 branches missed.">    for (int k = 0; k &lt; problem.getNumberOfObjectives(); k++) {</span>
+      // WARNING! HERE YOU HAVE TO USE THE WEIGHT PROVIDED BY QINGFU Et AL (NOT SORTED!!!!)
+<span class="nc" id="L129">      selected.add(k);</span>
+    }
+
+<span class="nc bnc" id="L132" title="All 2 branches missed.">    for (int n = problem.getNumberOfObjectives(); n &lt; populationSize; n++) {</span>
+      // set of unselected weights
+<span class="nc" id="L134">      candidate.add(n);</span>
+    }
+
+<span class="nc bnc" id="L137" title="All 2 branches missed.">    while (selected.size() &lt; (int) (populationSize / 5.0)) {</span>
+<span class="nc" id="L138">      int best_idd = (int) (randomGenerator.nextDouble() * candidate.size());</span>
+      int i2;
+<span class="nc" id="L140">      int best_sub = candidate.get(best_idd);</span>
+      int s2;
+<span class="nc bnc" id="L142" title="All 2 branches missed.">      for (int i = 1; i &lt; depth; i++) {</span>
+<span class="nc" id="L143">        i2 = (int) (randomGenerator.nextDouble() * candidate.size());</span>
+<span class="nc" id="L144">        s2 = candidate.get(i2);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (utility[s2] &gt; utility[best_sub]) {</span>
+<span class="nc" id="L146">          best_idd = i2;</span>
+<span class="nc" id="L147">          best_sub = s2;</span>
+        }
+      }
+<span class="nc" id="L150">      selected.add(best_sub);</span>
+<span class="nc" id="L151">      candidate.remove(best_idd);</span>
+<span class="nc" id="L152">    }</span>
+<span class="nc" id="L153">    return selected;</span>
+  }
+
+  @Override public String getName() {
+<span class="nc" id="L157">    return &quot;MOEADDRA&quot; ;</span>
+  }
+
+  @Override public String getDescription() {
+<span class="nc" id="L161">    return &quot;Multi-Objective Evolutionary Algorithm based on Decomposition. Version with Dynamic Resource Allocation&quot; ;</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

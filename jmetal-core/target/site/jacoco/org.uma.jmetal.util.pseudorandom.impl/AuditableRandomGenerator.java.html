@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuditableRandomGenerator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">org.uma.jmetal:jmetal-core</a> &gt; <a href="index.source.html" class="el_package">org.uma.jmetal.util.pseudorandom.impl</a> &gt; <span class="el_source">AuditableRandomGenerator.java</span></div><h1>AuditableRandomGenerator.java</h1><pre class="source lang-java linenums">package org.uma.jmetal.util.pseudorandom.impl;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
+
+import org.uma.jmetal.util.pseudorandom.PseudoRandomGenerator;
+
+/**
+ * An {@link AuditableRandomGenerator} is a {@link PseudoRandomGenerator} which can be audited
+ * to know when a random generation method is called.
+ * 
+ * @author Matthieu Vergne &lt;matthieu.vergne@gmail.com&gt;
+ *
+ */
+@SuppressWarnings(&quot;serial&quot;)
+public class AuditableRandomGenerator implements PseudoRandomGenerator {
+
+<span class="pc" id="L21">	public static enum RandomMethod {</span>
+<span class="fc" id="L22">		BOUNDED_INT, BOUNDED_DOUBLE, DOUBLE</span>
+	}
+
+	public static class Bounds {
+		final Number lower;
+		final Number upper;
+
+<span class="fc" id="L29">		public Bounds(Number lower, Number upper) {</span>
+<span class="fc" id="L30">			this.lower = Objects.requireNonNull(lower, &quot;No lower bound provided&quot;);</span>
+<span class="fc" id="L31">			this.upper = Objects.requireNonNull(upper, &quot;No upper bound provided&quot;);</span>
+<span class="fc" id="L32">		}</span>
+	}
+
+	private final PseudoRandomGenerator generator;
+<span class="fc" id="L36">	private final Set&lt;Consumer&lt;Audit&gt;&gt; listeners = new HashSet&lt;Consumer&lt;Audit&gt;&gt;();</span>
+
+<span class="fc" id="L38">	public AuditableRandomGenerator(PseudoRandomGenerator generator) {</span>
+<span class="fc" id="L39">		this.generator = Objects.requireNonNull(generator, &quot;No generator provided&quot;);</span>
+<span class="fc" id="L40">	}</span>
+
+	public static class Audit {
+		private final RandomMethod method;
+		private final Optional&lt;Bounds&gt; bounds;
+		private final Number result;
+
+<span class="fc" id="L47">		public Audit(RandomMethod method, Bounds bounds, Number result) {</span>
+<span class="fc" id="L48">			this.method = Objects.requireNonNull(method, &quot;No method provided&quot;);</span>
+<span class="fc" id="L49">			this.bounds = Optional.ofNullable(bounds);</span>
+<span class="fc" id="L50">			this.result = Objects.requireNonNull(result, &quot;No result provided&quot;);</span>
+<span class="fc" id="L51">		}</span>
+
+		public RandomMethod getMethod() {
+<span class="fc" id="L54">			return method;</span>
+		}
+
+		public Optional&lt;Bounds&gt; getBounds() {
+<span class="fc" id="L58">			return bounds;</span>
+		}
+
+		public Number getResult() {
+<span class="fc" id="L62">			return result;</span>
+		}
+	}
+
+	public void addListener(Consumer&lt;Audit&gt; listener) {
+<span class="fc" id="L67">		listeners.add(listener);</span>
+<span class="fc" id="L68">	}</span>
+
+	public void removeListener(Consumer&lt;Audit&gt; listener) {
+<span class="nc" id="L71">		listeners.remove(listener);</span>
+<span class="nc" id="L72">	}</span>
+
+	private void notifies(Audit audit) {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">		for (Consumer&lt;Audit&gt; listener : listeners) {</span>
+<span class="fc" id="L76">			listener.accept(audit);</span>
+<span class="fc" id="L77">		}</span>
+<span class="fc" id="L78">	}</span>
+
+	@Override
+	public int nextInt(int lowerBound, int upperBound) {
+<span class="fc" id="L82">		int result = generator.nextInt(lowerBound, upperBound);</span>
+<span class="fc" id="L83">		notifies(new Audit(RandomMethod.BOUNDED_INT, new Bounds(lowerBound, upperBound), result));</span>
+<span class="fc" id="L84">		return result;</span>
+	}
+
+	@Override
+	public double nextDouble(double lowerBound, double upperBound) {
+<span class="fc" id="L89">		double result = generator.nextDouble(lowerBound, upperBound);</span>
+<span class="fc" id="L90">		notifies(new Audit(RandomMethod.BOUNDED_DOUBLE, new Bounds(lowerBound, upperBound), result));</span>
+<span class="fc" id="L91">		return result;</span>
+	}
+
+	@Override
+	public double nextDouble() {
+<span class="fc" id="L96">		double result = generator.nextDouble();</span>
+<span class="fc" id="L97">		notifies(new Audit(RandomMethod.DOUBLE, null, result));</span>
+<span class="fc" id="L98">		return result;</span>
+	}
+
+	@Override
+	public void setSeed(long seed) {
+<span class="nc" id="L103">		generator.setSeed(seed);</span>
+<span class="nc" id="L104">	}</span>
+
+	@Override
+	public long getSeed() {
+<span class="nc" id="L108">		return generator.getSeed();</span>
+	}
+
+	@Override
+	public String getName() {
+<span class="nc" id="L113">		return generator.getName();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
