@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest
 -------------------------------------------------------------------------------
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.021 sec
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.009 sec

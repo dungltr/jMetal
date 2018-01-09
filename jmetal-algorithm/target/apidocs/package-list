@@ -15,6 +15,7 @@ org.uma.jmetal.algorithm.multiobjective.mombi.util
 org.uma.jmetal.algorithm.multiobjective.nsgaii
 org.uma.jmetal.algorithm.multiobjective.nsgaiii
 org.uma.jmetal.algorithm.multiobjective.nsgaiii.util
+org.uma.jmetal.algorithm.multiobjective.nsgav
 org.uma.jmetal.algorithm.multiobjective.omopso
 org.uma.jmetal.algorithm.multiobjective.paes
 org.uma.jmetal.algorithm.multiobjective.pesa2

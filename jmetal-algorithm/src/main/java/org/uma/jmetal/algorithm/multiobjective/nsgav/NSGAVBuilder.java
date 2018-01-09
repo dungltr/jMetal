@@ -1,12 +1,20 @@
 package org.uma.jmetal.algorithm.multiobjective.nsgav;
 
 import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV;
+import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
+//import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIMeasures;
+//import org.uma.jmetal.algorithm.multiobjective.nsgaii.SteadyStateNSGAII;
+//import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder.NSGAIIVariant;
+//import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
 import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.solution.Solution;
 import org.uma.jmetal.util.AlgorithmBuilder;
+import org.uma.jmetal.util.JMetalException;
+import org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparator;
 import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
 import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
 
@@ -15,70 +23,95 @@ import java.util.List;
 
 /** Builder class */
 public class NSGAVBuilder<S extends Solution<?>> implements AlgorithmBuilder<NSGAV<S>>{
-  // no access modifier means access from classes within the same package
-  private Problem<S> problem ;
-  private int maxIterations ;
-  private int populationSize ;
-  private CrossoverOperator<S> crossoverOperator ;
-  private MutationOperator<S> mutationOperator ;
-  private SelectionOperator<List<S>, S> selectionOperator ;
+	public enum NSGAVVariant {NSGAV}
 
-  private SolutionListEvaluator<S> evaluator ;
+	  /**
+	   * NSGAIIBuilder class
+	   */
+	  private final Problem<S> problem;
+	  private int maxEvaluations;
+	  private int populationSize;
+	  private CrossoverOperator<S>  crossoverOperator;
+	  private MutationOperator<S> mutationOperator;
+	  private SelectionOperator<List<S>, S> selectionOperator;
+	  private SolutionListEvaluator<S> evaluator;
+
+	  private NSGAVVariant variant;
 
   /** Builder constructor */
-  public NSGAVBuilder(Problem<S> problem) {
-    this.problem = problem ;
-    maxIterations = 250 ;
-    populationSize = 100 ;
-    evaluator = new SequentialSolutionListEvaluator<S>() ;
-  }
+public NSGAVBuilder(Problem<S> problem, CrossoverOperator<S> crossoverOperator,
+		      MutationOperator<S> mutationOperator) {
+		    this.problem = problem;
+		    maxEvaluations = 25000;
+		    populationSize = 100;
+		    this.crossoverOperator = crossoverOperator ;
+		    this.mutationOperator = mutationOperator ;
+		    selectionOperator = new BinaryTournamentSelection<S>(new RankingAndCrowdingDistanceComparator<S>()) ;
+		    evaluator = new SequentialSolutionListEvaluator<S>();
 
-  public NSGAVBuilder<S> setMaxIterations(int maxIterations) {
-    this.maxIterations = maxIterations ;
+		    this.variant = NSGAVVariant.NSGAV ;
+		  }
 
-    return this ;
+public NSGAVBuilder<S> setMaxEvaluations(int maxEvaluations) {
+    if (maxEvaluations < 0) {
+      throw new JMetalException("maxEvaluations is negative: " + maxEvaluations);
+    }
+    this.maxEvaluations = maxEvaluations;
+
+    return this;
   }
 
   public NSGAVBuilder<S> setPopulationSize(int populationSize) {
-    this.populationSize = populationSize ;
+    if (populationSize < 0) {
+      throw new JMetalException("Population size is negative: " + populationSize);
+    }
 
-    return this ;
-  }
+    this.populationSize = populationSize;
 
-  public NSGAVBuilder<S> setCrossoverOperator(CrossoverOperator<S> crossoverOperator) {
-    this.crossoverOperator = crossoverOperator ;
-
-    return this ;
-  }
-
-  public NSGAVBuilder<S> setMutationOperator(MutationOperator<S> mutationOperator) {
-    this.mutationOperator = mutationOperator ;
-
-    return this ;
+    return this;
   }
 
   public NSGAVBuilder<S> setSelectionOperator(SelectionOperator<List<S>, S> selectionOperator) {
-    this.selectionOperator = selectionOperator ;
+    if (selectionOperator == null) {
+      throw new JMetalException("selectionOperator is null");
+    }
+    this.selectionOperator = selectionOperator;
 
-    return this ;
+    return this;
   }
 
   public NSGAVBuilder<S> setSolutionListEvaluator(SolutionListEvaluator<S> evaluator) {
-    this.evaluator = evaluator ;
+    if (evaluator == null) {
+      throw new JMetalException("evaluator is null");
+    }
+    this.evaluator = evaluator;
 
-    return this ;
+    return this;
   }
 
-  public SolutionListEvaluator<S> getEvaluator() {
-    return evaluator;
+
+  public NSGAVBuilder<S> setVariant(NSGAVVariant variant) {
+    this.variant = variant;
+
+    return this;
   }
 
+  public NSGAV<S> build() {
+    NSGAV<S> algorithm = null ;
+    if (variant.equals(NSGAVVariant.NSGAV)) {
+      algorithm = new NSGAV<S>(problem, maxEvaluations, populationSize, crossoverOperator,
+          mutationOperator, selectionOperator, evaluator);
+    } 
+    return algorithm ;
+  }
+
+  /* Getters */
   public Problem<S> getProblem() {
     return problem;
   }
 
   public int getMaxIterations() {
-    return maxIterations;
+    return maxEvaluations;
   }
 
   public int getPopulationSize() {
@@ -97,7 +130,7 @@ public class NSGAVBuilder<S extends Solution<?>> implements AlgorithmBuilder<NSG
     return selectionOperator;
   }
 
-  public NSGAV<S> build() {
-    return new NSGAV<>(this) ;
+  public SolutionListEvaluator<S> getSolutionListEvaluator() {
+    return evaluator;
   }
 }

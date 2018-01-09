@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2018-01-09T16:57:15</date>
-  <millis>1515513435465</millis>
+  <date>2018-01-09T19:39:03</date>
+  <millis>1515523143571</millis>
   <sequence>0</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Loggers configured with null</message>
 </record>
 <record>
-  <date>2018-01-09T16:57:15</date>
-  <millis>1515513435486</millis>
+  <date>2018-01-09T19:39:03</date>
+  <millis>1515523143598</millis>
   <sequence>1</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -24,8 +24,8 @@
   <message>Number of cores: 2</message>
 </record>
 <record>
-  <date>2018-01-09T16:57:15</date>
-  <millis>1515513435509</millis>
+  <date>2018-01-09T19:39:03</date>
+  <millis>1515523143695</millis>
   <sequence>2</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
