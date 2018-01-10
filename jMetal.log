@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268441</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004732</millis>
   <sequence>0</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Loggers configured with null</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268488</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004771</millis>
   <sequence>1</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -24,200 +24,2477 @@
   <message>ExecuteAlgorithms: Preparing output directory</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268507</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004780</millis>
   <sequence>2</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>1</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVc/ZDT3</message>
-</record>
-<record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268507</millis>
-  <sequence>3</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT6</message>
-</record>
-<record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268507</millis>
-  <sequence>5</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT3</message>
-</record>
-<record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268507</millis>
-  <sequence>6</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
+  <thread>11</thread>
   <message> Running algorithm: NSGAVa, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT2/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268508</millis>
-  <sequence>8</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVb/ZDT2</message>
-</record>
-<record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268507</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004780</millis>
   <sequence>4</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT2</message>
+  <thread>13</thread>
+  <message> Running algorithm: NSGAVa, problem: ZDT6, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT6/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268508</millis>
-  <sequence>10</sequence>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004781</millis>
+  <sequence>5</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>13</thread>
-  <message> Running algorithm: NSGAVa, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT3/FUN0.tsv</message>
+  <thread>14</thread>
+  <message> Running algorithm: NSGAVa, problem: ZDT4, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT4/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268508</millis>
-  <sequence>12</sequence>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004780</millis>
+  <sequence>3</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>12</thread>
-  <message> Running algorithm: NSGAVd, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT3/FUN0.tsv</message>
+  <message> Running algorithm: NSGAVa, problem: ZDT1, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT1/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268508</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004850</millis>
+  <sequence>7</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 13and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004852</millis>
   <sequence>9</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVc/ZDT2</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 5and Size:=2and newSize is:=2</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268508</millis>
-  <sequence>7</sequence>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004781</millis>
+  <sequence>6</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>1</thread>
-  <message> Running algorithm: NSGAVc, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVc/ZDT3/FUN0.tsv</message>
+  <message> Running algorithm: NSGAVa, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT3/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268509</millis>
-  <sequence>13</sequence>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004850</millis>
+  <sequence>8</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAVd, problem: ZDT6, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT6/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=5and newSize is:=5</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268508</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004865</millis>
+  <sequence>10</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 61and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004871</millis>
   <sequence>11</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>16</thread>
-  <message> Running algorithm: NSGAVa, problem: ZDT6, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT6/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 31and Size:=7and newSize is:=7</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268512</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004889</millis>
+  <sequence>12</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004902</millis>
+  <sequence>13</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 9and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004908</millis>
   <sequence>14</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAVd, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT2/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=4and newSize is:=4</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268513</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004913</millis>
   <sequence>15</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAVb, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVb/ZDT2/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=4and newSize is:=4</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:28</date>
-  <millis>1515582268525</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004920</millis>
   <sequence>16</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAVc, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVc/ZDT2/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 11and Size:=13and newSize is:=13</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:33</date>
-  <millis>1515582273792</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004929</millis>
   <sequence>17</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>16</thread>
-  <message> Running algorithm: NSGAVa, problem: ZDT4, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVa/ZDT4/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 5and Size:=1and newSize is:=1</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:34</date>
-  <millis>1515582274317</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004932</millis>
   <sequence>18</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT4</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=7and newSize is:=7</message>
 </record>
 <record>
-  <date>2018-01-10T12:04:34</date>
-  <millis>1515582274318</millis>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004937</millis>
   <sequence>19</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAVd, problem: ZDT4, run: 0, funFile: /Users/letrung/jMetalData/NSGAVStudy/data/NSGAVd/ZDT4/FUN0.tsv</message>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 211and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004937</millis>
+  <sequence>20</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=8and newSize is:=8</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004946</millis>
+  <sequence>21</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 123and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004959</millis>
+  <sequence>22</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 132and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004975</millis>
+  <sequence>23</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=8and newSize is:=8</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004979</millis>
+  <sequence>24</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004982</millis>
+  <sequence>25</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004983</millis>
+  <sequence>26</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 75and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004987</millis>
+  <sequence>27</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004990</millis>
+  <sequence>28</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004995</millis>
+  <sequence>29</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:24</date>
+  <millis>1515602004999</millis>
+  <sequence>30</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=8and newSize is:=8</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005006</millis>
+  <sequence>31</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005018</millis>
+  <sequence>32</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 31and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005029</millis>
+  <sequence>33</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 20and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005034</millis>
+  <sequence>34</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 8and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005047</millis>
+  <sequence>35</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 14and Size:=3and newSize is:=3</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005062</millis>
+  <sequence>36</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005066</millis>
+  <sequence>37</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005070</millis>
+  <sequence>38</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005086</millis>
+  <sequence>39</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005095</millis>
+  <sequence>40</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005100</millis>
+  <sequence>41</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 159and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005100</millis>
+  <sequence>42</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005116</millis>
+  <sequence>43</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 22and Size:=11and newSize is:=11</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005119</millis>
+  <sequence>44</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005126</millis>
+  <sequence>45</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005129</millis>
+  <sequence>46</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=3and newSize is:=3</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005132</millis>
+  <sequence>47</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005135</millis>
+  <sequence>48</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005161</millis>
+  <sequence>49</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005166</millis>
+  <sequence>50</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005187</millis>
+  <sequence>51</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005191</millis>
+  <sequence>52</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005198</millis>
+  <sequence>53</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005204</millis>
+  <sequence>54</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 701and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005217</millis>
+  <sequence>55</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005220</millis>
+  <sequence>56</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005224</millis>
+  <sequence>57</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 460and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005245</millis>
+  <sequence>58</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005253</millis>
+  <sequence>59</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 14and Size:=18and newSize is:=18</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005256</millis>
+  <sequence>60</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=3and newSize is:=3</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005258</millis>
+  <sequence>61</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 1627and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005263</millis>
+  <sequence>62</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005269</millis>
+  <sequence>63</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005283</millis>
+  <sequence>64</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 1and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005286</millis>
+  <sequence>65</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005289</millis>
+  <sequence>66</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005290</millis>
+  <sequence>67</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 1220and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005294</millis>
+  <sequence>68</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 558and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005295</millis>
+  <sequence>69</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 7and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005300</millis>
+  <sequence>70</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 443and Size:=18and newSize is:=18</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005302</millis>
+  <sequence>71</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005305</millis>
+  <sequence>72</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005308</millis>
+  <sequence>73</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005313</millis>
+  <sequence>74</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 7and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005318</millis>
+  <sequence>75</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 149and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005323</millis>
+  <sequence>76</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 235and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005355</millis>
+  <sequence>77</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005360</millis>
+  <sequence>78</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 8and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005363</millis>
+  <sequence>79</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005371</millis>
+  <sequence>80</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005381</millis>
+  <sequence>81</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 12and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005381</millis>
+  <sequence>82</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 801and Size:=18and newSize is:=18</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005384</millis>
+  <sequence>83</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 2128and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005390</millis>
+  <sequence>84</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 6and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005394</millis>
+  <sequence>85</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 955and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005398</millis>
+  <sequence>86</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005404</millis>
+  <sequence>87</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 8and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005408</millis>
+  <sequence>88</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005423</millis>
+  <sequence>89</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 8and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005426</millis>
+  <sequence>90</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=3and newSize is:=3</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005432</millis>
+  <sequence>91</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005435</millis>
+  <sequence>92</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 10and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005439</millis>
+  <sequence>93</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 8and Size:=28and newSize is:=28</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005443</millis>
+  <sequence>94</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005452</millis>
+  <sequence>95</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 272and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005517</millis>
+  <sequence>96</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 2and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005531</millis>
+  <sequence>97</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 9and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005534</millis>
+  <sequence>98</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=11and newSize is:=11</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005534</millis>
+  <sequence>99</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 2742and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005538</millis>
+  <sequence>100</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 9and Size:=22and newSize is:=22</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005545</millis>
+  <sequence>101</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 10and Size:=24and newSize is:=24</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005548</millis>
+  <sequence>102</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 1071and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005548</millis>
+  <sequence>103</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 7and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005551</millis>
+  <sequence>104</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 14097and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005553</millis>
+  <sequence>105</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 9and Size:=25and newSize is:=25</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005557</millis>
+  <sequence>106</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 54and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005559</millis>
+  <sequence>107</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005563</millis>
+  <sequence>108</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 1262and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005573</millis>
+  <sequence>109</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 82and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005578</millis>
+  <sequence>110</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 9and Size:=28and newSize is:=28</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005578</millis>
+  <sequence>111</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 25and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005581</millis>
+  <sequence>112</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 6and Size:=26and newSize is:=26</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005586</millis>
+  <sequence>113</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 517and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005588</millis>
+  <sequence>114</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005594</millis>
+  <sequence>115</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 7and Size:=21and newSize is:=21</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005608</millis>
+  <sequence>116</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 3and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005611</millis>
+  <sequence>117</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005612</millis>
+  <sequence>118</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 228and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005615</millis>
+  <sequence>119</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 7and Size:=19and newSize is:=19</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005640</millis>
+  <sequence>120</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 9and Size:=22and newSize is:=22</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005644</millis>
+  <sequence>121</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 179and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005649</millis>
+  <sequence>122</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 12and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005655</millis>
+  <sequence>123</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 8and Size:=26and newSize is:=26</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005658</millis>
+  <sequence>124</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 10and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005668</millis>
+  <sequence>125</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 8and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005673</millis>
+  <sequence>126</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 9and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005677</millis>
+  <sequence>127</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 6and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005682</millis>
+  <sequence>128</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=11and newSize is:=11</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005687</millis>
+  <sequence>129</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 7and Size:=28and newSize is:=28</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005702</millis>
+  <sequence>130</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 6and Size:=21and newSize is:=21</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005707</millis>
+  <sequence>131</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005712</millis>
+  <sequence>132</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005715</millis>
+  <sequence>133</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=26and newSize is:=26</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005720</millis>
+  <sequence>134</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=22and newSize is:=22</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005749</millis>
+  <sequence>135</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=24and newSize is:=24</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005752</millis>
+  <sequence>136</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005755</millis>
+  <sequence>137</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=21and newSize is:=21</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005758</millis>
+  <sequence>138</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 2703and Size:=19and newSize is:=19</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005769</millis>
+  <sequence>139</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 612and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005777</millis>
+  <sequence>140</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 5and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005780</millis>
+  <sequence>141</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=18and newSize is:=18</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005783</millis>
+  <sequence>142</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>13</thread>
+  <message>After truncated at k = 4and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005813</millis>
+  <sequence>143</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 778and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005835</millis>
+  <sequence>144</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 760and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005878</millis>
+  <sequence>145</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 361and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005916</millis>
+  <sequence>146</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 245and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005932</millis>
+  <sequence>147</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 48and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:25</date>
+  <millis>1515602005967</millis>
+  <sequence>148</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 263and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006217</millis>
+  <sequence>149</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 28627and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006294</millis>
+  <sequence>150</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 1876and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006336</millis>
+  <sequence>151</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 620and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006442</millis>
+  <sequence>152</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 1158and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006462</millis>
+  <sequence>153</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 9922and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006466</millis>
+  <sequence>154</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 836and Size:=11and newSize is:=11</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006789</millis>
+  <sequence>155</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 4002and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:26</date>
+  <millis>1515602006796</millis>
+  <sequence>156</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 55and Size:=3and newSize is:=3</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:28</date>
+  <millis>1515602008050</millis>
+  <sequence>157</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 10403and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:28</date>
+  <millis>1515602008759</millis>
+  <sequence>158</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 19011and Size:=34and newSize is:=34</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:29</date>
+  <millis>1515602009288</millis>
+  <sequence>159</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 27135and Size:=29and newSize is:=29</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:30</date>
+  <millis>1515602010041</millis>
+  <sequence>160</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 159338and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:30</date>
+  <millis>1515602010325</millis>
+  <sequence>161</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 22039and Size:=29and newSize is:=29</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:30</date>
+  <millis>1515602010618</millis>
+  <sequence>162</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 6098and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:31</date>
+  <millis>1515602011440</millis>
+  <sequence>163</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 38207and Size:=35and newSize is:=35</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:33</date>
+  <millis>1515602013424</millis>
+  <sequence>164</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 25494and Size:=35and newSize is:=35</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:33</date>
+  <millis>1515602013506</millis>
+  <sequence>165</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>1</thread>
+  <message>After truncated at k = 1445and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:34</date>
+  <millis>1515602014225</millis>
+  <sequence>166</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 83093and Size:=25and newSize is:=25</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:36</date>
+  <millis>1515602016626</millis>
+  <sequence>167</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 56216and Size:=21and newSize is:=21</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:36</date>
+  <millis>1515602016936</millis>
+  <sequence>168</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 6542and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:37</date>
+  <millis>1515602017069</millis>
+  <sequence>169</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 260472and Size:=21and newSize is:=21</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:38</date>
+  <millis>1515602018092</millis>
+  <sequence>170</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 21329and Size:=25and newSize is:=25</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:38</date>
+  <millis>1515602018677</millis>
+  <sequence>171</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 12112and Size:=16and newSize is:=16</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:38</date>
+  <millis>1515602018682</millis>
+  <sequence>172</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 75and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:42</date>
+  <millis>1515602022563</millis>
+  <sequence>173</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 222315and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:42</date>
+  <millis>1515602022566</millis>
+  <sequence>174</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 4and Size:=4and newSize is:=4</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:42</date>
+  <millis>1515602022576</millis>
+  <sequence>175</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 21and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:42</date>
+  <millis>1515602022578</millis>
+  <sequence>176</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 5and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:42</date>
+  <millis>1515602022604</millis>
+  <sequence>177</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 53819and Size:=27and newSize is:=27</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024661</millis>
+  <sequence>178</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 860151and Size:=18and newSize is:=18</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024689</millis>
+  <sequence>179</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 1546and Size:=11and newSize is:=11</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024825</millis>
+  <sequence>180</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 7247and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024827</millis>
+  <sequence>181</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 44and Size:=6and newSize is:=6</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024834</millis>
+  <sequence>182</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 385and Size:=8and newSize is:=8</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024842</millis>
+  <sequence>183</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 267and Size:=8and newSize is:=8</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024844</millis>
+  <sequence>184</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 9and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024874</millis>
+  <sequence>185</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 2712and Size:=10and newSize is:=10</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024877</millis>
+  <sequence>186</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 45and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:44</date>
+  <millis>1515602024882</millis>
+  <sequence>187</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 289and Size:=7and newSize is:=7</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:45</date>
+  <millis>1515602025678</millis>
+  <sequence>188</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 37626and Size:=26and newSize is:=26</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:48</date>
+  <millis>1515602028073</millis>
+  <sequence>189</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 136566and Size:=18and newSize is:=18</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:48</date>
+  <millis>1515602028075</millis>
+  <sequence>190</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 12and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:48</date>
+  <millis>1515602028796</millis>
+  <sequence>191</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 41587and Size:=25and newSize is:=25</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:50</date>
+  <millis>1515602030996</millis>
+  <sequence>192</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 28025and Size:=25and newSize is:=25</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:51</date>
+  <millis>1515602031210</millis>
+  <sequence>193</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 441106and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:51</date>
+  <millis>1515602031351</millis>
+  <sequence>194</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 5282and Size:=11and newSize is:=11</message>
+</record>
+<record>
+  <date>2018-01-10T17:33:59</date>
+  <millis>1515602039932</millis>
+  <sequence>195</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 107327and Size:=26and newSize is:=26</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:01</date>
+  <millis>1515602041455</millis>
+  <sequence>196</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 467447and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:01</date>
+  <millis>1515602041457</millis>
+  <sequence>197</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 5and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:04</date>
+  <millis>1515602044647</millis>
+  <sequence>198</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 50483and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:09</date>
+  <millis>1515602049803</millis>
+  <sequence>199</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 57544and Size:=15and newSize is:=15</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:10</date>
+  <millis>1515602050102</millis>
+  <sequence>200</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 515143and Size:=14and newSize is:=14</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:11</date>
+  <millis>1515602051628</millis>
+  <sequence>201</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 18863and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:20</date>
+  <millis>1515602060523</millis>
+  <sequence>202</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 114914and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:21</date>
+  <millis>1515602061371</millis>
+  <sequence>203</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 833415and Size:=7and newSize is:=7</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:25</date>
+  <millis>1515602065317</millis>
+  <sequence>204</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 63565and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:26</date>
+  <millis>1515602066012</millis>
+  <sequence>205</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 5819and Size:=7and newSize is:=7</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:30</date>
+  <millis>1515602070835</millis>
+  <sequence>206</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 42768and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:34</date>
+  <millis>1515602074565</millis>
+  <sequence>207</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 517096and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:42</date>
+  <millis>1515602082390</millis>
+  <sequence>208</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 116395and Size:=25and newSize is:=25</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:47</date>
+  <millis>1515602087992</millis>
+  <sequence>209</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 432100and Size:=22and newSize is:=22</message>
+</record>
+<record>
+  <date>2018-01-10T17:34:51</date>
+  <millis>1515602091789</millis>
+  <sequence>210</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 96576and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:02</date>
+  <millis>1515602102293</millis>
+  <sequence>211</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 3139533and Size:=20and newSize is:=20</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:02</date>
+  <millis>1515602102295</millis>
+  <sequence>212</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>14</thread>
+  <message>After truncated at k = 15and Size:=2and newSize is:=2</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:08</date>
+  <millis>1515602108644</millis>
+  <sequence>213</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 514296and Size:=21and newSize is:=21</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:11</date>
+  <millis>1515602111646</millis>
+  <sequence>214</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 312717and Size:=23and newSize is:=23</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:11</date>
+  <millis>1515602111649</millis>
+  <sequence>215</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 12and Size:=1and newSize is:=1</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:13</date>
+  <millis>1515602113474</millis>
+  <sequence>216</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>12</thread>
+  <message>After truncated at k = 17068and Size:=5and newSize is:=5</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:13</date>
+  <millis>1515602113631</millis>
+  <sequence>217</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 139811and Size:=13and newSize is:=13</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:13</date>
+  <millis>1515602113655</millis>
+  <sequence>218</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 742and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:13</date>
+  <millis>1515602113901</millis>
+  <sequence>219</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 5655and Size:=9and newSize is:=9</message>
+</record>
+<record>
+  <date>2018-01-10T17:35:41</date>
+  <millis>1515602141310</millis>
+  <sequence>220</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 450022and Size:=17and newSize is:=17</message>
+</record>
+<record>
+  <date>2018-01-10T17:36:08</date>
+  <millis>1515602168090</millis>
+  <sequence>221</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 661897and Size:=28and newSize is:=28</message>
+</record>
+<record>
+  <date>2018-01-10T17:36:28</date>
+  <millis>1515602188371</millis>
+  <sequence>222</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 380057and Size:=19and newSize is:=19</message>
+</record>
+<record>
+  <date>2018-01-10T17:36:49</date>
+  <millis>1515602209427</millis>
+  <sequence>223</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 492110and Size:=22and newSize is:=22</message>
+</record>
+<record>
+  <date>2018-01-10T17:37:11</date>
+  <millis>1515602231465</millis>
+  <sequence>224</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 468110and Size:=12and newSize is:=12</message>
+</record>
+<record>
+  <date>2018-01-10T17:37:23</date>
+  <millis>1515602243179</millis>
+  <sequence>225</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 245600and Size:=8and newSize is:=8</message>
+</record>
+<record>
+  <date>2018-01-10T17:39:00</date>
+  <millis>1515602340392</millis>
+  <sequence>226</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV</class>
+  <method>filter</method>
+  <thread>11</thread>
+  <message>After truncated at k = 1243311and Size:=33and newSize is:=33</message>
 </record>

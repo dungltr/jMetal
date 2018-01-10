@@ -20,6 +20,7 @@ import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import org.uma.jmetal.util.JMetalLogger;
 
 /**
  * Created by ajnebro on 30/10/14.
@@ -52,7 +53,6 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 
     this.evaluator = evaluator;
   }
-
     @Override
     protected void initProgress() {
         evaluations = getMaxPopulationSize();
@@ -103,8 +103,12 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
     }
     @Override
     protected List<S> replacement(List<S> population, List<S> offspringPopulation) {
-		System.out.println("The begining of replacement function******************************************************");
-        List<S> jointPopulation = new ArrayList<>();
+		//System.out.println("The begining of replacement function******************************************************");
+		/*
+		JMetalLogger.logger.info(
+				" Running replacement: **************************************");
+		*/
+		List<S> jointPopulation = new ArrayList<>();
         jointPopulation.addAll(population) ;
         jointPopulation.addAll(offspringPopulation) ;
         Ranking<S> ranking = computeRanking(jointPopulation);
@@ -124,8 +128,14 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
             rankingIndex++;
         }
 		//System.out.println("The ranks of Fronts after while () is:="+fronts.size());
-		System.out.println("The size of candidates after while is:="+candidateSolutions);
-		System.out.println("The size of pop after while is:="+pop.size());
+		/*
+		JMetalLogger.logger.info(
+				"The size of candidates after while is:="+candidateSolutions);
+		JMetalLogger.logger.info(
+				"The size of pop after while is:="+pop.size());
+		*/
+		//System.out.println("The size of candidates after while is:="+candidateSolutions);
+		//System.out.println("The size of pop after while is:="+pop.size());
         // A copy of the reference list should be used as parameter of the environmental selection
         //EnvironmentalSelection<S> selection =
         //        new EnvironmentalSelection<>(fronts,getMaxPopulationSize(),getReferencePointsCopy(),
@@ -154,18 +164,29 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			for (int i=0;i<resultFilter.size();i++) {
 				pop.add(resultFilter.get(i));
 			}
-
+			/*
+			JMetalLogger.logger.info(
+					"The size of population after filting is:="+pop.size());
+			return pop;
+			*/
 			/*for (int i=0;i<currentFront.size();i++) {
 				pop.add(currentFront.get(i));
 			}
 			*/
-		}else {
+		}/*else {
         	if (pop.size()==getMaxPopulationSize())
 				System.out.println("The size of pop is Max and no need to run truncate");
         	else System.out.println("The size of pop bigger than Max and should be checked error");
 		}
-		System.out.println("The size of population after filting is:="+pop.size());
-		System.out.println("The end of replacement function *********************************************************");
+		*/
+		/*
+		JMetalLogger.logger.info(
+				"The size of population after filting is:="+pop.size());
+		JMetalLogger.logger.info(
+				"The end of replacement function *********************************************************");
+		*/
+		//System.out.println("The size of population after filting is:="+pop.size());
+		//System.out.println("The end of replacement function *********************************************************");
         return pop;
     }
     protected List<double []> updateDeltas(List<S> previousFront, double epsilon){
@@ -213,9 +234,9 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 	}
     protected List<S> filter (List<S> previousFront, List<S> currentFront, int newSize) {//,Comparator<? super Solution> comparator) {
     		List<S> resultFilter = new ArrayList<>();	
-		double epsilon = 0.001;
-		int k=0;
-		int size=0;
+		double epsilon = 0.01;
+		long k=0;
+		//int size=0;
 		List<S> temp = new ArrayList<>();
 		for (S solution: previousFront) {
 			temp.add(solution);
@@ -224,10 +245,35 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		List<double []> Store = updateDeltas (temp, 1);
 		//System.out.println("\nThis is the Deltas");
 		List<double []> Deltas = updateDeltas (temp, epsilon);
-		System.out.println("The newSize is"+newSize);
+		/*
+		System.out.println("The newSize is----------------------out----------------------"+newSize);
+		System.out.println("The currentFront.size(): -----------out----------------------" + currentFront.size());
+		System.out.println("The previousFront.size(): ----------out----------------------" + previousFront.size());
+		*/
+		/*
+		JMetalLogger.logger.info(
+				"The newSize is"+newSize);
+		*/
 		resultFilter.clear();
 		while (resultFilter.size()<newSize) {
+			/*
+			JMetalLogger.logger.info(
+
+					" Running while loop: "  +
+							", newSize: " + newSize +
+							", resultFilter.size(): " + resultFilter.size() +
+							", currentFront.size(): " + currentFront.size() +
+							", previousFront.size(): " + previousFront.size());
+			*/
 			resultFilter.clear();
+			/*System.out.println("In------------------------------------------------The newSize is:"+newSize);
+			System.out.println("In-------------------------------------------resultFilter.size(): " + resultFilter.size());
+			System.out.println("In-------------------------------------------currentFront.size(): " + currentFront.size());
+			System.out.println("In------------------------------------------previousFront.size(): " + previousFront.size());
+			*/
+			/*JMetalLogger.logger.info(
+					"resultFilter.clear()"+resultFilter.size());
+			*/
 			//System.out.println("\nThis is the previousFront");
 			//utilsPopulation UtilsPopulation = new utilsPopulation();
 			//UtilsPopulation.printPopulation(previousFront);
@@ -277,7 +323,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 					//System.out.println("**************************Need to reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 					while(resultFilter.size()>newSize)
 					resultFilter.remove(findMaxSolution (resultFilter));
-					//System.out.println("After reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+					System.out.println("After reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 					for (int i = 0; i<previousFront.size();i++){
 						for (int j = 0; j<previousFront.get(i).getNumberOfObjectives();j++) {
 							temp.get(i).setObjective(j, Store.get(i)[j]);//;setObjectives(Store.get(m));
@@ -288,8 +334,10 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 //					return resultFilter;
 				}
 			}
-			size = resultFilter.size();
+			//size = resultFilter.size();
 		}
+		JMetalLogger.logger.info(
+				"After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 		System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 		return resultFilter;
 	}
