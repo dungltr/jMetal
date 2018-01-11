@@ -17,6 +17,9 @@ import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.mocell.MOCellBuilder;
 import org.uma.jmetal.algorithm.multiobjective.mochc.MOCHCBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
+//import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAV;
+import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
@@ -77,11 +80,12 @@ public class BinaryProblemsStudy {
   private static final int INDEPENDENT_RUNS = 25;
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
+    /*if (args.length != 1) {
       throw new JMetalException("Needed arguments: experimentBaseDirectory");
     }
     String experimentBaseDirectory = args[0];
-
+    */
+    String experimentBaseDirectory = "/Users/letrung/jMetalData";//args[0];
     List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new ZDT5()));
     problemList.add(new ExperimentProblem<>(new OneZeroMax(512)));
@@ -134,8 +138,27 @@ public class BinaryProblemsStudy {
               .setPopulationSize(100)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+    }/*
+    for (int i = 0; i < problemList.size(); i++) {
+      Algorithm<List<BinarySolution>> algorithm = new NSGAIIIBuilder<BinarySolution>(
+              problemList.get(i).getProblem(),
+              new SinglePointCrossover(1.0),
+              new BitFlipMutation(1.0 / ((BinaryProblem) problemList.get(i).getProblem()).getNumberOfBits(0)))
+              .setMaxEvaluations(25000)
+              .setPopulationSize(100)
+              .build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+    }*/
+    for (int i = 0; i < problemList.size(); i++) {
+      Algorithm<List<BinarySolution>> algorithm = new NSGAVBuilder<BinarySolution>(
+              problemList.get(i).getProblem(),
+              new SinglePointCrossover(1.0),
+              new BitFlipMutation(1.0 / ((BinaryProblem) problemList.get(i).getProblem()).getNumberOfBits(0)))
+              .setMaxEvaluations(25000)
+              .setPopulationSize(100)
+              .build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<BinarySolution>> algorithm = new SPEA2Builder<BinarySolution>(
               problemList.get(i).getProblem(),
