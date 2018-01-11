@@ -44,7 +44,7 @@ public class NSGAVStudy {
     //if (args.length != 1) {
     //  throw new JMetalException("Missing argument: experimentBaseDirectory");
     //}
-    String experimentBaseDirectory = "/Users/letrung/jMetalData";//args[0];
+    String experimentBaseDirectory = "/Users/letrungdung/jMetalData";//args[0];
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new ZDT1()));
@@ -84,7 +84,7 @@ public class NSGAVStudy {
     new GenerateWilcoxonTestTablesWithR<>(experiment).run();
     new GenerateFriedmanTestTables<>(experiment).run();
     new GenerateBoxplotsWithR<>(experiment).setRows(3).setColumns(3).run();
-    System.out.println("The end of all experiments");
+    //System.out.println("The end of all experiments");
   }
 
   /**
@@ -102,13 +102,12 @@ public class NSGAVStudy {
                 problemList.get(i).getProblem(),
                 new SBXCrossover(1.0, 5),
                 new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-                .setMaxEvaluations(10000)
+                .setMaxEvaluations(25000)
                 .setPopulationSize(100)
                 .build();
         algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAVa", problemList.get(i).getTag()));
       }
-      /*
-      System.out.println("The end of experiments NSGAVa");
+    //System.out.println("The end of experiments NSGAVa");
       for (int i = 0; i < problemList.size(); i++) {
         Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<>(
                 problemList.get(i).getProblem(),
@@ -119,7 +118,7 @@ public class NSGAVStudy {
                 .build();
         algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAVb", problemList.get(i).getTag()));
       }
-    System.out.println("The end of experiments NSGAVb");
+    //System.out.println("The end of experiments NSGAVb");
       for (int i = 0; i < problemList.size(); i++) {
         Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<>(problemList.get(i).getProblem(), new SBXCrossover(1.0, 40.0),
                 new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 40.0))
@@ -128,7 +127,7 @@ public class NSGAVStudy {
                 .build();
         algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAVc", problemList.get(i).getTag()));
       }
-    System.out.println("The end of experiments NSGAVc");
+    //System.out.println("The end of experiments NSGAVc");
       for (int i = 0; i < problemList.size(); i++) {
         Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<>(problemList.get(i).getProblem(), new SBXCrossover(1.0, 80.0),
                 new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 80.0))
@@ -137,8 +136,7 @@ public class NSGAVStudy {
                 .build();
         algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAVd", problemList.get(i).getTag()));
       }
-    System.out.println("The end of experiments NSGAVd");
-    */
+    //System.out.println("The end of experiments NSGAVd");
     return algorithms;
   }
 }

@@ -127,7 +127,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
                 addRankedSolutionsToPopulation(ranking, rankingIndex, pop);
             rankingIndex++;
         }
-		//System.out.println("The ranks of Fronts after while () is:="+fronts.size());
+		//System.out.println("The ranks of Fronts after while () is:="+rankingIndex);
 		/*
 		JMetalLogger.logger.info(
 				"The size of candidates after while is:="+candidateSolutions);
@@ -146,8 +146,10 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
         if(pop.size()<getMaxPopulationSize()){
 			List<S> currentFront = new ArrayList<>();
 			List<S> previousFront = new ArrayList<>();
-			currentFront = ranking.getSubfront(rankingIndex-1);
-			previousFront = ranking.getSubfront(rankingIndex-2);
+			int currentRank = rankingIndex-1;
+			int previousRank = rankingIndex - 2;
+			currentFront = ranking.getSubfront(currentRank);
+			previousFront = ranking.getSubfront(previousRank);
 			//System.out.println("The size of previousFront is:="+previousFront.size());
 			//System.out.println("The size of currentFront is:="+currentFront.size());
 			//pop.clear();
@@ -158,12 +160,13 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//System.out.println("The size of population before filting is:="+pop.size());
 			int addMore = getMaxPopulationSize() - pop.size();//candidateSolutions + ranking.getSubfront(rankingIndex).size();
 			//System.out.println("The size of results is required:="+addMore);
-			List<S> resultFilter =
+			List<S> result =
 					filter(previousFront, currentFront, addMore);
 			//System.out.println("The size of resultFilter is:="+resultFilter.size());
-			for (int i=0;i<resultFilter.size();i++) {
-				pop.add(resultFilter.get(i));
-			}
+			/*for (int i=0;i<result.size();i++) {
+				pop.add(result.get(i));
+			}*/
+			pop.addAll(result);
 			/*
 			JMetalLogger.logger.info(
 					"The size of population after filting is:="+pop.size());
@@ -209,14 +212,16 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		for (int i=0; i<resultFilter.size();i++) {
 			Distance[i] = 0;
 			for (int j = 0; j < resultFilter.get(i).getNumberOfObjectives(); j++) {
-				Distance[i] += resultFilter.get(i).getObjective(j)*resultFilter.get(i).getObjective(j);
+				Distance[i] = Distance[i] + resultFilter.get(i).getObjective(j)*resultFilter.get(i).getObjective(j);
 			}
 		}
 		double max = 0;
 		int index = 0;
 		for (int i=0; i<Distance.length;i++){
 			max = Math.max(max, Distance[i]);
-			if (max==Distance[i]) index = i;
+			if (max==Distance[i]) {
+				index = i;
+			}
 		}		
 		return resultFilter.get(index);
 	}
@@ -255,8 +260,8 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				"The newSize is"+newSize);
 		*/
 		resultFilter.clear();
-		while (resultFilter.size()<newSize) {
-			/*
+		while (currentFront.size()>newSize) {
+
 			JMetalLogger.logger.info(
 
 					" Running while loop: "  +
@@ -264,8 +269,8 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 							", resultFilter.size(): " + resultFilter.size() +
 							", currentFront.size(): " + currentFront.size() +
 							", previousFront.size(): " + previousFront.size());
-			*/
-			resultFilter.clear();
+
+			//resultFilter.clear();
 			/*System.out.println("In------------------------------------------------The newSize is:"+newSize);
 			System.out.println("In-------------------------------------------resultFilter.size(): " + resultFilter.size());
 			System.out.println("In-------------------------------------------currentFront.size(): " + currentFront.size());
@@ -306,8 +311,21 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				if (dominatedCount == 0) {
 					S solution = currentFront.get(i);
 					resultFilter.add(solution);
+					currentFront.remove(solution);
 				}		
 			}
+			while(currentFront.size()>newSize){
+				currentFront.remove(findMaxSolution (currentFront));
+			}
+
+			//System.out.println("After reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+			for (int i = 0; i<previousFront.size();i++){
+				for (int j = 0; j<previousFront.get(i).getNumberOfObjectives();j++) {
+					temp.get(i).setObjective(j, Store.get(i)[j]);//;setObjectives(Store.get(m));
+				}
+			}
+			//resultFilter = currentFront;
+			/*
 			if (resultFilter.size()>=newSize) {
 				if (resultFilter.size()==newSize){
 					//System.out.println("The size of results interrupted at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
@@ -323,7 +341,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 					//System.out.println("**************************Need to reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 					while(resultFilter.size()>newSize)
 					resultFilter.remove(findMaxSolution (resultFilter));
-					System.out.println("After reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+					//System.out.println("After reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 					for (int i = 0; i<previousFront.size();i++){
 						for (int j = 0; j<previousFront.get(i).getNumberOfObjectives();j++) {
 							temp.get(i).setObjective(j, Store.get(i)[j]);//;setObjectives(Store.get(m));
@@ -334,12 +352,13 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 //					return resultFilter;
 				}
 			}
+			*/
 			//size = resultFilter.size();
 		}
 		JMetalLogger.logger.info(
-				"After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
-		System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
-		return resultFilter;
+				"After truncated at k = "+k+"and Size:="+currentFront.size()+"and newSize is:="+newSize);
+		//System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+		return currentFront;
 	}
     protected int compare(S solution1, S solution2) {
 		boolean dominate1 = false;

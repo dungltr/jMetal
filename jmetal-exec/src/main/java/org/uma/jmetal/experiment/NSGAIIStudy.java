@@ -45,7 +45,7 @@ public class NSGAIIStudy {
     //if (args.length != 1) {
     //  throw new JMetalException("Missing argument: experimentBaseDirectory");
     //}
-    String experimentBaseDirectory = "/Users/letrung/jMetalData";//args[0];
+    String experimentBaseDirectory = "/Users/letrungdung/jMetalData";//args[0];
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new ZDT1()));
