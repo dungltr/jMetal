@@ -2,6 +2,7 @@ package org.uma.jmetal.experiment;
 
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
 import org.uma.jmetal.algorithm.multiobjective.smpso.SMPSOBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
@@ -10,6 +11,7 @@ import org.uma.jmetal.problem.DoubleProblem;
 import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.problem.multiobjective.zdt.*;
 import org.uma.jmetal.problem.multiobjective.dtlz.*;
+import org.uma.jmetal.problem.multiobjective.UF.*;
 import org.uma.jmetal.qualityindicator.impl.*;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.DoubleSolution;
@@ -59,15 +61,29 @@ public class DTLZStudy {
         problemList.add(new ExperimentProblem<>(new DTLZ2()));
         problemList.add(new ExperimentProblem<>(new DTLZ3()));
         problemList.add(new ExperimentProblem<>(new DTLZ4()));
+        problemList.add(new ExperimentProblem<>(new DTLZ5()));
         problemList.add(new ExperimentProblem<>(new DTLZ6()));
+        problemList.add(new ExperimentProblem<>(new DTLZ7()));
+        problemList.add(new ExperimentProblem<>(new UF1()));
+        problemList.add(new ExperimentProblem<>(new UF2()));
+        problemList.add(new ExperimentProblem<>(new UF3()));
+        problemList.add(new ExperimentProblem<>(new UF4()));
+        problemList.add(new ExperimentProblem<>(new UF5()));
+        problemList.add(new ExperimentProblem<>(new UF6()));
+        problemList.add(new ExperimentProblem<>(new UF7()));
+        problemList.add(new ExperimentProblem<>(new UF8()));
+        problemList.add(new ExperimentProblem<>(new UF9()));
+        problemList.add(new ExperimentProblem<>(new UF10()));
 
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
                 configureAlgorithmList(problemList);
 
-        List<String> referenceFrontFileNames = Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf", "DTLZ4.3D.pf", "DTLZ5.3D.pf");
+        List<String> referenceFrontFileNames =
+                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf", "DTLZ4.3D.pf", "DTLZ5.3D.pf","DTLZ6.3D.pf", "DTLZ7.3D.pf",
+                "UF1.pf", "UF2.pf", "UF3.pf", "UF4.pf", "UF5.pf", "UF6.pf", "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf");
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("DTLZStudy")
+                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("DTLZandUFStudy")
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")
@@ -117,6 +133,15 @@ public class DTLZStudy {
 
         for (int i = 0; i < problemList.size(); i++) {
             Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<DoubleSolution>(
+                    problemList.get(i).getProblem(),
+                    new SBXCrossover(1.0, 20.0),
+                    new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
+                    .build();
+            algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+        }
+
+        for (int i = 0; i < problemList.size(); i++) {
+            Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<DoubleSolution>(
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
