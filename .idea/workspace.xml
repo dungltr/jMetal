@@ -2,42 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="156f4e54-0336-4389-829a-803f077c956e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/writeCSV.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ReadFile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/fileoutput/writeCSV.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ1.4D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ1.6D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ1.8D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ2.4D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ2.6D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ2.8D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ3.4D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ3.6D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ3.8D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ4.4D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ4.6D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ4.8D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ7.4D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ7.6D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-core/src/main/resources/pareto_fronts/DTLZ7.8D.pf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ReadFile.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/runner/multiobjective/NSGAVRunner.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/jMetal.log.lck" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/classes/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.class" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/classes/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/classes/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.class" afterPath="$PROJECT_DIR$/jmetal-core/target/classes/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/classes/org/uma/jmetal/util/fileoutput/writeCSV.class" afterPath="$PROJECT_DIR$/jmetal-core/target/classes/org/uma/jmetal/util/fileoutput/writeCSV.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/DTLZStudy.class" afterPath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/DTLZStudy.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/NSGAIIStudy.class" afterPath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/NSGAIIStudy.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/NSGAVStudy.class" afterPath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/NSGAVStudy.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FUN.tsv" afterPath="$PROJECT_DIR$/FUN.tsv" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VAR.tsv" afterPath="$PROJECT_DIR$/VAR.tsv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jMetal.log" afterPath="$PROJECT_DIR$/jMetal.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jMetal.log.1" afterPath="$PROJECT_DIR$/jMetal.log.1" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" afterPath="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAIIStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAIIStudy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/jmetal-problem/target/" />
@@ -66,8 +39,30 @@
       <file leaf-file-name="DTLZStudy.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
+            <state relative-caret-position="986">
               <caret line="116" column="50" lean-forward="true" selection-start-line="116" selection-start-column="50" selection-end-line="116" selection-end-column="50" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExecuteAlgorithms.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/component/ExecuteAlgorithms.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExperimentAlgorithm.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1200">
+              <caret line="80" column="54" lean-forward="false" selection-start-line="80" selection-start-column="54" selection-end-line="80" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -155,8 +150,8 @@
         <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" />
         <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAIIStudy.java" />
         <option value="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" />
-        <option value="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" />
         <option value="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/fileoutput/writeCSV.java" />
+        <option value="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" />
       </list>
     </option>
   </component>
@@ -250,18 +245,6 @@
               <item name="jmetal" type="462c0819:PsiDirectoryNode" />
               <item name="util" type="462c0819:PsiDirectoryNode" />
               <item name="experiment" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="jmetal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="jmetal" type="462c0819:PsiDirectoryNode" />
-              <item name="jmetal-core" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="jmetal" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-              <item name="experiment" type="462c0819:PsiDirectoryNode" />
-              <item name="component" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="jmetal" type="b2602c69:ProjectViewProjectNode" />
@@ -535,7 +518,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.478979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.478979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -722,16 +705,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="79" column="7" lean-forward="true" selection-start-line="79" selection-start-column="7" selection-end-line="79" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/runner/multiobjective/NSGAVRunner.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="790">
@@ -774,9 +747,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/component/ExecuteAlgorithms.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="20" column="13" lean-forward="false" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="80" column="54" lean-forward="false" selection-start-line="80" selection-start-column="54" selection-end-line="80" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
+        <state relative-caret-position="986">
           <caret line="116" column="50" lean-forward="true" selection-start-line="116" selection-start-column="50" selection-end-line="116" selection-end-column="50" />
           <folding>
             <element signature="imports" expanded="true" />

@@ -77,8 +77,8 @@ public class ExperimentAlgorithm<S extends Solution<?>, Result>  {
     array[1] = (double)computingTime;
     JMetalLogger.logger.info("Total execution time of "+algorithm.getName()+": " + computingTime + "ms");
     try {
-      writeCSV.addArray2Csv(ReadFile.readhome("HOME")+algorithm.getName()+"_"+ problemTag +".csv",array);
-      writeCSV.addNumberCsv(ReadFile.readhome("HOME")+algorithm.getName()+"_"+ problemTag+"_computeTime" +".csv",(double)computingTime);
+      writeCSV.addArray2Csv(ReadFile.readhome("HOME")+"/"+algorithm.getName()+"_"+ problemTag +".csv",array);
+      writeCSV.addNumberCsv(ReadFile.readhome("HOME")+"/"+algorithm.getName()+"_"+ problemTag+"_computeTime" +".csv",(double)computingTime);
     } catch (IOException e) {
       e.printStackTrace();
     }
