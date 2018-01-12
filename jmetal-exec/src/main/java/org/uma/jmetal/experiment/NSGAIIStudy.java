@@ -62,6 +62,7 @@ public class NSGAIIStudy {
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
             new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAIIStudy")
                     .setAlgorithmList(algorithmList)
+
                     .setProblemList(problemList)
                     .setExperimentBaseDirectory(experimentBaseDirectory)
                     .setOutputParetoFrontFileName("FUN")
