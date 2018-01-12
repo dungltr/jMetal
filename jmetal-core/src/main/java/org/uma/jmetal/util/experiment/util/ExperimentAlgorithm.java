@@ -2,12 +2,15 @@ package org.uma.jmetal.util.experiment.util;
 
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.util.AlgorithmRunner;
 import org.uma.jmetal.util.JMetalLogger;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.fileoutput.SolutionListOutput;
 import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
-
+import org.uma.jmetal.util.fileoutput.writeCSV;
+//.nsgav.utilsnsgav.writeCSV;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -65,6 +68,21 @@ public class ExperimentAlgorithm<S extends Solution<?>, Result>  {
 
 
     algorithm.run();
+    ////////Dung edit//////
+    AlgorithmRunner algorithmRunner = new AlgorithmRunner.Executor(algorithm)
+            .execute() ;
+    long computingTime = algorithmRunner.getComputingTime() ;
+    double[] array = new double[2];
+    array[0] = (double)id;
+    array[1] = (double)computingTime;
+    JMetalLogger.logger.info("Total execution time of "+algorithm.getName()+": " + computingTime + "ms");
+    try {
+      writeCSV.addArray2Csv(ReadFile.readhome("HOME")+algorithm.getName()+"_"+ problemTag +".csv",array);
+      writeCSV.addNumberCsv(ReadFile.readhome("HOME")+algorithm.getName()+"_"+ problemTag+"_computeTime" +".csv",(double)computingTime);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    ///////////////////////////////////////////////////////////////////////////////
     Result population = algorithm.getResult();
 
     new SolutionListOutput((List<S>) population)

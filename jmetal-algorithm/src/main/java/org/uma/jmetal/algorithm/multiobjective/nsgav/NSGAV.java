@@ -290,8 +290,8 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 	}*/
     protected List<S> filter (List<S> previousFront, List<S> currentFront, int newSize) {//,Comparator<? super Solution> comparator) {
     	List<S> resultFilter = new ArrayList<>();
-		double epsilon = 0.01;
-		//int k=0;
+		double epsilon = 0.1;
+		int k=0;
 		//int size=0;
 		List<S> temp = new ArrayList<>();
 		for (S solution: currentFront) {
@@ -353,7 +353,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//UtilsPopulation.printPopulation(previousFront);
 			//System.out.println("\nThis is the tempFront");
 			//UtilsPopulation.printPopulation(temp);
-			//k++;
+			k++;
 
 			int[][] dominanceChecks = new int[currentFront.size()][previousFront.size()];
 			for (int i = 0; i < currentFront.size(); i++) {

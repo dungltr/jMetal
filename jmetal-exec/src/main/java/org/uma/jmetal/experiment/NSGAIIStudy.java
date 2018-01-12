@@ -45,7 +45,7 @@ public class NSGAIIStudy {
     //if (args.length != 1) {
     //  throw new JMetalException("Missing argument: experimentBaseDirectory");
     //}
-    String experimentBaseDirectory = "/Users/letrungdung/jMetalData";//args[0];
+    String experimentBaseDirectory = ReadFile.readhome("HOME")+"/jMetalData";//args[0];
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new ZDT1()));
@@ -106,7 +106,7 @@ public class NSGAIIStudy {
                 .setMaxEvaluations(25000)
                 .setPopulationSize(100)
                 .build();
-        algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIIa", problemList.get(i).getTag()));
+        algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
       }
       /*
       for (int i = 0; i < problemList.size(); i++) {

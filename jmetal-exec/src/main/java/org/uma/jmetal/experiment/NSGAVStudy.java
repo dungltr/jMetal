@@ -45,7 +45,7 @@ public class NSGAVStudy {
     //if (args.length != 1) {
     //  throw new JMetalException("Missing argument: experimentBaseDirectory");
     //}
-    String experimentBaseDirectory = "/Users/letrung/jMetalData";//args[0];
+    String experimentBaseDirectory = ReadFile.readhome("HOME")+"/jMetalData";//args[0];
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new ZDT1()));
@@ -69,12 +69,12 @@ public class NSGAVStudy {
                     .setReferenceFrontDirectory("/pareto_fronts")
                     .setReferenceFrontFileNames(referenceFrontFileNames)
                     .setIndicatorList(Arrays.asList(
-                            new Epsilon<DoubleSolution>(),
-                            new Spread<DoubleSolution>(),
+                            //new Epsilon<DoubleSolution>(),
+                            //new Spread<DoubleSolution>(),
                             new GenerationalDistance<DoubleSolution>(),
-                            new PISAHypervolume<DoubleSolution>(),
-                            new InvertedGenerationalDistance<DoubleSolution>(),
-                            new InvertedGenerationalDistancePlus<DoubleSolution>()))
+                            new PISAHypervolume<DoubleSolution>()))//,
+                            //new InvertedGenerationalDistance<DoubleSolution>(),
+                            //new InvertedGenerationalDistancePlus<DoubleSolution>()))
                     .setIndependentRuns(INDEPENDENT_RUNS)
                     .setNumberOfCores(8)
                     .build();
@@ -108,6 +108,7 @@ public class NSGAVStudy {
                 .build();
         algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAVa", problemList.get(i).getTag()));
       }
+      /*
     //System.out.println("The end of experiments NSGAVa");
       for (int i = 0; i < problemList.size(); i++) {
         Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<>(
@@ -149,7 +150,7 @@ public class NSGAVStudy {
               .setPopulationSize(100)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIIa", problemList.get(i).getTag()));
-    }
+    }/*
     //System.out.println("The end of experiments NSGAVa");
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
