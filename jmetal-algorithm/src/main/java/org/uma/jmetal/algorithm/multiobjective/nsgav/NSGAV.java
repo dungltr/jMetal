@@ -249,6 +249,42 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		}		
 		return resultFilter.get(index);
 	}
+	protected S findMinSolution (List<S> resultFilter){
+		double[] Distance = new double[resultFilter.size()];
+		for (int i=0; i<resultFilter.size();i++) {
+			Distance[i] = 0;
+			for (int j = 0; j < resultFilter.get(i).getNumberOfObjectives(); j++) {
+				Distance[i] = Distance[i] + resultFilter.get(i).getObjective(j)*resultFilter.get(i).getObjective(j);
+			}
+		}
+		double min = Double.POSITIVE_INFINITY;;
+		int index = 0;
+		for (int i=0; i<Distance.length;i++){
+			min = Math.min(min, Distance[i]);
+			if (min==Distance[i]) {
+				index = i;
+			}
+		}
+		return resultFilter.get(index);
+	}
+	protected int findMinSolutionIndex (List<S> resultFilter){
+		double[] Distance = new double[resultFilter.size()];
+		for (int i=0; i<resultFilter.size();i++) {
+			Distance[i] = 0;
+			for (int j = 0; j < resultFilter.get(i).getNumberOfObjectives(); j++) {
+				Distance[i] = Distance[i] + resultFilter.get(i).getObjective(j)*resultFilter.get(i).getObjective(j);
+			}
+		}
+		double min = Double.POSITIVE_INFINITY;;
+		int index = 0;
+		for (int i=0; i<Distance.length;i++){
+			min = Math.min(min, Distance[i]);
+			if (min==Distance[i]) {
+				index = i;
+			}
+		}
+		return index;
+	}
     protected S updateObjecitves(S solution, double[] epsilon){
     	S tempSolution = solution;
 		double [] temp = new double[solution.getNumberOfObjectives()];
@@ -275,22 +311,64 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		}
 		return tempSolution;
 	}
+	protected double distance(S solution){
+		double distance = 0;
+		for (int i = 0; i< solution.getNumberOfObjectives();i++){
+			distance = distance + solution.getObjective(i)*solution.getObjective(i);
+		}
+		return distance;
+	}
+
+	protected double [] backUpsolution(S solution, double epsilon){
+		double [] Deltas = new double[solution.getNumberOfObjectives()];
+		for (int j = 0; j< solution.getNumberOfObjectives(); j++) {
+			Deltas[j] = Math.abs(solution.getObjective(j)*epsilon);
+		}
+		return Deltas;
+	}
 	/*
-	protected S backUpSolution(S solution, double[] Store){
-		S tempSolution = solution;
-		double [] temp = new double[solution.getNumberOfObjectives()];
-		for (int i = 0; i< solution.getNumberOfObjectives(); i++){
-			temp[i] = Store[i];
+	protected List<double []> updateDeltas(List<S> previousFront, double epsilon){
+		List<double []> Deltas = new ArrayList<double[]>();
+		for (int i = 0; i< previousFront.size(); i++) {
+			double [] temp = new double [previousFront.get(i).getNumberOfObjectives()];
+			for (int j = 0; j< previousFront.get(i).getNumberOfObjectives(); j++) {
+				temp[j] = Math.abs(previousFront.get(i).getObjective(j)*epsilon);
+			}
+			Deltas.add(temp);
+			//System.out.println("\n This is the solution:");
+			//NSGAIV.utilsPopulation.printSolution(solution);
+			//System.out.println("\n This is the delta");
+			//utilsPopulation.printArray(temp);
 		}
-		for (int i = 0; i< solution.getNumberOfObjectives(); i++){
-			//temp[i] = temp[i] - epsilon[i];
-			tempSolution.setObjective(i, Store[i]);
+		return Deltas;
+	}
+	*/
+	protected List<double[]> initDelta(S currentMin, int index, S previousMax, List<double[]> Deltas){
+		double distanceMax = distance(previousMax);
+		double distanceMin = distance(currentMin);
+		List<double []> deltas = Deltas;
+		double[] backUpCurrentMin = backUpsolution(currentMin,1);
+		int k=0;
+		while(distanceMin>distanceMax){
+			k=k+1;
+			S tempSolution = currentMin;
+			for (int i = 0; i< currentMin.getNumberOfObjectives(); i++){
+				tempSolution.setObjective(i, currentMin.getObjective(i) - Deltas.get(index)[i]);
+				for (int j=0; j< deltas.size(); j++){
+					deltas.get(j)[i] = deltas.get(j)[i]+Deltas.get(j)[i];
+				}
+			}
+			distanceMin = distance(tempSolution);
 		}
-		return tempSolution;
-	}*/
+		//if (k>0) System.out.println("The sys tem reduce in the step: "+k);
+		for (int i = 0; i< currentMin.getNumberOfObjectives(); i++){
+			currentMin.setObjective(i, backUpCurrentMin[i]);
+		}
+		return deltas;
+	}
     protected List<S> filter (List<S> previousFront, List<S> currentFront, int newSize) {//,Comparator<? super Solution> comparator) {
     	List<S> resultFilter = new ArrayList<>();
-		double epsilon = 0.1;
+		double epsilon = 0.01;
 		int k=0;
 		//int size=0;
 		List<S> temp = new ArrayList<>();
@@ -353,11 +431,28 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//UtilsPopulation.printPopulation(previousFront);
 			//System.out.println("\nThis is the tempFront");
 			//UtilsPopulation.printPopulation(temp);
+			if (k==0){
+				S minCurrent = findMinSolution(currentFront);
+				S maxPrevious = findMaxSolution(previousFront);
+
+			}
 			k++;
 
 			int[][] dominanceChecks = new int[currentFront.size()][previousFront.size()];
 			for (int i = 0; i < currentFront.size(); i++) {
-				S si = updateObjecitvesCurrent(temp.get(i),Deltas.get(i));;//currentFront.get(i);
+				S si;
+
+				if(k==1) {
+					int index = findMinSolutionIndex(currentFront);
+					S currentMin = findMinSolution(currentFront);
+					S previousMax = findMinSolution(previousFront);
+					List<double[]> BigDeltas = initDelta(currentMin,index,previousMax,Deltas);
+					si = updateObjecitvesCurrent(temp.get(i),BigDeltas.get(i));
+				} else
+
+					si = updateObjecitvesCurrent(temp.get(i),Deltas.get(i));
+
+				;//currentFront.get(i);
 				for (int j = 0; j < previousFront.size(); j++) {						 
 						S sj = previousFront.get(j);	//updateObjecitvesCurrent(temp.get(j),Deltas.get(j));//The previous Front value will be changed after this
 						//temp.set(j, sj);
@@ -436,7 +531,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		}
 		//JMetalLogger.logger.info(
 		//		"After truncated at k = "+k+"and Size:="+currentFront.size()+"and newSize is:="+newSize);
-		//System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+		System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 		return resultFilter;
 	}
     protected int compare(S solution1, S solution2) {

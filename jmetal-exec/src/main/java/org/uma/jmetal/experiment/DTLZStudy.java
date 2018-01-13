@@ -56,7 +56,7 @@ import java.util.List;
  */
 
 public class DTLZStudy {
-    private static final int INDEPENDENT_RUNS = 30;
+    private static final int INDEPENDENT_RUNS = 25;
 
     public static void main(String[] args) throws IOException {
         /*if (args.length != 1) {
@@ -72,7 +72,7 @@ public class DTLZStudy {
         problemList.add(new ExperimentProblem<>(new DTLZ5()));
         problemList.add(new ExperimentProblem<>(new DTLZ6()));
         problemList.add(new ExperimentProblem<>(new DTLZ7()));
-        */problemList.add(new ExperimentProblem<>(new UF1()));
+        problemList.add(new ExperimentProblem<>(new UF1()));
         problemList.add(new ExperimentProblem<>(new UF2()));
         problemList.add(new ExperimentProblem<>(new UF3()));
         /*problemList.add(new ExperimentProblem<>(new UF4()));
@@ -82,20 +82,21 @@ public class DTLZStudy {
         problemList.add(new ExperimentProblem<>(new UF8()));
         problemList.add(new ExperimentProblem<>(new UF9()));
         problemList.add(new ExperimentProblem<>(new UF10()));
-        */
+
         problemList.add(new ExperimentProblem<>(new ZDT1()));
         problemList.add(new ExperimentProblem<>(new ZDT2()));
         problemList.add(new ExperimentProblem<>(new ZDT3()));
+        */
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
                 configureAlgorithmList(problemList);
 
         List<String> referenceFrontFileNames =
-                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","ZDT1.pf","ZDT2.pf","ZDT3.pf"
+                Arrays.asList("DTLZ1.8D.pf", "DTLZ2.8D.pf", "DTLZ3.8D.pf");//,"ZDT1.pf","ZDT2.pf","ZDT3.pf"
                         //"UF1.pf", "UF2.pf", "UF3.pf"// "DTLZ4.3D.pf", "DTLZ5.3D.pf","DTLZ6.3D.pf", "DTLZ7.3D.pf");
-                ,"UF1.pf", "UF2.pf", "UF3.pf");//, "UF4.pf", "UF5.pf", "UF6.pf", "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf");
+                //,"UF1.pf", "UF2.pf", "UF3.pf");//, "UF4.pf", "UF5.pf", "UF6.pf", "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf");
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("DTLZandUFandZDTwithNSGAIIvsNSGAV")
+                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAII and NSGAV with DTLZ 8D")
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")
@@ -149,7 +150,7 @@ public class DTLZStudy {
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
                     .setMaxEvaluations(25000)
-                    .setPopulationSize(300)
+                    .setPopulationSize(100)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 
@@ -176,7 +177,7 @@ public class DTLZStudy {
                     .setMutationOperator(mutation)
                     .setSelectionOperator(selection)
                     .setMaxIterations(25000)
-                    .setPopulationSize(300)
+                    .setPopulationSize(100)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm,problemList.get(i).getTag()));
         }
@@ -186,7 +187,7 @@ public class DTLZStudy {
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
                     .setMaxEvaluations(25000)
-                    .setPopulationSize(300)
+                    .setPopulationSize(100)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIV", problemList.get(i).getTag()));
 

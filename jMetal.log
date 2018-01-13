@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483788</millis>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155628</millis>
   <sequence>0</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Loggers configured with null</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483836</millis>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155699</millis>
   <sequence>1</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -24,8 +24,8 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483837</millis>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155700</millis>
   <sequence>2</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -35,8 +35,8 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483838</millis>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155702</millis>
   <sequence>3</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -46,75 +46,9 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483839</millis>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155712</millis>
   <sequence>4</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>rpssize: 13</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483839</millis>
-  <sequence>5</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>rpssize: 13</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483840</millis>
-  <sequence>6</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>rpssize: 13</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483841</millis>
-  <sequence>7</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>rpssize: 13</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483841</millis>
-  <sequence>8</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>rpssize: 13</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483842</millis>
-  <sequence>9</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
-  <method>&lt;init&gt;</method>
-  <thread>1</thread>
-  <message>rpssize: 13</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483850</millis>
-  <sequence>10</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.component.ExecuteAlgorithms</class>
@@ -123,618 +57,178 @@
   <message>ExecuteAlgorithms: Preparing output directory</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483876</millis>
-  <sequence>11</sequence>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155728</millis>
+  <sequence>5</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/DTLZ2/FUN0.tsv</message>
+  <thread>1</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAIII/DTLZ3/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483877</millis>
-  <sequence>13</sequence>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155728</millis>
+  <sequence>6</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/ZDT1</message>
+  <thread>13</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAII/DTLZ1/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483876</millis>
-  <sequence>12</sequence>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155730</millis>
+  <sequence>7</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>11</thread>
-  <message> Running algorithm: NSGAII, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/ZDT2/FUN0.tsv</message>
+  <message> Running algorithm: NSGAII, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAII/DTLZ3/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483877</millis>
-  <sequence>15</sequence>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155732</millis>
+  <sequence>8</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAIII/DTLZ1/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155732</millis>
+  <sequence>9</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAII/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155732</millis>
+  <sequence>10</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>16</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/DTLZ2</message>
+  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAIII/DTLZ2/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483877</millis>
-  <sequence>17</sequence>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155733</millis>
+  <sequence>11</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>17</thread>
-  <message> Running algorithm: NSGAII, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/ZDT3/FUN0.tsv</message>
+  <message> Running algorithm: NSGAIV, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAIV/DTLZ1/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483877</millis>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155735</millis>
+  <sequence>12</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGAIV, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAIV/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-13T16:42:35</date>
+  <millis>1515858155737</millis>
+  <sequence>13</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>18</thread>
+  <message> Running algorithm: NSGAIV, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/jMetalData/NSGAII and NSGAV with DTLZ 8D/data/NSGAIV/DTLZ3/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-13T16:42:46</date>
+  <millis>1515858166276</millis>
   <sequence>14</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>12</thread>
-  <message> Running algorithm: NSGAII, problem: UF1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/UF1/FUN0.tsv</message>
+  <message>Total execution time of NSGAII: 1945ms</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483877</millis>
-  <sequence>16</sequence>
+  <date>2018-01-13T16:42:46</date>
+  <millis>1515858166425</millis>
+  <sequence>15</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>13</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/DTLZ3/FUN0.tsv</message>
+  <message>Total execution time of NSGAII: 1880ms</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483879</millis>
+  <date>2018-01-13T16:42:46</date>
+  <millis>1515858166576</millis>
+  <sequence>16</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of NSGAII: 2165ms</message>
+</record>
+<record>
+  <date>2018-01-13T16:42:46</date>
+  <millis>1515858166621</millis>
+  <sequence>17</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGAV: 2180ms</message>
+</record>
+<record>
+  <date>2018-01-13T16:45:43</date>
+  <millis>1515858343878</millis>
   <sequence>18</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>15</thread>
-  <message> Running algorithm: NSGAII, problem: ZDT1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/ZDT1/FUN0.tsv</message>
+  <message>Total execution time of NSGAIII: 89556ms</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:03</date>
-  <millis>1515777483884</millis>
+  <date>2018-01-13T16:45:49</date>
+  <millis>1515858349831</millis>
   <sequence>19</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>16</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/DTLZ2/FUN0.tsv</message>
+  <thread>1</thread>
+  <message>Total execution time of NSGAIII: 89649ms</message>
 </record>
 <record>
-  <date>2018-01-12T18:18:04</date>
-  <millis>1515777484118</millis>
+  <date>2018-01-13T16:45:50</date>
+  <millis>1515858350728</millis>
   <sequence>20</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>1</thread>
-  <message> Running algorithm: NSGAIII, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/ZDT3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:04</date>
-  <millis>1515777484118</millis>
-  <sequence>21</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAIV, problem: ZDT1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/ZDT1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490227</millis>
-  <sequence>22</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message>Total execution time of NSGAII: 2098ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490280</millis>
-  <sequence>23</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/DTLZ1</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490281</millis>
-  <sequence>24</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/DTLZ1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490331</millis>
-  <sequence>25</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Total execution time of NSGAII: 2123ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490343</millis>
-  <sequence>26</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/DTLZ3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490491</millis>
-  <sequence>27</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Total execution time of NSGAII: 2266ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490520</millis>
-  <sequence>28</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAIV, problem: UF1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/UF1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490546</millis>
-  <sequence>29</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Total execution time of NSGAII: 2346ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:10</date>
-  <millis>1515777490572</millis>
-  <sequence>30</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/DTLZ1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:11</date>
-  <millis>1515777491002</millis>
-  <sequence>31</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message>Total execution time of NSGAII: 2348ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:11</date>
-  <millis>1515777491007</millis>
-  <sequence>32</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message> Running algorithm: NSGAII, problem: UF3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/UF3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:11</date>
-  <millis>1515777491489</millis>
-  <sequence>33</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Total execution time of NSGAV: 2658ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:11</date>
-  <millis>1515777491503</millis>
-  <sequence>34</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAIV, problem: UF3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/UF3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:14</date>
-  <millis>1515777494073</millis>
-  <sequence>35</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Total execution time of NSGAII: 1811ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:14</date>
-  <millis>1515777494084</millis>
-  <sequence>36</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/UF</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:14</date>
-  <millis>1515777494086</millis>
-  <sequence>37</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAII, problem: UF, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAII/UF/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:14</date>
-  <millis>1515777494171</millis>
-  <sequence>38</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Total execution time of NSGAII: 1781ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:14</date>
-  <millis>1515777494188</millis>
-  <sequence>39</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAIV, problem: ZDT3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/ZDT3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:15</date>
-  <millis>1515777495351</millis>
-  <sequence>40</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Total execution time of NSGAV: 2341ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:15</date>
-  <millis>1515777495357</millis>
-  <sequence>41</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAIV, problem: UF, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/UF/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:15</date>
-  <millis>1515777495833</millis>
-  <sequence>42</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message>Total execution time of NSGAII: 2435ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:15</date>
-  <millis>1515777495836</millis>
-  <sequence>43</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message> Running algorithm: NSGAIV, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/ZDT2/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:16</date>
-  <millis>1515777496215</millis>
-  <sequence>44</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Total execution time of NSGAV: 2375ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:16</date>
-  <millis>1515777496219</millis>
-  <sequence>45</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/DTLZ3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:18</date>
-  <millis>1515777498796</millis>
-  <sequence>46</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Total execution time of NSGAII: 2214ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:18</date>
-  <millis>1515777498806</millis>
-  <sequence>47</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/UF1</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:18</date>
-  <millis>1515777498808</millis>
-  <sequence>48</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAIII, problem: UF1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/UF1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:19</date>
-  <millis>1515777499567</millis>
-  <sequence>49</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Total execution time of NSGAV: 2885ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:19</date>
-  <millis>1515777499578</millis>
-  <sequence>50</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/UF3</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:19</date>
-  <millis>1515777499579</millis>
-  <sequence>51</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAIII, problem: UF3, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/UF3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:20</date>
-  <millis>1515777500193</millis>
-  <sequence>52</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message>Total execution time of NSGAV: 2249ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:20</date>
-  <millis>1515777500203</millis>
-  <sequence>53</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/UF</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:20</date>
-  <millis>1515777500203</millis>
-  <sequence>54</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message> Running algorithm: NSGAIII, problem: UF, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/UF/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:20</date>
-  <millis>1515777500606</millis>
-  <sequence>55</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Total execution time of NSGAV: 2148ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:20</date>
-  <millis>1515777500610</millis>
-  <sequence>56</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/ZDT1</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:20</date>
-  <millis>1515777500610</millis>
-  <sequence>57</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAIII, problem: ZDT1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/ZDT1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:21</date>
-  <millis>1515777501072</millis>
-  <sequence>58</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Total execution time of NSGAV: 2917ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:21</date>
-  <millis>1515777501080</millis>
-  <sequence>59</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/DTLZ2</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:21</date>
-  <millis>1515777501081</millis>
-  <sequence>60</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ2, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/DTLZ2/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:25</date>
-  <millis>1515777505403</millis>
-  <sequence>61</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Total execution time of NSGAV: 2118ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:25</date>
-  <millis>1515777505408</millis>
-  <sequence>62</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/DTLZ1</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:25</date>
-  <millis>1515777505409</millis>
-  <sequence>63</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ1, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIV/DTLZ1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:29</date>
-  <millis>1515777509380</millis>
-  <sequence>64</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Total execution time of NSGAV: 2022ms</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:29</date>
-  <millis>1515777509385</millis>
-  <sequence>65</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/ZDT2</message>
-</record>
-<record>
-  <date>2018-01-12T18:18:29</date>
-  <millis>1515777509386</millis>
-  <sequence>66</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAIII, problem: ZDT2, run: 0, funFile: /Users/letrung/jMetalData/DTLZandUFandZDTwithNSGAIIvsNSGAV/data/NSGAIII/ZDT2/FUN0.tsv</message>
+  <thread>16</thread>
+  <message>Total execution time of NSGAIII: 90183ms</message>
 </record>
