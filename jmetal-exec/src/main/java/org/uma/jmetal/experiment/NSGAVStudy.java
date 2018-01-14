@@ -6,6 +6,8 @@ import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
 import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
 import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ1;
+import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ2;
 import org.uma.jmetal.problem.multiobjective.zdt.*;
 import org.uma.jmetal.qualityindicator.impl.*;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
@@ -48,16 +50,19 @@ public class NSGAVStudy {
     String experimentBaseDirectory = ReadFile.readhome("HOME")+"/jMetalData";//args[0];
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-    problemList.add(new ExperimentProblem<>(new ZDT1()));
+    problemList.add(new ExperimentProblem<>(new DTLZ1()));
+    //problemList.add(new ExperimentProblem<>(new DTLZ2()));
+    /*problemList.add(new ExperimentProblem<>(new ZDT1()));
     problemList.add(new ExperimentProblem<>(new ZDT2()));
     problemList.add(new ExperimentProblem<>(new ZDT3()));
     problemList.add(new ExperimentProblem<>(new ZDT4()));
     problemList.add(new ExperimentProblem<>(new ZDT6()));
-
+    */
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
             configureAlgorithmList(problemList);
 
-    List<String> referenceFrontFileNames = Arrays.asList("ZDT1.pf", "ZDT2.pf", "ZDT3.pf", "ZDT4.pf", "ZDT6.pf");
+    List<String> referenceFrontFileNames = Arrays.asList("DTLZ1.2D.pf"//, "DTLZ2.2D.pf"//,"ZDT1.pf", "ZDT2.pf", "ZDT3.pf", "ZDT4.pf", "ZDT6.pf"
+            );
 
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
             new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAIIandVStudy")

@@ -63,8 +63,8 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldUpdateWithOneSolutionMakeTheIdealPointHaveTheSolutionValues" time="0.002"/>
-  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldConstructorCreateAnIdealPointWithAllObjectiveValuesCorrectlyInitialized" time="0.001"/>
-  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldUpdateWithTwoSolutionsLeadToTheCorrectIdealPoint" time="0.002"/>
-  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldUpdateWithThreeSolutionsLeadToTheCorrectIdealPoint" time="0.003"/>
+  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldUpdateWithOneSolutionMakeTheIdealPointHaveTheSolutionValues" time="0"/>
+  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldConstructorCreateAnIdealPointWithAllObjectiveValuesCorrectlyInitialized" time="0"/>
+  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldUpdateWithTwoSolutionsLeadToTheCorrectIdealPoint" time="0.001"/>
+  <testcase classname="org.uma.jmetal.referencePoint.impl.IdealPointTest" name="shouldUpdateWithThreeSolutionsLeadToTheCorrectIdealPoint" time="0.007"/>
 </testsuite>

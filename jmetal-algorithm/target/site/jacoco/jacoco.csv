@@ -65,7 +65,7 @@ org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead,MO
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead,AbstractMOEAD,801,0,70,0,152,0,48,0,13,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead,MOEADBuilder,303,0,10,0,60,0,29,0,24,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAVBuilder.NSGAVVariant,28,0,0,0,1,0,4,0,4,0
-org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAV,1131,0,112,0,219,0,81,0,25,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAV,1112,0,112,0,218,0,81,0,25,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAVBuilder,149,0,10,0,39,0,19,0,14,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii.util,ReferencePoint,265,0,20,0,50,0,24,0,14,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii.util,EnvironmentalSelection,926,0,94,0,148,0,63,0,16,0

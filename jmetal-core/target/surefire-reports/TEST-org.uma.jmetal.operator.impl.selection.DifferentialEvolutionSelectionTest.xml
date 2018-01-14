@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="0" name="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" time="0.007" errors="0" skipped="0">
+<testsuite tests="8" failures="0" name="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" time="0.006" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,12 +63,12 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsHasOneSolution" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0.002"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsIsNull" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsHasOneSolution" time="0.002"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsIsNull" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheIndexIsNegative" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsIsEmpty" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheIndexIsHigherThanTheSolutionListLength" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteReturnThreeDifferentSolutionsIfTheListHasFourElements" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheIndexIsNotIndicated" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteReturnThreeDifferentSolutionsIfTheListHasFourElements" time="0.002"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheIndexIsNotIndicated" time="0"/>
 </testsuite>

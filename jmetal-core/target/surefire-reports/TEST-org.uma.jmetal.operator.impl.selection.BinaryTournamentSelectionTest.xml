@@ -63,10 +63,10 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteWorkProperlyIfTheTwoSolutionsInTheListAreNondominated" time="0.009"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteWorkProperlyIfTheTwoSolutionsInTheListAreNondominated" time="0.008"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteReturnTwoSolutionsIfTheListContainsTwoSolutions" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteReturnAValidSolutionIsWithCorrectParameters" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsIsNull" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteReturnTheSameSolutionIfTheListContainsOneSolution" time="0"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteReturnAValidSolutionIsWithCorrectParameters" time="0.002"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsIsNull" time="0"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteReturnTheSameSolutionIfTheListContainsOneSolution" time="0.001"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListOfSolutionsIsEmpty" time="0"/>
 </testsuite>

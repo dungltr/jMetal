@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" time="0.012" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" time="0.02" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,10 +63,10 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldGetAttributeReturnTheAttributeValue" time="0.011"/>
-  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldConstructorCreateASolutionAttributedWithThePassedIdentifier" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldSetAttributeAssignTheAttributeValueToTheSolution" time="0"/>
+  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldGetAttributeReturnTheAttributeValue" time="0.017"/>
+  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldConstructorCreateASolutionAttributedWithThePassedIdentifier" time="0"/>
+  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldSetAttributeAssignTheAttributeValueToTheSolution" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldGetAttributeIdentifierReturnTheRightIdentifier" time="0"/>
-  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldDefaultConstructorCreateASolutionAttributedWithAnIdentifierEqualToTheClassObject" time="0"/>
+  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldDefaultConstructorCreateASolutionAttributedWithAnIdentifierEqualToTheClassObject" time="0.002"/>
   <testcase classname="org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest" name="shouldGetAttributeReturnNullIfTheSolutionHasNoAttribute" time="0"/>
 </testsuite>

@@ -65,9 +65,9 @@
   </properties>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldGetNameReturnTheCorrectValue" time="0.001"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteReturnTheRightValueIfTheFrontsContainOnePointWhichIsNotTheSame" time="0"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteReturnTheCorrectValueCaseA" time="0"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteReturnTheCorrectValueCaseA" time="0.001"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteReturnTheCorrectValueCaseB" time="0"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteReturnZeroIfTheFrontsContainOnePointWhichIsTheSame" time="0.001"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteReturnZeroIfTheFrontsContainOnePointWhichIsTheSame" time="0"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteRaiseAnExceptionIfTheFrontApproximationListIsNull" time="0"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.EpsilonTest" name="shouldExecuteRaiseAnExceptionIfTheFrontApproximationIsNull" time="0"/>
 </testsuite>

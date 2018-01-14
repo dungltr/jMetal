@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="156f4e54-0336-4389-829a-803f077c956e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/classes/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.class" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/classes/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/jacoco.exec" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/jacoco.exec" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/jmetal-algorithm-5.5-SNAPSHOT-jar-with-dependencies.jar" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/jmetal-algorithm-5.5-SNAPSHOT-jar-with-dependencies.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/jmetal-algorithm-5.5-SNAPSHOT-javadoc.jar" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/jmetal-algorithm-5.5-SNAPSHOT-javadoc.jar" />
@@ -10,7 +11,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/jacoco.exec" afterPath="$PROJECT_DIR$/jmetal-core/target/jacoco.exec" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT-jar-with-dependencies.jar" afterPath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT-jar-with-dependencies.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT-javadoc.jar" afterPath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT-javadoc.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT-sources.jar" afterPath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT-sources.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/jmetal-core/target/jmetal-core-5.5-SNAPSHOT.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/DTLZStudy.class" afterPath="$PROJECT_DIR$/jmetal-exec/target/classes/org/uma/jmetal/experiment/DTLZStudy.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/jmetal-exec-5.5-SNAPSHOT-jar-with-dependencies.jar" afterPath="$PROJECT_DIR$/jmetal-exec/target/jmetal-exec-5.5-SNAPSHOT-jar-with-dependencies.jar" />
@@ -20,10 +20,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/jacoco.exec" afterPath="$PROJECT_DIR$/jmetal-problem/target/jacoco.exec" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/jmetal-problem-5.5-SNAPSHOT-jar-with-dependencies.jar" afterPath="$PROJECT_DIR$/jmetal-problem/target/jmetal-problem-5.5-SNAPSHOT-jar-with-dependencies.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/jmetal-problem-5.5-SNAPSHOT-javadoc.jar" afterPath="$PROJECT_DIR$/jmetal-problem/target/jmetal-problem-5.5-SNAPSHOT-javadoc.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/jmetal-problem-5.5-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/jmetal-problem/target/jmetal-problem-5.5-SNAPSHOT.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jMetal.log" afterPath="$PROJECT_DIR$/jMetal.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/jMetal.log" afterPath="$PROJECT_DIR$/jmetal-algorithm/jMetal.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/allclasses-frame.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/allclasses-frame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/allclasses-noframe.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/allclasses-noframe.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/constant-values.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/constant-values.html" />
@@ -386,9 +386,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/overview-frame.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/overview-frame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/overview-summary.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/overview-summary.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/overview-tree.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/overview-tree.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/package-list" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/package-list" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/serialized-form.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/apidocs/serialized-form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/site/jacoco/index.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/site/jacoco/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/site/jacoco/jacoco-sessions.html" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/site/jacoco/jacoco-sessions.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/target/site/jacoco/jacoco.csv" afterPath="$PROJECT_DIR$/jmetal-algorithm/target/site/jacoco/jacoco.csv" />
@@ -1086,27 +1084,15 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/apidocs/overview-summary.html" afterPath="$PROJECT_DIR$/jmetal-core/target/apidocs/overview-summary.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/apidocs/overview-tree.html" afterPath="$PROJECT_DIR$/jmetal-core/target/apidocs/overview-tree.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/apidocs/serialized-form.html" afterPath="$PROJECT_DIR$/jmetal-core/target/apidocs/serialized-form.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/jmetal-core/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/index.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/jacoco-sessions.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/jacoco-sessions.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/jacoco.csv" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/jacoco.csv" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/jacoco.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/jacoco.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/PMXCrossover.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/PMXCrossover.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/PMXCrossover.java.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/PMXCrossover.java.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/index.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/index.source.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.operator.impl.crossover/index.source.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/ExperimentAlgorithm.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/ExperimentAlgorithm.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/ExperimentAlgorithm.java.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/ExperimentAlgorithm.java.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/index.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/index.source.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.experiment.util/index.source.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.fileoutput/index.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.fileoutput/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.fileoutput/index.source.html" afterPath="$PROJECT_DIR$/jmetal-core/target/site/jacoco/org.uma.jmetal.util.fileoutput/index.source.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.CountingMeasureTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.CountingMeasureTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.DurationMeasureTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.DurationMeasureTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.LastEvaluationMeasureTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.LastEvaluationMeasureTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.ListenerTimeMeasureTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.ListenerTimeMeasureTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.MeasureFactoryTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.MeasureFactoryTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.SimpleMeasureManagerTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.SimpleMeasureManagerTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.SimplePushMeasureTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.measure.impl.SimplePushMeasureTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossoverTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossoverTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.crossover.HUXCrossoverTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.crossover.HUXCrossoverTest.xml" />
@@ -1119,9 +1105,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.BitFlipMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.BitFlipMutationTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.NonUniformMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.NonUniformMutationTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.PermutationSwapMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.PermutationSwapMutationTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.PolynomialMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.PolynomialMutationTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.SimpleRandomMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.SimpleRandomMutationTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.UniformMutationTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.mutation.UniformMutationTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.NaryTournamentSelectionTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.operator.impl.selection.NaryTournamentSelectionTest.xml" />
@@ -1146,7 +1134,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.AdaptiveGridTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.AdaptiveGridTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.SolutionListUtilsTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.SolutionListUtilsTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.SolutionUtilsTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.SolutionUtilsTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.archive.impl.AdaptiveGridArchiveTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.archive.impl.AdaptiveGridArchiveTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.archive.impl.NonDominatedSolutionListArchiveTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.archive.impl.NonDominatedSolutionListArchiveTest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.DominanceComparatorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.DominanceComparatorTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.ObjectiveComparatorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.ObjectiveComparatorTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest.xml" />
@@ -1171,7 +1161,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.point.util.EuclideanDistanceTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.point.util.EuclideanDistanceTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.pseudorandom.RandomGeneratorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.pseudorandom.RandomGeneratorTest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.pseudorandom.impl.AuditableRandomGeneratorTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.pseudorandom.impl.AuditableRandomGeneratorTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.solutionattribute.impl.CrowdingDistanceTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.solutionattribute.impl.CrowdingDistanceTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest.xml" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/TEST-org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest.xml" />
@@ -1181,6 +1170,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.measure.impl.ListenerTimeMeasureTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.measure.impl.ListenerTimeMeasureTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.measure.impl.MeasureFactoryTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.measure.impl.MeasureFactoryTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.measure.impl.SimpleMeasureManagerTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.measure.impl.SimpleMeasureManagerTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossoverTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossoverTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.HUXCrossoverTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.HUXCrossoverTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.IntegerSBXCrossoverTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.IntegerSBXCrossoverTest.txt" />
@@ -1189,7 +1179,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.SBXCrossoverTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.SBXCrossoverTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.SinglePointCrossoverTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.crossover.SinglePointCrossoverTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.localsearch.BasicLocalSearchTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.localsearch.BasicLocalSearchTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.BitFlipMutationTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.BitFlipMutationTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.NonUniformMutationTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.NonUniformMutationTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.PermutationSwapMutationTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.PermutationSwapMutationTest.txt" />
@@ -1198,25 +1187,28 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.UniformMutationTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.mutation.UniformMutationTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.BinaryTournamentSelectionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelectionTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.NaryTournamentSelectionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.NaryTournamentSelectionTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.RankingAndCrowdingSelectionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.RankingAndCrowdingSelectionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.TournamentSelectionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.operator.impl.selection.TournamentSelectionTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.EpsilonTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.EpsilonTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.ErrorRatioTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.ErrorRatioTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.GenerationalDistanceTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.GenerationalDistanceTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.HypervolumeTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.HypervolumeTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.R2Test.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.R2Test.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.SetCoverageTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.SetCoverageTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.hypervolume.WFGHypervolumeTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.qualityindicator.impl.hypervolume.WFGHypervolumeTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.referencePoint.impl.IdealPointTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.referencePoint.impl.IdealPointTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.referencePoint.impl.NadirPointTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.referencePoint.impl.NadirPointTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.ArrayDoubleSolutionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.ArrayDoubleSolutionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.DefaultBinarySolutionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.DefaultBinarySolutionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.DefaultIntegerPermutationSolutionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.DefaultIntegerPermutationSolutionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.ObjectiveFactoryTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.ObjectiveFactoryTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.VariableFactoryTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.impl.VariableFactoryTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.util.RepairDoubleSolutionAtBoundsTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.util.RepairDoubleSolutionAtBoundsTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.util.RepairDoubleSolutionAtRandomTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.solution.util.RepairDoubleSolutionAtRandomTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.AdaptiveGridTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.AdaptiveGridTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.SolutionListUtilsTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.SolutionListUtilsTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.SolutionUtilsTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.SolutionUtilsTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.archive.impl.AdaptiveGridArchiveTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.archive.impl.AdaptiveGridArchiveTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.archive.impl.NonDominatedSolutionListArchiveTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.archive.impl.NonDominatedSolutionListArchiveTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.DominanceComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.DominanceComparatorTest.txt" />
@@ -1224,6 +1216,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.RankingComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.comparator.RankingComparatorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.distance.impl.CosineDistanceBetweenSolutionsInObjectiveSpaceTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.distance.impl.CosineDistanceBetweenSolutionsInObjectiveSpaceTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.front.imp.ArrayFrontTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.front.imp.ArrayFrontTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.front.imp.FrontUtilsTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.front.imp.FrontUtilsTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.front.util.FrontNormalizerTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.front.util.FrontNormalizerTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.naming.impl.DescribedEntitySetTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.naming.impl.DescribedEntitySetTest.txt" />
@@ -1236,15 +1229,17 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.ArrayPointTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.ArrayPointTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.LexicographicalPointComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.LexicographicalPointComparatorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.PointComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.PointComparatorTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.PointDimensionComparatorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.PointDimensionComparatorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.PointSolutionTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.impl.PointSolutionTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.util.DominanceDistanceTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.util.DominanceDistanceTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.util.EuclideanDistanceTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.point.util.EuclideanDistanceTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.pseudorandom.RandomGeneratorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.pseudorandom.RandomGeneratorTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.pseudorandom.impl.AuditableRandomGeneratorTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.pseudorandom.impl.AuditableRandomGeneratorTest.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.solutionattribute.impl.CrowdingDistanceTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.solutionattribute.impl.CrowdingDistanceTest.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest.txt" afterPath="$PROJECT_DIR$/jmetal-core/target/surefire-reports/org.uma.jmetal.util.solutionattribute.impl.GenericSolutionAttributeTest.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/apidocs/allclasses-frame.html" afterPath="$PROJECT_DIR$/jmetal-exec/target/apidocs/allclasses-frame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/apidocs/allclasses-noframe.html" afterPath="$PROJECT_DIR$/jmetal-exec/target/apidocs/allclasses-noframe.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/apidocs/constant-values.html" afterPath="$PROJECT_DIR$/jmetal-exec/target/apidocs/constant-values.html" />
@@ -1455,7 +1450,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/apidocs/overview-frame.html" afterPath="$PROJECT_DIR$/jmetal-exec/target/apidocs/overview-frame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/apidocs/overview-summary.html" afterPath="$PROJECT_DIR$/jmetal-exec/target/apidocs/overview-summary.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/apidocs/overview-tree.html" afterPath="$PROJECT_DIR$/jmetal-exec/target/apidocs/overview-tree.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterPath="$PROJECT_DIR$/jmetal-exec/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/apidocs/allclasses-frame.html" afterPath="$PROJECT_DIR$/jmetal-problem/target/apidocs/allclasses-frame.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/apidocs/allclasses-noframe.html" afterPath="$PROJECT_DIR$/jmetal-problem/target/apidocs/allclasses-noframe.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/target/apidocs/constant-values.html" afterPath="$PROJECT_DIR$/jmetal-problem/target/apidocs/constant-values.html" />
@@ -1794,45 +1788,43 @@
       <file leaf-file-name="NSGAVStudy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1845">
-              <caret line="142" column="58" lean-forward="false" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="77" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DTLZStudy.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="188" column="41" lean-forward="false" selection-start-line="188" selection-start-column="41" selection-end-line="188" selection-end-column="41" />
+            <state relative-caret-position="-618">
+              <caret line="63" column="72" lean-forward="false" selection-start-line="63" selection-start-column="72" selection-end-line="63" selection-end-column="72" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NSGAV.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="DTLZStudy.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="610">
+              <caret line="106" column="97" lean-forward="false" selection-start-line="106" selection-start-column="97" selection-end-line="106" selection-end-column="97" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NSGAIIIRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/runner/multiobjective/NSGAIIIRunner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-72">
+              <caret line="54" column="4" lean-forward="true" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NSGAV.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5055">
-              <caret line="362" column="10" lean-forward="false" selection-start-line="362" selection-start-column="10" selection-end-line="362" selection-end-column="10" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#2164#2165#0" expanded="false" />
-                <element signature="e#2218#2219#0" expanded="false" />
-                <element signature="e#2269#2270#0" expanded="false" />
-                <element signature="e#2325#2326#0" expanded="false" />
-                <element signature="e#2391#2392#0" expanded="false" />
-                <element signature="e#2445#2446#0" expanded="false" />
-                <element signature="e#21530#21531#0" expanded="false" />
-                <element signature="e#21595#21596#0" expanded="false" />
-                <element signature="e#22268#22269#0" expanded="false" />
-                <element signature="e#22299#22300#0" expanded="false" />
-                <element signature="e#22347#22348#0" expanded="false" />
-                <element signature="e#22421#22422#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="-72">
+              <caret line="350" column="8" lean-forward="false" selection-start-line="350" selection-start-column="8" selection-end-line="350" selection-end-column="8" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1929,18 +1921,8 @@
                 <element signature="imports" expanded="false" />
                 <element signature="e#1941#1942#0" expanded="false" />
                 <element signature="e#1980#1981#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GenerateLatexTablesWithStatistics.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/component/GenerateLatexTablesWithStatistics.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#6700#7154#0" expanded="false" />
+                <element signature="e#7153#7154#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1980,12 +1962,12 @@
         <option value="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/writeCSV.java" />
         <option value="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ReadFile.java" />
         <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ReadFile.java" />
-        <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java" />
         <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAIIStudy.java" />
         <option value="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/fileoutput/writeCSV.java" />
         <option value="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" />
-        <option value="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" />
+        <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java" />
         <option value="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" />
+        <option value="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" />
       </list>
     </option>
   </component>
@@ -2010,6 +1992,7 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2019,6 +2002,214 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nothing" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="problem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dtlz" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2154,12 +2345,202 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nsgav" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nsgav" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utilsPopulation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jMetal" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jmetal-algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="algorithm" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="multiobjective" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nsgav" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="utilsnsgav" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="AndroidView" />
     </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -2541,18 +2922,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="709" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25075075" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.465625" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.309375" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -2563,7 +2945,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43276662" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2453125" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2579,20 +2961,6 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java</url>
-          <line>285</line>
-          <properties />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java</url>
-          <line>448</line>
-          <properties />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
@@ -2685,6 +3053,8 @@
             <element signature="imports" expanded="false" />
             <element signature="e#1941#1942#0" expanded="false" />
             <element signature="e#1980#1981#0" expanded="false" />
+            <element signature="e#6700#7154#0" expanded="false" />
+            <element signature="e#7153#7154#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2695,6 +3065,7 @@
           <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="false" />
+            <element signature="e#2053#2079#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2703,7 +3074,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2385">
           <caret line="194" column="0" lean-forward="true" selection-start-line="194" selection-start-column="0" selection-end-line="194" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2721,7 +3094,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="870">
           <caret line="58" column="50" lean-forward="false" selection-start-line="58" selection-start-column="50" selection-end-line="58" selection-end-column="50" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2729,21 +3104,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4380">
           <caret line="292" column="28" lean-forward="false" selection-start-line="292" selection-start-column="28" selection-end-line="292" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2164#2165#0" expanded="false" />
-            <element signature="e#2218#2219#0" expanded="false" />
-            <element signature="e#2269#2270#0" expanded="false" />
-            <element signature="e#2325#2326#0" expanded="false" />
-            <element signature="e#2391#2392#0" expanded="false" />
-            <element signature="e#2445#2446#0" expanded="false" />
-            <element signature="e#21530#21531#0" expanded="false" />
-            <element signature="e#21595#21596#0" expanded="false" />
-            <element signature="e#22268#22269#0" expanded="false" />
-            <element signature="e#22299#22300#0" expanded="false" />
-            <element signature="e#22347#22348#0" expanded="false" />
-            <element signature="e#22421#22422#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2782,6 +3143,8 @@
             <element signature="imports" expanded="false" />
             <element signature="e#1941#1942#0" expanded="false" />
             <element signature="e#1980#1981#0" expanded="false" />
+            <element signature="e#6700#7154#0" expanded="false" />
+            <element signature="e#7153#7154#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2792,6 +3155,7 @@
           <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="false" />
+            <element signature="e#2053#2079#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2855,6 +3219,8 @@
             <element signature="imports" expanded="false" />
             <element signature="e#1941#1942#0" expanded="false" />
             <element signature="e#1980#1981#0" expanded="false" />
+            <element signature="e#6700#7154#0" expanded="false" />
+            <element signature="e#7153#7154#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2865,6 +3231,7 @@
           <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="false" />
+            <element signature="e#2053#2079#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2887,7 +3254,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1740">
           <caret line="116" column="50" lean-forward="true" selection-start-line="116" selection-start-column="50" selection-end-line="116" selection-end-column="50" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2942,13 +3311,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/runner/multiobjective/NSGAIIIRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="54" column="4" lean-forward="true" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ReadFile.java" />
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ReadFile.java" />
     <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/fileoutput/writeCSV.java" />
@@ -2986,6 +3348,7 @@
           <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="false" />
+            <element signature="e#2053#2079#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2998,6 +3361,8 @@
             <element signature="imports" expanded="false" />
             <element signature="e#1941#1942#0" expanded="false" />
             <element signature="e#1980#1981#0" expanded="false" />
+            <element signature="e#6700#7154#0" expanded="false" />
+            <element signature="e#7153#7154#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3033,16 +3398,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="915">
           <caret line="82" column="30" lean-forward="false" selection-start-line="82" selection-start-column="30" selection-end-line="82" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1845">
-          <caret line="142" column="58" lean-forward="false" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="77" />
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
@@ -3097,35 +3452,117 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java">
+    <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/runner/multiobjective/NSGAIIIRunner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5055">
-          <caret line="362" column="10" lean-forward="false" selection-start-line="362" selection-start-column="10" selection-end-line="362" selection-end-column="10" />
+        <state relative-caret-position="-72">
+          <caret line="54" column="4" lean-forward="true" selection-start-line="54" selection-start-column="4" selection-end-line="54" selection-end-column="4" />
           <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2164#2165#0" expanded="false" />
-            <element signature="e#2218#2219#0" expanded="false" />
-            <element signature="e#2269#2270#0" expanded="false" />
-            <element signature="e#2325#2326#0" expanded="false" />
-            <element signature="e#2391#2392#0" expanded="false" />
-            <element signature="e#2445#2446#0" expanded="false" />
-            <element signature="e#21530#21531#0" expanded="false" />
-            <element signature="e#21595#21596#0" expanded="false" />
-            <element signature="e#22268#22269#0" expanded="false" />
-            <element signature="e#22299#22300#0" expanded="false" />
-            <element signature="e#22347#22348#0" expanded="false" />
-            <element signature="e#22421#22422#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAVStudy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-618">
+          <caret line="63" column="72" lean-forward="false" selection-start-line="63" selection-start-column="72" selection-end-line="63" selection-end-column="72" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="188" column="41" lean-forward="false" selection-start-line="188" selection-start-column="41" selection-end-line="188" selection-end-column="41" />
+        <state relative-caret-position="610">
+          <caret line="106" column="97" lean-forward="false" selection-start-line="106" selection-start-column="97" selection-end-line="106" selection-end-column="97" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-72">
+          <caret line="350" column="8" lean-forward="false" selection-start-line="350" selection-start-column="8" selection-end-line="350" selection-end-column="8" />
           <folding />
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>scala-sdk-2.12.1</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>jmetal-exec</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: commons-io:commons-io:2.4</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
