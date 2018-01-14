@@ -104,7 +104,7 @@ public class DTLZStudy {
                 );//);
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAwithDTLZandUFandZDTNew")
+                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAIIandIVwithDTLZandUFandZDTNew")
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")
@@ -164,7 +164,7 @@ public class DTLZStudy {
             algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 
         }
-
+        /*
         for (int i = 0; i < problemList.size(); i++) {
             Problem<DoubleSolution> problem;
             CrossoverOperator<DoubleSolution> crossover;
@@ -191,7 +191,7 @@ public class DTLZStudy {
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm,problemList.get(i).getTag()));
         }
-
+        */
         for (int i = 0; i < problemList.size(); i++) {
             Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<DoubleSolution>(
                     problemList.get(i).getProblem(),
