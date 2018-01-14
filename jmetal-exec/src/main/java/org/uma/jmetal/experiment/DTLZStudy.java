@@ -104,7 +104,7 @@ public class DTLZStudy {
                 );//);
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAwithDTLZandUFandZDT")
+                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAwithDTLZandUFandZDTNew")
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")

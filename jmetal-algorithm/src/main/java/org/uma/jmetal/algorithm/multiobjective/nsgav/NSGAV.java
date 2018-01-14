@@ -363,6 +363,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			}
 			distanceMin = distance(currentMin);
 			System.out.println("The system are in while with distanceMin: "+distanceMin+" and distanceMax: " + distanceMax);
+			utilsPopulation.printArray(Deltas.get(index));
 		}
 		//if (k>0) System.out.println("The sys tem reduce in the step: "+k);
 		for (int i = 0; i< currentMin.getNumberOfObjectives(); i++){
