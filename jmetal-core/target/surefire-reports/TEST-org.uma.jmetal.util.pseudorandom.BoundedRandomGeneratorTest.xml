@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" time="0.067" errors="0" skipped="0">
+<testsuite tests="5" failures="0" name="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" time="0.059" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,9 +63,9 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testBoundingFactoryMethodReturnsGeneratorWithCorrectValues" time="0.04"/>
+  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testBoundingFactoryMethodReturnsGeneratorWithCorrectValues" time="0.037"/>
   <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testBoundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectValues" time="0.003"/>
-  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testBoundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectDistribution" time="0.011"/>
-  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testUnboundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectValues" time="0.003"/>
-  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testUnboundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectDistribution" time="0.01"/>
+  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testBoundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectDistribution" time="0.009"/>
+  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testUnboundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectValues" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.pseudorandom.BoundedRandomGeneratorTest" name="testUnboundedDoubleToIntegerFactoryMethodReturnsGeneratorWithCorrectDistribution" time="0.008"/>
 </testsuite>

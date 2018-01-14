@@ -175,6 +175,7 @@
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/problem/BinaryProblem.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/pseudorandom/JMetalRandom.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/extremevalues/impl/SolutionListExtremeValues.java
+/Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/fileoutput/writeCSV.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/distance/impl/CosineDistanceBetweenSolutionsInObjectiveSpace.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/comparator/EqualSolutionsComparator.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/point/util/distance/DominanceDistance.java
@@ -214,3 +215,4 @@
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/pseudorandom/RandomGenerator.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/qualityindicator/impl/GenerationalDistance.java
 /Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/solution/impl/VariableFactory.java
+/Users/letrungdung/jMetal/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ReadFile.java

@@ -46,6 +46,7 @@
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/mocell/MOCellBuilder.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/spea2/SPEA2Builder.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgaii/NSGAII.java
+/Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/writeCSV.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/singleobjective/coralreefsoptimization/CoralReefsOptimizationBuilder.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/mombi/util/ASFUtilityFunctionSet.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/dmopso/DMOPSO.java
@@ -88,5 +89,6 @@
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/abyss/ABYSS.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/moead/ConstraintMOEAD.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/singleobjective/evolutionstrategy/ElitistEvolutionStrategy.java
+/Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsPopulation/utilsPopulation.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/mombi/util/R2Ranking.java
 /Users/letrungdung/jMetal/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/smpso/SMPSOBuilder.java

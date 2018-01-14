@@ -63,10 +63,10 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldConstructorRaiseAnExceptionIfFileNameIsNull" time="0.001"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateReturnZeroIfTheFrontAndTheReferenceFrontContainsTheSamePoints" time="0.001"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateRaiseAnExceptionIfTheFrontApproximationIsNull" time="0"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldConstructorRaiseAnExceptionIfFileNameIsNull" time="0.002"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateReturnZeroIfTheFrontAndTheReferenceFrontContainsTheSamePoints" time="0"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateRaiseAnExceptionIfTheFrontApproximationIsNull" time="0.001"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateReturnTheCorrectValueCaseA" time="0"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateReturnTheCorrectValueCaseB" time="0.001"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldEvaluateReturnTheCorrectValueCaseB" time="0"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlusTest" name="shouldConstructorRaiseAnExceptionIfTheParetoFrontIsNull" time="0"/>
 </testsuite>

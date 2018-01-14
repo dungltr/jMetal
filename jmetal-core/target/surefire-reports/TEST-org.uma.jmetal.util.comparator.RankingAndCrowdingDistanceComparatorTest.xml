@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" time="0.027" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" time="0.024" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,10 +63,10 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareTwoNullSolutionsReturnZero" time="0.004"/>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithNullRankingAttributeSolutionAsFirstArgumentReturnOne" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithANullSolutionAsSecondArgumentReturnMinusOne" time="0"/>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithANullSolutionAsFirstArgumentReturnOne" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithRankingYieldingANonZeroValueReturnThatValue" time="0.01"/>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWhenRankingYieldingAZeroReturnTheCrowdingDistanceValue" time="0.011"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareTwoNullSolutionsReturnZero" time="0.005"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithNullRankingAttributeSolutionAsFirstArgumentReturnOne" time="0"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithANullSolutionAsSecondArgumentReturnMinusOne" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithANullSolutionAsFirstArgumentReturnOne" time="0"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithRankingYieldingANonZeroValueReturnThatValue" time="0.009"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWhenRankingYieldingAZeroReturnTheCrowdingDistanceValue" time="0.009"/>
 </testsuite>

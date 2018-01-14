@@ -149,7 +149,7 @@ public class DTLZStudy {
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-                    .setMaxEvaluations(25000)
+                    .setMaxEvaluations(10000)
                     .setPopulationSize(100)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
@@ -176,7 +176,7 @@ public class DTLZStudy {
                     .setCrossoverOperator(crossover)
                     .setMutationOperator(mutation)
                     .setSelectionOperator(selection)
-                    .setMaxIterations(25000)
+                    .setMaxIterations(10000)
                     .setPopulationSize(100)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm,problemList.get(i).getTag()));
@@ -186,7 +186,7 @@ public class DTLZStudy {
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-                    .setMaxEvaluations(25000)
+                    .setMaxEvaluations(10000)
                     .setPopulationSize(100)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIV", problemList.get(i).getTag()));

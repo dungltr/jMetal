@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="15" failures="0" name="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" time="0.008" errors="0" skipped="0">
+<testsuite tests="15" failures="0" name="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" time="0.011" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,19 +63,19 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorWithProblemAndDistributionIndexParametersAssignTheCorrectValues" time="0.003"/>
-  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionReturnTheSameSolutionIfItIsNotMutated" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorWithProblemAndDistributionIndexParametersAssignTheCorrectValues" time="0.005"/>
+  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionReturnTheSameSolutionIfItIsNotMutated" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorWithoutParameterAssignTheDefaultValues" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionReturnTheSameSolutionIfProbabilityIsZero" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0.002"/>
+  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0.003"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldExecuteWithNullParameterThrowAnException" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionReturnAValidSolution" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionReturnAnotherValidSolution" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorAssignTheCorrectProbabilityValue" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionReturnAnotherValidSolution" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorAssignTheCorrectProbabilityValue" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorFailWhenPassedANegativeDistributionIndex" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorFailWhenPassedANegativeProbabilityValue" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldGetDistributionIndexReturnTheRightValue" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldGetMutationProbabilityReturnTheRightValue" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldConstructorAssignTheCorrectDistributionIndex" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionWithSameLowerAndUpperBoundsReturnTheBoundValue" time="0"/>
+  <testcase classname="org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutationTest" name="shouldMutateASingleVariableSolutionWithSameLowerAndUpperBoundsReturnTheBoundValue" time="0.001"/>
 </testsuite>

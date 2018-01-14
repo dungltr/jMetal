@@ -68,9 +68,9 @@
   <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareRaiseAnExceptionIfSolution2HasLessObjectivesThanTheOneRequested" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnMinusOneIfTheSecondSolutionIsNull" time="0"/>
   <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnOneIfTheObjectiveOfSolution2IsGreaterInDescendingOrder" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsAreNull" time="0"/>
+  <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsAreNull" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnOneIfTheFirstSolutionIsNull" time="0"/>
-  <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnMinusOneIfTheObjectiveOfSolution1IsGreaterInDescendingOrder" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnMinusOneIfTheObjectiveOfSolution1IsGreaterInDescendingOrder" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnOneIfTheObjectiveOfSolution2IsLower" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.comparator.ObjectiveComparatorTest" name="shouldCompareReturnZeroIfTheObjectiveOfTheSolutionsIsTheSame" time="0.001"/>
 </testsuite>

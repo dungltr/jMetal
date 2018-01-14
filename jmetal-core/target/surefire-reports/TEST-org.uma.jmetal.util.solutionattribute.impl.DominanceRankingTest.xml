@@ -63,10 +63,10 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldRankingOfAPopulationWithFiveSolutionsWorkProperly" time="0.005"/>
+  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldRankingOfAPopulationWithFiveSolutionsWorkProperly" time="0.006"/>
   <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldRankingOfAPopulationWithTwoNonDominatedSolutionsReturnOneSubfront" time="0"/>
   <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldRankingOfAPopulationWithThreeDominatedSolutionsReturnThreeSubfronts" time="0"/>
-  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldTheRankingOfAnEmptyPopulationReturnOneSubfronts" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldTheRankingOfAnEmptyPopulationReturnOneSubfronts" time="0"/>
   <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldRankingOfAPopulationWithTwoDominatedSolutionsReturnTwoSubfronts" time="0"/>
   <testcase classname="org.uma.jmetal.util.solutionattribute.impl.DominanceRankingTest" name="shouldTheRankingOfAnEmptyPopulationReturnZeroSubfronts" time="0"/>
 </testsuite>

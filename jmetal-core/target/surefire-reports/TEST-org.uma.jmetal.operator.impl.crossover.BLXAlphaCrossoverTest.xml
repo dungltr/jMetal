@@ -64,17 +64,17 @@
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldGetProbabilityReturnTheRightValue" time="0.002"/>
-  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldConstructorFailWhenPassedANegativeAlphaValue" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldConstructorFailWhenPassedANegativeAlphaValue" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldGetAlphaReturnTheRightValue" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoDoubleVariableSolutionsReturnValidSolutions" time="0.002"/>
+  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoDoubleVariableSolutionsReturnValidSolutions" time="0.003"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoSingleVariableSolutionsReturnTheSameSolutionsIfNotCrossoverIsApplied" time="0.001"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoSingleVariableSolutionsReturnTheSameSolutionsIfProbabilityIsZero" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoSingleVariableSolutionsReturnValidSolutions" time="0.001"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0.002"/>
-  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldExecuteWithNullParameterThrowAnException" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldConstructorAssignTheCorrectProbabilityValue" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldExecuteWithNullParameterThrowAnException" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldConstructorAssignTheCorrectProbabilityValue" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldConstructorFailWhenPassedANegativeProbabilityValue" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoSingleVariableSolutionsWithSimilarValueReturnTheSameVariables" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldExecuteWithInvalidSolutionListSizeThrowAnException" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldCrossingTwoSingleVariableSolutionsWithSimilarValueReturnTheSameVariables" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldExecuteWithInvalidSolutionListSizeThrowAnException" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.crossover.BLXAlphaCrossoverTest" name="shouldConstructorAssignTheCorrectDistributionIndex" time="0"/>
 </testsuite>

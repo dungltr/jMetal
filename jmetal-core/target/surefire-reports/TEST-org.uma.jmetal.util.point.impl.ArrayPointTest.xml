@@ -69,17 +69,17 @@
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructAPointOfAGivenDimension" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnFalseIfThePointIsNull" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructFromNullArrayRaiseAnException" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnTrueIfTheTwoPointsAreTheSame" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnTrueIfTheTwoPointsAreTheSame" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldGetNumberOfDimensionsReturnTheCorrectValue" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnFalseIfTheClassIsNotAPoint" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldSetDimensionValueAssignTheCorrectValue" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnFalseIfTheClassIsNotAPoint" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldSetDimensionValueAssignTheCorrectValue" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructAPointFromANullPointRaiseAnException" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldGetDimensionValueReturnTheCorrectValue" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldGetValuesReturnTheCorrectValues" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnTrueIfThePointsAreIdentical" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructFromASolutionReturnTheCorrectPoint" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructFromASolutionReturnTheCorrectPoint" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructAPointFromANullSolutionRaiseAnException" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldEqualsReturnFalseIfThePointsAreNotIdentical" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructAPointFromOtherPointReturnAnIdenticalPoint" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldHashCodeReturnTheCorrectValue" time="0"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldConstructAPointFromOtherPointReturnAnIdenticalPoint" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.ArrayPointTest" name="shouldHashCodeReturnTheCorrectValue" time="0.001"/>
 </testsuite>
