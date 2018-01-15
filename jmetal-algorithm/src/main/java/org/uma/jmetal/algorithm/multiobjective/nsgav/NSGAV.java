@@ -183,12 +183,11 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				pop.add(currentFront.get(i));
 			}
 			*/
-		}/*else {
+		}else {
         	if (pop.size()==getMaxPopulationSize())
 				System.out.println("The size of pop is Max and no need to run truncate");
         	else System.out.println("The size of pop bigger than Max and should be checked error");
 		}
-		*/
 		/*
 		JMetalLogger.logger.info(
 				"The size of population after filting is:="+pop.size());
@@ -345,20 +344,25 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 	*/
 	protected List<double[]> initDelta(S currentMin, int index, S previousMax, List<double[]> Deltas){
 		double distanceMax = distance(previousMax);
+
 		double distanceMin = distance(currentMin);
+		double distanceMinOld = distanceMin;
+		//System.out.println("The system are in while with distanceMin: "+distanceMin);
 		List<double []> deltas = Deltas;
 		double[] backUpCurrentMin = backUpsolution(currentMin,1);
 		int k=0;
-		while(distanceMin>distanceMax){
+		S tempSolution = currentMin;
+		while((distanceMin>distanceMax)&&(distanceMin<=distanceMinOld)){
 			k=k+1;
-			S tempSolution = currentMin;
 			for (int i = 0; i< currentMin.getNumberOfObjectives(); i++){
 				tempSolution.setObjective(i, currentMin.getObjective(i) - Deltas.get(index)[i]);
 				for (int j=0; j< deltas.size(); j++){
 					deltas.get(j)[i] = deltas.get(j)[i]+Deltas.get(j)[i];
 				}
 			}
-			distanceMin = distance(tempSolution);
+			distanceMin = distance(currentMin);
+			//System.out.println("The system are in while with distanceMin: "+distanceMin+" and distanceMax: " + distanceMax);
+			//utilsPopulation.printArray(Deltas.get(index));
 		}
 		//if (k>0) System.out.println("The sys tem reduce in the step: "+k);
 		for (int i = 0; i< currentMin.getNumberOfObjectives(); i++){
@@ -368,24 +372,22 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 	}
     protected List<S> filter (List<S> previousFront, List<S> currentFront, int newSize) {//,Comparator<? super Solution> comparator) {
     	List<S> resultFilter = new ArrayList<>();
-		double epsilon = 0.01;
+		double epsilon = 0.0001;
 		int k=0;
+		int k_Max = 10000;
 		//int size=0;
 		List<S> temp = new ArrayList<>();
 		for (S solution: currentFront) {
 			temp.add(solution);
 		}
-		//System.out.println("\nThis is the Store");
+		System.out.println("\nBegining Filter");
 		List<double []> Store = updateDeltas (temp, 1);
 		//List<Integer> storeIndex = new ArrayList<Integer>();
 		//int [] storeIndex = new int[Store.size()];
 
 		//System.out.println("\nThis is the Deltas");
 		List<double []> Deltas = new ArrayList<>();
-		if(previousFront.size()>0) {
-			Deltas = updateDeltas(temp, epsilon);
-		}
-		else{
+		if(previousFront.size()==0){
 			//System.out.println("Stop at here if(previousFront.size()<=0)");
 			while(currentFront.size()>newSize){
 				currentFront.remove(findMaxSolution (currentFront));
@@ -394,6 +396,9 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//JMetalLogger.logger.info(
 			//		"After truncated at previousFront.size() = "+previousFront.size()+"and currentFront.size():="+currentFront.size());
 			return currentFront;
+		}else {
+			Deltas = updateDeltas(temp, epsilon);
+			//JMetalLogger.logger.info("if....");
 		}
 		/*
 		System.out.println("The newSize is----------------------out----------------------"+newSize);
@@ -404,7 +409,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		JMetalLogger.logger.info(
 				"The newSize is"+newSize);
 		*/
-		//resultFilter.clear();
+		resultFilter.clear();
 		while (resultFilter.size()<newSize) {
 			List<Integer> storeIndex = new ArrayList<Integer>();
 			/*
@@ -417,6 +422,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 							", previousFront.size(): " + previousFront.size());
 			*/
 			resultFilter.clear();
+
 			/*System.out.println("In------------------------------------------------The newSize is:"+newSize);
 			System.out.println("In-------------------------------------------resultFilter.size(): " + resultFilter.size());
 			System.out.println("In-------------------------------------------currentFront.size(): " + currentFront.size());
@@ -431,13 +437,21 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//UtilsPopulation.printPopulation(previousFront);
 			//System.out.println("\nThis is the tempFront");
 			//UtilsPopulation.printPopulation(temp);
+			/*System.out.println("\nBefore if k=0"+resultFilter.size()+"and size is:"+newSize);
 			if (k==0){
 				S minCurrent = findMinSolution(currentFront);
 				S maxPrevious = findMaxSolution(previousFront);
-
+				System.out.println("\nInsise k = 0"+resultFilter.size()+"and size is:"+newSize);
 			}
+			*/
 			k++;
-
+			if (k>k_Max) {
+				while (currentFront.size() > newSize) {
+					currentFront.remove(findMaxSolution(currentFront));
+				}
+				System.out.println("The end of Filter");
+				return currentFront;
+			}
 			int[][] dominanceChecks = new int[currentFront.size()][previousFront.size()];
 			for (int i = 0; i < currentFront.size(); i++) {
 				S si;
@@ -448,9 +462,11 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 					S previousMax = findMinSolution(previousFront);
 					List<double[]> BigDeltas = initDelta(currentMin,index,previousMax,Deltas);
 					si = updateObjecitvesCurrent(temp.get(i),BigDeltas.get(i));
-				} else
-
+				} else{
 					si = updateObjecitvesCurrent(temp.get(i),Deltas.get(i));
+				}
+
+
 
 				;//currentFront.get(i);
 				for (int j = 0; j < previousFront.size(); j++) {						 
@@ -507,7 +523,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			}
 			*/
 			if (storeIndex.size()>=newSize) {
-				//System.out.println("Stop at here if (storeIndex.size()>=newSize)");
+				//System.out.println("Begin storeIndex > newsize");
 				for (int i = 0; i<currentFront.size();i++){
 					for (int j = 0; j<currentFront.get(i).getNumberOfObjectives();j++) {
 						temp.get(i).setObjective(j, Store.get(i)[j]);//;setObjectives(Store.get(m));
@@ -516,9 +532,11 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				for(int i=0; i<storeIndex.size();i++){
 					resultFilter.add(currentFront.get(storeIndex.get(i)));
 				}
-				if (storeIndex.size()>newSize){ //System.out.println("Stop at here if (storeIndex.size()>newSize)");
+
+				if (resultFilter.size()>newSize){ //System.out.println("Stop at here if (storeIndex.size()>newSize)");
 					while(resultFilter.size()>newSize){
 						resultFilter.remove(findMaxSolution (resultFilter));
+						//System.out.println("\nInside while resultFilter > new size"+resultFilter.size()+"and size is:"+newSize);
 					}
 //					System.out.println("After reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 //					currentFront.clear();
@@ -526,7 +544,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 //					return resultFilter;
 				}
 			}
-
+			//System.out.println("being reduce Deltas at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize+"current size is:"+currentFront.size());
 			//size = resultFilter.size();
 		}
 		//JMetalLogger.logger.info(

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="17" failures="0" name="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" time="0.735" errors="0" skipped="5">
+<testsuite tests="17" failures="0" name="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" time="0.833" errors="0" skipped="5">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,27 +63,27 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testAdditionalKeyForWrappedManagerReturnCurrentMeasure" time="0.004"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testFakeListener" time="0.005">
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testAdditionalKeyForWrappedManagerReturnCurrentMeasure" time="0.008"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testFakeListener" time="0.008">
     <skipped/>
   </testcase>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testExceptionOnNullListener" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testExceptionOnNullManager" time="0.001"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testExceptionOnNullListener" time="0.001"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testExceptionOnNullManager" time="0"/>
   <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testExceptionOnNullMeasure" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testResetToZeroWhenNoListenerIsRunning" time="0.067"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testResetToCurrentTimeWhenListenerIsRunning" time="0.067">
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testResetToZeroWhenNoListenerIsRunning" time="0.075"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testResetToCurrentTimeWhenListenerIsRunning" time="0.075">
     <skipped/>
   </testcase>
   <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testReturnSameWrapperForSameListener" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testReturnSameWrapperForSameMeasure" time="0.003"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testReturnSameWrapperForSameMeasure" time="0.002"/>
   <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testAdditionalKeyProvidedByManager" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testForgetListenerWrapperIfNotUsedAnymore" time="0.194"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testCountTimeInMeasures" time="0.195">
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testForgetListenerWrapperIfNotUsedAnymore" time="0.233"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testCountTimeInMeasures" time="0.233">
     <skipped/>
   </testcase>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testSameNameAndDescriptionThanOriginalMeasure" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testAdditionalKeyForWrappedManagerRejectAlreadyUsedKeys" time="0.001"/>
-  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testCountTimeInManager" time="0.001">
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testSameNameAndDescriptionThanOriginalMeasure" time="0.001"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testAdditionalKeyForWrappedManagerRejectAlreadyUsedKeys" time="0"/>
+  <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testCountTimeInManager" time="0">
     <skipped/>
   </testcase>
   <testcase classname="org.uma.jmetal.measure.impl.ListenerTimeMeasureTest" name="testCountTimeInListeners" time="0.001">

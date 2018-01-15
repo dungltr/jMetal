@@ -69,8 +69,8 @@
   <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListSizeIsOneAndTwoSolutionsAreRequested" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldDefaultConstructorReturnASingleSolution" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldNonDefaultConstructorReturnTheCorrectNumberOfSolutions" time="0"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListSizeIsTwoAndFourSolutionsAreRequested" time="0.001"/>
-  <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteReturnTheSolutionSInTheListIfTheListContainsTwoSolutions" time="0.001"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheListSizeIsTwoAndFourSolutionsAreRequested" time="0"/>
+  <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteReturnTheSolutionSInTheListIfTheListContainsTwoSolutions" time="0.002"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteRaiseAnExceptionIfTheSolutionListIsEmpty" time="0"/>
   <testcase classname="org.uma.jmetal.operator.impl.selection.NaryRandomSelectionTest" name="shouldExecuteReturnTheCorrectNumberOfSolutions" time="0.002"/>
 </testsuite>

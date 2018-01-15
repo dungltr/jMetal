@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="28" failures="0" name="org.uma.jmetal.util.SolutionListUtilsTest" time="0.022" errors="0" skipped="0">
+<testsuite tests="28" failures="0" name="org.uma.jmetal.util.SolutionListUtilsTest" time="0.043" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib"/>
@@ -63,20 +63,20 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnTheSolutionSInTheListIfTheListContainsTwoSolutions" time="0.005"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnTheCorrectListOfSolutions" time="0"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnTheSolutionSInTheListIfTheListContainsTwoSolutions" time="0.013"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnTheCorrectListOfSolutions" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldelectNRandomDifferentSolutionsRaiseAnExceptionIfTheListSizeIsTwoAndFourSolutionsAreRequested" time="0"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionReturnZeroIfTheFirstSolutionItTheBestOutOfTwoSolutionsInTheList" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionReturnTheSecondSolutionInTheListIfIsTheBestOufOfTwoSolutions" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionReturnZeroIfTheFirstSolutionItTheBestOutOfTwoSolutionsInTheList" time="0.008"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionReturnTheSecondSolutionInTheListIfIsTheBestOufOfTwoSolutions" time="0.002"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldExecuteReturnTheSolutionInTheListIfTheListContainsASolution" time="0"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFillPopulationWithNewSolutionsIncreaseTheListLengthToTheIndicatedValue" time="0.005"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFillPopulationWithNewSolutionsIncreaseTheListLengthToTheIndicatedValue" time="0.008"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvidedInSelectNRandomDifferentSolutions" time="0.002"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsRaiseAnExceptionIfTheListSizeIsOneAndTwoSolutionsAreRequested" time="0"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsRaiseAnExceptionIfTheSolutionListIsNull" time="0"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionRaiseAnExceptionIfTheComparatorIsNull" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionRaiseAnExceptionIfTheSolutionListIsEmpty" time="0"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionRaiseAnExceptionIfTheComparatorIsNull" time="0"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionRaiseAnExceptionIfTheSolutionListIsEmpty" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionRaiseAnExceptionIfTheComparatorIsNull" time="0"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSolutionListsAreEqualsReturnIfTwoSolutionListsWithIdenticalSolutionsAreCompared" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSolutionListsAreEqualsReturnIfTwoSolutionListsWithIdenticalSolutionsAreCompared" time="0"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionReturnOneIfTheSecondSolutionItTheBestOutOfTwoSolutionInTheList" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFillPopulationWithNewSolutionsDoNothingIfTheMaxSizeIsLowerThanTheListSize" time="0"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnASingleSolution" time="0"/>
@@ -84,11 +84,11 @@
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionReturnZeroIfTheListWhenItContainsOneSolution" time="0"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsRaiseAnExceptionIfTheSolutionListIsEmpty" time="0"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldRestartRemoveTheRequestedPercentageOfSolutions" time="0"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionRaiseAnExceptionIfTheSolutionListIsNull" time="0"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionRaiseAnExceptionIfTheSolutionListIsNull" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionReturnTheLastOneIfThisIsTheBestSolutionInALastInAListWithFiveSolutions" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSolutionListsAreEqualsReturnIfTwoIdenticalSolutionListsAreCompared" time="0"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionRaiseAnExceptionIfTheSolutionListIsEmpty" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindBestSolutionReturnTheSolutionInTheListWhenItContainsOneSolution" time="0"/>
-  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnTheCorrectNumberOfSolutions" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldSelectNRandomDifferentSolutionsReturnTheCorrectNumberOfSolutions" time="0.003"/>
   <testcase classname="org.uma.jmetal.util.SolutionListUtilsTest" name="shouldFindIndexOfBestSolutionReturn4IfTheBestSolutionIsTheLastInAListWithFiveSolutions" time="0.001"/>
 </testsuite>

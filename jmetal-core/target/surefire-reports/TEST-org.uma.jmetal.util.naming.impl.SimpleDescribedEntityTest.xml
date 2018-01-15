@@ -66,7 +66,7 @@
   <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testCorrectNameWhenProvided" time="0"/>
   <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testSetGetName" time="0"/>
   <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testSetGetDescription" time="0"/>
-  <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testCorrectDescriptionWhenProvided" time="0"/>
-  <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testClassNameWhenNoName" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testCorrectDescriptionWhenProvided" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testClassNameWhenNoName" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.naming.impl.SimpleDescribedEntityTest" name="testNullDescriptionWhenNoDescription" time="0"/>
 </testsuite>

@@ -65,11 +65,11 @@
   </properties>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testRemoveBothMeasuresRemoveKey" time="0"/>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testAddMultipleMeasures" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testSetGetPullMeasure" time="0"/>
+  <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testSetGetPullMeasure" time="0.001"/>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testRemoveBothAtOnce" time="0"/>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testAddMeasureAddKey" time="0"/>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testRemoveMultipleMeasures" time="0"/>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testSetGetPushMeasure" time="0"/>
-  <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testSetMeasureGetBoth" time="0.001"/>
+  <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testSetMeasureGetBoth" time="0"/>
   <testcase classname="org.uma.jmetal.measure.impl.SimpleMeasureManagerTest" name="testStartEmpty" time="0"/>
 </testsuite>

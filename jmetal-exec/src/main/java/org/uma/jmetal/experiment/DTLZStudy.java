@@ -68,35 +68,43 @@ public class DTLZStudy {
         problemList.add(new ExperimentProblem<>(new DTLZ1()));
         problemList.add(new ExperimentProblem<>(new DTLZ2()));
         problemList.add(new ExperimentProblem<>(new DTLZ3()));
-        /*problemList.add(new ExperimentProblem<>(new DTLZ4()));
-        problemList.add(new ExperimentProblem<>(new DTLZ5()));
+        problemList.add(new ExperimentProblem<>(new DTLZ4()));
+        /*problemList.add(new ExperimentProblem<>(new DTLZ5()));
         problemList.add(new ExperimentProblem<>(new DTLZ6()));
         problemList.add(new ExperimentProblem<>(new DTLZ7()));
+        */
         problemList.add(new ExperimentProblem<>(new UF1()));
         problemList.add(new ExperimentProblem<>(new UF2()));
         problemList.add(new ExperimentProblem<>(new UF3()));
-        /*problemList.add(new ExperimentProblem<>(new UF4()));
-        problemList.add(new ExperimentProblem<>(new UF5()));
-        problemList.add(new ExperimentProblem<>(new UF6()));
-        problemList.add(new ExperimentProblem<>(new UF7()));
-        problemList.add(new ExperimentProblem<>(new UF8()));
-        problemList.add(new ExperimentProblem<>(new UF9()));
-        problemList.add(new ExperimentProblem<>(new UF10()));
+        problemList.add(new ExperimentProblem<>(new UF4()));
+        //problemList.add(new ExperimentProblem<>(new UF5()));
+        //problemList.add(new ExperimentProblem<>(new UF6()));
+        //problemList.add(new ExperimentProblem<>(new UF7()));
+        //problemList.add(new ExperimentProblem<>(new UF8()));
+        //problemList.add(new ExperimentProblem<>(new UF9()));
+        //problemList.add(new ExperimentProblem<>(new UF10()));
 
         problemList.add(new ExperimentProblem<>(new ZDT1()));
         problemList.add(new ExperimentProblem<>(new ZDT2()));
         problemList.add(new ExperimentProblem<>(new ZDT3()));
-        */
+        problemList.add(new ExperimentProblem<>(new ZDT4()));
+
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
                 configureAlgorithmList(problemList);
 
         List<String> referenceFrontFileNames =
-                Arrays.asList("DTLZ1.8D.pf", "DTLZ2.8D.pf", "DTLZ3.8D.pf");//,"ZDT1.pf","ZDT2.pf","ZDT3.pf"
-                        //"UF1.pf", "UF2.pf", "UF3.pf"// "DTLZ4.3D.pf", "DTLZ5.3D.pf","DTLZ6.3D.pf", "DTLZ7.3D.pf");
-                //,"UF1.pf", "UF2.pf", "UF3.pf");//, "UF4.pf", "UF5.pf", "UF6.pf", "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf");
+                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","DTLZ4.3D.pf",
+                        "UF1.pf", "UF2.pf", "UF3.pf","UF4.pf",// "UF5.pf"//, "UF6.pf"//, "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf"
+                        //"DTLZ1.2D.pf", "DTLZ2.2D.pf", "DTLZ3.2D.pf","DTLZ4.2D.pf"//, "DTLZ5.2D.pf"//, "DTLZ3.2D.pf"
+                        "ZDT1.pf","ZDT2.pf","ZDT3.pf","ZDT4.pf"
+                        //"UF1.pf", "UF2.pf", "UF3.pf"
+                        // "DTLZ4.3D.pf", "DTLZ5.3D.pf","DTLZ6.3D.pf"
+                        // , "DTLZ7.3D.pf");
+
+                );//);
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAII and NSGAV with DTLZ 8D")
+                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAwithDTLZandUFandZDTNew")
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")
@@ -144,17 +152,19 @@ public class DTLZStudy {
             algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
         }
         */
+
         for (int i = 0; i < problemList.size(); i++) {
             Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<DoubleSolution>(
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-                    .setMaxEvaluations(10000)
-                    .setPopulationSize(100)
+                    .setMaxEvaluations(25000)
+                    .setPopulationSize(300)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 
         }
+
         for (int i = 0; i < problemList.size(); i++) {
             Problem<DoubleSolution> problem;
             CrossoverOperator<DoubleSolution> crossover;
@@ -176,18 +186,19 @@ public class DTLZStudy {
                     .setCrossoverOperator(crossover)
                     .setMutationOperator(mutation)
                     .setSelectionOperator(selection)
-                    .setMaxIterations(10000)
-                    .setPopulationSize(100)
+                    .setMaxIterations(25000)
+                    .setPopulationSize(300)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm,problemList.get(i).getTag()));
         }
+        
         for (int i = 0; i < problemList.size(); i++) {
             Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<DoubleSolution>(
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-                    .setMaxEvaluations(10000)
-                    .setPopulationSize(100)
+                    .setMaxEvaluations(25000)
+                    .setPopulationSize(300)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIV", problemList.get(i).getTag()));
 
