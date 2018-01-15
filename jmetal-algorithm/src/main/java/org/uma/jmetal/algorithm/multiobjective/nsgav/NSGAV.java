@@ -183,12 +183,11 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				pop.add(currentFront.get(i));
 			}
 			*/
-		}/*else {
+		}else {
         	if (pop.size()==getMaxPopulationSize())
 				System.out.println("The size of pop is Max and no need to run truncate");
         	else System.out.println("The size of pop bigger than Max and should be checked error");
 		}
-		*/
 		/*
 		JMetalLogger.logger.info(
 				"The size of population after filting is:="+pop.size());
@@ -373,15 +372,15 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 	}
     protected List<S> filter (List<S> previousFront, List<S> currentFront, int newSize) {//,Comparator<? super Solution> comparator) {
     	List<S> resultFilter = new ArrayList<>();
-		double epsilon = 0.001;
+		double epsilon = 0.0001;
 		int k=0;
-		int k_Max = 1000;
+		int k_Max = 10000;
 		//int size=0;
 		List<S> temp = new ArrayList<>();
 		for (S solution: currentFront) {
 			temp.add(solution);
 		}
-		//System.out.println("\nThis is the Store");
+		System.out.println("\nBegining Filter");
 		List<double []> Store = updateDeltas (temp, 1);
 		//List<Integer> storeIndex = new ArrayList<Integer>();
 		//int [] storeIndex = new int[Store.size()];
@@ -450,6 +449,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				while (currentFront.size() > newSize) {
 					currentFront.remove(findMaxSolution(currentFront));
 				}
+				System.out.println("The end of Filter");
 				return currentFront;
 			}
 			int[][] dominanceChecks = new int[currentFront.size()][previousFront.size()];
@@ -549,7 +549,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		}
 		//JMetalLogger.logger.info(
 		//		"After truncated at k = "+k+"and Size:="+currentFront.size()+"and newSize is:="+newSize);
-		//System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+		System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 		return resultFilter;
 	}
     protected int compare(S solution1, S solution2) {

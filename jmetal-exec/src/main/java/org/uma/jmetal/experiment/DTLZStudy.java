@@ -104,7 +104,7 @@ public class DTLZStudy {
                 );//);
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAIIandIVwithDTLZandUFandZDTNew")
+                new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("NSGAwithDTLZandUFandZDTNew")
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")
@@ -158,13 +158,13 @@ public class DTLZStudy {
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-                    .setMaxEvaluations(10000)
-                    .setPopulationSize(100)
+                    .setMaxEvaluations(25000)
+                    .setPopulationSize(300)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 
         }
-        /*
+
         for (int i = 0; i < problemList.size(); i++) {
             Problem<DoubleSolution> problem;
             CrossoverOperator<DoubleSolution> crossover;
@@ -186,19 +186,19 @@ public class DTLZStudy {
                     .setCrossoverOperator(crossover)
                     .setMutationOperator(mutation)
                     .setSelectionOperator(selection)
-                    .setMaxIterations(10000)
-                    .setPopulationSize(100)
+                    .setMaxIterations(25000)
+                    .setPopulationSize(300)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm,problemList.get(i).getTag()));
         }
-        */
+        
         for (int i = 0; i < problemList.size(); i++) {
             Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<DoubleSolution>(
                     problemList.get(i).getProblem(),
                     new SBXCrossover(1.0, 20.0),
                     new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-                    .setMaxEvaluations(10000)
-                    .setPopulationSize(100)
+                    .setMaxEvaluations(25000)
+                    .setPopulationSize(300)
                     .build();
             algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIV", problemList.get(i).getTag()));
 
