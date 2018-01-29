@@ -56,7 +56,7 @@ import java.util.List;
  */
 
 public class DTLZStudy {
-    private static final int INDEPENDENT_RUNS = 10;
+    private static final int INDEPENDENT_RUNS = 5;
 
     public static void main(String[] args) throws IOException {
         /*if (args.length != 1) {
@@ -101,7 +101,7 @@ public class DTLZStudy {
 
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
                 configureAlgorithmList(problemList);
-        /*
+
         List<String> referenceFrontFileNames =
                 Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","DTLZ4.3D.pf"
                         //"UF1.pf", "UF2.pf", "UF3.pf","UF4.pf"// "UF5.pf"//, "UF6.pf"//, "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf"
@@ -112,7 +112,7 @@ public class DTLZStudy {
                         // , "DTLZ7.3D.pf");
 
                 );//);
-        */
+
         String experimentName = "3AlgorithmsDTLZ3Objective_Pop100Max10000";
         String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
 
@@ -120,8 +120,10 @@ public class DTLZStudy {
                 new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
-                        .setReferenceFrontDirectory("/pareto_fronts")
-                        //.setReferenceFrontFileNames(referenceFrontFileNames)
+                        .setExperimentBaseDirectory(experimentBaseDirectory)
+                        .setReferenceFrontDirectory(experimentBaseDirectory+"/referenceFronts")
+                        //.setReferenceFrontDirectory("/pareto_fronts")
+                        .setReferenceFrontFileNames(referenceFrontFileNames)
                         .setExperimentBaseDirectory(experimentBaseDirectory)
                         .setOutputParetoFrontFileName("FUN")
                         .setOutputParetoSetFileName("VAR")

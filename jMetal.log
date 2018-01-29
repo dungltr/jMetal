@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175557</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506004</millis>
   <sequence>0</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -13,8 +13,8 @@
   <message>Loggers configured with null</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175628</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506095</millis>
   <sequence>1</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -24,8 +24,8 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175630</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506097</millis>
   <sequence>2</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -35,8 +35,8 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175631</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506099</millis>
   <sequence>3</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -46,8 +46,8 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175633</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506100</millis>
   <sequence>4</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -57,8 +57,8 @@
   <message>rpssize: 91</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175644</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506109</millis>
   <sequence>5</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -68,20 +68,9 @@
   <message>ExecuteAlgorithms: Preparing output directory</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175659</millis>
-  <sequence>7</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ3</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175660</millis>
-  <sequence>10</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506127</millis>
+  <sequence>6</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -90,86 +79,9 @@
   <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ1</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175659</millis>
-  <sequence>9</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ2</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175660</millis>
-  <sequence>13</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ3/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175661</millis>
-  <sequence>14</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>13</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ2</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175659</millis>
-  <sequence>6</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>1</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ4</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175661</millis>
-  <sequence>15</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ3</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175659</millis>
-  <sequence>8</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ4</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175662</millis>
-  <sequence>16</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>1</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ4, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ4/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175660</millis>
-  <sequence>12</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506128</millis>
+  <sequence>7</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -178,9 +90,9 @@
   <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ2</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175660</millis>
-  <sequence>11</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506128</millis>
+  <sequence>8</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -189,9 +101,20 @@
   <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ4</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175663</millis>
-  <sequence>17</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506128</millis>
+  <sequence>10</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ3</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506128</millis>
+  <sequence>9</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -200,9 +123,9 @@
   <message> Running algorithm: NSGAII, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ1/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175663</millis>
-  <sequence>18</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506129</millis>
+  <sequence>12</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -211,20 +134,64 @@
   <message> Running algorithm: NSGAII, problem: DTLZ4, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ4/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175668</millis>
-  <sequence>19</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506129</millis>
+  <sequence>11</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ2/FUN0.tsv</message>
+  <thread>15</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ4</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175671</millis>
-  <sequence>20</sequence>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506129</millis>
+  <sequence>14</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>18</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ3</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506129</millis>
+  <sequence>13</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>13</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ2</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506130</millis>
+  <sequence>16</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ4</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506130</millis>
+  <sequence>15</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ2</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506130</millis>
+  <sequence>17</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -233,8 +200,41 @@
   <message> Running algorithm: NSGAIV, problem: DTLZ4, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ4/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175673</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506131</millis>
+  <sequence>18</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506132</millis>
+  <sequence>19</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGAIV, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506141</millis>
+  <sequence>20</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>13</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506142</millis>
   <sequence>21</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -244,75 +244,42 @@
   <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ3/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175675</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506152</millis>
   <sequence>22</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ2/FUN0.tsv</message>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAIV, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ3/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:35</date>
-  <millis>1517266175677</millis>
+  <date>2018-01-30T00:11:46</date>
+  <millis>1517267506322</millis>
   <sequence>23</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>13</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ2/FUN0.tsv</message>
+  <thread>1</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ4, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ4/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179540</millis>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510455</millis>
   <sequence>24</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Total execution time of NSGAII: 1736ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179589</millis>
-  <sequence>25</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ1</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179590</millis>
-  <sequence>26</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
   <thread>16</thread>
-  <message>Total execution time of NSGAII: 1638ms</message>
+  <message>Total execution time of NSGAII: 1943ms</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179593</millis>
-  <sequence>27</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ1/FUN0.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179603</millis>
-  <sequence>28</sequence>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510485</millis>
+  <sequence>25</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -321,9 +288,9 @@
   <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ3</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179603</millis>
-  <sequence>29</sequence>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510486</millis>
+  <sequence>26</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
@@ -332,354 +299,123 @@
   <message> Running algorithm: NSGAII, problem: DTLZ3, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ3/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179634</millis>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510651</millis>
+  <sequence>27</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>13</thread>
+  <message>Total execution time of NSGAII: 2002ms</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510659</millis>
+  <sequence>28</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>13</thread>
+  <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ1</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510660</millis>
+  <sequence>29</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>13</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ1/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510707</millis>
   <sequence>30</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>13</thread>
-  <message>Total execution time of NSGAII: 1484ms</message>
+  <thread>11</thread>
+  <message>Total execution time of NSGAII: 2113ms</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179642</millis>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510715</millis>
   <sequence>31</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>13</thread>
+  <thread>11</thread>
   <message>Creating /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ1</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179643</millis>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510715</millis>
   <sequence>32</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>13</thread>
+  <thread>11</thread>
   <message> Running algorithm: NSGAIV, problem: DTLZ1, run: 0, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ1/FUN0.tsv</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179698</millis>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510942</millis>
   <sequence>33</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>12</thread>
-  <message>Total execution time of NSGAIV: 1595ms</message>
+  <message>Total execution time of NSGAIV: 2161ms</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179776</millis>
+  <date>2018-01-30T00:11:50</date>
+  <millis>1517267510997</millis>
   <sequence>34</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>14</thread>
-  <message>Total execution time of NSGAIV: 1725ms</message>
+  <message>Total execution time of NSGAIV: 2240ms</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:39</date>
-  <millis>1517266179850</millis>
+  <date>2018-01-30T00:11:51</date>
+  <millis>1517267511044</millis>
   <sequence>35</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
   <thread>15</thread>
-  <message>Total execution time of NSGAIV: 1679ms</message>
+  <message>Total execution time of NSGAIV: 2277ms</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:41</date>
-  <millis>1517266181568</millis>
+  <date>2018-01-30T00:11:53</date>
+  <millis>1517267513701</millis>
   <sequence>36</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>13</thread>
-  <message>Total execution time of NSGAIV: 1089ms</message>
+  <thread>16</thread>
+  <message>Total execution time of NSGAII: 1396ms</message>
 </record>
 <record>
-  <date>2018-01-29T23:49:41</date>
-  <millis>1517266181856</millis>
+  <date>2018-01-30T00:11:53</date>
+  <millis>1517267513844</millis>
   <sequence>37</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
   <method>runAlgorithm</method>
-  <thread>16</thread>
-  <message>Total execution time of NSGAII: 1214ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:36</date>
-  <millis>1517266236536</millis>
-  <sequence>38</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
   <thread>11</thread>
-  <message>Total execution time of NSGAIII: 26860ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238026</millis>
-  <sequence>39</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message>Total execution time of NSGAIII: 27646ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238568</millis>
-  <sequence>40</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>1</thread>
-  <message>Total execution time of NSGAIII: 27879ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238648</millis>
-  <sequence>41</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Total execution time of NSGAIII: 27902ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238653</millis>
-  <sequence>42</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>1</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ4, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ4/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238653</millis>
-  <sequence>44</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ2/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238654</millis>
-  <sequence>45</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ1, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ1/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238654</millis>
-  <sequence>46</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>16</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ3, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ3/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238654</millis>
-  <sequence>47</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>13</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ2/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238653</millis>
-  <sequence>43</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAII, problem: DTLZ4, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAII/DTLZ4/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238659</millis>
-  <sequence>50</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>15</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ1/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238659</millis>
-  <sequence>49</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>12</thread>
-  <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIII/DTLZ3/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:38</date>
-  <millis>1517266238659</millis>
-  <sequence>48</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ3, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ3/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239851</millis>
-  <sequence>51</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Total execution time of NSGAII: 481ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239860</millis>
-  <sequence>52</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ1, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ1/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239899</millis>
-  <sequence>53</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Total execution time of NSGAII: 536ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239905</millis>
-  <sequence>54</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ2, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ2/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239957</millis>
-  <sequence>55</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message>Total execution time of NSGAII: 517ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239962</millis>
-  <sequence>56</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message> Running algorithm: NSGAIV, problem: DTLZ4, run: 1, funFile: /Users/letrungdung/Documents/jMetal/3AlgorithmsDTLZ3Objective_Pop100Max10000/data/NSGAIV/DTLZ4/FUN1.tsv</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:39</date>
-  <millis>1517266239979</millis>
-  <sequence>57</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>16</thread>
-  <message>Total execution time of NSGAII: 522ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:40</date>
-  <millis>1517266240368</millis>
-  <sequence>58</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>14</thread>
-  <message>Total execution time of NSGAIV: 783ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:40</date>
-  <millis>1517266240954</millis>
-  <sequence>59</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>11</thread>
-  <message>Total execution time of NSGAIV: 423ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:41</date>
-  <millis>1517266241123</millis>
-  <sequence>60</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>18</thread>
-  <message>Total execution time of NSGAIV: 420ms</message>
-</record>
-<record>
-  <date>2018-01-29T23:50:41</date>
-  <millis>1517266241134</millis>
-  <sequence>61</sequence>
-  <logger>org.uma.jmetal.util.JMetalLogger</logger>
-  <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
-  <thread>17</thread>
-  <message>Total execution time of NSGAIV: 433ms</message>
+  <message>Total execution time of NSGAIV: 1453ms</message>
 </record>

@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0553e71e-07f6-4807-9a20-836f1789c2bb" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jMetal.log" afterPath="$PROJECT_DIR$/jMetal.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/GeneratorLatexTable.java" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/GeneratorLatexTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/writeMatrix2CSV.java" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/writeMatrix2CSV.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" afterPath="$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/util/ExperimentAlgorithm.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-problem/src/main/java/org/uma/jmetal/problem/multiobjective/UF/UF2.java" afterPath="$PROJECT_DIR$/jmetal-problem/src/main/java/org/uma/jmetal/problem/multiobjective/UF/UF2.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/jmetal-core/target/" />
@@ -27,11 +23,21 @@
       <file leaf-file-name="DTLZStudy.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="49">
-              <caret line="97" column="63" lean-forward="true" selection-start-line="97" selection-start-column="63" selection-end-line="97" selection-end-column="63" />
+            <state relative-caret-position="229">
+              <caret line="115" column="75" lean-forward="true" selection-start-line="115" selection-start-column="75" selection-end-line="115" selection-end-column="75" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="NSGAIIStudy2.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAIIStudy2.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="278">
+              <caret line="67" column="64" lean-forward="true" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="64" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -49,8 +55,8 @@
       <file leaf-file-name="ZDTStudy2.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ZDTStudy2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="89" column="37" lean-forward="false" selection-start-line="89" selection-start-column="31" selection-end-line="89" selection-end-column="37" />
+            <state relative-caret-position="231">
+              <caret line="86" column="50" lean-forward="true" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="50" />
               <folding />
             </state>
           </provider>
@@ -69,8 +75,8 @@
       <file leaf-file-name="ComputeQualityIndicators.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/component/ComputeQualityIndicators.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="127">
-              <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
+            <state relative-caret-position="87">
+              <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -92,18 +98,6 @@
             <state relative-caret-position="-53">
               <caret line="30" column="16" lean-forward="false" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeneratorLatexTable.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/utilsnsgav/GeneratorLatexTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="121" column="36" lean-forward="true" selection-start-line="121" selection-start-column="36" selection-end-line="121" selection-end-column="36" />
-              <folding>
-                <element signature="e#3541#3549#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -1275,6 +1269,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="709" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1286,7 +1281,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.334375" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.51875" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1330,13 +1325,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/qualityindicator/QualityIndicator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="12" column="17" lean-forward="false" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1740">
@@ -1675,14 +1663,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/component/ComputeQualityIndicators.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="78" column="0" lean-forward="false" selection-start-line="78" selection-start-column="0" selection-end-line="78" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/front/util/FrontNormalizer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="113">
@@ -1707,18 +1687,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-core/src/main/java/org/uma/jmetal/util/experiment/component/ComputeQualityIndicators.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ZDTStudy2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="89" column="37" lean-forward="false" selection-start-line="89" selection-start-column="31" selection-end-line="89" selection-end-column="37" />
+        <state relative-caret-position="231">
+          <caret line="86" column="50" lean-forward="true" selection-start-line="86" selection-start-column="14" selection-end-line="86" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/NSGAIIStudy2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="67" column="64" lean-forward="true" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DTLZStudy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="49">
-          <caret line="97" column="63" lean-forward="true" selection-start-line="97" selection-start-column="63" selection-end-line="97" selection-end-column="63" />
+        <state relative-caret-position="229">
+          <caret line="115" column="75" lean-forward="true" selection-start-line="115" selection-start-column="75" selection-end-line="115" selection-end-column="75" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
