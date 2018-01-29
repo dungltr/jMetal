@@ -1,6 +1,7 @@
 package org.uma.jmetal.algorithm.multiobjective.nsgav;
 
 //import org.moeaframework.core.Population;
+import org.apache.commons.math3.util.MathArrays;
 import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgav.utilsPopulation.utilsPopulation;
@@ -17,9 +18,8 @@ import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
 import org.uma.jmetal.util.solutionattribute.Ranking;
 import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
+
 import org.uma.jmetal.util.JMetalLogger;
 
 /**
@@ -31,6 +31,13 @@ import org.uma.jmetal.util.JMetalLogger;
  */
 @SuppressWarnings("serial")
 public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, List<S>> {
+	static final String NORMALIZED_OBJECTIVES = "Normalized Objectives";
+	static final String Min_OBJECTIVES = "Min Objectives";
+	static final String Max_OBJECTIVES = "Max Objectives";
+	static final String Distance_OBJECTIVES = "Distance to Min Objectives";
+	static final String Group_OBJECTIVES = "Group Objectives";
+	double[] idealPoint;
+	double[] idealMaxPoint;
   protected final int maxEvaluations;
 
   protected final SolutionListEvaluator<S> evaluator;
@@ -101,8 +108,194 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
         }
         return offspringPopulation ;
     }
+	protected void updateIdealPoint(List<S> currentFront) {
+		idealPoint = new double[currentFront.get(0).getNumberOfObjectives()];
+		idealMaxPoint = new double[currentFront.get(0).getNumberOfObjectives()];
+		Arrays.fill(idealPoint, Double.POSITIVE_INFINITY);
+		Arrays.fill(idealMaxPoint, Double.NEGATIVE_INFINITY);
+		for (S solution : currentFront) {
+			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+				idealPoint[i] = Math.min(idealPoint[i], solution.getObjective(i));
+			}
+
+		}
+	}
+	protected void updateIdealMaxPoint(List<S> currentFront) {
+		for (S solution : currentFront) {
+			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+				idealMaxPoint[i] = Math.max(idealMaxPoint[i], solution.getObjective(i));
+			}
+			/*
+			System.out.println("\nidealPoint:=");
+			NSGAIV.matrixPrint.printArray(idealPoint);
+			*/
+		}
+	}
+
+	protected void translateByIdealPoint(List<S> currentFront) {
+		for (S solution : currentFront) {
+			double[] objectives = new double[solution.getNumberOfObjectives()];
+			for (int i=0; i< objectives.length; i++){
+				objectives[i] = solution.getObjective(i);
+			}
+
+			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+				objectives[i] -= idealPoint[i];
+			}
+
+			solution.setAttribute(NORMALIZED_OBJECTIVES, objectives);
+		}
+	}
+	protected void normalizeByMinMax(List<S> currentFront) {
+		for (S solution : currentFront) {
+			double[] objectives = (double[])solution.getAttribute(NORMALIZED_OBJECTIVES);
+
+			for (int i = 0; i < solution.getNumberOfObjectives(); i++) {
+				objectives[i] /= idealMaxPoint[i]-idealPoint[i];
+			}
+		}
+	}
+	public void updateMinMaxPoint(int sizeScale, List<S> population){
+		double[] pointScale = new double[sizeScale+1];
+		pointScale[0] = 0;
+		double delta = (double) (1)/sizeScale;
+		for (int i = 1; i<sizeScale+1; i++){
+			pointScale[i] = pointScale[i-1] + delta;
+		}
+		for (S solution : population) {
+			double[] objectives = (double[])solution.getAttribute(NORMALIZED_OBJECTIVES);
+			double[] objectivesBackup = new double[objectives.length];
+			double[] objectivesLow = new double[objectives.length];
+			double[] objectivesUp = new double[objectives.length];
+
+			for (int i = 0; i < objectivesLow.length; i++){
+				objectivesBackup[i] = objectives[i];
+				objectivesLow[i] = objectives[i];
+				objectivesUp[i] = objectives[i];
+			}
+			//double[] objectivesUp = (double[])solution.getAttribute(NORMALIZED_OBJECTIVES);
+			for (int i = 0; i < population.get(0).getNumberOfObjectives(); i++) {
+				int j = 0;
+				while ((objectivesLow[i]>pointScale[j])&&(j < sizeScale)){
+					j++;
+				}
+				if (j>0)
+					objectivesLow[i] = pointScale[j-1];
+				else objectivesLow[i] = pointScale[0];
+			}
+			for (int i = 0; i < population.get(0).getNumberOfObjectives(); i++) {
+				int j = sizeScale;
+				while ((objectivesUp[i]<pointScale[j])&&(j > 0)){
+					j--;
+				}
+				if (j<sizeScale)
+					objectivesUp[i] = pointScale[j+1];
+				else objectivesUp[i] = pointScale[sizeScale];
+			}
+
+			double distance = 0;//MathArrays.distance(objectivesLow, objectivesBackup);
+			solution.setAttribute(Min_OBJECTIVES, objectivesLow);
+			solution.setAttribute(Max_OBJECTIVES, objectivesUp);
+			solution.setAttribute(Distance_OBJECTIVES, distance);
+			//solution.setAttribute(NORMALIZED_OBJECTIVES, objectivesBackup);
+		}
+	}
+	public static boolean compareVector(double[] v1, double[] v2){
+		if (v1.length!=v2.length){
+			System.out.println("Cannot compare two vector with difference length");
+			return false;
+		}
+		else{
+			int temp = 0;
+			for (int i = 0; i < v1.length; i++){
+				if (v1[i] != v2[i])
+					temp ++;
+			}
+			if (temp == 0) return true;
+			else return false;
+
+		}
+	}
+	protected S findMaxDistanceSolution (List<S> resultFilter){
+		double[] Distance = new double[resultFilter.size()];
+		for (int i=0; i<resultFilter.size();i++) {
+			Distance[i] = (double)resultFilter.get(i).getAttribute(Distance_OBJECTIVES);
+			if (Distance[i]==0) {
+				double[] objectives = (double[])resultFilter.get(i).getAttribute(NORMALIZED_OBJECTIVES);
+				double[] minObjectives = (double[])resultFilter.get(i).getAttribute(Min_OBJECTIVES);
+				double distance = MathArrays.distance(minObjectives, objectives);
+				//double distance = DistanceSolution(minObjectives,objectives);
+				resultFilter.get(i).setAttribute(Distance_OBJECTIVES, distance);
+				Distance[i] = distance;
+			}
+		}
+		double max = 0;
+		int index = 0;
+		for (int i=0; i<Distance.length;i++){
+			max = Math.max(max, Distance[i]);
+			if (max==Distance[i]) {
+				index = i;
+			}
+		}
+		return resultFilter.get(index);
+	}
+	public List<S> removeMaxDistanceInGroup (List<S> resultFront, int newSize){
+		for (int i = 0; i< resultFront.size();i++){
+			resultFront.get(i).setAttribute(Group_OBJECTIVES,-1);
+		}
+		List<List<S>> Groups = new ArrayList<>();
+		List<S> BigGroup = resultFront;
+		int Grp = -1;
+		for(int i = 0; i< BigGroup.size(); i++){
+			if ((int)BigGroup.get(i).getAttribute(Group_OBJECTIVES)==-1){
+				Grp++;
+				BigGroup.get(i).setAttribute(Group_OBJECTIVES,Grp);
+				double [] mini = (double[]) BigGroup.get(i).getAttribute(Min_OBJECTIVES);
+				double [] maxi = (double[]) BigGroup.get(i).getAttribute(Max_OBJECTIVES);
+				for (int j = i+1; j < BigGroup.size(); j++){
+					if ((i!=j)&&((int)BigGroup.get(j).getAttribute(Group_OBJECTIVES)==-1)){
+						double [] minj = (double[]) BigGroup.get(j).getAttribute(Min_OBJECTIVES);
+						double [] maxj = (double[]) BigGroup.get(j).getAttribute(Max_OBJECTIVES);
+						if (compareVector(mini, minj)){
+							if (compareVector(maxi, maxj)){
+								BigGroup.get(j).setAttribute(Group_OBJECTIVES,Grp);
+							}
+						}
+					}
+				}
+			}
+
+		}
+		int Grp_Max = Grp+1;
+		for (int i=0; i < Grp_Max; i++) {
+			List<S> Group = new ArrayList<>();
+			for (S solution: BigGroup){
+				if((int)solution.getAttribute(Group_OBJECTIVES)==i){
+					Group.add(solution);
+				}
+			}
+			Groups.add(Group);
+		}
+
+		while(resultFront.size()>newSize){
+			Random rand = new Random();
+			// nextInt is normally exclusive of the top value,
+			// so add 1 to make it inclusive
+			int randomNum = rand.nextInt(Grp_Max);
+			//int randomNum = (int) (k % Grp_Max);
+			if (Groups.get(randomNum).size()>0){
+				S solution = findMaxDistanceSolution (Groups.get(randomNum));
+				Groups.get(randomNum).remove(solution);
+				resultFront.remove(solution);
+			}
+
+		}
+		//System.out.println("After truncated with removeMaxDistance and Size:="+resultFront.size()+"and newSize is:="+newSize);
+		return resultFront;
+	}
     @Override
     protected List<S> replacement(List<S> population, List<S> offspringPopulation) {
+
 		//System.out.println("The begining of replacement function******************************************************");
 		/*
 		JMetalLogger.logger.info(
@@ -166,13 +359,21 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//pop.removeAll(currentFront);
 			//System.out.println("The size of population before filting is:="+pop.size());
 			int addMore = getMaxPopulationSize() - pop.size();//candidateSolutions + ranking.getSubfront(rankingIndex).size();
+			int N = addMore;
 			//System.out.println("The size of results is required:="+addMore);
-			List<S> result =
-					filter(previousFront, currentFront, addMore);
+			//List<S> result =
+			//		filter(previousFront, currentFront, addMore);
+			int gridPoint = 2;
+			updateIdealPoint(currentFront);
+			updateIdealMaxPoint(currentFront);
+			translateByIdealPoint(currentFront);
+			normalizeByMinMax(currentFront);
+			updateMinMaxPoint(gridPoint, currentFront);
 			//System.out.println("The size of resultFilter is:="+resultFilter.size());
 			/*for (int i=0;i<result.size();i++) {
 				pop.add(result.get(i));
 			}*/
+			List<S> result = removeMaxDistanceInGroup(currentFront,N);
 			pop.addAll(result);
 			/*
 			JMetalLogger.logger.info(
@@ -183,11 +384,11 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 				pop.add(currentFront.get(i));
 			}
 			*/
-		}else {
-        	if (pop.size()==getMaxPopulationSize())
-				System.out.println("The size of pop is Max and no need to run truncate");
-        	else System.out.println("The size of pop bigger than Max and should be checked error");
 		}
+        //if (pop.size()==getMaxPopulationSize())
+		//		System.out.println("The size of pop is Max and no need to run truncate");
+		if (pop.size()>getMaxPopulationSize()) System.out.println("The size of pop bigger than Max and should be checked error");
+
 		/*
 		JMetalLogger.logger.info(
 				"The size of population after filting is:="+pop.size());
@@ -380,7 +581,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		for (S solution: currentFront) {
 			temp.add(solution);
 		}
-		System.out.println("\nBegining Filter");
+		//System.out.println("\nBegining Filter");
 		List<double []> Store = updateDeltas (temp, 1);
 		//List<Integer> storeIndex = new ArrayList<Integer>();
 		//int [] storeIndex = new int[Store.size()];
@@ -549,7 +750,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 		}
 		//JMetalLogger.logger.info(
 		//		"After truncated at k = "+k+"and Size:="+currentFront.size()+"and newSize is:="+newSize);
-		System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
+		//System.out.println("After truncated at k = "+k+"and Size:="+resultFilter.size()+"and newSize is:="+newSize);
 		return resultFilter;
 	}
     protected int compare(S solution1, S solution2) {

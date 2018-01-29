@@ -51,17 +51,17 @@ public class NSGAVStudy {
 
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new DTLZ1()));
-    //problemList.add(new ExperimentProblem<>(new DTLZ2()));
-    /*problemList.add(new ExperimentProblem<>(new ZDT1()));
+    problemList.add(new ExperimentProblem<>(new DTLZ2()));
+    problemList.add(new ExperimentProblem<>(new ZDT1()));
     problemList.add(new ExperimentProblem<>(new ZDT2()));
     problemList.add(new ExperimentProblem<>(new ZDT3()));
     problemList.add(new ExperimentProblem<>(new ZDT4()));
     problemList.add(new ExperimentProblem<>(new ZDT6()));
-    */
+
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
             configureAlgorithmList(problemList);
 
-    List<String> referenceFrontFileNames = Arrays.asList("DTLZ1.2D.pf"//, "DTLZ2.2D.pf"//,"ZDT1.pf", "ZDT2.pf", "ZDT3.pf", "ZDT4.pf", "ZDT6.pf"
+    List<String> referenceFrontFileNames = Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf","ZDT1.pf", "ZDT2.pf", "ZDT3.pf", "ZDT4.pf", "ZDT6.pf"
             );
 
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
@@ -111,7 +111,7 @@ public class NSGAVStudy {
                 .setMaxEvaluations(25000)
                 .setPopulationSize(100)
                 .build();
-        algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAVa", problemList.get(i).getTag()));
+        algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAV", problemList.get(i).getTag()));
       }
       /*
     //System.out.println("The end of experiments NSGAVa");
@@ -154,7 +154,7 @@ public class NSGAVStudy {
               .setMaxEvaluations(25000)
               .setPopulationSize(100)
               .build();
-      algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIIa", problemList.get(i).getTag()));
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
     }/*
     //System.out.println("The end of experiments NSGAVa");
     for (int i = 0; i < problemList.size(); i++) {
