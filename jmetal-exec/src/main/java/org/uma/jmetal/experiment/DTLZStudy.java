@@ -56,14 +56,14 @@ import java.util.List;
  */
 
 public class DTLZStudy {
-    private static final int INDEPENDENT_RUNS = 1;
+    private static final int INDEPENDENT_RUNS = 10;
 
     public static void main(String[] args) throws IOException {
         /*if (args.length != 1) {
             throw new JMetalException("Missing argument: experimentBaseDirectory");
         }*/
-        int variables = 7;
-        int objecitves = 8;
+        int variables = 10;
+        int objecitves = 4;
         String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
 
         List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
@@ -71,10 +71,10 @@ public class DTLZStudy {
         //problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves-2)));
         //problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves-2)));
         //problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves-2)));
-        problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
-        //problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves)));
-        problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves)));
-        //problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
+        problemList.add(new ExperimentProblem<>(new DTLZ1()));
+        problemList.add(new ExperimentProblem<>(new DTLZ2()));
+        problemList.add(new ExperimentProblem<>(new DTLZ3()));
+        problemList.add(new ExperimentProblem<>(new DTLZ4()));
         //problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves+2)));
         //problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves+2)));
         //problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves+2)));
@@ -101,32 +101,34 @@ public class DTLZStudy {
 
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
                 configureAlgorithmList(problemList);
-
+        /*
         List<String> referenceFrontFileNames =
-                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","DTLZ4.3D.pf",
-                        "UF1.pf", "UF2.pf", "UF3.pf","UF4.pf",// "UF5.pf"//, "UF6.pf"//, "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf"
+                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","DTLZ4.3D.pf"
+                        //"UF1.pf", "UF2.pf", "UF3.pf","UF4.pf"// "UF5.pf"//, "UF6.pf"//, "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf"
                         //"DTLZ1.2D.pf", "DTLZ2.2D.pf", "DTLZ3.2D.pf","DTLZ4.2D.pf"//, "DTLZ5.2D.pf"//, "DTLZ3.2D.pf"
-                        "ZDT1.pf","ZDT2.pf","ZDT3.pf","ZDT4.pf"
+                        //"ZDT1.pf","ZDT2.pf","ZDT3.pf","ZDT4.pf"
                         //"UF1.pf", "UF2.pf", "UF3.pf"
                         // "DTLZ4.3D.pf", "DTLZ5.3D.pf","DTLZ6.3D.pf"
                         // , "DTLZ7.3D.pf");
 
                 );//);
-        String experimentName = "3Algorithms_DTLZ_8Problem_Pop100Max10000";
+        */
+        String experimentName = "3AlgorithmsDTLZ3Objective_Pop100Max10000";
         String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
+
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
                 new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
                         .setReferenceFrontDirectory("/pareto_fronts")
-                        .setReferenceFrontFileNames(referenceFrontFileNames)
+                        //.setReferenceFrontFileNames(referenceFrontFileNames)
                         .setExperimentBaseDirectory(experimentBaseDirectory)
                         .setOutputParetoFrontFileName("FUN")
                         .setOutputParetoSetFileName("VAR")
                         .setIndicatorList(Arrays.asList(
                                 //new Epsilon<DoubleSolution>(),
                                 //new Spread<DoubleSolution>(),
-                                //new GenerationalDistance<DoubleSolution>(),
+                                //new GenerationalDistance<DoubleSolution>()))//,
                                 //new PISAHypervolume<DoubleSolution>(),
                                 new InvertedGenerationalDistance<DoubleSolution>()))//,
                                 //new InvertedGenerationalDistancePlus<DoubleSolution>()))//
@@ -140,20 +142,22 @@ public class DTLZStudy {
         new GenerateWilcoxonTestTablesWithR<>(experiment).run();
         new GenerateFriedmanTestTables<>(experiment).run();
         new GenerateBoxplotsWithR<>(experiment).setRows(3).setColumns(3).setDisplayNotch().run();
-        String Caption = "InvertedGenerationalDistance";
+
+        String Caption = "Inverted Generational Distance";
+        //Caption = "";
 
         List<String> Problems = new ArrayList<>();
         for (int i = 0; i< problemList.size(); i++){
             Problems.add(problemList.get(i).getTag());
-            System.out.println(problemList.get(i).getTag());
+            //System.out.println(problemList.get(i).getTag());
         }
 
-        List<String> algorithms = new ArrayList<>();
+        String [] algorithms = new String [algorithmList.size()];
         for (int i = 0; i< algorithmList.size(); i++){
-            algorithms.add(algorithmList.get(i).getAlgorithmTag());
-            System.out.println(algorithmList.get(i).getAlgorithmTag());
+            algorithms[i] = algorithmList.get(i).getAlgorithmTag();
+            //System.out.println(algorithmList.get(i).getAlgorithmTag());
         }
-        //GeneratorLatexTable.GeneratorComputeTimeToLatex(homeFile, Caption, Problems, algorithms);
+        GeneratorLatexTable.GeneratorComputeTimeToLatex(homeFile, Caption, Problems, algorithms);
     }
 
     /**
