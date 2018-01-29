@@ -113,16 +113,14 @@ public class DTLZStudy {
 
                 );//);
 
-        String experimentName = "3AlgorithmsDTLZ3Objective_Pop100Max10000";
+        String experimentName = "3AlgorithmsDTLZ8ObjectivePop100Max10000";
         String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
                 new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
                         .setAlgorithmList(algorithmList)
                         .setProblemList(problemList)
-                        .setExperimentBaseDirectory(experimentBaseDirectory)
-                        .setReferenceFrontDirectory(experimentBaseDirectory+"/referenceFronts")
-                        //.setReferenceFrontDirectory("/pareto_fronts")
+                        .setReferenceFrontDirectory("/pareto_fronts")
                         .setReferenceFrontFileNames(referenceFrontFileNames)
                         .setExperimentBaseDirectory(experimentBaseDirectory)
                         .setOutputParetoFrontFileName("FUN")
