@@ -124,7 +124,7 @@ public class writeMatrix2CSV {
    			 "\\hline & m ";
 
         for (int i=0; i<algorithms.length;i++){
-        	add = add + " & " + algorithms[i].replaceAll("V", "-G");
+        	add = add + " & " + algorithms[i].replaceAll("IV", "-G");
         }
         add = add + "\\\\";
         add = add + "\n" + "\\hline"+"\n";
