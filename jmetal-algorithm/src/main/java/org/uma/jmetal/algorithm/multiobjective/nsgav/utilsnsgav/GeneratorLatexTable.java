@@ -123,6 +123,54 @@ public class GeneratorLatexTable {
 			}		
 		}
 	}
+	public static void GeneratorComputeTimeToLatex(String homeFile, String caption, List<String> Problems, String[] algorithms, int objectives) throws IOException {
+		String directory = caption.replace(" ", "");
+		String fileCSV = homeFile +"/";//+ directory;
+		String File = fileCSV +"/latex/"+ "ComputeTime";//
+
+		//File fileDir = new File(File);
+		//if (!fileDir.exists()) fileDir.mkdirs();
+		String texFile = File + ".tex";
+		String texFileTable = homeFile +"/"+ directory + ".tex";
+		String Caption = "Average compute time in "+caption+" experiment";
+		File fileTex = new File(texFile);
+		//if (!fileTex.exists()) fileTex.createNewFile();
+
+		//String temp = Files.readAllLines(Paths.get(texFileTable)).get(6);
+		//temp = temp.replaceAll(" ", "").replaceAll("\\\\", "").replaceAll("hline", "").replaceAll("-G", "V").substring(3);
+		//String [] titleAlgorithms = temp.split("&");
+		List<String> arrList = new ArrayList<String>();
+		int cnt= 0;
+		for(int i=0;i<algorithms.length;i++) {
+			for (int j = i + 1; j < algorithms.length; j++) {
+				if (algorithms[i].equals(algorithms[j])) {
+					cnt += 1;
+				}
+			}
+			if(cnt<1){
+				arrList.add(algorithms[i]);
+			}
+			cnt = 0;
+		}
+		String [] titleAlgorithms = new String [arrList.size()];
+		for (int i=0; i<titleAlgorithms.length;i++){
+			titleAlgorithms[i] = arrList.get(i);
+		}
+		double[][] averageTime = ComputeTime(fileCSV, Problems, titleAlgorithms);
+		if (!fileTex.exists()){
+			try {
+				fileTex.createNewFile();
+				writeMatrix2CSV.addHeader2tex(Caption, texFile, titleAlgorithms);
+				for (int i=0; i < Problems.size(); i++) {
+					writeMatrix2CSV.addArray2tex(texFile, averageTime[i], Problems.get(i), objectives);
+				}
+				writeMatrix2CSV.addBottom2tex(texFile,titleAlgorithms);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	/*
 	public GeneratorLatexTable GeneratorComputeTimeToLatex1(String homeFile, String caption, List<DTLZ1> Problems, String[] algorithms) {

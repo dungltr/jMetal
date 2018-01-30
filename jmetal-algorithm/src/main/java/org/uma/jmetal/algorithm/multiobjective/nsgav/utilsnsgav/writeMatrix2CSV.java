@@ -135,6 +135,7 @@ public class writeMatrix2CSV {
 			e.printStackTrace();
 		}
     }
+
     public static void addHline2tex(String Caption, String filename, String[] algorithms) {		
         Path filePath = Paths.get(filename);
         if (!Files.exists(filePath)) {
@@ -198,6 +199,51 @@ public class writeMatrix2CSV {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+    }
+    public static void addArray2tex(String filename, double[] tmp, String problem, int objectives) {
+        double min = Double.POSITIVE_INFINITY;
+        for (int i = 0; i< tmp.length; i++){
+            min = Math.min(min, tmp[i]);
+        }
+
+        Path filePath = Paths.get(filename);
+        if (!Files.exists(filePath)) {
+            try {
+                Files.createFile(filePath);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        String add = "";
+        if (problem.toLowerCase().contains("_")){
+            String tempString;// = problem.substring(problem.indexOf("_"));
+            tempString = problem.replace("_", " & ");
+            add = add + tempString +" & ";
+        }else{
+            add = add + problem +" & "+ objectives +" & ";
+        }
+        int i = 0;
+        for (i = 0; tmp.length - 1 > i; i++){
+            if (min == tmp[i]){
+                add = add + "\\cellcolor{gray95}" + String.format ("%6.3e", tmp[i]) + " & ";
+            }else{
+                add = add + String.format ("%6.3e", tmp[i]) + " & ";
+            }
+        }
+        if (tmp.length - 1 == i){
+            if (min == tmp[i]){
+                add = add + "\\cellcolor{gray95}" + String.format ("%6.3e", tmp[i]) + "\\\\\n";
+            }else{
+                add = add + String.format ("%6.3e", tmp[i]) + "\\\\\n";
+            }
+        }
+        try {
+            Files.write(filePath, add.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
     public static void addBottom2tex(String filename, String[] algorithms) {		
         Path filePath = Paths.get(filename);
