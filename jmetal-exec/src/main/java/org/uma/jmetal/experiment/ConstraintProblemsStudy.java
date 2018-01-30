@@ -80,14 +80,15 @@ import java.util.List;
  */
 public class ConstraintProblemsStudy {
   private static final int INDEPENDENT_RUNS = 10;
-  private int variables;
-  private int objecitves;
-  public ConstraintProblemsStudy set(int variable, int objecitve){
-    this.objecitves = objecitve;
-    this.variables = variable;
-    return this;
+  private int variable;
+  private int objecitve;
+  /*
+  public ConstraintProblemsStudy (int variables, int objecitves){
+    objecitve = objecitves;
+    variable = variables;
   }
-  public void ProblemsStudyRun()throws IOException{
+  */
+  public static void ProblemsStudyRun(int variables, int objecitves) throws IOException{
     String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
@@ -206,13 +207,13 @@ public class ConstraintProblemsStudy {
     List<String> Problems = new ArrayList<>();
     for (int i = 0; i< problemList.size(); i++){
       Problems.add(problemList.get(i).getTag());
-      //System.out.println(problemList.get(i).getTag());
+      System.out.println(problemList.get(i).getTag());
     }
 
     String [] algorithms = new String [algorithmList.size()];
     for (int i = 0; i< algorithmList.size(); i++){
       algorithms[i] = algorithmList.get(i).getAlgorithmTag();
-      //System.out.println(algorithmList.get(i).getAlgorithmTag());
+      System.out.println(algorithmList.get(i).getAlgorithmTag());
     }
     GeneratorLatexTable.GeneratorComputeTimeToLatex(homeFile, Caption, Problems, algorithms);
   }
@@ -262,6 +263,8 @@ public class ConstraintProblemsStudy {
               problemList.get(i).getProblem(),
               new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
               new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
+              .setMaxIterations((int)(MaxEvaluations/PopulationSize))
+              .setPopulationSize(PopulationSize)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }

@@ -25,7 +25,7 @@ import java.util.Vector;
 public class NSGAIII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, List<S>> {
   protected int iterations ;
   protected int maxIterations ;
-
+  protected int populationSize ;
   protected SolutionListEvaluator<S> evaluator ;
 
   protected Vector<Integer> numberOfDivisions  ;
@@ -39,7 +39,7 @@ public class NSGAIII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, 
     crossoverOperator =  builder.getCrossoverOperator() ;
     mutationOperator  =  builder.getMutationOperator() ;
     selectionOperator =  builder.getSelectionOperator() ;
-
+    populationSize = builder.getPopulationSize();
     evaluator = builder.getEvaluator() ;
 
     /// NSGAIII
@@ -47,12 +47,13 @@ public class NSGAIII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, 
     numberOfDivisions.add(12) ; // Default value for 3D problems
 
     (new ReferencePoint<S>()).generateReferencePoints(referencePoints,getProblem().getNumberOfObjectives() , numberOfDivisions);
-
+    /*
     int populationSize = referencePoints.size();
     //System.out.println(referencePoints.size());
     while (populationSize%4>0) {
       populationSize++;
     }
+    */
     //populationSize = 100;
     System.out.println(populationSize);
     setMaxPopulationSize(populationSize);
