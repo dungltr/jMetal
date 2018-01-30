@@ -180,16 +180,19 @@ public class GenerateLatexTablesWithStatistics implements ExperimentComponent {
     os.write("\\usepackage[table*]{xcolor}" + "\n");
     os.write("\\xdefinecolor{gray95}{gray}{0.65}" + "\n");
     os.write("\\xdefinecolor{gray25}{gray}{0.8}" + "\n");
-    os.write("\\author{A.J. Nebro}" + "\n");
+    os.write("\\author{Trung-Dung. Le}" + "\n");
     os.write("\\begin{document}" + "\n");
     os.write("\\maketitle" + "\n");
     os.write("\\section{Tables}" + "\n");
 
     os.close();
   }
-
+  String intputString (String inputFile){
+    return "\\input{"+inputFile+"}" + "\n";
+  }
   void printEndLatexCommands(String fileName) throws IOException {
     FileWriter os = new FileWriter(fileName, true);
+    os.write(intputString("ComputeTime"));
     os.write("\\end{document}" + "\n");
     os.close();
   }
@@ -203,7 +206,7 @@ public class GenerateLatexTablesWithStatistics implements ExperimentComponent {
     os.write("\\label{table: " + experiment.getIndicatorList().get(indicatorIndex).getName() + "}" + "\n");
     os.write("\\centering" + "\n");
     os.write("\\begin{scriptsize}" + "\n");
-    os.write("\\begin{tabular}{l");
+    os.write("\\begin{tabular}{ll");// Dung edit, old is {l" new is {ll"
 
     // calculate the number of columns
     os.write(StringUtils.repeat("l", experiment.getAlgorithmList().size()));
@@ -213,7 +216,7 @@ public class GenerateLatexTablesWithStatistics implements ExperimentComponent {
     // write table head
     for (int i = -1; i < experiment.getAlgorithmList().size(); i++) {
       if (i == -1) {
-        os.write(" & ");
+        os.write(" & m & "); // Dung edit, old is " & " new is " & m & "
       } else if (i == (experiment.getAlgorithmList().size() - 1)) {
         os.write(" " + experiment.getAlgorithmList().get(i).getAlgorithmTag() + "\\\\" + "\n");
       } else {
@@ -281,6 +284,9 @@ public class GenerateLatexTablesWithStatistics implements ExperimentComponent {
       }
 
       os.write(experiment.getProblemList().get(i).getTag().replace("_", "\\_") + " & ");
+
+      os.write(experiment.getProblemList().get(i).getProblem().getNumberOfObjectives() + " & ");// Dung edit
+
       for (int j = 0; j < (experiment.getAlgorithmList().size() - 1); j++) {
         if (j == bestIndex) {
           os.write("\\cellcolor{gray95}");
