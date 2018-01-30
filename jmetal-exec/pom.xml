@@ -74,5 +74,15 @@
             <artifactId>xchart</artifactId>
             <version>3.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
 </project>

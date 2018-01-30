@@ -31087,3 +31087,5129 @@
   <thread>16</thread>
   <message>Total execution time of SPEA2: 9758ms</message>
 </record>
+<record>
+  <date>2018-01-30T15:44:47</date>
+  <millis>1517323487085</millis>
+  <sequence>2826</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message>Total execution time of NSGAIII: 157717ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:44:55</date>
+  <millis>1517323495814</millis>
+  <sequence>2827</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGAIII: 161651ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:44:56</date>
+  <millis>1517323496137</millis>
+  <sequence>2828</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Total execution time of NSGAIII: 162266ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:44:58</date>
+  <millis>1517323498551</millis>
+  <sequence>2829</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAIII: 162763ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:44:59</date>
+  <millis>1517323499855</millis>
+  <sequence>2830</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGAIII: 160017ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506535</millis>
+  <sequence>2831</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of NSGAIII: 160437ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2832</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ4, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ4/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2836</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ5, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ5/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2840</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ2/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2835</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ4, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ4/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2833</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ2, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ2/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2834</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ4, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ4/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2839</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ3, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ3/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2837</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ1, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ1/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:06</date>
+  <millis>1517323506537</millis>
+  <sequence>2838</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ2, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ2/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508305</millis>
+  <sequence>2841</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGAII: 805ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508307</millis>
+  <sequence>2842</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ3, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ3/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508462</millis>
+  <sequence>2843</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGA-G: 861ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508464</millis>
+  <sequence>2844</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ3, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ3/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508718</millis>
+  <sequence>2845</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 1026ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508719</millis>
+  <sequence>2846</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ7, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ7/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508953</millis>
+  <sequence>2847</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGA-G: 1140ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:08</date>
+  <millis>1517323508955</millis>
+  <sequence>2848</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ7, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ7/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:10</date>
+  <millis>1517323510124</millis>
+  <sequence>2849</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGAII: 900ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:10</date>
+  <millis>1517323510125</millis>
+  <sequence>2850</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ1, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ1/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:10</date>
+  <millis>1517323510293</millis>
+  <sequence>2851</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGA-G: 924ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:10</date>
+  <millis>1517323510295</millis>
+  <sequence>2852</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ1, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ1/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:10</date>
+  <millis>1517323510521</millis>
+  <sequence>2853</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 871ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:10</date>
+  <millis>1517323510523</millis>
+  <sequence>2854</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ5, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ5/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:11</date>
+  <millis>1517323511049</millis>
+  <sequence>2855</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGA-G: 1026ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:11</date>
+  <millis>1517323511052</millis>
+  <sequence>2856</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ5, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ5/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:11</date>
+  <millis>1517323511732</millis>
+  <sequence>2857</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGAII: 798ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:11</date>
+  <millis>1517323511734</millis>
+  <sequence>2858</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ2/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:11</date>
+  <millis>1517323511923</millis>
+  <sequence>2859</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGA-G: 804ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:11</date>
+  <millis>1517323511926</millis>
+  <sequence>2860</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ4, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ4/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:12</date>
+  <millis>1517323512166</millis>
+  <sequence>2861</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 824ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:12</date>
+  <millis>1517323512168</millis>
+  <sequence>2862</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ1/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:13</date>
+  <millis>1517323513320</millis>
+  <sequence>2863</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGA-G: 1128ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:13</date>
+  <millis>1517323513322</millis>
+  <sequence>2864</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ7, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ7/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:23</date>
+  <millis>1517323523338</millis>
+  <sequence>2865</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Total execution time of SPEA2: 8115ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:23</date>
+  <millis>1517323523340</millis>
+  <sequence>2866</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ7, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ7/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:25</date>
+  <millis>1517323525984</millis>
+  <sequence>2867</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message>Total execution time of SPEA2: 9509ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:25</date>
+  <millis>1517323525987</millis>
+  <sequence>2868</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ5, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ5/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:29</date>
+  <millis>1517323529500</millis>
+  <sequence>2869</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of SPEA2: 11588ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:29</date>
+  <millis>1517323529502</millis>
+  <sequence>2870</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 8, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ3/FUN8.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:29</date>
+  <millis>1517323529704</millis>
+  <sequence>2871</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Total execution time of SPEA2: 11743ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:31</date>
+  <millis>1517323531101</millis>
+  <sequence>2872</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of SPEA2: 9313ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:45:37</date>
+  <millis>1517323537782</millis>
+  <sequence>2873</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of SPEA2: 13398ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:50:36</date>
+  <millis>1517323836075</millis>
+  <sequence>2874</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message>Total execution time of NSGAIII: 156217ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:50:43</date>
+  <millis>1517323843849</millis>
+  <sequence>2875</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAIII: 161202ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:50:47</date>
+  <millis>1517323847167</millis>
+  <sequence>2876</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGAIII: 162765ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:50:52</date>
+  <millis>1517323852395</millis>
+  <sequence>2877</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of NSGAIII: 155887ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:50:53</date>
+  <millis>1517323853611</millis>
+  <sequence>2878</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Total execution time of NSGAIII: 157915ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860817</millis>
+  <sequence>2879</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message>Total execution time of NSGAIII: 156367ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2880</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ4, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ4/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2884</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ4, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ4/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2887</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ7, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ7/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2881</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ2, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ2/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2883</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ2/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2882</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ4, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ4/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2888</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ1/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2886</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ7, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ7/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:00</date>
+  <millis>1517323860819</millis>
+  <sequence>2885</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ2, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ2/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:02</date>
+  <millis>1517323862803</millis>
+  <sequence>2889</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGA-G: 886ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:02</date>
+  <millis>1517323862805</millis>
+  <sequence>2890</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ3, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ3/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:03</date>
+  <millis>1517323863029</millis>
+  <sequence>2891</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 1054ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:03</date>
+  <millis>1517323863031</millis>
+  <sequence>2892</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ7, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ7/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:03</date>
+  <millis>1517323863078</millis>
+  <sequence>2893</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGA-G: 1066ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:03</date>
+  <millis>1517323863081</millis>
+  <sequence>2894</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ5, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ5/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:03</date>
+  <millis>1517323863412</millis>
+  <sequence>2895</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Total execution time of NSGA-G: 1218ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:03</date>
+  <millis>1517323863413</millis>
+  <sequence>2896</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ5, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ5/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:04</date>
+  <millis>1517323864595</millis>
+  <sequence>2897</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGA-G: 870ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:04</date>
+  <millis>1517323864597</millis>
+  <sequence>2898</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ1, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ1/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:04</date>
+  <millis>1517323864832</millis>
+  <sequence>2899</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 894ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:04</date>
+  <millis>1517323864834</millis>
+  <sequence>2900</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ5, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ5/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:05</date>
+  <millis>1517323865458</millis>
+  <sequence>2901</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGA-G: 1197ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:05</date>
+  <millis>1517323865460</millis>
+  <sequence>2902</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ2/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:06</date>
+  <millis>1517323866374</millis>
+  <sequence>2903</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGA-G: 861ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:06</date>
+  <millis>1517323866376</millis>
+  <sequence>2904</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ5, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ5/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:06</date>
+  <millis>1517323866560</millis>
+  <sequence>2905</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 856ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:06</date>
+  <millis>1517323866562</millis>
+  <sequence>2906</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ1, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ1/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:07</date>
+  <millis>1517323867378</millis>
+  <sequence>2907</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGAII: 990ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:07</date>
+  <millis>1517323867380</millis>
+  <sequence>2908</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ3, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ3/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:09</date>
+  <millis>1517323869173</millis>
+  <sequence>2909</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGAII: 881ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:09</date>
+  <millis>1517323869179</millis>
+  <sequence>2910</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ1, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ1/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:10</date>
+  <millis>1517323870748</millis>
+  <sequence>2911</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of NSGAII: 771ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:10</date>
+  <millis>1517323870750</millis>
+  <sequence>2912</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ3, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ3/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:25</date>
+  <millis>1517323885425</millis>
+  <sequence>2913</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message>Total execution time of SPEA2: 12104ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:25</date>
+  <millis>1517323885427</millis>
+  <sequence>2914</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ3/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:26</date>
+  <millis>1517323886906</millis>
+  <sequence>2915</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of SPEA2: 10027ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:26</date>
+  <millis>1517323886908</millis>
+  <sequence>2916</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ4, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ4/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:27</date>
+  <millis>1517323887904</millis>
+  <sequence>2917</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of SPEA2: 8550ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:27</date>
+  <millis>1517323887905</millis>
+  <sequence>2918</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ7, run: 9, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ7/FUN9.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:28</date>
+  <millis>1517323888470</millis>
+  <sequence>2919</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Total execution time of SPEA2: 12266ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:45</date>
+  <millis>1517323905168</millis>
+  <sequence>2920</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of SPEA2: 8486ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:51:53</date>
+  <millis>1517323913107</millis>
+  <sequence>2921</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of SPEA2: 13029ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:35</date>
+  <millis>1517324195672</millis>
+  <sequence>2922</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message>Total execution time of NSGAIII: 156699ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:37</date>
+  <millis>1517324197060</millis>
+  <sequence>2923</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Total execution time of NSGAIII: 161851ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:37</date>
+  <millis>1517324197931</millis>
+  <sequence>2924</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGAIII: 161959ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:38</date>
+  <millis>1517324198076</millis>
+  <sequence>2925</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of NSGAIII: 161110ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:45</date>
+  <millis>1517324205586</millis>
+  <sequence>2926</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message>Total execution time of NSGAIII: 152106ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:47</date>
+  <millis>1517324207278</millis>
+  <sequence>2927</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>15</thread>
+  <message>Total execution time of NSGAIII: 160541ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:47</date>
+  <millis>1517324207280</millis>
+  <sequence>2928</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFrontFromDoubleSolutions</class>
+  <method>createOutputDirectory</method>
+  <thread>1</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts. Status = true</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208965</millis>
+  <sequence>2929</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>Computing indicator: IGD+</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208965</millis>
+  <sequence>2930</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ1.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208969</millis>
+  <sequence>2931</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ1/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208972</millis>
+  <sequence>2932</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2530794869669331</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208975</millis>
+  <sequence>2933</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.5738212858634781</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208978</millis>
+  <sequence>2934</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.07925566253797302</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208981</millis>
+  <sequence>2935</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.24429228385218205</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208984</millis>
+  <sequence>2936</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.17432863581009023</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208987</millis>
+  <sequence>2937</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1028141682701831</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208990</millis>
+  <sequence>2938</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.027243866481269582</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208993</millis>
+  <sequence>2939</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.14030800554873382</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208996</millis>
+  <sequence>2940</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.06768292009450808</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208999</millis>
+  <sequence>2941</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0617062292463434</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:48</date>
+  <millis>1517324208999</millis>
+  <sequence>2942</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ2.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209006</millis>
+  <sequence>2943</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ2/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209012</millis>
+  <sequence>2944</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.39033848148553657</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209019</millis>
+  <sequence>2945</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2881615479726653</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209025</millis>
+  <sequence>2946</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3871222724373656</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209032</millis>
+  <sequence>2947</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.36145864719188553</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209038</millis>
+  <sequence>2948</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.38933883986088624</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209044</millis>
+  <sequence>2949</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4037686978188276</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209051</millis>
+  <sequence>2950</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3991268289656075</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209058</millis>
+  <sequence>2951</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.24681742772222293</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209064</millis>
+  <sequence>2952</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3345839209535515</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209071</millis>
+  <sequence>2953</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3053756281976488</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209071</millis>
+  <sequence>2954</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ3.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209075</millis>
+  <sequence>2955</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ3/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209079</millis>
+  <sequence>2956</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2023549735022459</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209082</millis>
+  <sequence>2957</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.20185070654036313</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209085</millis>
+  <sequence>2958</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.09577249945601897</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209088</millis>
+  <sequence>2959</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.10165460242123868</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209092</millis>
+  <sequence>2960</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.09194268572983223</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209095</millis>
+  <sequence>2961</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.21734161077764091</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209098</millis>
+  <sequence>2962</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.057616445050773235</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209101</millis>
+  <sequence>2963</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3488626929036893</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209105</millis>
+  <sequence>2964</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11789465362435517</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209108</millis>
+  <sequence>2965</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1847395974590817</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209112</millis>
+  <sequence>2966</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ4.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209116</millis>
+  <sequence>2967</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ4/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209121</millis>
+  <sequence>2968</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2606070363979163</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209126</millis>
+  <sequence>2969</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3808929410931847</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209131</millis>
+  <sequence>2970</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.30590057370682083</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209135</millis>
+  <sequence>2971</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2942157545629445</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209140</millis>
+  <sequence>2972</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.36527619830492536</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209145</millis>
+  <sequence>2973</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.30093274723051044</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209150</millis>
+  <sequence>2974</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.37768862251135416</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209154</millis>
+  <sequence>2975</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2937227776599928</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209159</millis>
+  <sequence>2976</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3816685744932308</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209164</millis>
+  <sequence>2977</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3401608027499601</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209164</millis>
+  <sequence>2978</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ5.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209171</millis>
+  <sequence>2979</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ5/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209179</millis>
+  <sequence>2980</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04962397618846251</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209186</millis>
+  <sequence>2981</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.08030724546028156</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209193</millis>
+  <sequence>2982</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.05118928567714156</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209201</millis>
+  <sequence>2983</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0469593178967757</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209208</millis>
+  <sequence>2984</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.118248380937793</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209215</millis>
+  <sequence>2985</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.05479348108833863</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209222</millis>
+  <sequence>2986</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.044676674280815766</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209229</millis>
+  <sequence>2987</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04912705550165638</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209236</millis>
+  <sequence>2988</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.042345042103016504</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209244</millis>
+  <sequence>2989</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.07152991135577866</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209244</millis>
+  <sequence>2990</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ7.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209251</millis>
+  <sequence>2991</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAII/DTLZ7/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209258</millis>
+  <sequence>2992</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.22589778261886062</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209265</millis>
+  <sequence>2993</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.21487754234756284</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209271</millis>
+  <sequence>2994</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.229749200822224</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209278</millis>
+  <sequence>2995</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.26630713394431704</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209285</millis>
+  <sequence>2996</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2875153229545266</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209291</millis>
+  <sequence>2997</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.25666817258238994</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209298</millis>
+  <sequence>2998</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3699969695946441</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209304</millis>
+  <sequence>2999</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.44481033180516044</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209311</millis>
+  <sequence>3000</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.158456897779387</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209317</millis>
+  <sequence>3001</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.18242707022131172</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209318</millis>
+  <sequence>3002</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ1.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209321</millis>
+  <sequence>3003</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ1/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209324</millis>
+  <sequence>3004</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.392043355830518</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209327</millis>
+  <sequence>3005</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.39202648095211284</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209330</millis>
+  <sequence>3006</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.23399241639590132</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209332</millis>
+  <sequence>3007</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.39714430817867813</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209335</millis>
+  <sequence>3008</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.5173533075897665</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209338</millis>
+  <sequence>3009</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3425435563366241</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209341</millis>
+  <sequence>3010</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.27291864742049</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209344</millis>
+  <sequence>3011</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3386586008931535</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209346</millis>
+  <sequence>3012</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3211695874359715</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209349</millis>
+  <sequence>3013</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.15028601811219375</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209349</millis>
+  <sequence>3014</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ2.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209356</millis>
+  <sequence>3015</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ2/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209363</millis>
+  <sequence>3016</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.22320551855474913</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209369</millis>
+  <sequence>3017</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.24220109236097193</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209376</millis>
+  <sequence>3018</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2749887796167263</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209382</millis>
+  <sequence>3019</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2666702785773196</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209389</millis>
+  <sequence>3020</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.25231884261092236</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209396</millis>
+  <sequence>3021</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.22451487513858923</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209402</millis>
+  <sequence>3022</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.22535067877333836</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209409</millis>
+  <sequence>3023</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2626582013629895</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209415</millis>
+  <sequence>3024</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.29551267616005494</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209421</millis>
+  <sequence>3025</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1956990545065591</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209422</millis>
+  <sequence>3026</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ3.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209426</millis>
+  <sequence>3027</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ3/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209429</millis>
+  <sequence>3028</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 4.3410390993201124</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209432</millis>
+  <sequence>3029</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.5633983296067856</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209435</millis>
+  <sequence>3030</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 2.077308820713295</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209438</millis>
+  <sequence>3031</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 2.4563052544294814</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209441</millis>
+  <sequence>3032</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 3.33338546567454</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209444</millis>
+  <sequence>3033</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 2.0875574662923295</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209448</millis>
+  <sequence>3034</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 1.2613988043551947</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209451</millis>
+  <sequence>3035</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 4.208186617223404</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209454</millis>
+  <sequence>3036</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 3.6748686318842574</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209457</millis>
+  <sequence>3037</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6480849269917803</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209457</millis>
+  <sequence>3038</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ4.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209461</millis>
+  <sequence>3039</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ4/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209466</millis>
+  <sequence>3040</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.285672907642716</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209471</millis>
+  <sequence>3041</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.29595085151092754</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209475</millis>
+  <sequence>3042</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.35216387783552544</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209480</millis>
+  <sequence>3043</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2482465900994458</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209485</millis>
+  <sequence>3044</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.27073898736628116</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209490</millis>
+  <sequence>3045</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3230024462403735</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209495</millis>
+  <sequence>3046</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.31659204799615953</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209499</millis>
+  <sequence>3047</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.35228387011108886</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209504</millis>
+  <sequence>3048</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.2980465061486076</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209509</millis>
+  <sequence>3049</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4062729510089071</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209509</millis>
+  <sequence>3050</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ5.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209517</millis>
+  <sequence>3051</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ5/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209524</millis>
+  <sequence>3052</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1537274004877917</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209532</millis>
+  <sequence>3053</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.13788610683942373</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209539</millis>
+  <sequence>3054</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.14478458931909768</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209547</millis>
+  <sequence>3055</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.17863722112003125</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209554</millis>
+  <sequence>3056</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.19629052040780803</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209562</millis>
+  <sequence>3057</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1799645006954057</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209587</millis>
+  <sequence>3058</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1731408594379965</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209644</millis>
+  <sequence>3059</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.18502756447676022</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209656</millis>
+  <sequence>3060</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.17298072521955993</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209663</millis>
+  <sequence>3061</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.10345663997115535</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209721</millis>
+  <sequence>3062</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ7.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209730</millis>
+  <sequence>3063</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/SPEA2/DTLZ7/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209736</millis>
+  <sequence>3064</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.06745928976920994</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209743</millis>
+  <sequence>3065</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11428462428348522</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209784</millis>
+  <sequence>3066</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.13657883748263583</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209791</millis>
+  <sequence>3067</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11906196009966186</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209800</millis>
+  <sequence>3068</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.07918744702910803</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209807</millis>
+  <sequence>3069</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.14790209781541241</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209814</millis>
+  <sequence>3070</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.15966177695607706</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209820</millis>
+  <sequence>3071</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.16296398997489897</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209827</millis>
+  <sequence>3072</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1750659303144279</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209833</millis>
+  <sequence>3073</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0944484814536667</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209833</millis>
+  <sequence>3074</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ1.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209837</millis>
+  <sequence>3075</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ1/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209840</millis>
+  <sequence>3076</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0011283604993419434</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209843</millis>
+  <sequence>3077</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 9.82431048379468E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209847</millis>
+  <sequence>3078</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 3.361278291867459E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209850</millis>
+  <sequence>3079</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0016491279190640662</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209853</millis>
+  <sequence>3080</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 7.915466953629457E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209856</millis>
+  <sequence>3081</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.004940199220052951</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209860</millis>
+  <sequence>3082</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 7.934592527282214E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209863</millis>
+  <sequence>3083</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.01179296545878286</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209866</millis>
+  <sequence>3084</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0019439889735264138</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209869</millis>
+  <sequence>3085</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.001065409694370818</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209869</millis>
+  <sequence>3086</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ2.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209876</millis>
+  <sequence>3087</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ2/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209882</millis>
+  <sequence>3088</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.19244595522289643</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209888</millis>
+  <sequence>3089</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.25937908628717626</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209895</millis>
+  <sequence>3090</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.24893079913543106</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209901</millis>
+  <sequence>3091</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1986106554443386</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209907</millis>
+  <sequence>3092</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.12947685735473902</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209913</millis>
+  <sequence>3093</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.12504794064473734</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209920</millis>
+  <sequence>3094</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.09163105994127896</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209926</millis>
+  <sequence>3095</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.22127236302564723</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209932</millis>
+  <sequence>3096</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.21027499092900337</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209939</millis>
+  <sequence>3097</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.24829656556486634</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209939</millis>
+  <sequence>3098</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ3.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209943</millis>
+  <sequence>3099</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ3/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209946</millis>
+  <sequence>3100</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.012174700978811025</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209950</millis>
+  <sequence>3101</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 8.009721152459792E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209954</millis>
+  <sequence>3102</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.03244677144422946</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209957</millis>
+  <sequence>3103</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.006504165283971351</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209961</millis>
+  <sequence>3104</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0020049420609712827</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209964</millis>
+  <sequence>3105</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.006461542631413402</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209968</millis>
+  <sequence>3106</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0033480436227376685</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209971</millis>
+  <sequence>3107</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.027866646352294015</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209975</millis>
+  <sequence>3108</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0205695213099043</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209978</millis>
+  <sequence>3109</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.004029272597194684</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209978</millis>
+  <sequence>3110</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ4.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209983</millis>
+  <sequence>3111</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ4/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209987</millis>
+  <sequence>3112</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.05895188168463675</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209992</millis>
+  <sequence>3113</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1274674473650083</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:49</date>
+  <millis>1517324209996</millis>
+  <sequence>3114</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.12095780122970962</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210000</millis>
+  <sequence>3115</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11772978938578217</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210005</millis>
+  <sequence>3116</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11169580923466302</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210010</millis>
+  <sequence>3117</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.10113326898913504</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210014</millis>
+  <sequence>3118</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.13545605891137125</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210019</millis>
+  <sequence>3119</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04958830545798762</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210023</millis>
+  <sequence>3120</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.07017637918561813</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210028</millis>
+  <sequence>3121</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.06404581046775877</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210028</millis>
+  <sequence>3122</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ5.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210036</millis>
+  <sequence>3123</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ5/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210043</millis>
+  <sequence>3124</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.06380162279223389</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210051</millis>
+  <sequence>3125</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04620393926317986</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210058</millis>
+  <sequence>3126</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.07036664718499912</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210066</millis>
+  <sequence>3127</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.06644835105498617</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210073</millis>
+  <sequence>3128</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.090061147764536</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210081</millis>
+  <sequence>3129</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.02843291196604473</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210088</millis>
+  <sequence>3130</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04580618959369512</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210096</millis>
+  <sequence>3131</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04342668342780613</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210103</millis>
+  <sequence>3132</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.03840837038114016</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210111</millis>
+  <sequence>3133</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04869575153570054</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210111</millis>
+  <sequence>3134</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ7.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210119</millis>
+  <sequence>3135</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGAIII/DTLZ7/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210125</millis>
+  <sequence>3136</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.03765208331240597</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210132</millis>
+  <sequence>3137</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.027903601841793087</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210139</millis>
+  <sequence>3138</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.03361509686204739</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210145</millis>
+  <sequence>3139</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023570142193090116</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210152</millis>
+  <sequence>3140</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.034164817065376725</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210158</millis>
+  <sequence>3141</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.02284454614232163</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210165</millis>
+  <sequence>3142</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.02205569054764564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210171</millis>
+  <sequence>3143</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.02536098845722225</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210178</millis>
+  <sequence>3144</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.019028349978789893</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210184</millis>
+  <sequence>3145</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.03922047924660954</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210184</millis>
+  <sequence>3146</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ1.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210188</millis>
+  <sequence>3147</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ1/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210191</millis>
+  <sequence>3148</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.002165689007886392</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210193</millis>
+  <sequence>3149</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 9.124985533766762E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210196</millis>
+  <sequence>3150</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.003391082292349265</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210199</millis>
+  <sequence>3151</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 6.571594459124408E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210202</millis>
+  <sequence>3152</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.004896025725033761</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210205</millis>
+  <sequence>3153</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.002193355047192286</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210208</millis>
+  <sequence>3154</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.003367375321573399</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210211</millis>
+  <sequence>3155</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.004423479495509703</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210214</millis>
+  <sequence>3156</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.001676525538997899</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210217</millis>
+  <sequence>3157</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 5.726566761335107E-4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210217</millis>
+  <sequence>3158</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ2.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210229</millis>
+  <sequence>3159</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ2/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210235</millis>
+  <sequence>3160</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4191911878887333</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210240</millis>
+  <sequence>3161</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.5239052323291206</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210246</millis>
+  <sequence>3162</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4191911995556308</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210252</millis>
+  <sequence>3163</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4146640204564913</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210257</millis>
+  <sequence>3164</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.3529838223415483</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210263</millis>
+  <sequence>3165</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4191911887826184</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210269</millis>
+  <sequence>3166</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.43214512430437907</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210274</millis>
+  <sequence>3167</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.41919118743211475</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210280</millis>
+  <sequence>3168</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.4191911942655219</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210285</millis>
+  <sequence>3169</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.37046633467358264</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210285</millis>
+  <sequence>3170</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ3.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210290</millis>
+  <sequence>3171</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ3/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210293</millis>
+  <sequence>3172</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.049415575470528654</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210297</millis>
+  <sequence>3173</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.42389099516782586</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210301</millis>
+  <sequence>3174</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.020899150586586004</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210304</millis>
+  <sequence>3175</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1120977179907421</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210308</millis>
+  <sequence>3176</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6984362614281744</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210312</millis>
+  <sequence>3177</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.7016681632073081</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210315</millis>
+  <sequence>3178</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.020913421085267742</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210319</millis>
+  <sequence>3179</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.04956660332287416</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210322</millis>
+  <sequence>3180</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6981477073677579</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210326</millis>
+  <sequence>3181</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.42342049602689064</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210326</millis>
+  <sequence>3182</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ4.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210330</millis>
+  <sequence>3183</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ4/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210333</millis>
+  <sequence>3184</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264790960492</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210334</millis>
+  <sequence>3185</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264811597473</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210334</millis>
+  <sequence>3186</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.678626494712192</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210335</millis>
+  <sequence>3187</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264824992752</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210336</millis>
+  <sequence>3188</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264920369661</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210338</millis>
+  <sequence>3189</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264797832348</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210341</millis>
+  <sequence>3190</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786265063761535</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210344</millis>
+  <sequence>3191</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.678626479395326</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210346</millis>
+  <sequence>3192</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264864256765</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210347</millis>
+  <sequence>3193</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.6786264816928352</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210347</millis>
+  <sequence>3194</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ5.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210354</millis>
+  <sequence>3195</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ5/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210360</millis>
+  <sequence>3196</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.16150125385135683</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210366</millis>
+  <sequence>3197</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1452507883590385</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210372</millis>
+  <sequence>3198</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1520958852098646</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210378</millis>
+  <sequence>3199</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1179814144997768</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210384</millis>
+  <sequence>3200</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.1607573288011627</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210390</millis>
+  <sequence>3201</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.12384406545981999</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210396</millis>
+  <sequence>3202</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11617037442066279</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210402</millis>
+  <sequence>3203</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11742749357784027</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210408</millis>
+  <sequence>3204</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.20954878708893052</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210414</millis>
+  <sequence>3205</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.11774776217237048</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210414</millis>
+  <sequence>3206</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>RF: /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/referenceFronts/DTLZ7.rf</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210422</millis>
+  <sequence>3207</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>resetFile</method>
+  <thread>1</thread>
+  <message>File /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/data/NSGA-G/DTLZ7/IGD+ does NOT exist.</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210428</millis>
+  <sequence>3208</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.02338824171248569</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210434</millis>
+  <sequence>3209</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.022988304397805533</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210440</millis>
+  <sequence>3210</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023068106429891853</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210446</millis>
+  <sequence>3211</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023037618018603406</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210452</millis>
+  <sequence>3212</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.0230715893337567</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210458</millis>
+  <sequence>3213</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023297575332493742</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210464</millis>
+  <sequence>3214</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023153515141574064</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210470</millis>
+  <sequence>3215</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023070966103575393</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210476</millis>
+  <sequence>3216</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.02326935808467774</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210481</millis>
+  <sequence>3217</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ComputeQualityIndicators</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>IGD+: 0.023202836146853065</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210505</millis>
+  <sequence>3218</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.GenerateLatexTablesWithStatistics</class>
+  <method>generateLatexScript</method>
+  <thread>1</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables6objectives/latex directory</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210578</millis>
+  <sequence>3219</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>rpssize: 18564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210581</millis>
+  <sequence>3220</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>rpssize: 18564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210583</millis>
+  <sequence>3221</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>rpssize: 18564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210585</millis>
+  <sequence>3222</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>rpssize: 18564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210587</millis>
+  <sequence>3223</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>rpssize: 18564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210590</millis>
+  <sequence>3224</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIII</class>
+  <method>&lt;init&gt;</method>
+  <thread>1</thread>
+  <message>rpssize: 18564</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210590</millis>
+  <sequence>3225</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.component.ExecuteAlgorithms</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>ExecuteAlgorithms: Preparing output directory</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3226</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3227</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>1</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ4, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ4/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3229</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ1</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3230</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ1, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ1/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3233</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ7</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3234</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ7, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ7/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210592</millis>
+  <sequence>3235</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ2</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210592</millis>
+  <sequence>3236</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ2, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210596</millis>
+  <sequence>3237</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210596</millis>
+  <sequence>3238</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ4, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ4/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210602</millis>
+  <sequence>3239</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>982</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ3</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210602</millis>
+  <sequence>3240</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>982</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ3, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ3/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3228</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ5</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210602</millis>
+  <sequence>3241</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ5, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ5/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3232</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ2</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210602</millis>
+  <sequence>3242</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ2, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210591</millis>
+  <sequence>3231</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:50</date>
+  <millis>1517324210612</millis>
+  <sequence>3243</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ4, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ4/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:52</date>
+  <millis>1517324212800</millis>
+  <sequence>3244</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGA-G: 1036ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:52</date>
+  <millis>1517324212803</millis>
+  <sequence>3245</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ3</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:52</date>
+  <millis>1517324212803</millis>
+  <sequence>3246</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ3, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ3/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:52</date>
+  <millis>1517324212971</millis>
+  <sequence>3247</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGA-G: 1181ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:52</date>
+  <millis>1517324212975</millis>
+  <sequence>3248</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ5</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:52</date>
+  <millis>1517324212975</millis>
+  <sequence>3249</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ5, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ5/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:53</date>
+  <millis>1517324213350</millis>
+  <sequence>3250</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Total execution time of NSGAII: 1312ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:53</date>
+  <millis>1517324213352</millis>
+  <sequence>3251</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ7</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:53</date>
+  <millis>1517324213352</millis>
+  <sequence>3252</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ7, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ7/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:53</date>
+  <millis>1517324213867</millis>
+  <sequence>3253</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of NSGA-G: 1601ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:53</date>
+  <millis>1517324213869</millis>
+  <sequence>3254</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ1</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:53</date>
+  <millis>1517324213869</millis>
+  <sequence>3255</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message> Running algorithm: NSGA-G, problem: DTLZ1, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGA-G/DTLZ1/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:54</date>
+  <millis>1517324214993</millis>
+  <sequence>3256</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGA-G: 1064ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:54</date>
+  <millis>1517324214995</millis>
+  <sequence>3257</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ2</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:54</date>
+  <millis>1517324214995</millis>
+  <sequence>3258</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ2, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215503</millis>
+  <sequence>3259</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Total execution time of NSGAII: 1027ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215505</millis>
+  <sequence>3260</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ5</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215506</millis>
+  <sequence>3261</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ5, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ5/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215658</millis>
+  <sequence>3262</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGA-G: 1272ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215660</millis>
+  <sequence>3263</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ1</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215661</millis>
+  <sequence>3264</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ1, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ1/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215852</millis>
+  <sequence>3265</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Total execution time of NSGA-G: 890ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215854</millis>
+  <sequence>3266</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ2</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:55</date>
+  <millis>1517324215855</millis>
+  <sequence>3267</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>11</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ2, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ2/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217094</millis>
+  <sequence>3268</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGAII: 999ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217096</millis>
+  <sequence>3269</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ3</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217096</millis>
+  <sequence>3270</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: NSGAII, problem: DTLZ3, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAII/DTLZ3/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217544</millis>
+  <sequence>3271</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Total execution time of NSGAII: 1006ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217547</millis>
+  <sequence>3272</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ7</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217547</millis>
+  <sequence>3273</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>17</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ7, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ7/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217577</millis>
+  <sequence>3274</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Total execution time of NSGAII: 957ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217580</millis>
+  <sequence>3275</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ1</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:57</date>
+  <millis>1517324217580</millis>
+  <sequence>3276</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>12</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ1, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ1/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:59</date>
+  <millis>1517324219327</millis>
+  <sequence>3277</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of NSGAII: 1018ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:59</date>
+  <millis>1517324219331</millis>
+  <sequence>3278</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ4</message>
+</record>
+<record>
+  <date>2018-01-30T15:56:59</date>
+  <millis>1517324219331</millis>
+  <sequence>3279</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ4, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ4/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:13</date>
+  <millis>1517324233211</millis>
+  <sequence>3280</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>982</thread>
+  <message>Total execution time of SPEA2: 11894ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:13</date>
+  <millis>1517324233214</millis>
+  <sequence>3281</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>982</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ5</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:13</date>
+  <millis>1517324233214</millis>
+  <sequence>3282</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>982</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ5, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ5/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:17</date>
+  <millis>1517324237310</millis>
+  <sequence>3283</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Total execution time of SPEA2: 14312ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:17</date>
+  <millis>1517324237313</millis>
+  <sequence>3284</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ3</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:17</date>
+  <millis>1517324237313</millis>
+  <sequence>3285</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>741</thread>
+  <message> Running algorithm: NSGAIII, problem: DTLZ3, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/NSGAIII/DTLZ3/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:25</date>
+  <millis>1517324245103</millis>
+  <sequence>3286</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of SPEA2: 18781ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:25</date>
+  <millis>1517324245106</millis>
+  <sequence>3287</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Creating /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ7</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:25</date>
+  <millis>1517324245106</millis>
+  <sequence>3288</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message> Running algorithm: SPEA2, problem: DTLZ7, run: 0, funFile: /Users/letrung/Documents/jMetal/DTLZStudy10variables7objectives/data/SPEA2/DTLZ7/FUN0.tsv</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:28</date>
+  <millis>1517324248129</millis>
+  <sequence>3289</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>16</thread>
+  <message>Total execution time of SPEA2: 21468ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:41</date>
+  <millis>1517324261874</millis>
+  <sequence>3290</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>259</thread>
+  <message>Total execution time of SPEA2: 23806ms</message>
+</record>
+<record>
+  <date>2018-01-30T15:57:52</date>
+  <millis>1517324272149</millis>
+  <sequence>3291</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
+  <method>runAlgorithm</method>
+  <thread>14</thread>
+  <message>Total execution time of SPEA2: 12866ms</message>
+</record>
