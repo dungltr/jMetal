@@ -4,9 +4,14 @@ import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.gde3.GDE3Builder;
 import org.uma.jmetal.algorithm.multiobjective.mocell.MOCellBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
+import org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav.GeneratorLatexTable;
 import org.uma.jmetal.algorithm.multiobjective.smpso.SMPSOBuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
+import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
 import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
@@ -20,6 +25,7 @@ import org.uma.jmetal.problem.multiobjective.Golinski;
 import org.uma.jmetal.problem.multiobjective.Srinivas;
 import org.uma.jmetal.problem.multiobjective.Tanaka;
 import org.uma.jmetal.problem.multiobjective.Water;
+import org.uma.jmetal.problem.multiobjective.dtlz.*;
 import org.uma.jmetal.problem.multiobjective.zdt.ZDT1;
 import org.uma.jmetal.problem.multiobjective.zdt.ZDT2;
 import org.uma.jmetal.problem.multiobjective.zdt.ZDT3;
@@ -73,36 +79,115 @@ import java.util.List;
  * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
 public class ConstraintProblemsStudy {
-  private static final int INDEPENDENT_RUNS = 25 ;
-
-  public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      throw new JMetalException("Needed arguments: experimentBaseDirectory") ;
-    }
-    String experimentBaseDirectory = args[0] ;
-
+  private static final int INDEPENDENT_RUNS = 10;
+  private int variables;
+  private int objecitves;
+  public ConstraintProblemsStudy set(int variable, int objecitve){
+    this.objecitves = objecitve;
+    this.variables = variable;
+    return this;
+  }
+  public void ProblemsStudyRun()throws IOException{
+    String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+    problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
+    /*
     problemList.add(new ExperimentProblem<>(new Binh2()));
     problemList.add(new ExperimentProblem<>(new ConstrEx()));
     problemList.add(new ExperimentProblem<>(new Golinski()));
     problemList.add(new ExperimentProblem<>(new Srinivas()));
     problemList.add(new ExperimentProblem<>(new Tanaka()));
     problemList.add(new ExperimentProblem<>(new Water()));
-
+    */
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
             configureAlgorithmList(problemList);
-
+    String experimentName = "DTLZStudy"+variables+"variables"+objecitves+"objectives";
+    String referenceFronts = "referenceFronts";
+    String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
-        new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>("ConstrainedProblemsStudy")
+            new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
+                    .setAlgorithmList(algorithmList)
+                    .setProblemList(problemList)
+                    .setExperimentBaseDirectory(experimentBaseDirectory)
+                    .setOutputParetoFrontFileName("FUN")
+                    .setOutputParetoSetFileName("VAR")
+                    .setReferenceFrontDirectory(experimentBaseDirectory+"/"+experimentName+"/"+referenceFronts)
+                    .setIndicatorList(Arrays.asList(
+                            //new Epsilon<DoubleSolution>(),
+                            //new PISAHypervolume<DoubleSolution>(),
+                            new InvertedGenerationalDistancePlus<DoubleSolution>()))
+                    .setIndependentRuns(INDEPENDENT_RUNS)
+                    .setNumberOfCores(8)
+                    .build();
+
+    new ExecuteAlgorithms<>(experiment).run();
+    new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
+    new ComputeQualityIndicators<>(experiment).run() ;
+    new GenerateLatexTablesWithStatistics(experiment).run() ;
+    new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
+    new GenerateFriedmanTestTables<>(experiment).run();
+    new GenerateBoxplotsWithR<>(experiment).setRows(3).setColumns(3).run() ;
+    String Caption = "Inverted Generational Distance";
+    //Caption = "";
+
+    List<String> Problems = new ArrayList<>();
+    for (int i = 0; i< problemList.size(); i++){
+      Problems.add(problemList.get(i).getTag());
+      //System.out.println(problemList.get(i).getTag());
+    }
+
+    String [] algorithms = new String [algorithmList.size()];
+    for (int i = 0; i< algorithmList.size(); i++){
+      algorithms[i] = algorithmList.get(i).getAlgorithmTag();
+      //System.out.println(algorithmList.get(i).getAlgorithmTag());
+    }
+    GeneratorLatexTable.GeneratorComputeTimeToLatex(homeFile, Caption, Problems, algorithms);
+  }
+  public static void main(String[] args) throws IOException {
+    /*if (args.length != 1) {
+      throw new JMetalException("Needed arguments: experimentBaseDirectory") ;
+    }
+    */
+    String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
+    //String experimentBaseDirectory = args[0] ;
+    int variables = 10;
+    int objecitves = 6;
+    List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+    problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
+    problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
+    /*
+    problemList.add(new ExperimentProblem<>(new Binh2()));
+    problemList.add(new ExperimentProblem<>(new ConstrEx()));
+    problemList.add(new ExperimentProblem<>(new Golinski()));
+    problemList.add(new ExperimentProblem<>(new Srinivas()));
+    problemList.add(new ExperimentProblem<>(new Tanaka()));
+    problemList.add(new ExperimentProblem<>(new Water()));
+    */
+    List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
+            configureAlgorithmList(problemList);
+    String experimentName = "DTLZStudy"+variables+"variables"+objecitves+"objectives";
+    String referenceFronts = "referenceFronts";
+    String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
+    Experiment<DoubleSolution, List<DoubleSolution>> experiment =
+        new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
             .setAlgorithmList(algorithmList)
             .setProblemList(problemList)
             .setExperimentBaseDirectory(experimentBaseDirectory)
             .setOutputParetoFrontFileName("FUN")
             .setOutputParetoSetFileName("VAR")
-            .setReferenceFrontDirectory(experimentBaseDirectory+"/ConstrainedProblemsStudy/referenceFronts")
+            .setReferenceFrontDirectory(experimentBaseDirectory+"/"+experimentName+"/"+referenceFronts)
             .setIndicatorList(Arrays.asList(
-                    new Epsilon<DoubleSolution>(),
-                    new PISAHypervolume<DoubleSolution>(),
+                    //new Epsilon<DoubleSolution>(),
+                    //new PISAHypervolume<DoubleSolution>(),
                     new InvertedGenerationalDistancePlus<DoubleSolution>()))
             .setIndependentRuns(INDEPENDENT_RUNS)
             .setNumberOfCores(8)
@@ -115,6 +200,21 @@ public class ConstraintProblemsStudy {
     new GenerateWilcoxonTestTablesWithR<>(experiment).run() ;
     new GenerateFriedmanTestTables<>(experiment).run();
     new GenerateBoxplotsWithR<>(experiment).setRows(3).setColumns(3).run() ;
+    String Caption = "Inverted Generational Distance";
+    //Caption = "";
+
+    List<String> Problems = new ArrayList<>();
+    for (int i = 0; i< problemList.size(); i++){
+      Problems.add(problemList.get(i).getTag());
+      //System.out.println(problemList.get(i).getTag());
+    }
+
+    String [] algorithms = new String [algorithmList.size()];
+    for (int i = 0; i< algorithmList.size(); i++){
+      algorithms[i] = algorithmList.get(i).getAlgorithmTag();
+      //System.out.println(algorithmList.get(i).getAlgorithmTag());
+    }
+    GeneratorLatexTable.GeneratorComputeTimeToLatex(homeFile, Caption, Problems, algorithms);
   }
 
   /**
@@ -126,33 +226,94 @@ public class ConstraintProblemsStudy {
   static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
           List<ExperimentProblem<DoubleSolution>> problemList) {
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
+    double crossoverProbability = 1.0;
+    double crossoverDistributionIndex = 20.0 ;
 
+    double mutationProbability = 1.0;
+    double mutationDistributionIndex = 20.0 ;
+    int MaxEvaluations = 25000;
+    int PopulationSize = 100;
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
               problemList.get(i).getProblem(),
-              new SBXCrossover(1.0, 20),
-              new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
-              .setMaxEvaluations(25000)
-              .setPopulationSize(100)
+              new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
+              new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
+              .setMaxEvaluations(MaxEvaluations)
+              .setPopulationSize(PopulationSize)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-
+    /*
+    for (int i = 0; i < problemList.size(); i++) {
+      //double mutationProbability = 1.0 / problemList.get(i).getProblem().getNumberOfVariables();
+      //double mutationDistributionIndex = 20.0;
+      Algorithm<List<DoubleSolution>> algorithm = new SMPSOBuilder((DoubleProblem) problemList.get(i).getProblem(),
+              new CrowdingDistanceArchive<DoubleSolution>(100))
+              .setMutation(new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
+              .setMaxIterations(250)
+              .setSwarmSize(100)
+              .setSolutionListEvaluator(new SequentialSolutionListEvaluator<DoubleSolution>())
+              .build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+    }
+    */
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new SPEA2Builder<DoubleSolution>(
               problemList.get(i).getProblem(),
-              new SBXCrossover(1.0, 10.0),
-              new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
+              new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
+              new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
 
     for (int i = 0; i < problemList.size(); i++) {
-      double mutationProbability = 1.0 / problemList.get(i).getProblem().getNumberOfVariables();
-      double mutationDistributionIndex = 20.0;
+      CrossoverOperator<DoubleSolution> crossover;
+      MutationOperator<DoubleSolution> mutation;
+      SelectionOperator<List<DoubleSolution>, DoubleSolution> selection;
+      crossover = new SBXCrossover(crossoverProbability, crossoverDistributionIndex) ;
+      mutation = new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex) ;
+      selection = new BinaryTournamentSelection<DoubleSolution>();
+
+      Algorithm<List<DoubleSolution>> algorithm = new NSGAIIIBuilder<DoubleSolution>(
+              problemList.get(i).getProblem())
+              //new SBXCrossover(crossoverProbability, crossoverDistributionIndex))
+              //new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex),
+              .setCrossoverOperator(crossover)
+              .setMutationOperator(mutation)
+              //new BinaryTournamentSelection<DoubleSolution>())
+              .setSelectionOperator(selection)
+              .setMaxIterations((int)(MaxEvaluations/PopulationSize))
+              .setPopulationSize(PopulationSize)
+              .build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+    }
+
+    for (int i = 0; i < problemList.size(); i++) {
+      Algorithm<List<DoubleSolution>> algorithm = new NSGAVBuilder<>(
+              problemList.get(i).getProblem(),
+              new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
+              new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
+              .setMaxEvaluations(MaxEvaluations)
+              .setPopulationSize(PopulationSize)
+              .build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm,"NSGA-G", problemList.get(i).getTag()));
+    }
+    /*
+    for (int i = 0; i < problemList.size(); i++) {
+      Algorithm<List<DoubleSolution>> algorithm = new SPEA2Builder<DoubleSolution>(
+              problemList.get(i).getProblem(),
+              new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
+              new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
+              .build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+    }
+
+    for (int i = 0; i < problemList.size(); i++) {
+      //double mutationProbability = 1.0 / problemList.get(i).getProblem().getNumberOfVariables();
+      //double mutationDistributionIndex = 20.0;
       Algorithm<List<DoubleSolution>> algorithm = new SMPSOBuilder((DoubleProblem) problemList.get(i).getProblem(),
               new CrowdingDistanceArchive<DoubleSolution>(100))
-              .setMutation(new PolynomialMutation(mutationProbability, mutationDistributionIndex))
+              .setMutation(new PolynomialMutation(mutationProbability/problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
               .setMaxIterations(250)
               .setSwarmSize(100)
               .setSolutionListEvaluator(new SequentialSolutionListEvaluator<DoubleSolution>())
@@ -166,8 +327,8 @@ public class ConstraintProblemsStudy {
       Algorithm<List<DoubleSolution>> algorithm = new GDE3Builder((DoubleProblem) problemList.get(i).getProblem())
               .setCrossover(new DifferentialEvolutionCrossover(cr, f, "rand/1/bin"))
               .setSelection(new DifferentialEvolutionSelection())
-              .setMaxEvaluations(25000)
-              .setPopulationSize(100)
+              .setMaxEvaluations(MaxEvaluations)
+              .setPopulationSize(PopulationSize)
               .setSolutionSetEvaluator(new SequentialSolutionListEvaluator<>())
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
@@ -176,16 +337,16 @@ public class ConstraintProblemsStudy {
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new MOCellBuilder<DoubleSolution>(
               (DoubleProblem) problemList.get(i).getProblem(),
-              new SBXCrossover(1.0, 20.0),
-              new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0))
+              new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
+              new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
               .setSelectionOperator(new BinaryTournamentSelection<>())
-              .setMaxEvaluations(25000)
-              .setPopulationSize(100)
+              .setMaxEvaluations(MaxEvaluations)
+              .setPopulationSize(PopulationSize)
               .setArchive(new CrowdingDistanceArchive<DoubleSolution>(100))
               .build() ;
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-
+    */
     return algorithms;
   }
 

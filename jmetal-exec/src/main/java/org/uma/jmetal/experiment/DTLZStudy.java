@@ -62,7 +62,7 @@ public class DTLZStudy {
         /*if (args.length != 1) {
             throw new JMetalException("Missing argument: experimentBaseDirectory");
         }*/
-        int variables = 10;
+        int variables = 7;
         int objecitves = 4;
         String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
 
@@ -83,38 +83,64 @@ public class DTLZStudy {
         problemList.add(new ExperimentProblem<>(new DTLZ6()));
         problemList.add(new ExperimentProblem<>(new DTLZ7()));
         */
-        //problemList.add(new ExperimentProblem<>(new UF1()));
-        //problemList.add(new ExperimentProblem<>(new UF2()));
-        //problemList.add(new ExperimentProblem<>(new UF3()));
-        //problemList.add(new ExperimentProblem<>(new UF4()));
-        //problemList.add(new ExperimentProblem<>(new UF5()));
-        //problemList.add(new ExperimentProblem<>(new UF6()));
-        //problemList.add(new ExperimentProblem<>(new UF7()));
-        //problemList.add(new ExperimentProblem<>(new UF8()));
-        //problemList.add(new ExperimentProblem<>(new UF9()));
-        //problemList.add(new ExperimentProblem<>(new UF10()));
+        problemList.add(new ExperimentProblem<>(new UF1()));
+        problemList.add(new ExperimentProblem<>(new UF2()));
+        problemList.add(new ExperimentProblem<>(new UF3()));
+        problemList.add(new ExperimentProblem<>(new UF4()));
+        problemList.add(new ExperimentProblem<>(new UF5()));
+        problemList.add(new ExperimentProblem<>(new UF6()));
+        problemList.add(new ExperimentProblem<>(new UF7()));
+        problemList.add(new ExperimentProblem<>(new UF8()));
+        problemList.add(new ExperimentProblem<>(new UF9()));
+        problemList.add(new ExperimentProblem<>(new UF10()));
 
-        //problemList.add(new ExperimentProblem<>(new ZDT1()));
-        //problemList.add(new ExperimentProblem<>(new ZDT2()));
-        //problemList.add(new ExperimentProblem<>(new ZDT3()));
-        //problemList.add(new ExperimentProblem<>(new ZDT4()));
+        problemList.add(new ExperimentProblem<>(new ZDT1()));
+        problemList.add(new ExperimentProblem<>(new ZDT2()));
+        problemList.add(new ExperimentProblem<>(new ZDT3()));
+        problemList.add(new ExperimentProblem<>(new ZDT4()));
 
         List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
                 configureAlgorithmList(problemList);
 
         List<String> referenceFrontFileNames =
-                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","DTLZ4.3D.pf"
-                        //"UF1.pf", "UF2.pf", "UF3.pf","UF4.pf"// "UF5.pf"//, "UF6.pf"//, "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf"
+                Arrays.asList("DTLZ1.3D.pf", "DTLZ2.3D.pf", "DTLZ3.3D.pf","DTLZ4.3D.pf",
+                        "UF1.pf", "UF2.pf", "UF3.pf","UF4.pf", "UF5.pf", "UF6.pf", "UF7.pf", "UF8.pf", "UF9.pf", "UF10.pf",
                         //"DTLZ1.2D.pf", "DTLZ2.2D.pf", "DTLZ3.2D.pf","DTLZ4.2D.pf"//, "DTLZ5.2D.pf"//, "DTLZ3.2D.pf"
-                        //"ZDT1.pf","ZDT2.pf","ZDT3.pf","ZDT4.pf"
+                        "ZDT1.pf","ZDT2.pf","ZDT3.pf","ZDT4.pf"
                         //"UF1.pf", "UF2.pf", "UF3.pf"
                         // "DTLZ4.3D.pf", "DTLZ5.3D.pf","DTLZ6.3D.pf"
                         // , "DTLZ7.3D.pf");
 
                 );//);
 
-        String experimentName = "3AlgorithmsDTLZ8ObjectivePop100Max10000";
+        String experimentName = "3AlgorithmsAllProblemsObjectivePop100Max10000";
         String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
+        /*
+        ExperimentBuilder<DoubleSolution, List<DoubleSolution>> DTLZStudy = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName);
+        DTLZStudy.setAlgorithmList(algorithmList);
+        DTLZStudy.setProblemList(problemList);
+        DTLZStudy.setExperimentBaseDirectory(experimentBaseDirectory);
+        DTLZStudy.setOutputParetoFrontFileName("FUN");
+        DTLZStudy.setOutputParetoSetFileName("VAR");
+        DTLZStudy.setReferenceFrontDirectory(experimentBaseDirectory +"/"+experimentName+ "/referenceFronts");
+        DTLZStudy.setIndicatorList(Arrays.asList(
+                //new Epsilon<DoubleSolution>(),
+                //new Spread<DoubleSolution>(),
+                //new GenerationalDistance<DoubleSolution>(),
+                //new PISAHypervolume<DoubleSolution>(),
+                new InvertedGenerationalDistance<DoubleSolution>()));//,
+                //new InvertedGenerationalDistancePlus<DoubleSolution>()));
+        DTLZStudy.setIndependentRuns(INDEPENDENT_RUNS);
+        DTLZStudy.setNumberOfCores(8);
+        Experiment<DoubleSolution, List<DoubleSolution>> experimentDTLZStudy = DTLZStudy.build();
+        new ExecuteAlgorithms<>(experimentDTLZStudy).run();
+        new ComputeQualityIndicators<>(experimentDTLZStudy).run();
+        new GenerateLatexTablesWithStatistics(experimentDTLZStudy).run();
+        new GenerateWilcoxonTestTablesWithR<>(experimentDTLZStudy).run();
+        new GenerateFriedmanTestTables<>(experimentDTLZStudy).run();
+        new GenerateBoxplotsWithR<>(experimentDTLZStudy).setRows(3).setColumns(3).setDisplayNotch().run();
+        */
+
 
         Experiment<DoubleSolution, List<DoubleSolution>> experiment =
                 new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)

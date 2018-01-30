@@ -93,6 +93,7 @@ public class ZDTStudy2 {
             new InvertedGenerationalDistance<DoubleSolution>(), new InvertedGenerationalDistancePlus<DoubleSolution>()));
     zdt2Study.setIndependentRuns(INDEPENDENT_RUNS);
     zdt2Study.setNumberOfCores(8);
+
     Experiment<DoubleSolution, List<DoubleSolution>> experiment = zdt2Study.build();
 
     new ExecuteAlgorithms<>(experiment).run();

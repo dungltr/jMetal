@@ -85,7 +85,7 @@ public class BinaryProblemsStudy {
     }
     String experimentBaseDirectory = args[0];
     */
-    String experimentBaseDirectory = "/Users/letrung/jMetalData";//args[0];
+    String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
     List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new ZDT5()));
     problemList.add(new ExperimentProblem<>(new OneZeroMax(512)));
