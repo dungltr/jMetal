@@ -75,10 +75,10 @@ public class ExperimentAlgorithm&lt;S extends Solution&lt;?&gt;, Result&gt;  {
 <span class="nc" id="L75">    double[] array = new double[2];</span>
 <span class="nc" id="L76">    array[0] = (double)id;</span>
 <span class="nc" id="L77">    array[1] = (double)computingTime;</span>
-<span class="nc" id="L78">    JMetalLogger.logger.info(&quot;Total execution time of &quot;+algorithm.getName()+&quot;: &quot; + computingTime + &quot;ms&quot;);</span>
+<span class="nc" id="L78">    JMetalLogger.logger.info(&quot;Total execution time of &quot;+algorithmTag+&quot;: &quot; + computingTime + &quot;ms&quot;);</span>
     try {
-<span class="nc" id="L80">      writeCSV.addArray2Csv(ReadFile.readhome(&quot;HOME&quot;)+&quot;/&quot;+algorithm.getName()+&quot;_&quot;+ problemTag +&quot;.csv&quot;,array);</span>
-<span class="nc" id="L81">      writeCSV.addNumberCsv(ReadFile.readhome(&quot;HOME&quot;)+&quot;/&quot;+algorithm.getName()+&quot;_&quot;+ problemTag+&quot;_computeTime&quot; +&quot;.csv&quot;,(double)computingTime);</span>
+      //writeCSV.addArray2Csv(ReadFile.readhome(&quot;HOME_jMetalData&quot;)+&quot;/&quot;+experimentData.getExperimentBaseDirectory()+&quot;/&quot;+algorithm.getName()+&quot;_&quot;+ problemTag +&quot;.csv&quot;,array);
+<span class="nc" id="L81">      writeCSV.addNumberCsv(experimentData.getExperimentBaseDirectory()+&quot;/&quot;+algorithmTag+&quot;_&quot;+ problemTag +&quot;.csv&quot;,(double)computingTime);</span>
 <span class="nc" id="L82">    } catch (IOException e) {</span>
 <span class="nc" id="L83">      e.printStackTrace();</span>
 <span class="nc" id="L84">    }</span>

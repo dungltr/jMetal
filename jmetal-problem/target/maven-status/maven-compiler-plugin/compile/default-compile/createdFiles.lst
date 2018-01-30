@@ -36,8 +36,8 @@ org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F17RotatedHybridCo
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F10ShiftedRotatedRastrigin.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F23NoncontinuousRotatedHybridComposition3$1.class
 org/uma/jmetal/problem/multiobjective/cdtlz/ConvexC2_DTLZ2.class
-org/uma/jmetal/problem/multiobjective/dtlz/DTLZ4.class
 org/uma/jmetal/problem/multiobjective/wfg/WFG7.class
+org/uma/jmetal/problem/multiobjective/dtlz/DTLZ4.class
 org/uma/jmetal/problem/multiobjective/Fonseca.class
 org/uma/jmetal/problem/singleobjective/Griewank.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F20RotatedHybridComposition2GlobalOptBound$MyHCJob.class
@@ -58,8 +58,8 @@ org/uma/jmetal/problem/multiobjective/dtlz/DTLZ2.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F21RotatedHybridComposition3$1.class
 org/uma/jmetal/problem/multiobjective/glt/GLT1.class
 org/uma/jmetal/problem/multiobjective/wfg/Shapes.class
-org/uma/jmetal/problem/multiobjective/Schaffer.class
 org/uma/jmetal/problem/multiobjective/Binh2.class
+org/uma/jmetal/problem/multiobjective/Schaffer.class
 org/uma/jmetal/problem/multiobjective/cdtlz/C1_DTLZ3.class
 org/uma/jmetal/problem/multiobjective/UF/UF1.class
 org/uma/jmetal/problem/multiobjective/wfg/WFG8.class
@@ -68,8 +68,8 @@ org/uma/jmetal/problem/multiobjective/ConstrEx.class
 org/uma/jmetal/problem/multiobjective/UF/UF5.class
 org/uma/jmetal/problem/multiobjective/zdt/ZDT6.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F25RotatedHybridComposition4Bound$1.class
-org/uma/jmetal/problem/multiobjective/mop/MOP1.class
 org/uma/jmetal/problem/multiobjective/mop/MOP7.class
+org/uma/jmetal/problem/multiobjective/mop/MOP1.class
 org/uma/jmetal/problem/multiobjective/glt/GLT4.class
 org/uma/jmetal/problem/multiobjective/lz09/LZ09F9.class
 org/uma/jmetal/problem/multiobjective/MultiobjectiveTSP.class
@@ -113,8 +113,8 @@ org/uma/jmetal/problem/multiobjective/lz09/LZ09F5.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F22RotatedHybridComposition3HighCondNumMatrix.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F18RotatedHybridComposition2.class
 org/uma/jmetal/problem/multiobjective/cdtlz/C2_DTLZ2.class
-org/uma/jmetal/problem/multiobjective/UF/UF6.class
 org/uma/jmetal/problem/multiobjective/Kursawe.class
+org/uma/jmetal/problem/multiobjective/UF/UF6.class
 org/uma/jmetal/problem/singleobjective/cec2005competitioncode/F24RotatedHybridComposition4.class
 org/uma/jmetal/problem/multiobjective/mop/MOP3.class
 org/uma/jmetal/problem/multiobjective/glt/GLT6.class

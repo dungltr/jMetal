@@ -190,9 +190,9 @@ public class CountingMeasure extends SimplePushMeasure&lt;Long&gt; implements
 		 */
 <span class="fc" id="L191">		Collection&lt;PushMeasure&lt;?&gt;&gt; remainingMeasures = new LinkedList&lt;&gt;(</span>
 <span class="fc" id="L192">				linkedMeasures.keySet());</span>
-<span class="pc bpc" id="L193" title="1 of 2 branches missed.">		for (PushMeasure&lt;?&gt; measure : remainingMeasures) {</span>
-<span class="nc" id="L194">			unlink(measure);</span>
-<span class="nc" id="L195">		}</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		for (PushMeasure&lt;?&gt; measure : remainingMeasures) {</span>
+<span class="fc" id="L194">			unlink(measure);</span>
+<span class="fc" id="L195">		}</span>
 <span class="fc" id="L196">		super.finalize();</span>
 <span class="fc" id="L197">	}</span>
 

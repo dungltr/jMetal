@@ -1,11 +1,16 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,ReadFile,152,0,24,0,21,0,15,0,3,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,utilsCSVtoLatex,272,0,16,0,52,0,11,0,3,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,writeMatrix2CSV,977,0,60,0,183,0,40,0,10,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,GeneratorLatexTable,429,0,34,0,79,0,22,0,5,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,ReadMatrixCSV,593,0,72,0,146,0,43,0,7,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,writeCSV,76,0,6,0,12,0,5,0,2,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.wasfga.util,WASFGARankingConstraint,303,0,46,0,62,0,27,0,4,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.wasfga.util,WASFGARanking,137,0,10,0,26,0,10,0,5,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.wasfga.util,WeightVector.NORMALIZE,38,0,0,0,1,0,4,0,4,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.wasfga.util,WeightVector,265,0,20,0,51,0,14,0,4,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.gde3,GDE3,380,0,28,0,85,0,35,0,21,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.gde3,GDE3Builder,80,0,0,0,23,0,11,0,11,0
-org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav,writeCSV,76,0,6,0,12,0,5,0,2,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.abyss,ABYSSBuilder,161,0,0,0,45,0,20,0,20,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.abyss,ABYSS,178,1036,19,73,33,199,20,47,4,17
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.spea2.util,EnvironmentalSelection.new Comparator() {...},32,0,4,0,6,0,4,0,2,0
@@ -65,7 +70,7 @@ org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead,MO
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead,AbstractMOEAD,801,0,70,0,152,0,48,0,13,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead,MOEADBuilder,303,0,10,0,60,0,29,0,24,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAVBuilder.NSGAVVariant,28,0,0,0,1,0,4,0,4,0
-org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAV,1112,0,112,0,218,0,81,0,25,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAV,1863,0,200,0,352,0,133,0,33,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgav,NSGAVBuilder,149,0,10,0,39,0,19,0,14,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii.util,ReferencePoint,265,0,20,0,50,0,24,0,14,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii.util,EnvironmentalSelection,926,0,94,0,148,0,63,0,16,0
@@ -101,7 +106,7 @@ org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.randomse
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.randomsearch,RandomSearch,48,0,2,0,14,0,7,0,6,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.moead.util,MOEADUtils,250,0,22,0,55,0,16,0,5,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii,NSGAIIIBuilder,73,0,0,0,26,0,15,0,15,0
-org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii,NSGAIII,356,0,16,0,75,0,23,0,15,0
+org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.nsgaiii,NSGAIII,350,0,14,0,73,0,22,0,15,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.wasfga,WASFGA,236,0,10,0,53,0,22,0,17,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.multiobjective.wasfga,WASFGAMeasures,117,0,2,0,28,0,11,0,10,0
 org.uma.jmetal:jmetal-algorithm,org.uma.jmetal.algorithm.singleobjective.geneticalgorithm,GeneticAlgorithmBuilder.GeneticAlgorithmVariant,38,0,0,0,1,0,4,0,4,0
