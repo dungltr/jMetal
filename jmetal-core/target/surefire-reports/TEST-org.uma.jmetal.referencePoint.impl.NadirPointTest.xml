@@ -60,7 +60,7 @@
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="org.uma.jmetal.referencePoint.impl.NadirPointTest" name="shouldUpdateWithOneSolutionMakeTheIdealPointHaveTheSolutionValues" time="0.001"/>
-  <testcase classname="org.uma.jmetal.referencePoint.impl.NadirPointTest" name="shouldConstructorCreateANadirPointWithAllObjectiveValuesCorrectlyInitialized" time="0"/>
-  <testcase classname="org.uma.jmetal.referencePoint.impl.NadirPointTest" name="shouldUpdateWithTwoSolutionsLeadToTheCorrectIdealPoint" time="0.001"/>
+  <testcase classname="org.uma.jmetal.referencePoint.impl.NadirPointTest" name="shouldConstructorCreateANadirPointWithAllObjectiveValuesCorrectlyInitialized" time="0.001"/>
+  <testcase classname="org.uma.jmetal.referencePoint.impl.NadirPointTest" name="shouldUpdateWithTwoSolutionsLeadToTheCorrectIdealPoint" time="0"/>
   <testcase classname="org.uma.jmetal.referencePoint.impl.NadirPointTest" name="shouldUpdateWithThreeSolutionsLeadToTheCorrectIdealPoint" time="0.001"/>
 </testsuite>

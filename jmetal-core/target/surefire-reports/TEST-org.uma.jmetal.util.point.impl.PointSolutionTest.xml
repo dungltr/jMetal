@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="14" failures="0" name="org.uma.jmetal.util.point.impl.PointSolutionTest" time="0.001" errors="0" skipped="0">
+<testsuite tests="14" failures="0" name="org.uma.jmetal.util.point.impl.PointSolutionTest" time="0.002" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
@@ -63,14 +63,14 @@
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnFalseIfTheSolutionIsNull" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="idleTestToCoverTheUnusedMethods" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnFalseIfTheTwoSolutionsHaveDifferentNumberOfObjectives" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldGetObjectiveReturnTheCorrectValue" time="0"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldGetObjectiveReturnTheCorrectValue" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnTrueIfTheTwoPointsAreTheSame" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldSetObjectiveAssignTheTheCorrectValue" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnTrueIfTheSolutionsAreIdentical" time="0"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnTrueIfTheSolutionsAreIdentical" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnFalseIfTheClassIsNotAPoint" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldDefaultConstructorCreateTheObjectCorrectly" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldGetNumberOfObjectivesReturnTheCorrectValue" time="0"/>
-  <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldCopyConstructorCreateAnIdenticalObject" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldCopyConstructorCreateAnIdenticalObject" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldEqualsReturnFalseIfThePointsAreNotIdentical" time="0"/>
   <testcase classname="org.uma.jmetal.util.point.impl.PointSolutionTest" name="shouldHashCodeReturnTheCorrectValue" time="0"/>
 </testsuite>

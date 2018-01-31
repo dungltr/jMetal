@@ -65,7 +65,7 @@
   <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteReturnTheCorrectValueCaseA" time="0"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteReturnTheCorrectValueCaseB" time="0"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteReturnZeroIfTheFrontsContainOnePointWhichIsTheSame" time="0"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteRaiseAnExceptionIfTheParetoFrontIsNull" time="0.001"/>
-  <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteReturnZeroIfBothFrontsAreEmpty" time="0"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteRaiseAnExceptionIfTheParetoFrontIsNull" time="0"/>
+  <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteReturnZeroIfBothFrontsAreEmpty" time="0.001"/>
   <testcase classname="org.uma.jmetal.qualityindicator.impl.SetCoverageTest" name="shouldExecuteReturnOneIfTheSecondFrontIsEmpty" time="0"/>
 </testsuite>

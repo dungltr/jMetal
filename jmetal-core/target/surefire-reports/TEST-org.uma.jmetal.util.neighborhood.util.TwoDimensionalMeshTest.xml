@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="13" failures="0" name="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" time="0.006" errors="0" skipped="0">
+<testsuite tests="13" failures="0" name="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" time="0.025" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
@@ -59,17 +59,17 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase1" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase2" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase3" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase1" time="0.005"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase2" time="0.008"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase3" time="0.003"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase4" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase5" time="0"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase5" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase6" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase7" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase8" time="0"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsReturnFourNeighborsCase8" time="0.003"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithANullListOfSolutionsThrowAnException" time="0"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithAnEmptyListOfSolutionsThrowAnException" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithASolutionIndexValueGreaterThanTheListSizeThrowAnException" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithASolutionIndexValueEqualToTheListSizeThrowAnException" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithANegativeSolutionIndexThrowAnException" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithASolutionIndexValueGreaterThanTheListSizeThrowAnException" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithASolutionIndexValueEqualToTheListSizeThrowAnException" time="0"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.util.TwoDimensionalMeshTest" name="shouldGetNeighborsWithANegativeSolutionIndexThrowAnException" time="0"/>
 </testsuite>
