@@ -59,10 +59,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareTwoNullSolutionsReturnZero" time="0.002"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareTwoNullSolutionsReturnZero" time="0.003"/>
   <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithNullRankingAttributeSolutionAsFirstArgumentReturnOne" time="0"/>
   <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithANullSolutionAsSecondArgumentReturnMinusOne" time="0"/>
   <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithANullSolutionAsFirstArgumentReturnOne" time="0"/>
   <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWithRankingYieldingANonZeroValueReturnThatValue" time="0.005"/>
-  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWhenRankingYieldingAZeroReturnTheCrowdingDistanceValue" time="0.006"/>
+  <testcase classname="org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparatorTest" name="shouldCompareWhenRankingYieldingAZeroReturnTheCrowdingDistanceValue" time="0.005"/>
 </testsuite>

@@ -18,12 +18,15 @@ public class DungExperiments {
     }
     public static void main(String[] args) throws IOException{
         int variables = 10;
-        int objectives = 10;
-        System.out.println("Enter variables");
+        int max_objectives = 10;
+	int min_objective = 3;
+        System.out.println("Enter variables (the default value is "+variables+")");
         variables = enterParameter(variables);
-        System.out.println("Enter objectives");
-        objectives = enterParameter(objectives);
-        for (int i = 3; i<objectives;i++){
+        System.out.println("Enter min objectives (the default value is "+min_objectives+")");
+        min_objectives = enterParameter(objectives);
+        System.out.println("Enter max objectives (the default value is "+max_objectives+")");
+        max_objectives = enterParameter(objectives);
+        for (int i = min_objectives; i<=max_objectives;i++){
             ConstraintProblemsStudy.ProblemsStudyRun(variables,i);
         }
     }

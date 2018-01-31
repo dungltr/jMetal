@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="org.uma.jmetal.util.AdaptiveGridTest" time="0.006" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="org.uma.jmetal.util.AdaptiveGridTest" time="0.003" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
@@ -60,10 +60,10 @@
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldGetAverageOccupationReturnTheRightValue" time="0"/>
-  <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvidedInRandomOccupiedHypercube" time="0.003"/>
+  <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvidedInRandomOccupiedHypercube" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldGetAverageOccupationReturnZeroIfThereAreNoOccupiedHypercubes" time="0"/>
   <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldConstructorCreateAValidInstance" time="0"/>
   <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldOccupiedHypercubesReturnTheNumberOfOccupiedHypercubes" time="0"/>
   <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvidedInRouletteWheel" time="0.002"/>
-  <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldOccupiedHypercubesReturnZeroIfThereAreNotOccupiedHypercubes" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.AdaptiveGridTest" name="shouldOccupiedHypercubesReturnZeroIfThereAreNotOccupiedHypercubes" time="0"/>
 </testsuite>

@@ -60,14 +60,14 @@
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsWithATooBigSolutionIndexThrowAnException" time="0.002"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldConstructorThrowAnExceptionWhenTheNumberOfNeighboursIsEqualThanTheListSize" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldJMetalRandomGeneratorNotBeUsedWhenCustomRandomGeneratorProvided" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldConstructorThrowAnExceptionWhenTheNumberOfNeighboursIsEqualThanTheListSize" time="0"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsWithANullListOfSolutionsThrowAnException" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsReturnThreeNeighborsPlusTheCurrentSolution" time="0.005"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsReturnThreeNeighborsPlusTheCurrentSolution" time="0.004"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldConstructorThrowAnExceptionWhenTheNumberOfNeighboursIsGreaterThanTheListSize" time="0"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldConstructorThrowAnExceptionWhenTheNumberOfNeighboursIsNegative" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsThrowAnExceptionIfTheListSizeIsNotCorrect" time="0"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsThrowAnExceptionIfTheListSizeIsNotCorrect" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldConstructorCreateAnInstanceIfTheParamtersAreValid" time="0"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsWithANegativeSolutionIndexThrowAnException" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsReturnTwoNeighborsPlusTheCurrentSolution" time="0"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsWithANegativeSolutionIndexThrowAnException" time="0"/>
+  <testcase classname="org.uma.jmetal.util.neighborhood.impl.AdaptiveRandomNeighborhoodTest" name="shouldGetNeighborsReturnTwoNeighborsPlusTheCurrentSolution" time="0.001"/>
 </testsuite>

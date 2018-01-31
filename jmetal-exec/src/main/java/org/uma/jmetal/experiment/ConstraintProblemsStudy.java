@@ -226,7 +226,7 @@ public class ConstraintProblemsStudy {
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-    */
+    
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new SPEA2Builder<DoubleSolution>(
               problemList.get(i).getProblem(),
@@ -237,7 +237,7 @@ public class ConstraintProblemsStudy {
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-
+    */
     for (int i = 0; i < problemList.size(); i++) {
       CrossoverOperator<DoubleSolution> crossover;
       MutationOperator<DoubleSolution> mutation;

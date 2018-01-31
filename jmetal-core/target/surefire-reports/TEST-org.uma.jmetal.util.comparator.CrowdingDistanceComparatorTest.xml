@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" time="0.038" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" time="0.026" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
@@ -59,11 +59,11 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnMinusOneIfSolutionBHasHigherDistance" time="0.027"/>
-  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsHaveNoCrowdingDistanceAttribute" time="0.001"/>
-  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnMinusOneIfTheSecondSolutionIsNull" time="0"/>
-  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsHaveTheSameDistance" time="0.008"/>
+  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnMinusOneIfSolutionBHasHigherDistance" time="0.019"/>
+  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsHaveNoCrowdingDistanceAttribute" time="0"/>
+  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnMinusOneIfTheSecondSolutionIsNull" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsHaveTheSameDistance" time="0.005"/>
   <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnOneIfSolutionAHasLessDistance" time="0.001"/>
   <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnZeroIfBothSolutionsAreNull" time="0"/>
-  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnOneIfTheFirstSolutionIsNull" time="0.001"/>
+  <testcase classname="org.uma.jmetal.util.comparator.CrowdingDistanceComparatorTest" name="shouldCompareReturnOneIfTheFirstSolutionIsNull" time="0"/>
 </testsuite>

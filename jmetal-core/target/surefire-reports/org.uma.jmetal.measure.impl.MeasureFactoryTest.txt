@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.uma.jmetal.measure.impl.MeasureFactoryTest
 -------------------------------------------------------------------------------
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.785 sec
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 0.794 sec
