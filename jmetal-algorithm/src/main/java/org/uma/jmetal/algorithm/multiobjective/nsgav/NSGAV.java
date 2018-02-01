@@ -3,24 +3,20 @@ package org.uma.jmetal.algorithm.multiobjective.nsgav;
 //import org.moeaframework.core.Population;
 import org.apache.commons.math3.util.MathArrays;
 import org.uma.jmetal.algorithm.impl.AbstractGeneticAlgorithm;
-import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
-import org.uma.jmetal.algorithm.multiobjective.nsgav.utilsPopulation.utilsPopulation;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
 import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.problem.Problem;
-import org.uma.jmetal.algorithm.multiobjective.nsgaiii.util.EnvironmentalSelection;
-import org.uma.jmetal.algorithm.multiobjective.nsgaiii.util.ReferencePoint;
 import org.uma.jmetal.solution.Solution;
-import org.uma.jmetal.util.JMetalLogger;
 import org.uma.jmetal.util.SolutionListUtils;
 import org.uma.jmetal.util.evaluator.SolutionListEvaluator;
 import org.uma.jmetal.util.solutionattribute.Ranking;
 import org.uma.jmetal.util.solutionattribute.impl.DominanceRanking;
 
-import java.util.*;
-
-import org.uma.jmetal.util.JMetalLogger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by ajnebro on 30/10/14.
@@ -39,7 +35,7 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 	double[] idealPoint;
 	double[] idealMaxPoint;
   protected final int maxEvaluations;
-
+  protected final int gridPoint;
   protected final SolutionListEvaluator<S> evaluator;
 
   protected int evaluations;
@@ -49,9 +45,10 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
    */
   public NSGAV(Problem<S> problem, int maxEvaluations, int populationSize,
       CrossoverOperator<S> crossoverOperator, MutationOperator<S> mutationOperator,
-      SelectionOperator<List<S>, S> selectionOperator, SolutionListEvaluator<S> evaluator) {
+      SelectionOperator<List<S>, S> selectionOperator, SolutionListEvaluator<S> evaluator, int gridPoint) {
     super(problem);
     this.maxEvaluations = maxEvaluations;
+    this.gridPoint = gridPoint;
     setMaxPopulationSize(populationSize); ;
 
     this.crossoverOperator = crossoverOperator;
@@ -363,7 +360,8 @@ public class NSGAV<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, Li
 			//System.out.println("The size of results is required:="+addMore);
 			//List<S> result =
 			//		filter(previousFront, currentFront, addMore);
-			int gridPoint = 2;
+			int gridPoint = this.gridPoint;
+			//System.out.println("gridPoint ="+gridPoint);
 			updateIdealPoint(currentFront);
 			updateIdealMaxPoint(currentFront);
 			translateByIdealPoint(currentFront);

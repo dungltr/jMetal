@@ -20,14 +20,19 @@ public class DungExperiments {
         int variables = 10;
         int max_objectives = 10;
 	    int min_objectives = 3;
+	    int gridPoint = 2;
         //System.out.println("Enter variables (the default value is "+variables+")");
         //variables = enterParameter(variables);
         System.out.println("Enter min objectives (the default value is "+min_objectives+")");
         min_objectives = enterParameter(min_objectives);
         System.out.println("Enter max objectives (the default value is "+max_objectives+")");
         max_objectives = enterParameter(max_objectives);
+        System.out.println("Enter gridPoint (the default value is "+gridPoint+")");
+        gridPoint = enterParameter(gridPoint);
+        ConstraintProblemsStudy runExperiment = new ConstraintProblemsStudy();
+
         for (int i = min_objectives; i<=max_objectives;i++){
-            ConstraintProblemsStudy.ProblemsStudyRun(i+4,i);
+            runExperiment.ProblemsStudyRun(i+4,i, gridPoint);
         }
     }
 }

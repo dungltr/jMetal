@@ -11,9 +11,10 @@ import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
 import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
 import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
-import org.uma.jmetal.problem.Problem;
+import org.uma.jmetal.problem.Problem.*;
 import org.uma.jmetal.problem.multiobjective.dtlz.*;
-import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlus;
+import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistance;
+import org.uma.jmetal.qualityindicator.impl.*;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
@@ -47,17 +48,19 @@ import java.util.List;
  * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
 public class ConstraintProblemsStudy {
-  private static final int INDEPENDENT_RUNS = 25;
+  private static final int INDEPENDENT_RUNS = 10;
   private int variable;
   private int objecitve;
+  private int gridPoint;
   /*
   public ConstraintProblemsStudy (int variables, int objecitves){
     objecitve = objecitves;
     variable = variables;
   }
   */
-  public static void ProblemsStudyRun(int variables, int objecitves) throws IOException{
+  public void ProblemsStudyRun(int variables, int objecitves, int gridPoint) throws IOException{
     String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
+    this.gridPoint = gridPoint;
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves)));
@@ -65,17 +68,40 @@ public class ConstraintProblemsStudy {
     problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
+
+
+    /*
+    if (objecitves <3){
+      problemList.add(new ExperimentProblem<>(new UF1()));
+      problemList.add(new ExperimentProblem<>(new UF2()));
+      problemList.add(new ExperimentProblem<>(new UF3()));
+      problemList.add(new ExperimentProblem<>(new UF4()));
+      problemList.add(new ExperimentProblem<>(new UF5()));
+      problemList.add(new ExperimentProblem<>(new UF6()));
+      problemList.add(new ExperimentProblem<>(new UF7()));
+      problemList.add(new ExperimentProblem<>(new UF8()));
+      problemList.add(new ExperimentProblem<>(new UF9()));
+      problemList.add(new ExperimentProblem<>(new UF10()));
+
+      problemList.add(new ExperimentProblem<>(new ZDT1()));
+      problemList.add(new ExperimentProblem<>(new ZDT2()));
+      problemList.add(new ExperimentProblem<>(new ZDT3()));
+      problemList.add(new ExperimentProblem<>(new ZDT4()));
+
+
+    }
+    */
     /*
     problemList.add(new ExperimentProblem<>(new Binh2()));
-    problemList.add(new ExperimentProblem<>(new ConstrEx()));
-    problemList.add(new ExperimentProblem<>(new Golinski()));
-    problemList.add(new ExperimentProblem<>(new Srinivas()));
-    problemList.add(new ExperimentProblem<>(new Tanaka()));
-    problemList.add(new ExperimentProblem<>(new Water()));
+      problemList.add(new ExperimentProblem<>(new ConstrEx()));
+      problemList.add(new ExperimentProblem<>(new Golinski()));
+      problemList.add(new ExperimentProblem<>(new Srinivas()));
+      problemList.add(new ExperimentProblem<>(new Tanaka()));
+      problemList.add(new ExperimentProblem<>(new Water()));
     */
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
             configureAlgorithmList(problemList);
-    String experimentName = "DTLZStudy"+variables+"variables"+objecitves+"objectives";
+    String experimentName = "DTLZStudy"+variables+"variables"+objecitves+"objectives"+this.gridPoint+"gridPoint";
     String referenceFronts = "referenceFronts";
     String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
@@ -87,8 +113,9 @@ public class ConstraintProblemsStudy {
                     .setOutputParetoSetFileName("VAR")
                     .setReferenceFrontDirectory(experimentBaseDirectory+"/"+experimentName+"/"+referenceFronts)
                     .setIndicatorList(Arrays.asList(
-                            //new Epsilon<DoubleSolution>(),
+                            new Epsilon<DoubleSolution>(),
                             //new PISAHypervolume<DoubleSolution>(),
+                            new InvertedGenerationalDistance<>(),
                             new InvertedGenerationalDistancePlus<DoubleSolution>()))
                     .setIndependentRuns(INDEPENDENT_RUNS)
                     .setNumberOfCores(8)
@@ -117,7 +144,7 @@ public class ConstraintProblemsStudy {
     }
     GeneratorLatexTable.GeneratorComputeTimeToLatex(homeFile, Caption, Problems, algorithms, objecitves);
   }
-  public static void main(String[] args) throws IOException {
+  public void main(String[] args) throws IOException {
     /*if (args.length != 1) {
       throw new JMetalException("Needed arguments: experimentBaseDirectory") ;
     }
@@ -133,6 +160,7 @@ public class ConstraintProblemsStudy {
     problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
+
     /*
     problemList.add(new ExperimentProblem<>(new Binh2()));
     problemList.add(new ExperimentProblem<>(new ConstrEx()));
@@ -155,8 +183,9 @@ public class ConstraintProblemsStudy {
             .setOutputParetoSetFileName("VAR")
             .setReferenceFrontDirectory(experimentBaseDirectory+"/"+experimentName+"/"+referenceFronts)
             .setIndicatorList(Arrays.asList(
-                    //new Epsilon<DoubleSolution>(),
+                    new Epsilon<DoubleSolution>(),
                     //new PISAHypervolume<DoubleSolution>(),
+                    new InvertedGenerationalDistance<>(),
                     new InvertedGenerationalDistancePlus<DoubleSolution>()))
             .setIndependentRuns(INDEPENDENT_RUNS)
             .setNumberOfCores(8)
@@ -192,9 +221,10 @@ public class ConstraintProblemsStudy {
    * ExperimentAlgorithm} has an optional tag component, that can be set as it is shown in this example,
    * where four variants of a same algorithm are defined.
    */
-  static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
+  List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureAlgorithmList(
           List<ExperimentProblem<DoubleSolution>> problemList) {
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
+
     double crossoverProbability = 1.0;
     double crossoverDistributionIndex = 20.0 ;
 
@@ -286,6 +316,7 @@ public class ConstraintProblemsStudy {
               new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
               .setMaxEvaluations(MaxEvaluations)
               .setPopulationSize(PopulationSize)
+              .setGridPoint(gridPoint)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm,"NSGA-G", problemList.get(i).getTag()));
     }
