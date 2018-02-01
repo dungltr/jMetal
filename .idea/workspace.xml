@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="19a6176e-f55d-45dc-8b2d-171f301aeaee" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jMetal.log" afterPath="$PROJECT_DIR$/jMetal.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAV.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAVBuilder.java" afterPath="$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAVBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ConstraintProblemsStudy.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ConstraintProblemsStudy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DungExperiments.java" afterPath="$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DungExperiments.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/jmetal-problem/target/" />
@@ -38,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConstraintProblemsStudy.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ConstraintProblemsStudy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ConstraintProblemsStudy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1019">
-              <caret line="189" column="49" lean-forward="true" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="49" />
+            <state relative-caret-position="53">
+              <caret line="224" column="64" lean-forward="true" selection-start-line="224" selection-start-column="64" selection-end-line="224" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,11 +109,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NSGAVBuilder.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NSGAVBuilder.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAVBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="63" column="35" lean-forward="false" selection-start-line="63" selection-start-column="35" selection-end-line="63" selection-end-column="35" />
+            <state relative-caret-position="-932">
+              <caret line="44" column="22" lean-forward="true" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -156,6 +153,7 @@
       <find>ParetoFront</find>
       <find>MOEAD</find>
       <find>grid</find>
+      <find>gridPoint</find>
     </findStrings>
     <replaceStrings>
       <replace>List&lt;S&gt;</replace>
@@ -891,7 +889,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32859176" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29587483" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2916074" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1268,14 +1266,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAVBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="63" column="35" lean-forward="false" selection-start-line="63" selection-start-column="35" selection-end-line="63" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/DungExperiments.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
@@ -1296,11 +1286,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jmetal-exec/src/main/java/org/uma/jmetal/experiment/ConstraintProblemsStudy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1019">
-          <caret line="189" column="49" lean-forward="true" selection-start-line="189" selection-start-column="49" selection-end-line="189" selection-end-column="49" />
+        <state relative-caret-position="53">
+          <caret line="224" column="64" lean-forward="true" selection-start-line="224" selection-start-column="64" selection-end-line="224" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jmetal-algorithm/src/main/java/org/uma/jmetal/algorithm/multiobjective/nsgav/NSGAVBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-932">
+          <caret line="44" column="22" lean-forward="true" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>

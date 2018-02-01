@@ -316,7 +316,7 @@ public class ConstraintProblemsStudy {
               new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
               .setMaxEvaluations(MaxEvaluations)
               .setPopulationSize(PopulationSize)
-              .setGridPoint(gridPoint)
+              .setGridPoint(this.gridPoint)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm,"NSGA-G", problemList.get(i).getTag()));
     }
