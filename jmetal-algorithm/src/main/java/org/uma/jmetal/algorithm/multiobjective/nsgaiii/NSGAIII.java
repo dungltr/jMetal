@@ -44,16 +44,47 @@ public class NSGAIII<S extends Solution<?>> extends AbstractGeneticAlgorithm<S, 
 
     /// NSGAIII
     numberOfDivisions = new Vector<>(1) ;
-    numberOfDivisions.add(12) ; // Default value for 3D problems
-
-    (new ReferencePoint<S>()).generateReferencePoints(referencePoints,getProblem().getNumberOfObjectives() , numberOfDivisions);
-    /*
-    int populationSize = referencePoints.size();
-    //System.out.println(referencePoints.size());
-    while (populationSize%4>0) {
-      populationSize++;
+    int divisionsOuter = 4;
+    int divisionsInner = 0;
+    if (builder.getProblem().getNumberOfObjectives() == 1) {
+      divisionsOuter = 100;
+    } else if (builder.getProblem().getNumberOfObjectives() == 2) {
+      divisionsOuter = 99;
+    } else if (builder.getProblem().getNumberOfObjectives() == 3) {
+      divisionsOuter = 12;
+    } else if (builder.getProblem().getNumberOfObjectives() == 4) {
+      divisionsOuter = 8;
+    } else if (builder.getProblem().getNumberOfObjectives() == 5) {
+      divisionsOuter = 6;
+    } else if (builder.getProblem().getNumberOfObjectives() == 6) {
+      divisionsOuter = 4;
+      divisionsInner = 1;
+    } else if (builder.getProblem().getNumberOfObjectives() == 7) {
+      divisionsOuter = 3;
+      divisionsInner = 2;
+    } else if (builder.getProblem().getNumberOfObjectives() == 8) {
+      divisionsOuter = 3;
+      divisionsInner = 2;
+    } else if (builder.getProblem().getNumberOfObjectives() == 9) {
+      divisionsOuter = 3;
+      divisionsInner = 2;
+    } else if (builder.getProblem().getNumberOfObjectives() == 10) {
+      divisionsOuter = 3;
+      divisionsInner = 2;
+    } else {
+      divisionsOuter = 2;
+      divisionsInner = 1;
     }
-    */
+    numberOfDivisions.add(divisionsOuter+divisionsInner) ; // Default value for 3D problems is 12 and Dung modified to 3
+    System.out.println(divisionsOuter+divisionsInner);
+    (new ReferencePoint<S>()).generateReferencePoints(referencePoints,getProblem().getNumberOfObjectives() , numberOfDivisions);
+    if (populationSize == 0){
+      populationSize = referencePoints.size();
+      //System.out.println(referencePoints.size());
+      while (populationSize%4>0) {
+        populationSize++;
+      }
+    }
     //populationSize = 100;
     System.out.println(populationSize);
     setMaxPopulationSize(populationSize);

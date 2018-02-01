@@ -5,7 +5,6 @@ import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav.GeneratorLatexTable;
-import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
 import org.uma.jmetal.operator.SelectionOperator;
@@ -48,7 +47,7 @@ import java.util.List;
  * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
 public class ConstraintProblemsStudy {
-  private static final int INDEPENDENT_RUNS = 10;
+  private static final int INDEPENDENT_RUNS = 25;
   private int variable;
   private int objecitve;
   /*
@@ -201,8 +200,8 @@ public class ConstraintProblemsStudy {
 
     double mutationProbability = 1.0;
     double mutationDistributionIndex = 20.0 ;
-    int MaxEvaluations = 25000;
-    int PopulationSize = 100;
+    int MaxEvaluations = 30000;
+    int PopulationSize = 300;
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
               problemList.get(i).getProblem(),
@@ -226,9 +225,28 @@ public class ConstraintProblemsStudy {
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-    
+    */
+    /*
     for (int i = 0; i < problemList.size(); i++) {
-      Algorithm<List<DoubleSolution>> algorithm = new SPEA2Builder<DoubleSolution>(
+      double cr = 1.0 ;
+      double f = 0.5 ;
+      DifferentialEvolutionCrossover crossover = new DifferentialEvolutionCrossover(cr, f, "rand/1/bin");
+      MutationOperator<DoubleSolution> mutation = new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex);
+      MOEADBuilder builder =  new MOEADBuilder(problemList.get(i).getProblem(), MOEADBuilder.Variant.MOEAD);
+      builder.setCrossover(crossover)
+              .setMutation(mutation)
+              .setMaxEvaluations(MaxEvaluations)
+              .setPopulationSize(PopulationSize)
+              .setResultPopulationSize(PopulationSize)
+              .setNeighborhoodSelectionProbability(0.9)
+              .setMaximumNumberOfReplacedSolutions(1)
+              .setNeighborSize(20)
+              .setFunctionType(AbstractMOEAD.FunctionType.PBI)
+              .setDataDirectory("MOEAD_Weights");
+      Algorithm<List<DoubleSolution>> algorithm = builder.build();
+      algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+
+      Algorithm<List<DoubleSolution>> algorithm = new MOEADBuilder(
               problemList.get(i).getProblem(),
               new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
               new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
@@ -236,6 +254,7 @@ public class ConstraintProblemsStudy {
               .setPopulationSize(PopulationSize)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+
     }
     */
     for (int i = 0; i < problemList.size(); i++) {
