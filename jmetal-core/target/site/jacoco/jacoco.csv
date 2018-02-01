@@ -127,8 +127,8 @@ org.uma.jmetal:jmetal-core,org.uma.jmetal.util.distance.impl,EuclideanDistanceBe
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.distance.impl,CosineDistanceBetweenSolutionsInObjectiveSpace,0,74,0,4,0,13,0,5,0,3
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.experiment,Experiment,130,0,4,0,39,0,18,0,16,0
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.experiment,ExperimentBuilder,119,0,0,0,39,0,23,0,23,0
-org.uma.jmetal:jmetal-core,org.uma.jmetal.util.evaluator.impl,SequentialSolutionListEvaluator,32,0,2,0,9,0,6,0,5,0
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.evaluator.impl,MultithreadedSolutionListEvaluator,67,0,4,0,16,0,8,0,6,0
+org.uma.jmetal:jmetal-core,org.uma.jmetal.util.evaluator.impl,SequentialSolutionListEvaluator,32,0,2,0,9,0,6,0,5,0
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.referencePoint.impl,NadirPoint,25,45,2,8,4,10,2,5,0,2
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.referencePoint.impl,IdealPoint,25,45,2,8,4,10,2,5,0,2
 org.uma.jmetal:jmetal-core,org.uma.jmetal.util.neighborhood.util,TwoDimensionalMesh,23,207,1,19,1,39,1,16,0,7

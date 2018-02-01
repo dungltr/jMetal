@@ -230,8 +230,8 @@ public class ConstraintProblemsStudy {
 
     double mutationProbability = 1.0;
     double mutationDistributionIndex = 20.0 ;
-    int MaxEvaluations = 30000;
-    int PopulationSize = 300;
+    int MaxEvaluations = 10000;
+    int PopulationSize = 500;
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
               problemList.get(i).getProblem(),

@@ -44,147 +44,178 @@ public class NSGAIII&lt;S extends Solution&lt;?&gt;&gt; extends AbstractGeneticA
 
     /// NSGAIII
 <span class="nc" id="L46">    numberOfDivisions = new Vector&lt;&gt;(1) ;</span>
-<span class="nc" id="L47">    numberOfDivisions.add(12) ; // Default value for 3D problems</span>
-
-<span class="nc" id="L49">    (new ReferencePoint&lt;S&gt;()).generateReferencePoints(referencePoints,getProblem().getNumberOfObjectives() , numberOfDivisions);</span>
-    /*
-    int populationSize = referencePoints.size();
-    //System.out.println(referencePoints.size());
-    while (populationSize%4&gt;0) {
-      populationSize++;
+<span class="nc" id="L47">    int divisionsOuter = 4;</span>
+<span class="nc" id="L48">    int divisionsInner = 0;</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">    if (builder.getProblem().getNumberOfObjectives() == 1) {</span>
+<span class="nc" id="L50">      divisionsOuter = 100;</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 2) {</span>
+<span class="nc" id="L52">      divisionsOuter = 99;</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 3) {</span>
+<span class="nc" id="L54">      divisionsOuter = 12;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 4) {</span>
+<span class="nc" id="L56">      divisionsOuter = 8;</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 5) {</span>
+<span class="nc" id="L58">      divisionsOuter = 6;</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 6) {</span>
+<span class="nc" id="L60">      divisionsOuter = 4;</span>
+<span class="nc" id="L61">      divisionsInner = 1;</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 7) {</span>
+<span class="nc" id="L63">      divisionsOuter = 3;</span>
+<span class="nc" id="L64">      divisionsInner = 2;</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 8) {</span>
+<span class="nc" id="L66">      divisionsOuter = 3;</span>
+<span class="nc" id="L67">      divisionsInner = 2;</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 9) {</span>
+<span class="nc" id="L69">      divisionsOuter = 3;</span>
+<span class="nc" id="L70">      divisionsInner = 2;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">    } else if (builder.getProblem().getNumberOfObjectives() == 10) {</span>
+<span class="nc" id="L72">      divisionsOuter = 3;</span>
+<span class="nc" id="L73">      divisionsInner = 2;</span>
+    } else {
+<span class="nc" id="L75">      divisionsOuter = 2;</span>
+<span class="nc" id="L76">      divisionsInner = 1;</span>
     }
-    */
+<span class="nc" id="L78">    numberOfDivisions.add(divisionsOuter+divisionsInner) ; // Default value for 3D problems is 12 and Dung modified to 3</span>
+<span class="nc" id="L79">    System.out.println(divisionsOuter+divisionsInner);</span>
+<span class="nc" id="L80">    (new ReferencePoint&lt;S&gt;()).generateReferencePoints(referencePoints,getProblem().getNumberOfObjectives() , numberOfDivisions);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">    if (populationSize == 0){</span>
+<span class="nc" id="L82">      populationSize = referencePoints.size();</span>
+      //System.out.println(referencePoints.size());
+<span class="nc bnc" id="L84" title="All 2 branches missed.">      while (populationSize%4&gt;0) {</span>
+<span class="nc" id="L85">        populationSize++;</span>
+      }
+    }
     //populationSize = 100;
-<span class="nc" id="L58">    System.out.println(populationSize);</span>
-<span class="nc" id="L59">    setMaxPopulationSize(populationSize);</span>
-<span class="nc" id="L60">    JMetalLogger.logger.info(&quot;rpssize: &quot; + referencePoints.size()); ;</span>
-<span class="nc" id="L61">  }</span>
+<span class="nc" id="L89">    System.out.println(populationSize);</span>
+<span class="nc" id="L90">    setMaxPopulationSize(populationSize);</span>
+<span class="nc" id="L91">    JMetalLogger.logger.info(&quot;rpssize: &quot; + referencePoints.size()); ;</span>
+<span class="nc" id="L92">  }</span>
 
   @Override
   protected void initProgress() {
-<span class="nc" id="L65">    iterations = 1 ;</span>
-<span class="nc" id="L66">  }</span>
+<span class="nc" id="L96">    iterations = 1 ;</span>
+<span class="nc" id="L97">  }</span>
 
   @Override
   protected void updateProgress() {
-<span class="nc" id="L70">    iterations++ ;</span>
-<span class="nc" id="L71">  }</span>
+<span class="nc" id="L101">    iterations++ ;</span>
+<span class="nc" id="L102">  }</span>
 
   @Override
   protected boolean isStoppingConditionReached() {
-<span class="nc bnc" id="L75" title="All 2 branches missed.">    return iterations &gt;= maxIterations;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">    return iterations &gt;= maxIterations;</span>
   }
 
   @Override
   protected List&lt;S&gt; evaluatePopulation(List&lt;S&gt; population) {
-<span class="nc" id="L80">    population = evaluator.evaluate(population, getProblem()) ;</span>
+<span class="nc" id="L111">    population = evaluator.evaluate(population, getProblem()) ;</span>
 
-<span class="nc" id="L82">    return population ;</span>
+<span class="nc" id="L113">    return population ;</span>
   }
 
   @Override
   protected List&lt;S&gt; selection(List&lt;S&gt; population) {
-<span class="nc" id="L87">    List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(population.size()) ;</span>
-<span class="nc bnc" id="L88" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
-<span class="nc" id="L89">      S solution = selectionOperator.execute(population);</span>
-<span class="nc" id="L90">      matingPopulation.add(solution) ;</span>
+<span class="nc" id="L118">    List&lt;S&gt; matingPopulation = new ArrayList&lt;&gt;(population.size()) ;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i++) {</span>
+<span class="nc" id="L120">      S solution = selectionOperator.execute(population);</span>
+<span class="nc" id="L121">      matingPopulation.add(solution) ;</span>
     }
 
-<span class="nc" id="L93">    return matingPopulation;</span>
+<span class="nc" id="L124">    return matingPopulation;</span>
   }
 
   @Override
   protected List&lt;S&gt; reproduction(List&lt;S&gt; population) {
-<span class="nc" id="L98">    List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
-<span class="nc bnc" id="L99" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i+=2) {</span>
-<span class="nc" id="L100">      List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
-<span class="nc" id="L101">      parents.add(population.get(i));</span>
-<span class="nc" id="L102">      parents.add(population.get(Math.min(i + 1, getMaxPopulationSize()-1)));</span>
+<span class="nc" id="L129">    List&lt;S&gt; offspringPopulation = new ArrayList&lt;&gt;(getMaxPopulationSize());</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">    for (int i = 0; i &lt; getMaxPopulationSize(); i+=2) {</span>
+<span class="nc" id="L131">      List&lt;S&gt; parents = new ArrayList&lt;&gt;(2);</span>
+<span class="nc" id="L132">      parents.add(population.get(i));</span>
+<span class="nc" id="L133">      parents.add(population.get(Math.min(i + 1, getMaxPopulationSize()-1)));</span>
 
-<span class="nc" id="L104">      List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
+<span class="nc" id="L135">      List&lt;S&gt; offspring = crossoverOperator.execute(parents);</span>
 
-<span class="nc" id="L106">      mutationOperator.execute(offspring.get(0));</span>
-<span class="nc" id="L107">      mutationOperator.execute(offspring.get(1));</span>
+<span class="nc" id="L137">      mutationOperator.execute(offspring.get(0));</span>
+<span class="nc" id="L138">      mutationOperator.execute(offspring.get(1));</span>
 
-<span class="nc" id="L109">      offspringPopulation.add(offspring.get(0));</span>
-<span class="nc" id="L110">      offspringPopulation.add(offspring.get(1));</span>
+<span class="nc" id="L140">      offspringPopulation.add(offspring.get(0));</span>
+<span class="nc" id="L141">      offspringPopulation.add(offspring.get(1));</span>
     }
-<span class="nc" id="L112">    return offspringPopulation ;</span>
+<span class="nc" id="L143">    return offspringPopulation ;</span>
   }
 
   
   private List&lt;ReferencePoint&lt;S&gt;&gt; getReferencePointsCopy() {
-<span class="nc" id="L117">	  List&lt;ReferencePoint&lt;S&gt;&gt; copy = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L118" title="All 2 branches missed.">	  for (ReferencePoint&lt;S&gt; r : this.referencePoints) {</span>
-<span class="nc" id="L119">		  copy.add(new ReferencePoint&lt;&gt;(r));</span>
-<span class="nc" id="L120">	  }</span>
-<span class="nc" id="L121">	  return copy;</span>
+<span class="nc" id="L148">	  List&lt;ReferencePoint&lt;S&gt;&gt; copy = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">	  for (ReferencePoint&lt;S&gt; r : this.referencePoints) {</span>
+<span class="nc" id="L150">		  copy.add(new ReferencePoint&lt;&gt;(r));</span>
+<span class="nc" id="L151">	  }</span>
+<span class="nc" id="L152">	  return copy;</span>
   }
   
   @Override
   protected List&lt;S&gt; replacement(List&lt;S&gt; population, List&lt;S&gt; offspringPopulation) {
    
-<span class="nc" id="L127">	List&lt;S&gt; jointPopulation = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L128">    jointPopulation.addAll(population) ;</span>
-<span class="nc" id="L129">    jointPopulation.addAll(offspringPopulation) ;</span>
+<span class="nc" id="L158">	List&lt;S&gt; jointPopulation = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L159">    jointPopulation.addAll(population) ;</span>
+<span class="nc" id="L160">    jointPopulation.addAll(offspringPopulation) ;</span>
 
-<span class="nc" id="L131">    Ranking&lt;S&gt; ranking = computeRanking(jointPopulation);</span>
+<span class="nc" id="L162">    Ranking&lt;S&gt; ranking = computeRanking(jointPopulation);</span>
     
     //List&lt;Solution&gt; pop = crowdingDistanceSelection(ranking);
-<span class="nc" id="L134">    List&lt;S&gt; pop = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L135">    List&lt;List&lt;S&gt;&gt; fronts = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L136">    int rankingIndex = 0;</span>
-<span class="nc" id="L137">    int candidateSolutions = 0;</span>
-<span class="nc bnc" id="L138" title="All 2 branches missed.">    while (candidateSolutions &lt; getMaxPopulationSize()) {</span>
-<span class="nc" id="L139">      fronts.add(ranking.getSubfront(rankingIndex));</span>
-<span class="nc" id="L140">      candidateSolutions += ranking.getSubfront(rankingIndex).size();</span>
-<span class="nc bnc" id="L141" title="All 2 branches missed.">      if ((pop.size() + ranking.getSubfront(rankingIndex).size()) &lt;= getMaxPopulationSize())</span>
-<span class="nc" id="L142">        addRankedSolutionsToPopulation(ranking, rankingIndex, pop);</span>
-<span class="nc" id="L143">      rankingIndex++;</span>
+<span class="nc" id="L165">    List&lt;S&gt; pop = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L166">    List&lt;List&lt;S&gt;&gt; fronts = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L167">    int rankingIndex = 0;</span>
+<span class="nc" id="L168">    int candidateSolutions = 0;</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">    while (candidateSolutions &lt; getMaxPopulationSize()) {</span>
+<span class="nc" id="L170">      fronts.add(ranking.getSubfront(rankingIndex));</span>
+<span class="nc" id="L171">      candidateSolutions += ranking.getSubfront(rankingIndex).size();</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">      if ((pop.size() + ranking.getSubfront(rankingIndex).size()) &lt;= getMaxPopulationSize())</span>
+<span class="nc" id="L173">        addRankedSolutionsToPopulation(ranking, rankingIndex, pop);</span>
+<span class="nc" id="L174">      rankingIndex++;</span>
     }
     
     // A copy of the reference list should be used as parameter of the environmental selection
-<span class="nc" id="L147">    EnvironmentalSelection&lt;S&gt; selection =</span>
-<span class="nc" id="L148">            new EnvironmentalSelection&lt;&gt;(fronts,getMaxPopulationSize(),getReferencePointsCopy(),</span>
-<span class="nc" id="L149">                    getProblem().getNumberOfObjectives());</span>
+<span class="nc" id="L178">    EnvironmentalSelection&lt;S&gt; selection =</span>
+<span class="nc" id="L179">            new EnvironmentalSelection&lt;&gt;(fronts,getMaxPopulationSize(),getReferencePointsCopy(),</span>
+<span class="nc" id="L180">                    getProblem().getNumberOfObjectives());</span>
     
-<span class="nc" id="L151">    pop = selection.execute(pop);</span>
+<span class="nc" id="L182">    pop = selection.execute(pop);</span>
      
-<span class="nc" id="L153">    return pop;</span>
+<span class="nc" id="L184">    return pop;</span>
   }
 
   @Override
   public List&lt;S&gt; getResult() {
-<span class="nc" id="L158">    return getNonDominatedSolutions(getPopulation()) ;</span>
+<span class="nc" id="L189">    return getNonDominatedSolutions(getPopulation()) ;</span>
   }
 
   protected Ranking&lt;S&gt; computeRanking(List&lt;S&gt; solutionList) {
-<span class="nc" id="L162">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;&gt;() ;</span>
-<span class="nc" id="L163">    ranking.computeRanking(solutionList) ;</span>
+<span class="nc" id="L193">    Ranking&lt;S&gt; ranking = new DominanceRanking&lt;&gt;() ;</span>
+<span class="nc" id="L194">    ranking.computeRanking(solutionList) ;</span>
 
-<span class="nc" id="L165">    return ranking ;</span>
+<span class="nc" id="L196">    return ranking ;</span>
   }
 
   protected void addRankedSolutionsToPopulation(Ranking&lt;S&gt; ranking, int rank, List&lt;S&gt; population) {
     List&lt;S&gt; front ;
 
-<span class="nc" id="L171">    front = ranking.getSubfront(rank);</span>
+<span class="nc" id="L202">    front = ranking.getSubfront(rank);</span>
 
-<span class="nc bnc" id="L173" title="All 2 branches missed.">    for (int i = 0 ; i &lt; front.size(); i++) {</span>
-<span class="nc" id="L174">      population.add(front.get(i));</span>
+<span class="nc bnc" id="L204" title="All 2 branches missed.">    for (int i = 0 ; i &lt; front.size(); i++) {</span>
+<span class="nc" id="L205">      population.add(front.get(i));</span>
     }
-<span class="nc" id="L176">  }</span>
+<span class="nc" id="L207">  }</span>
 
   protected List&lt;S&gt; getNonDominatedSolutions(List&lt;S&gt; solutionList) {
-<span class="nc" id="L179">    return SolutionListUtils.getNondominatedSolutions(solutionList) ;</span>
+<span class="nc" id="L210">    return SolutionListUtils.getNondominatedSolutions(solutionList) ;</span>
   }
 
   @Override public String getName() {
-<span class="nc" id="L183">    return &quot;NSGAIII&quot; ;</span>
+<span class="nc" id="L214">    return &quot;NSGAIII&quot; ;</span>
   }
 
   @Override public String getDescription() {
-<span class="nc" id="L187">    return &quot;Nondominated Sorting Genetic Algorithm version III&quot; ;</span>
+<span class="nc" id="L218">    return &quot;Nondominated Sorting Genetic Algorithm version III&quot; ;</span>
   }
 
 }
