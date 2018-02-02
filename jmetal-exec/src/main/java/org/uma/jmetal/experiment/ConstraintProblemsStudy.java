@@ -1,21 +1,33 @@
 package org.uma.jmetal.experiment;
 
+import org.apache.commons.math3.optim.nonlinear.scalar.noderiv.CMAESOptimizer;
 import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.algorithm.multiobjective.gde3.GDE3Builder;
+import org.uma.jmetal.algorithm.multiobjective.mocell.MOCellBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgav.NSGAVBuilder;
 import org.uma.jmetal.algorithm.multiobjective.nsgav.utilsnsgav.GeneratorLatexTable;
+import org.uma.jmetal.algorithm.multiobjective.smpso.SMPSOBuilder;
+import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
 import org.uma.jmetal.operator.SelectionOperator;
+import org.uma.jmetal.operator.impl.crossover.DifferentialEvolutionCrossover;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
 import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
 import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
-import org.uma.jmetal.problem.Problem.*;
-import org.uma.jmetal.problem.multiobjective.dtlz.*;
+import org.uma.jmetal.operator.impl.selection.DifferentialEvolutionSelection;
+import org.uma.jmetal.problem.DoubleProblem;
+import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ1;
+import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ2;
+import org.uma.jmetal.problem.multiobjective.dtlz.DTLZ3;
+import org.uma.jmetal.qualityindicator.impl.Epsilon;
 import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistance;
-import org.uma.jmetal.qualityindicator.impl.*;
+import org.uma.jmetal.qualityindicator.impl.InvertedGenerationalDistancePlus;
 import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.util.archive.impl.CrowdingDistanceArchive;
+import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
 import org.uma.jmetal.util.experiment.component.*;
@@ -48,7 +60,9 @@ import java.util.List;
  * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
 public class ConstraintProblemsStudy {
-  private static final int INDEPENDENT_RUNS = 10;
+  private static final int INDEPENDENT_RUNS = 25;
+  public int PopulationSize = 500;
+  public int MaxEvaluations = 10000;
   private int variable;
   private int objecitve;
   private int gridPoint;
@@ -58,16 +72,16 @@ public class ConstraintProblemsStudy {
     variable = variables;
   }
   */
-  public void ProblemsStudyRun(int variables, int objecitves, int gridPoint) throws IOException{
-    String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal");//args[0];
+  public void ProblemsStudyRun(int variables, int objecitves, int gridPoint, String store) throws IOException{
+    String experimentBaseDirectory = ReadFile.readhome("HOME_jMetal")+"/"+store;//args[0];
     this.gridPoint = gridPoint;
     List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
     problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves)));
-    problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
-    problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
-    problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
+    //problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
+    //problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
+    //problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
 
 
     /*
@@ -101,9 +115,9 @@ public class ConstraintProblemsStudy {
     */
     List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList =
             configureAlgorithmList(problemList);
-    String experimentName = "DTLZStudy"+variables+"variables"+objecitves+"objectives"+this.gridPoint+"gridPoint";
+    String experimentName = "DTLZ"+variables+"V"+objecitves+"O"+this.gridPoint+"G"+this.PopulationSize+"P"+this.MaxEvaluations+"E"+INDEPENDENT_RUNS+"R";
     String referenceFronts = "referenceFronts";
-    String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
+    String homeFile = experimentBaseDirectory+"/"+experimentName;
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
             new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
                     .setAlgorithmList(algorithmList)
@@ -157,9 +171,9 @@ public class ConstraintProblemsStudy {
     problemList.add(new ExperimentProblem<>(new DTLZ1(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ2(variables,objecitves)));
     problemList.add(new ExperimentProblem<>(new DTLZ3(variables,objecitves)));
-    problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
-    problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
-    problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
+    //problemList.add(new ExperimentProblem<>(new DTLZ4(variables,objecitves)));
+    //problemList.add(new ExperimentProblem<>(new DTLZ5(variables,objecitves)));
+    //problemList.add(new ExperimentProblem<>(new DTLZ7(variables,objecitves)));
 
     /*
     problemList.add(new ExperimentProblem<>(new Binh2()));
@@ -173,7 +187,7 @@ public class ConstraintProblemsStudy {
             configureAlgorithmList(problemList);
     String experimentName = "DTLZStudy"+variables+"variables"+objecitves+"objectives";
     String referenceFronts = "referenceFronts";
-    String homeFile = ReadFile.readhome("HOME_jMetal")+"/"+experimentName;
+    String homeFile = experimentBaseDirectory+"/"+experimentName;
     Experiment<DoubleSolution, List<DoubleSolution>> experiment =
         new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(experimentName)
             .setAlgorithmList(algorithmList)
@@ -230,8 +244,8 @@ public class ConstraintProblemsStudy {
 
     double mutationProbability = 1.0;
     double mutationDistributionIndex = 20.0 ;
-    int MaxEvaluations = 10000;
-    int PopulationSize = 500;
+    int MaxEvaluations = this.MaxEvaluations;
+    int PopulationSize = this.PopulationSize;
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(
               problemList.get(i).getProblem(),
@@ -285,8 +299,8 @@ public class ConstraintProblemsStudy {
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 
-    }
-    */
+    }*/
+
     for (int i = 0; i < problemList.size(); i++) {
       CrossoverOperator<DoubleSolution> crossover;
       MutationOperator<DoubleSolution> mutation;
@@ -320,16 +334,18 @@ public class ConstraintProblemsStudy {
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm,"NSGA-G", problemList.get(i).getTag()));
     }
-    /*
+
     for (int i = 0; i < problemList.size(); i++) {
       Algorithm<List<DoubleSolution>> algorithm = new SPEA2Builder<DoubleSolution>(
               problemList.get(i).getProblem(),
               new SBXCrossover(crossoverProbability, crossoverDistributionIndex),
               new PolynomialMutation(mutationProbability / problemList.get(i).getProblem().getNumberOfVariables(), mutationDistributionIndex))
+              .setMaxIterations((int)(MaxEvaluations/PopulationSize))
+              .setPopulationSize(PopulationSize)
               .build();
       algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
     }
-
+    /*
     for (int i = 0; i < problemList.size(); i++) {
       //double mutationProbability = 1.0 / problemList.get(i).getProblem().getNumberOfVariables();
       //double mutationDistributionIndex = 20.0;
