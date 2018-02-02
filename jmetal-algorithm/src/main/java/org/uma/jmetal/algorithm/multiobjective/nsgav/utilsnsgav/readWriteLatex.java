@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class readWriteLatex {
     private static final int INDEPENDENT_RUNS = 50;
@@ -18,7 +19,7 @@ public class readWriteLatex {
     private int gridPoint;
     //String experimentName = "DTLZ"+variables+"V"+objecitves+"O"+this.gridPoint+"G"+this.PopulationSize+"P"+this.MaxEvaluations+"E"+INDEPENDENT_RUNS+"R";
     public static String referenceFronts = "referenceFronts";
-    public static String homeFile = ReadFile.readhome("HOME_jMetal")+"/store2";//+"/"+experimentName;
+    public static String homeFile = ReadFile.readhome("HOME_jMetal");//+"/"+experimentName;
 
     public static String[] listFolder(String path){
         File[] directories = new File(path).listFiles(File::isDirectory);
@@ -139,19 +140,19 @@ public class readWriteLatex {
             }
     }
     public static void generateEPLatex(List<String> fileContain, String homeFile, int[] index){
-        String fileName = ReadFile.readhome("HOME_jMetal") + "/EP.tex";
+        String fileName = homeFile + "/EP.tex";
         writeListStringToLatex(fileContain, fileName);
     }
     public static void generateIGDLatex(List<String> fileContain, String homeFile, int[] index){
-        String fileName = ReadFile.readhome("HOME_jMetal") + "/IGD.tex";
+        String fileName = homeFile + "/IGD.tex";
         writeListStringToLatex(fileContain, fileName);
     }
     public static void generateIGDPlusLatex(List<String> fileContain, String homeFile, int[] index){
-        String fileName = ReadFile.readhome("HOME_jMetal") + "/IGDPlus.tex";
+        String fileName = homeFile + "/IGDPlus.tex";
         writeListStringToLatex(fileContain, fileName);
     }
     public static void generateComputeLatex(List<String> fileContain, String homeFile, int[] index){
-        String fileName = ReadFile.readhome("HOME_jMetal") + "/ComputeTime.tex";
+        String fileName = homeFile + "/ComputeTime.tex";
         writeListStringToLatex(fileContain, fileName);
     }
     public static List<String> findSecond(List<String> fileContain){
@@ -185,14 +186,34 @@ public class readWriteLatex {
         }
         return tempContain;
     }
+    public static String enterStore(String store){
+        Scanner in = new Scanner(System.in);
+        System.out.printf("Enter store:  ");
+        try
+        {
+            store = in.nextLine();
+        }
+        catch (java.util.InputMismatchException e)
+        {
+            System.out.println("Invalid Input, the default store is:"+store);
+        }
+        return store;
+    }
     public static void main(String[] args) throws IOException {
+        String store = "";
+        System.out.println("Enter Store (the default value is "+store+")");
+        store = enterStore(store);
+        homeFile = homeFile +"/"+store;
         String[] listTexFile = listTexFile(listFolder(homeFile));
         String[] listComputeFile = listComputeFile(listFolder(homeFile));
         int[] index = {0,2};
         int headerComputeIndex = 0;
+        int numberOfHeadLine = 13;
+        int numberOfProblem = 6;
+        int delta = (numberOfHeadLine+ numberOfProblem)*2;
         int headerEPIndex = 11;
-        int headerIGDIndex = 43;
-        int headerIGDPlusIndex = 75;
+        int headerIGDIndex = headerEPIndex + delta;
+        int headerIGDPlusIndex = headerIGDIndex +delta;
         List<String> fileContainEP = fileTex(listTexFile, index, headerEPIndex);
         List<String> fileContainIGD = fileTex(listTexFile, index, headerIGDIndex);
         List<String> fileContainIGDPlus = fileTex(listTexFile, index, headerIGDPlusIndex);
@@ -208,9 +229,12 @@ public class readWriteLatex {
         String[] listComputeFile = listComputeFile(listFolder(homeFile));
         int[] index = {0,2};
         int headerComputeIndex = 0;
+        int numberOfHeadLine = 13;
+        int numberOfProblem = 3;
+        int delta = (numberOfHeadLine+ numberOfProblem)*2;
         int headerEPIndex = 11;
-        int headerIGDIndex = 43;
-        int headerIGDPlusIndex = 75;
+        int headerIGDIndex = headerEPIndex + delta;
+        int headerIGDPlusIndex = headerIGDIndex +delta;
         List<String> fileContainEP = fileTex(listTexFile, index, headerEPIndex);
         List<String> fileContainIGD = fileTex(listTexFile, index, headerIGDIndex);
         List<String> fileContainIGDPlus = fileTex(listTexFile, index, headerIGDPlusIndex);

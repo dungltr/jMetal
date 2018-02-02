@@ -18,19 +18,6 @@ public class DungExperiments {
         }
         return variables;
     }
-    public static String enterStore(String store){
-        Scanner in = new Scanner(System.in);
-        System.out.printf("Enter store:  ");
-        try
-        {
-            store = in.nextLine();
-        }
-        catch (java.util.InputMismatchException e)
-        {
-            System.out.println("Invalid Input, the default store is:"+store);
-        }
-        return store;
-    }
     public static void main(String[] args) throws IOException{
         int variables = 10;
         int max_objectives = 10;
@@ -46,7 +33,7 @@ public class DungExperiments {
         System.out.println("Enter gridPoint (the default value is "+gridPoint+")");
         gridPoint = enterParameter(gridPoint);
         System.out.println("Enter Store (the default value is "+store+")");
-        store = enterStore(store);
+        store = readWriteLatex.enterStore(store);
         ConstraintProblemsStudy runExperiment = new ConstraintProblemsStudy();
         for (int i = min_objectives; i<=max_objectives;i++){
             runExperiment.ProblemsStudyRun(i+4,i, gridPoint,store);
